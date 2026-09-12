@@ -1,0 +1,6 @@
+recommendation_id,date_key,resource_key,category_key,provider,pillar,estimated_monthly_savings_usd,confidence,priority,status
+AZ-COST-001,20260601,151958,5,azure,cost_optimization,420.0,0.62,high,open
+GCP-COST-002,20260601,173482,5,gcp,cost_optimization,310.0,0.58,medium,open
+AZ-SEC-003,20260601,714831,6,azure,security,0.0,0.7,high,open
+GCP-HA-004,20260601,667449,7,gcp,reliability,0.0,0.55,medium,open
+AZ-OPS-005,20260601,399132,8,azure,operational_excellence,85.0,0.5,low,open

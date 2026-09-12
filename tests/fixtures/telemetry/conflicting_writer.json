@@ -1,0 +1,18 @@
+[
+  {
+    "EventID": 13,
+    "UtcTime": "2026-01-15T12:00:05.000Z",
+    "TargetObject": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ProxyServer",
+    "Details": "127.0.0.1:63722",
+    "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "ProcessId": 9999
+  },
+  {
+    "EventID": 13,
+    "UtcTime": "2026-01-15T12:00:06.000Z",
+    "TargetObject": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ProxyEnable",
+    "Details": "DWORD (0x00000001)",
+    "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "ProcessId": 9999
+  }
+]

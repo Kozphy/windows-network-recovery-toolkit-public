@@ -1,0 +1,35 @@
+{
+  "schema_version": "proxy_risk_case.v1",
+  "case_id": "HOLD-002",
+  "split": "held_out",
+  "scenario_name": "Proxy path works while direct path fails",
+  "expected_class": "PROXY_ONLY_WORKS",
+  "expected_min_tier": "T3",
+  "expected_policy": "OBSERVE",
+  "provenance": "predeclared synthetic holdout fixture",
+  "limitations": ["May represent a valid tunnel or VPN dependency."],
+  "signals": {
+    "proxy_state": {
+      "timestamp_utc": "2026-08-02T00:01:00Z",
+      "endpoint_id": "research-endpoint-102",
+      "wininet_proxy_enabled": true,
+      "wininet_proxy_server": "127.0.0.1:9080",
+      "winhttp_direct_access": false,
+      "localhost_port": 9080
+    },
+    "proxy_owner": {
+      "timestamp_utc": "2026-08-02T00:01:01Z",
+      "endpoint_id": "research-endpoint-102",
+      "listener_found": true,
+      "localhost_port": 9080,
+      "process": {"pid": 5102, "name": "vpn-proxy.exe"}
+    },
+    "health_inject": {
+      "timestamp_utc": "2026-08-02T00:01:02Z",
+      "endpoint_id": "research-endpoint-102",
+      "proxy_status": "PROXY_ONLY_WORKS",
+      "direct_probe_ok": false,
+      "proxy_probe_ok": true
+    }
+  }
+}

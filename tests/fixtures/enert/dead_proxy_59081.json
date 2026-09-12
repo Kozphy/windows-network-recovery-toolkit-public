@@ -1,0 +1,53 @@
+{
+  "proxy_state": {
+    "timestamp_utc": "2026-06-11T04:31:31Z",
+    "wininet_proxy_enabled": true,
+    "wininet_proxy_server": "127.0.0.1:59081",
+    "wininet_auto_config_url": "",
+    "winhttp_direct_access": true,
+    "localhost_port": 59081
+  },
+  "classification": {
+    "primary_classification": "DEAD_PROXY_CONFIG",
+    "secondary_signals": ["WININET_WINHTTP_MISMATCH", "LOCALHOST_PROXY", "DEAD_LOCALHOST_PORT"],
+    "severity": "medium",
+    "confidence": 0.92,
+    "reasoning": "ProxyServer references localhost:59081 but no listener is bound.",
+    "evidence": ["localhost_port=59081", "listener_found=false"],
+    "recommended_next_actions": ["Run diagnose --proof", "Preview proxy-disable"],
+    "limitations": ["Does not prove malware or MITM."]
+  },
+  "proxy_owner": {
+    "timestamp_utc": "2026-06-11T04:31:31Z",
+    "proxy_server": "127.0.0.1:59081",
+    "localhost_port": 59081,
+    "listener_found": false,
+    "process": null,
+    "errors": []
+  },
+  "proof": {
+    "observation": {
+      "wininet_proxy": "127.0.0.1:59081",
+      "winhttp_direct": true,
+      "localhost_listener": false
+    },
+    "hypothesis": "Browser failure is likely caused by dead WinINET localhost proxy.",
+    "proof_attempts": [
+      {
+        "name": "localhost_listener_check",
+        "status": "failed",
+        "meaning": "No process is listening on the configured proxy port."
+      },
+      {
+        "name": "wininet_winhttp_comparison",
+        "status": "supported",
+        "meaning": "Browser proxy path differs from WinHTTP direct path."
+      }
+    ],
+    "conclusion": {"status": "supported", "confidence": 0.92},
+    "limitations": [
+      "This does not prove malware.",
+      "This does not prove MITM."
+    ]
+  }
+}

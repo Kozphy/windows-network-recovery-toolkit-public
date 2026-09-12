@@ -1,0 +1,7 @@
+{
+  "description": "localhost proxy changed to remote endpoint",
+  "before": {"wininet_proxy_enabled": true, "wininet_proxy_server": "127.0.0.1:62285", "wininet_auto_config_url": ""},
+  "after": {"wininet_proxy_enabled": true, "wininet_proxy_server": "10.0.0.5:8080", "wininet_auto_config_url": ""},
+  "expected_primary": "PROXY_SERVER_CHANGED_TO_REMOTE",
+  "expected_transition": "PROXY_SERVER_CHANGED_TO_REMOTE"
+}

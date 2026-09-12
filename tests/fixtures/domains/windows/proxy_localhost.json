@@ -1,0 +1,82 @@
+{
+  "event": {
+    "event_id": "win-proxy-localhost-001",
+    "domain": "windows",
+    "category": "proxy_drift",
+    "title": "Proxy changed to 127.0.0.1",
+    "timestamp_utc": "2026-06-04T10:00:00+00:00",
+    "severity": "high",
+    "observations": [
+      {"signal": "proxy_server", "value": "127.0.0.1:8080"},
+      {"signal": "ping_ok", "value": true},
+      {"signal": "browser_ok", "value": false}
+    ],
+    "source": "fixture:windows/proxy_localhost",
+    "metadata": {"scenario": "proxy_localhost"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-proxy-registry",
+      "type": "observation",
+      "description": "HKCU ProxyServer set to localhost:8080",
+      "supports": ["hyp-proxy-drift"],
+      "contradicts": [],
+      "confidence_delta": 0.15,
+      "source": "fixture"
+    },
+    {
+      "evidence_id": "ev-listener-match",
+      "type": "correlation",
+      "description": "Process listening on port 8080",
+      "supports": ["hyp-proxy-drift"],
+      "contradicts": [],
+      "confidence_delta": 0.1,
+      "source": "fixture"
+    },
+    {
+      "evidence_id": "ev-no-writer-proof",
+      "type": "counter_evidence",
+      "description": "No Sysmon E13 writer proof in fixture",
+      "supports": [],
+      "contradicts": ["hyp-malware"],
+      "confidence_delta": -0.2,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-proxy-drift",
+      "title": "Localhost proxy drift",
+      "explanation": "User profile proxy points to local listener; browser path fails while ping passes.",
+      "supporting_evidence": ["ev-proxy-registry", "ev-listener-match"],
+      "contradicting_evidence": [],
+      "confidence": 0.55
+    },
+    {
+      "hypothesis_id": "hyp-malware",
+      "title": "Malicious proxy redirect",
+      "explanation": "Possible unwanted proxy — requires writer proof before escalation.",
+      "supporting_evidence": ["ev-proxy-registry"],
+      "contradicting_evidence": ["ev-no-writer-proof"],
+      "confidence": 0.35
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-inspect-proxy",
+      "title": "Inspect proxy settings and listener owner",
+      "action_type": "research",
+      "expected_benefit": 0.7,
+      "risk_score": 0.1,
+      "alternatives": ["dec-preview-reset"]
+    },
+    {
+      "decision_id": "dec-preview-reset",
+      "title": "Preview proxy reset (dry-run only)",
+      "action_type": "preview",
+      "expected_benefit": 0.6,
+      "risk_score": 0.25,
+      "alternatives": ["dec-inspect-proxy"]
+    }
+  ]
+}

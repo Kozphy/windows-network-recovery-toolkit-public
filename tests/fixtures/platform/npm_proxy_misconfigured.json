@@ -1,0 +1,13 @@
+{
+  "schema_version": "1",
+  "event_id": "fixture-npm-proxy",
+  "timestamp": "2026-05-02T00:04:00+00:00",
+  "source": "fixture",
+  "event_type": "signal.snapshot",
+  "severity": "low",
+  "endpoint_id_hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "signals": {
+    "telemetry": { "npm_proxy_set": true }
+  },
+  "privacy_classification": "diagnostic_general"
+}

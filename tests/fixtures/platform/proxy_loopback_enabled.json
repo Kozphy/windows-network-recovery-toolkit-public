@@ -1,0 +1,25 @@
+{
+  "schema_version": "1",
+  "event_id": "fixture-proxy-loopback",
+  "event_type": "normalized.remediation_candidate",
+  "timestamp": "2026-05-02T00:01:00+00:00",
+  "source": "fixture",
+  "severity": "medium",
+  "endpoint_id_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "signals": {
+    "remediation_action": "reset_proxy",
+    "simulated_operator_role": "operator",
+    "simulated_surface": "api",
+    "telemetry": { "wininet_localhost": true, "listener_found": true }
+  },
+  "actor_attribution": { "confidence": "low", "method": "polling_no_match", "provider": "fixture" },
+  "policy_decision": {
+    "execute_allowed": false,
+    "preview_allowed": true,
+    "reason_codes": ["ok"],
+    "required_role": "admin",
+    "required_confirmation": "RUN_PROXY_RESET",
+    "risk_tier": "medium"
+  },
+  "privacy_classification": "diagnostic_proxy"
+}

@@ -1,0 +1,44 @@
+{
+  "description": "Synthetic multi-endpoint proxy/browser-path correlated failures for clustering demos.",
+  "events": [
+    {
+      "event_id": "proxy-outage-ep-a-1",
+      "endpoint_id": "endpoint_hash_a111",
+      "failure_block_id": "",
+      "severity": "medium",
+      "category": "proxy",
+      "confidence": 0.82,
+      "first_seen_at": "2026-05-01T14:00:00+00:00",
+      "last_seen_at": "2026-05-01T14:02:00+00:00",
+      "status": "open",
+      "summary": "HTTPS probe timeout",
+      "recommended_action_key": "reset_proxy"
+    },
+    {
+      "event_id": "proxy-outage-ep-b-1",
+      "endpoint_id": "endpoint_hash_b222",
+      "failure_block_id": "",
+      "severity": "medium",
+      "category": "proxy",
+      "confidence": 0.79,
+      "first_seen_at": "2026-05-01T14:03:00+00:00",
+      "last_seen_at": "2026-05-01T14:04:30+00:00",
+      "status": "open",
+      "summary": "HTTPS probe timeout",
+      "recommended_action_key": "reset_proxy"
+    },
+    {
+      "event_id": "proxy-outage-ep-c-1",
+      "endpoint_id": "endpoint_hash_c333",
+      "failure_block_id": "",
+      "severity": "high",
+      "category": "proxy",
+      "confidence": 0.91,
+      "first_seen_at": "2026-05-01T14:05:00+00:00",
+      "last_seen_at": "2026-05-01T14:06:00+00:00",
+      "status": "open",
+      "summary": "HTTPS probe timeout",
+      "recommended_action_key": "reset_proxy"
+    }
+  ]
+}

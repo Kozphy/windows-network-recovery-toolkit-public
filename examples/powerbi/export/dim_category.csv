@@ -1,0 +1,9 @@
+category_key,category,domain
+1,Endpoint Reliability,Technology Risk
+2,Technology Risk,Technology Risk
+3,Cloud Governance,Cloud Governance
+4,FinOps,FinOps
+5,Cost Optimization,FinOps
+6,Security,Cloud Governance
+7,High Availability,Cloud Governance
+8,Operational Excellence,Cloud Governance

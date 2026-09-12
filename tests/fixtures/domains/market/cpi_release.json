@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "mkt-cpi-001",
+    "domain": "market",
+    "category": "macro",
+    "title": "CPI release surprise",
+    "timestamp_utc": "2026-06-04T14:00:00+00:00",
+    "severity": "medium",
+    "observations": [
+      {"signal": "cpi_actual", "value": 3.8},
+      {"signal": "cpi_consensus", "value": 3.2}
+    ],
+    "source": "fixture:market/cpi_release",
+    "metadata": {"scenario": "cpi_release", "research_only": true}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-cpi-miss",
+      "type": "observation",
+      "description": "CPI above consensus",
+      "supports": ["hyp-rates-volatility"],
+      "contradicts": [],
+      "confidence_delta": 0.15,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-rates-volatility",
+      "title": "Rates-sensitive assets may reprice",
+      "explanation": "Macro surprise — research thesis only, not trade execution.",
+      "supporting_evidence": ["ev-cpi-miss"],
+      "contradicting_evidence": [],
+      "confidence": 0.52
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-macro-research",
+      "title": "Research duration/rates scenario impact",
+      "action_type": "research",
+      "expected_benefit": 0.5,
+      "risk_score": 0.05,
+      "alternatives": []
+    }
+  ]
+}

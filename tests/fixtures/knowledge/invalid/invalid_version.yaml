@@ -1,0 +1,7 @@
+schema_version: knowledge.v0
+knowledge_version: "bad"
+entries:
+  broken:
+    category: test
+    common_causes:
+      - x

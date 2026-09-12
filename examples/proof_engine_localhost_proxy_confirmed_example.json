@@ -1,0 +1,63 @@
+{
+  "proof_id": "localhost_proxy_https_contrast",
+  "status": "confirmed",
+  "hypothesis": "Traffic is routed through a localhost proxy (127.0.0.1:<port>) and that path affects HTTPS reachability versus the same URL fetched with `curl --noproxy` (control).",
+  "summary": "CONFIRMED: HTTPS fails via explicit localhost proxy path but succeeds via `--noproxy` bypass.",
+  "observations": [
+    {
+      "step_id": "wininet_registry",
+      "label": "Detect WinINET proxy (HKCU registry)",
+      "outcome": "pass",
+      "detail": "ProxyEnable=1; ProxyServer parsed mode=manual_localhost; active_localhost=True."
+    },
+    {
+      "step_id": "winhttp_detect",
+      "label": "Detect WinHTTP proxy (netsh winhttp)",
+      "outcome": "pass",
+      "detail": "loopback_hint=false parsed_port=None."
+    },
+    {
+      "step_id": "localhost_proxy_detection",
+      "label": "Detect localhost proxy (WinINET active segment or WinHTTP loopback hints)",
+      "outcome": "pass",
+      "detail": "Active WinINET localhost proxy."
+    },
+    {
+      "step_id": "port_listening",
+      "label": "Check localhost proxy TCP port is LISTENING (netstat)",
+      "outcome": "pass",
+      "detail": "LISTEN-ish binding found for port 9999."
+    },
+    {
+      "step_id": "curl_available",
+      "label": "Verify curl is available",
+      "outcome": "pass",
+      "detail": "curl 8.0.0 (Windows)"
+    },
+    {
+      "step_id": "https_with_proxy",
+      "label": "Test HTTPS with explicit localhost proxy (`curl -x …`)",
+      "outcome": "fail",
+      "detail": "exit=7 http_code_field=''"
+    },
+    {
+      "step_id": "https_bypass_proxy",
+      "label": "Test HTTPS bypassing env proxies (`curl --noproxy '*'`)",
+      "outcome": "pass",
+      "detail": "exit=0 http_code_field='302'"
+    }
+  ],
+  "evidence": {
+    "routing_summary": {
+      "wininet_active_localhost": true,
+      "winhttp_loopback_hint": false,
+      "effective_curl_proxy_url": "http://127.0.0.1:9999",
+      "effective_listen_probe_port": 9999,
+      "curl_scheme": "http_connect"
+    },
+    "comparison": {
+      "via_proxy_ok": false,
+      "bypass_ok": true
+    }
+  }
+}

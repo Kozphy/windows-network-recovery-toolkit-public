@@ -1,0 +1,15 @@
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <EventID>3</EventID>
+    <TimeCreated SystemTime="2026-06-08T05:00:56.0000000Z"/>
+  </System>
+  <EventData>
+    <Data Name="UtcTime">2026-06-08 05:00:56.000</Data>
+    <Data Name="ProcessGuid">{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</Data>
+    <Data Name="Image">C:\Program Files\nodejs\node.exe</Data>
+    <Data Name="DestinationIp">127.0.0.1</Data>
+    <Data Name="DestinationPort">64394</Data>
+    <Data Name="SourceIp">0.0.0.0</Data>
+    <Data Name="SourcePort">64394</Data>
+  </EventData>
+</Event>

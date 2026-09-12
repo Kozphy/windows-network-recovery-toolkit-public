@@ -1,0 +1,28 @@
+{
+  "schema_version": "proxy_risk_case.v1",
+  "case_id": "ADV-001",
+  "split": "adversarial",
+  "scenario_name": "Listener exists but path probes are missing",
+  "expected_class": "LOCAL_PROXY_ACTIVE",
+  "expected_min_tier": "T2",
+  "expected_policy": "OBSERVE",
+  "provenance": "synthetic adversarial incomplete-evidence fixture",
+  "limitations": ["Listener ownership is correlation, not writer attribution."],
+  "signals": {
+    "proxy_state": {
+      "timestamp_utc": "2026-08-03T00:00:00Z",
+      "endpoint_id": "research-endpoint-201",
+      "wininet_proxy_enabled": true,
+      "wininet_proxy_server": "127.0.0.1:7777",
+      "winhttp_direct_access": false,
+      "localhost_port": 7777
+    },
+    "proxy_owner": {
+      "timestamp_utc": "2026-08-03T00:00:01Z",
+      "endpoint_id": "research-endpoint-201",
+      "listener_found": true,
+      "localhost_port": 7777,
+      "process": {"pid": 6201, "name": "node.exe"}
+    }
+  }
+}

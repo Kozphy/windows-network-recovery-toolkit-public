@@ -1,0 +1,18 @@
+{
+  "features": {
+    "ping_ip_ok": false,
+    "ping_domain_ok": false,
+    "nslookup_ok": false,
+    "tcp_443_ok": false,
+    "browser_http_ok": false,
+    "proxy_enabled": false,
+    "winhttp_proxy_enabled": false,
+    "dns_servers_detected": 0,
+    "adapter_connected": false,
+    "gateway_reachable": false,
+    "tls_cert_issue_detected": false,
+    "firewall_path_suspected": false,
+    "time_wait_count": 12,
+    "established_count": 34
+  }
+}

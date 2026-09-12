@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "mkt-unlock-001",
+    "domain": "market",
+    "category": "crypto",
+    "title": "Large token unlock scheduled",
+    "timestamp_utc": "2026-06-04T14:05:00+00:00",
+    "severity": "medium",
+    "observations": [
+      {"signal": "unlock_tokens", "value": 50000000},
+      {"signal": "float_percent", "value": 8}
+    ],
+    "source": "fixture:market/token_unlock",
+    "metadata": {"scenario": "token_unlock", "research_only": true}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-unlock-size",
+      "type": "observation",
+      "description": "8% of float unlocking",
+      "supports": ["hyp-supply-pressure"],
+      "contradicts": [],
+      "confidence_delta": 0.12,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-supply-pressure",
+      "title": "Supply pressure event",
+      "explanation": "Unlock may increase sell pressure — monitoring only.",
+      "supporting_evidence": ["ev-unlock-size"],
+      "contradicting_evidence": [],
+      "confidence": 0.48
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-unlock-research",
+      "title": "Research unlock schedule and holder distribution",
+      "action_type": "research",
+      "expected_benefit": 0.45,
+      "risk_score": 0.04,
+      "alternatives": []
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "1",
+  "event_id": "fixture-stale-winhttp",
+  "timestamp": "2026-05-02T00:02:00+00:00",
+  "source": "fixture",
+  "event_type": "signal.snapshot",
+  "severity": "medium",
+  "endpoint_id_hash": "cccccccccccccccccccccccccccccccc",
+  "signals": {
+    "telemetry": { "winhttp_diverges": true }
+  },
+  "privacy_classification": "diagnostic_general"
+}

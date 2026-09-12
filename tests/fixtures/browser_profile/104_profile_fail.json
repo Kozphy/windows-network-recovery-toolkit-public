@@ -1,0 +1,63 @@
+{
+  "schema_version": "wnt.browser_diff.v1",
+  "target_url": "https://www.104.com.tw/",
+  "browser": "edge",
+  "profiles_examined": [],
+  "raw_network": {
+    "target_url": "https://www.104.com.tw/",
+    "dns_ok": true,
+    "ipv4_addresses": ["1.2.3.4"],
+    "ipv6_addresses": [],
+    "tcp_ok": true,
+    "tls_ok": true,
+    "cert_subject": "CN=www.104.com.tw",
+    "cert_issuer": "CN=TestCA",
+    "cert_sans": ["www.104.com.tw", "104.com.tw"],
+    "cert_thumbprint_sha256": "abc",
+    "cert_chain_ok": true,
+    "http_status": 200,
+    "redirect_chain": ["https://www.104.com.tw/"],
+    "direct_probe_ok": true,
+    "system_proxy_probe_ok": true,
+    "wininet_proxy_enable": 0,
+    "winhttp_proxy": "direct",
+    "pac_configured": false,
+    "limitations": ["Fixture inject."]
+  },
+  "normal_session": {"source": "har", "ok": false, "final_status": 302},
+  "private_session": {"source": "har", "ok": true, "final_status": 200},
+  "differences": ["final_status normal=302 private=200"],
+  "classification": "OS_NETWORK_OK_BROWSER_PROFILE_FAIL",
+  "confidence": 0.91,
+  "epistemic_level": "probable_cause",
+  "evidence": [
+    "DNS resolution succeeded.",
+    "TCP connection to port succeeded.",
+    "TLS handshake / certificate inspection succeeded.",
+    "Direct HTTP request returned a response without browser cookies.",
+    "Private-session HAR reached the destination.",
+    "Normal-profile HAR failed.",
+    "No WinINET or WinHTTP proxy mismatch was detected."
+  ],
+  "counter_evidence": [],
+  "unverified_assumptions": [
+    "The diagnostic did not inspect cookie values and cannot prove which specific cookie caused the loop."
+  ],
+  "recommended_next_steps": [
+    "Delete only 104.com.tw site data, unregister its service worker, and retry."
+  ],
+  "repair_preview": {
+    "preview_id": "brp-fixture001",
+    "domain": "www.104.com.tw",
+    "browser": "edge",
+    "dry_run": true,
+    "actions": [],
+    "requires_confirm_token": "BROWSER_SITE_REPAIR_APPLY",
+    "limitations": ["Preview only."]
+  },
+  "privacy_redactions": [],
+  "audit_id": "fixture-audit-001",
+  "limitations": [
+    "Private-mode success reduces probability of Windows-wide DNS/TCP/TLS/proxy failure but does not prove those layers are universally healthy."
+  ]
+}

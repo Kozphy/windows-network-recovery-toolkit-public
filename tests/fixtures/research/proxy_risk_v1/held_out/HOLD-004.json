@@ -1,0 +1,12 @@
+{
+  "schema_version": "proxy_risk_case.v1",
+  "case_id": "HOLD-004",
+  "split": "held_out",
+  "scenario_name": "No usable evidence",
+  "expected_class": "INSUFFICIENT_DATA",
+  "expected_min_tier": "T0",
+  "expected_policy": "OBSERVE",
+  "provenance": "predeclared synthetic holdout fixture",
+  "limitations": ["Absence of collected evidence is not evidence of endpoint health."],
+  "signals": {}
+}

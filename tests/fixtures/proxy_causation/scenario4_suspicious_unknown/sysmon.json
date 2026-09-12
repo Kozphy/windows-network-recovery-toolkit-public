@@ -1,0 +1,14 @@
+{
+  "events": [
+    {
+      "UtcTime": "2026-06-08T06:00:00Z",
+      "EventID": 13,
+      "ProcessId": 7777,
+      "Image": "C:\\Users\\victim\\AppData\\Local\\Temp\\upd.exe",
+      "CommandLine": "upd.exe",
+      "TargetObject": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ProxyEnable",
+      "Details": "DWORD (0x00000001)",
+      "User": "DESKTOP\\victim"
+    }
+  ]
+}

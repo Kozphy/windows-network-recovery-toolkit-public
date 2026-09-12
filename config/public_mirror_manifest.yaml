@@ -1,0 +1,112 @@
+# Public mirror export allowlist (private monorepo → public GitHub repo).
+# Consumed by: tools/export_public_mirror.py
+#
+# Scope (locked): core CLI + read-only fixture-mode demo API/frontend.
+# This file is the source of truth for what may leave the private repo.
+
+version: 1
+
+public_repo_name: windows-network-recovery-toolkit-public
+public_default_branch: main
+
+# Paths relative to private repo root. Directories are copied recursively
+# (then filtered by exclude_globs).
+include_paths:
+  - windows_network_toolkit/
+  - toolkit/
+  - backend/
+  - platform_core/
+  - src/
+  - frontend/
+  - tests/fixtures/
+  - tests/windows_network_toolkit/
+  - tests/backend/test_api_contract.py
+  - tests/backend/conftest.py
+  - tests/test_policy_safety_contract.py
+  - tests/test_api_dry_run_default.py
+  - tests/test_public_release_audit.py
+  - tests/test_export_public_mirror.py
+  - examples/
+  - demo_data/
+  - tools/public_release_audit.py
+  - tools/cleanup_generated.py
+  - tools/export_public_mirror.py
+  - config/public_mirror_manifest.yaml
+  - docs/ONBOARDING.md
+  - docs/DOCUMENTATION_INDEX.md
+  - docs/safety_model.md
+  - docs/safety_doctrine.md
+  - docs/START_HERE.md
+  - docs/demo_3_minute.md
+  - docs/demo_walkthrough.md
+  - docs/troubleshooting_flow.md
+  - docs/dead-proxy-guardian.md
+  - docs/startup-observability.md
+  - docs/private-public-split.md
+  - docs/runbooks/
+  - docs/code-documentation-standards.md
+  - LICENSE
+  - SECURITY.md
+  - PUBLIC_RELEASE_CHECKLIST.md
+  - AGENTS.md
+  - pytest.ini
+  - .gitignore
+  - .github/workflows/public-mirror-ci.yml
+
+# Applied after include copy (fnmatch against relative posix paths).
+# Note: .env.example / .env.local.example are kept by exporter allow rules.
+exclude_globs:
+  - "**/.env"
+  - "**/.env.local"
+  - "**/__pycache__/**"
+  - "**/*.pyc"
+  - "**/.pytest_cache/**"
+  - "**/.mypy_cache/**"
+  - "**/.ruff_cache/**"
+  - "**/.next/**"
+  - "**/node_modules/**"
+  - "**/.audit/**"
+  - "logs/**"
+  - "reports/**"
+  - "platform_data/**"
+  - "platform_data_fleet_demo/**"
+  - ".worktrees/**"
+  - "_doc_inventory/**"
+  - "backend/billing.py"
+  - "**/openclaw/**"
+  - "skills/**"
+  - "src/platform_core/openclaw/**"
+  - "docs/openclaw-coding-agent.md"
+  - "frontend/.env.local"
+  - "**/.DS_Store"
+
+# Files written/replaced in the export tree (templates live under config/public_mirror/).
+rewrite_files:
+  README.md: config/public_mirror/README.md.template
+  pyproject.toml: config/public_mirror/pyproject.toml.template
+  AGENTS.md: config/public_mirror/AGENTS.md.template
+
+# Post-export checks (run from export root when --run-checks).
+required_checks:
+  - name: public_release_audit
+    command: ["python", "tools/public_release_audit.py", "--tracked-only"]
+  - name: policy_safety
+    command: ["python", "-m", "pytest", "-q", "tests/test_policy_safety_contract.py", "tests/test_api_dry_run_default.py"]
+  - name: dns_ipv6
+    command:
+      - "python"
+      - "-m"
+      - "pytest"
+      - "-q"
+      - "tests/windows_network_toolkit/test_dns_edge.py"
+      - "tests/windows_network_toolkit/test_ipv6_path.py"
+  - name: backend_api_contract
+    command: ["python", "-m", "pytest", "-q", "tests/backend/test_api_contract.py"]
+
+# Never sync these categories from public PRs without private review.
+private_only_notes:
+  - Stripe / billing / SaaS auth
+  - Fleet multi-tenant and SRE write surfaces
+  - OpenClaw coding agent and skills
+  - Operator .audit / logs / platform_data snapshots
+  - Real .env secrets and personal Windows paths

@@ -1,0 +1,42 @@
+# Default proxy policy — read-only recommendations; no automatic kill/reset/mutation.
+
+allow_known_cursor: true
+cursor_proxy_action: OBSERVE
+vscode_extension_action: OBSERVE
+known_dev_proxy_action: OBSERVE
+active_dev_session: true
+deny_unknown_localhost_proxy: true
+
+classification_rules:
+  KNOWN_CURSOR_PROXY:
+    decision: OBSERVE
+    severity: LOW
+    allowed_actions: [observe, log, export_report]
+    blocked_actions: [kill_process, reset_firewall, disable_adapter, registry_mutation]
+  KNOWN_VSCODE_EXTENSION:
+    decision: OBSERVE
+    severity: LOW
+  KNOWN_DEV_PROXY:
+    decision: OBSERVE
+    severity: MEDIUM
+  UNKNOWN_LOCAL_PROXY:
+    decision: ALERT
+    severity: HIGH
+    allowed_actions: [observe, preview_disable, export_report]
+  SUSPICIOUS_PROXY:
+    decision: BLOCK_RECOMMENDED
+    severity: CRITICAL
+    requires_confirmation: true
+  POSSIBLE_MITM_RISK:
+    decision: ESCALATE_REVIEW
+    severity: CRITICAL
+  CORRELATION_ONLY:
+    decision: CORRELATION_ONLY_ALERT
+    severity: MEDIUM
+
+safety:
+  never_kill_process_automatically: true
+  never_reset_network_automatically: true
+  never_disable_adapter_automatically: true
+  registry_mutation_requires_typed_confirmation: true
+  default_mode: read_only

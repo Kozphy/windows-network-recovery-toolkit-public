@@ -1,0 +1,111 @@
+{
+  "schema_version": "evaluation_scenarios.v1",
+  "scenarios": [
+    {
+      "id": "EV-001",
+      "fixture": "fixtures/dead_proxy_config/raw_signals.json",
+      "expected_primary": "DEAD_PROXY_CONFIG",
+      "expected_proof_tier_prefix": "T2",
+      "expected_policy_gate": "PREVIEW"
+    },
+    {
+      "id": "EV-002",
+      "fixture": "fixtures/wininet_winhttp_mismatch/raw_signals.json",
+      "expected_primary": "DEAD_PROXY_CONFIG",
+      "expected_proof_tier_prefix": "T2",
+      "expected_policy_gate": "PREVIEW"
+    },
+    {
+      "id": "EV-003",
+      "fixture": "examples/evidence/LOCAL_PROXY_ACTIVE.json",
+      "expected_primary": "LOCAL_PROXY_ACTIVE",
+      "expected_proof_tier_prefix": "T1",
+      "expected_policy_gate": "PREVIEW"
+    },
+    {
+      "id": "EV-004",
+      "fixture": "tests/fixtures/enert/unknown_localhost_proxy.json",
+      "expected_primary": "UNKNOWN_LOCAL_PROXY",
+      "expected_proof_tier_prefix": "T1",
+      "expected_policy_gate": "REQUIRE_HUMAN_REVIEW"
+    },
+    {
+      "id": "EV-005",
+      "fixture": "fixtures/reverter_suspected/raw_signals.json",
+      "expected_primary": "REVERTER_SUSPECTED",
+      "expected_proof_tier_prefix": "T1",
+      "expected_policy_gate": "REQUIRE_HUMAN_REVIEW"
+    },
+    {
+      "id": "EV-006",
+      "fixture": "fixtures/tls_path_mismatch/raw_signals.json",
+      "expected_primary": "POSSIBLE_MITM_RISK",
+      "expected_proof_tier_prefix": "T2",
+      "expected_policy_gate": "PREVIEW"
+    },
+    {
+      "id": "EV-007",
+      "fixture": "fixtures/pac_configured/raw_signals.json",
+      "expected_primary": "PAC_CONFIGURED",
+      "expected_proof_tier_prefix": "T1",
+      "expected_policy_gate": "ALLOW"
+    },
+    {
+      "id": "EV-008",
+      "fixture": "tests/fixtures/enert/dead_proxy_59081.json",
+      "expected_primary": "DEAD_PROXY_CONFIG",
+      "expected_proof_tier_prefix": "T2",
+      "expected_policy_gate": "PREVIEW"
+    },
+    {
+      "id": "EV-009",
+      "fixture": "fixtures/suspicious_proxy/raw_signals.json",
+      "expected_primary": "UNKNOWN_LOCAL_PROXY",
+      "expected_proof_tier_prefix": "T1",
+      "expected_policy_gate": "REQUIRE_HUMAN_REVIEW"
+    },
+    {
+      "id": "EV-010",
+      "fixture": "tests/fixtures/proxy_transitions/localhost_to_remote_proxy.json",
+      "expected_primary": "PROXY_SERVER_CHANGED_TO_REMOTE",
+      "expected_proof_tier_prefix": "T0",
+      "expected_policy_gate": "REQUIRE_HUMAN_REVIEW"
+    },
+    {
+      "id": "EV-011",
+      "fixture": "tests/fixtures/proxy_transitions/proxy_enable_flapping_loop.jsonl",
+      "expected_primary": "REVERTER_SUSPECTED",
+      "expected_proof_tier_prefix": "T0",
+      "expected_policy_gate": "REQUIRE_HUMAN_REVIEW",
+      "replay_jsonl": true
+    },
+    {
+      "id": "EV-012",
+      "fixture": "tests/fixtures/enert/known_dev_proxy.json",
+      "expected_primary": "KNOWN_DEV_PROXY",
+      "expected_proof_tier_prefix": "T1",
+      "expected_policy_gate": "ALLOW"
+    },
+    {
+      "id": "EV-013",
+      "fixture": "tests/fixtures/demo/healthy_endpoint.json",
+      "expected_primary": "NO_PROXY",
+      "expected_proof_tier_prefix": "T0",
+      "expected_policy_gate": "ALLOW"
+    },
+    {
+      "id": "EV-014",
+      "fixture": "tests/fixtures/proxy_transitions/ipv6_loopback_proxy.json",
+      "expected_primary": "LOCALHOST_PROXY_CONFIGURED",
+      "expected_proof_tier_prefix": "T0",
+      "expected_policy_gate": "PREVIEW"
+    },
+    {
+      "id": "EV-015",
+      "fixture": "tests/fixtures/demo/proxy_drift_correlated_only.json",
+      "expected_primary": "UNKNOWN_LOCAL_PROXY",
+      "expected_proof_tier_prefix": "T0",
+      "expected_policy_gate": "PREVIEW"
+    }
+  ]
+}

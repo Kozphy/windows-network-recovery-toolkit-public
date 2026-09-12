@@ -1,0 +1,12 @@
+{
+  "proxy_change": {
+    "diff": {
+      "before": {"proxy_enable": 0, "proxy_server": null},
+      "after": {
+        "proxy_enable": 1,
+        "proxy_server": "127.0.0.1:61526",
+        "parsed_proxy_server": {"localhost_port": 61526}
+      }
+    }
+  }
+}

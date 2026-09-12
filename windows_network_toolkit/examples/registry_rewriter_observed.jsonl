@@ -1,0 +1,4 @@
+{"timestamp": "2026-06-09T13:00:00Z", "signal": "registry_writer_observed", "observed_value": "true"}
+{"timestamp": "2026-06-09T13:00:05Z", "signal": "sysmon_event_13", "observed_value": "true"}
+{"timestamp": "2026-06-09T13:00:10Z", "signal": "wininet_proxy_enabled", "observed_value": "true"}
+{"timestamp": "2026-06-09T13:00:15Z", "signal": "writer_process", "observed_value": "node.exe"}

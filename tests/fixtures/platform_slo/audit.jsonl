@@ -1,0 +1,2 @@
+{"audit_id":"a1","action":"remediation_execute","decision":"blocked","timestamp":"2026-06-08T05:05:00+00:00"}
+{"audit_id":"a2","action":"remediation_preview","decision":"allowed","timestamp":"2026-06-08T05:06:00+00:00"}

@@ -1,0 +1,77 @@
+{
+  "incident_id": "inc-sample-audit-001",
+  "url": "https://example.com/",
+  "executive_summary": "Browser fails while DNS/ping succeed due to WinINET proxy drift to dead localhost listener.",
+  "timeline": [
+    {
+      "timestamp": "2026-06-04T10:00:00+00:00",
+      "event_type": "proxy_state_observed",
+      "actor": "collector:proxy_attribution",
+      "object": "WinINET/WinHTTP",
+      "before_state": "",
+      "after_state": "ProxyEnable=1; ProxyServer=127.0.0.1:8080",
+      "evidence_refs": ["attr-fixture-dead"],
+      "confidence_level": "high",
+      "limitations": ["Registry observation is not writer proof."]
+    },
+    {
+      "timestamp": "2026-06-04T10:05:00+00:00",
+      "event_type": "proof_classified",
+      "actor": "engine:proof",
+      "object": "LOCAL_PROXY_UPSTREAM_FAILURE",
+      "before_state": "",
+      "after_state": "Direct path succeeds; system-proxy path returns 502/504.",
+      "evidence_refs": ["proof-fixture-local"],
+      "confidence_level": "high",
+      "limitations": ["Proof classification is path contrast, not attribution verdict."]
+    }
+  ],
+  "evidence_collected": [
+    {"evidence_id": "ev-proxy-enable", "integrity_hash": "abc123deadbeef"}
+  ],
+  "hypotheses_tested": [
+    {"hypothesis": "WININET_PROXY_DRIFT", "proof_outcome": "LOCAL_PROXY_UPSTREAM_FAILURE"},
+    {"hypothesis": "DEAD_LOCALHOST_PROXY", "classification": "DEAD_PROXY_CONFIG"}
+  ],
+  "proof_results": {
+    "outcome": "LOCAL_PROXY_UPSTREAM_FAILURE",
+    "is_proof": true
+  },
+  "decision": {
+    "decision_id": "dec-sample-001",
+    "incident_type": "WININET_PROXY_DRIFT",
+    "recommended_action": "disable_wininet_proxy",
+    "risk_level": "medium",
+    "requires_human_review": true
+  },
+  "risk_classification": "medium",
+  "policy_gate": {
+    "outcome": "PREVIEW_ONLY",
+    "allowed": true,
+    "requires_approval": false,
+    "blocked_reasons": []
+  },
+  "remediation_preview": {
+    "dry_run": true,
+    "previews": [{"action_id": "disable_wininet_proxy", "dry_run": true}]
+  },
+  "approval_record": {
+    "required": true,
+    "approved": false,
+    "can_execute": false
+  },
+  "rollback_plan": {
+    "action_id": "disable_wininet_proxy",
+    "dry_run": true,
+    "description": "Restore prior WinINET proxy registry values from captured snapshot."
+  },
+  "chain_of_custody": [
+    {"evidence_id": "ev-proxy-enable", "integrity_hash": "abc123deadbeef"}
+  ],
+  "control_mapping": ["Detect", "Audit"],
+  "audit_trail": [],
+  "safety_notes": [
+    "No registry mutation without typed confirmation.",
+    "Policy permission is not a safety guarantee."
+  ]
+}

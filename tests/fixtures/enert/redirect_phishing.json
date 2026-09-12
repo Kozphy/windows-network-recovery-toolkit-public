@@ -1,0 +1,30 @@
+{
+  "website_risk": {
+    "assessment_id": "wr-test-redirect",
+    "timestamp_utc": "2026-06-04T12:00:00Z",
+    "url": "https://bit.ly/abc123",
+    "final_url": "https://evil-login.example.ml/verify",
+    "risk_level": "HIGH",
+    "score": 0.72,
+    "evidence": [
+      {
+        "signal": "excessive_redirects",
+        "observed": "5",
+        "weight": 0.3,
+        "detail": "https://bit.ly/abc123 -> https://redirect1.example -> https://evil-login.example.ml/verify"
+      },
+      {
+        "signal": "brand_impersonation_keywords",
+        "observed": "html_keywords",
+        "weight": 0.2
+      },
+      {
+        "signal": "suspicious_tld",
+        "observed": ".ml",
+        "weight": 0.25
+      }
+    ],
+    "reputation_plugins_used": [],
+    "limitations": ["Redirect chain analysis is best-effort."]
+  }
+}

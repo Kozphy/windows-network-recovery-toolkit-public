@@ -1,0 +1,15 @@
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <EventID>1</EventID>
+    <TimeCreated SystemTime="2026-06-08T05:00:49.0000000Z"/>
+  </System>
+  <EventData>
+    <Data Name="UtcTime">2026-06-08 05:00:49.000</Data>
+    <Data Name="ProcessGuid">{PARENT-GUID-1111-2222-3333-444444444444}</Data>
+    <Data Name="ProcessId">9999</Data>
+    <Data Name="Image">C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Data>
+    <Data Name="CommandLine">powershell.exe -File start-proxy.ps1</Data>
+    <Data Name="ParentProcessGuid">{CONHOST-GUID-AAAA-BBBB-CCCC-DDDDDDDDDDDD}</Data>
+    <Data Name="ParentImage">C:\Windows\System32\conhost.exe</Data>
+  </EventData>
+</Event>

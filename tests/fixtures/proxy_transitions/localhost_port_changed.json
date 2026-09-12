@@ -1,0 +1,7 @@
+{
+  "description": "Same localhost mode, different port",
+  "before": {"wininet_proxy_enabled": true, "wininet_proxy_server": "127.0.0.1:62285", "wininet_auto_config_url": ""},
+  "after": {"wininet_proxy_enabled": true, "wininet_proxy_server": "127.0.0.1:63333", "wininet_auto_config_url": "", "localhost_port": 63333},
+  "expected_primary": "LOCALHOST_PROXY_PORT_CHANGED",
+  "expected_transition": "LOCALHOST_PROXY_PORT_CHANGED"
+}

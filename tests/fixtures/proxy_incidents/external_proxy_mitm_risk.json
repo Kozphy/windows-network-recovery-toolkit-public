@@ -1,0 +1,24 @@
+{
+  "incident_id": "external_proxy_mitm_risk",
+  "timestamp_utc": "2026-06-08T05:02:00Z",
+  "transition": {
+    "timestamp": "2026-06-08T05:02:00Z",
+    "event": "proxy_change_detected",
+    "diff": {
+      "changed": true,
+      "risk_level": "high",
+      "changed_fields": ["ProxyServer"],
+      "before": {"proxy_enable": 0, "proxy_server": null},
+      "after": {"proxy_enable": 1, "proxy_server": "203.0.113.50:8080"}
+    },
+    "attribution": {"confidence": 0.4, "primary_suspect": null}
+  },
+  "causation": {
+    "causation_level": "FINAL_CAUSATION",
+    "confidence": 0.92,
+    "writer_process": "C:\\Users\\dev\\Downloads\\unknown-proxy.exe",
+    "signature_status": "unsigned",
+    "matched_registry_target": "ProxyServer",
+    "matched_registry_details": "203.0.113.50:8080"
+  }
+}

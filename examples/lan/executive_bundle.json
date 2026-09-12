@@ -1,0 +1,17 @@
+{
+  "description": "Executive assessment bundle — home SOHO LAN privacy",
+  "host_log": "normal_home_network.jsonl",
+  "router_log": "../router/dns_queries.jsonl",
+  "has_router_evidence": true,
+  "subnet": "192.168.1.0/24",
+  "inventory_fixture": {
+    "subnet": "192.168.1.0/24",
+    "devices": [
+      {"ip": "192.168.1.1", "mac": "00:1D:0F:AA:BB:01", "hostname": "router", "vendor": "TP-Link Technologies Co.,Ltd.", "vendor_known": true, "flags": []},
+      {"ip": "192.168.1.10", "mac": "3C:22:FB:AA:BB:10", "hostname": "iphone", "vendor": "Apple, Inc.", "vendor_known": true, "flags": []},
+      {"ip": "192.168.1.30", "mac": "CC:B1:1A:AA:BB:30", "hostname": "samsung-tv", "vendor": "Samsung Electronics Co.,Ltd", "vendor_known": true, "flags": ["iot_like"]},
+      {"ip": "192.168.1.50", "mac": "DC:A6:32:AA:BB:50", "hostname": "laptop", "vendor": "Dell Inc.", "vendor_known": true, "flags": []}
+    ],
+    "limitations": []
+  }
+}

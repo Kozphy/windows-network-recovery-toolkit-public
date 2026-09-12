@@ -1,0 +1,9 @@
+# Legacy flat list — prefer from repo root:
+#   pip install -e ".[dev]"
+#
+# Core runtime (backend/db requires sqlmodel)
+fastapi
+uvicorn[standard]
+python-jose[cryptography]
+stripe
+sqlmodel>=0.0.22

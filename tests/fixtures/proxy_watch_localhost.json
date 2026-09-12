@@ -1,0 +1,33 @@
+{
+  "watch_sequence": [
+    {
+      "wininet_proxy_enabled": false,
+      "wininet_proxy_server": "",
+      "wininet_auto_config_url": "",
+      "winhttp_direct_access": true,
+      "localhost_port": null
+    },
+    {
+      "wininet_proxy_enabled": true,
+      "wininet_proxy_server": "127.0.0.1:62285",
+      "wininet_auto_config_url": "",
+      "winhttp_direct_access": true,
+      "localhost_port": 62285
+    }
+  ],
+  "health_inject": {
+    "host": "127.0.0.1",
+    "port": 62285,
+    "timestamp_utc": "2026-06-12T00:00:00Z",
+    "tcp_listening": true,
+    "tcp_connect_ok": true,
+    "listener_name": "node.exe",
+    "listener_pid": 102888,
+    "proxy_https_connect_ok": true,
+    "direct_probe_ok": true,
+    "external_probe_ok": true,
+    "proxy_status": "BOTH_DIRECT_AND_PROXY_WORK",
+    "evidence": ["External HTTPS probe through proxy succeeded"],
+    "limitations": ["test fixture"]
+  }
+}

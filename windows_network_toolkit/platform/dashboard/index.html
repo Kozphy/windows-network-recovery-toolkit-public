@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Endpoint Reliability Decision Platform</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Endpoint Reliability Decision Platform</h1>
+    <p class="subtitle">Evidence → Hypothesis → Proof → Policy → Remediation → Audit</p>
+  </header>
+  <main>
+    <section id="health"><h2>1. System Health</h2><pre class="panel">Loading…</pre></section>
+    <section id="proxy"><h2>2. Current Proxy State</h2><pre class="panel empty">No live collector run. Load replay example.</pre></section>
+    <section id="timeline"><h2>3. Incident Timeline</h2><pre class="panel empty">No timeline yet.</pre></section>
+    <section id="evidence"><h2>4. Evidence Tree</h2><pre class="panel empty">No evidence yet.</pre></section>
+    <section id="process"><h2>5. Process Owner</h2><pre class="panel empty">—</pre></section>
+    <section id="registry"><h2>6. Registry Writer</h2><pre class="panel empty">—</pre></section>
+    <section id="decision"><h2>7. Decision Recommendation</h2><pre class="panel empty">—</pre></section>
+    <section id="risk"><h2>8. Risk Level</h2><pre class="panel empty">—</pre></section>
+    <section id="policy"><h2>9. Policy Result</h2><pre class="panel empty">—</pre></section>
+    <section id="confirm"><h2>10. Required Confirmation</h2><pre class="panel empty">—</pre></section>
+    <section id="audit"><h2>11. Audit Log</h2><pre class="panel empty">—</pre></section>
+    <section id="replay"><h2>12. Replay Demo</h2>
+      <button id="btn-replay">Load proxy_drift_incident.jsonl</button>
+      <pre class="panel empty" id="replay-out">Click to replay fixture.</pre>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

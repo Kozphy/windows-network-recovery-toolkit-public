@@ -1,0 +1,70 @@
+{
+  "schema_version": "finops_cost_snapshot.v1",
+  "limitations": [
+    "Mock cost snapshot — not sourced from live billing APIs.",
+    "USD amounts are illustrative for portfolio dashboards only."
+  ],
+  "period": "2026-06",
+  "costs": [
+    {
+      "cost_id": "COST-AZ-001",
+      "provider": "azure",
+      "resource_id": "res-vm-prod-web-01",
+      "resource_name": "vm-prod-web-01",
+      "service": "Virtual Machines",
+      "category": "Compute",
+      "monthly_cost_usd": 1180.0,
+      "budget_category": "production",
+      "date_key": 20260601,
+      "anomaly_flag": false
+    },
+    {
+      "cost_id": "COST-AZ-002",
+      "provider": "azure",
+      "resource_id": "res-storage-logs",
+      "resource_name": "stg-audit-logs",
+      "service": "Storage Accounts",
+      "category": "Storage",
+      "monthly_cost_usd": 240.0,
+      "budget_category": "governance",
+      "date_key": 20260601,
+      "anomaly_flag": false
+    },
+    {
+      "cost_id": "COST-GCP-001",
+      "provider": "gcp",
+      "resource_id": "res-gke-dev-cluster",
+      "resource_name": "gke-dev-cluster",
+      "service": "Kubernetes Engine",
+      "category": "Compute",
+      "monthly_cost_usd": 890.0,
+      "budget_category": "non_production",
+      "date_key": 20260601,
+      "anomaly_flag": true
+    },
+    {
+      "cost_id": "COST-GCP-002",
+      "provider": "gcp",
+      "resource_id": "res-sql-primary",
+      "resource_name": "cloudsql-primary",
+      "service": "Cloud SQL",
+      "category": "Database",
+      "monthly_cost_usd": 650.0,
+      "budget_category": "production",
+      "date_key": 20260601,
+      "anomaly_flag": false
+    },
+    {
+      "cost_id": "COST-AZ-003",
+      "provider": "azure",
+      "resource_id": "res-monitor-workspace",
+      "resource_name": "log-analytics-prod",
+      "service": "Log Analytics",
+      "category": "Observability",
+      "monthly_cost_usd": 320.0,
+      "budget_category": "platform",
+      "date_key": 20260601,
+      "anomaly_flag": false
+    }
+  ]
+}

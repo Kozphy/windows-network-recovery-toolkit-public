@@ -1,0 +1,7 @@
+{
+  "description": "PAC URL added",
+  "before": {"wininet_proxy_enabled": false, "wininet_proxy_server": "", "wininet_auto_config_url": ""},
+  "after": {"wininet_proxy_enabled": false, "wininet_proxy_server": "", "wininet_auto_config_url": "http://pac.example.com/proxy.pac"},
+  "expected_primary": "PAC_CONFIGURED",
+  "expected_transition": "PAC_CONFIGURED"
+}

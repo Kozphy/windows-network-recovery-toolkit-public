@@ -1,0 +1,7 @@
+{
+  "description": "IPv6 loopback localhost proxy configured",
+  "before": {"wininet_proxy_enabled": false, "wininet_proxy_server": "", "wininet_auto_config_url": ""},
+  "after": {"wininet_proxy_enabled": true, "wininet_proxy_server": "[::1]:62285", "wininet_auto_config_url": ""},
+  "expected_primary": "LOCALHOST_PROXY_CONFIGURED",
+  "expected_transition": "LOCALHOST_PROXY_ENABLED"
+}

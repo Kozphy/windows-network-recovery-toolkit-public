@@ -1,0 +1,28 @@
+{
+  "incident_id": "EX-MITM-001",
+  "schema_version": "portfolio_evidence.v1",
+  "symptom": "Certificate or TLS path inconsistency under proxy",
+  "proxy_state": {
+    "wininet_proxy_enabled": true,
+    "wininet_proxy_server": "127.0.0.1:8888",
+    "localhost_port": 8888
+  },
+  "classification": {
+    "primary_classification": "POSSIBLE_MITM_RISK",
+    "secondary_signals": ["LOCALHOST_PROXY", "TLS_PATH_DIVERGENCE"],
+    "severity": "high",
+    "confidence": 0.55,
+    "reasoning": "TLS metadata differs between direct and proxied fetch paths.",
+    "limitations": ["Possible MITM risk is a triage label — not a confirmed attack verdict."]
+  },
+  "tls_proof": {
+    "status": "inconclusive",
+    "direct_issuer": "Let's Encrypt",
+    "proxied_issuer": "Unknown Local CA",
+    "conclusion": "Further TLS contrast proof required."
+  },
+  "policy_decision": {
+    "outcome": "PREVIEW_ONLY",
+    "blocked_actions": ["autonomous_remediation", "process_kill"]
+  }
+}

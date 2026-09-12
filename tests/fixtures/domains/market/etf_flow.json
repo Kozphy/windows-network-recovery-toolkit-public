@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "mkt-etf-001",
+    "domain": "market",
+    "category": "flows",
+    "title": "ETF flow reversal",
+    "timestamp_utc": "2026-06-04T14:10:00+00:00",
+    "severity": "low",
+    "observations": [
+      {"signal": "weekly_flow_usd", "value": -1200000000},
+      {"signal": "prior_week_flow", "value": 800000000}
+    ],
+    "source": "fixture:market/etf_flow",
+    "metadata": {"scenario": "etf_flow", "research_only": true}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-flow-swing",
+      "type": "observation",
+      "description": "Large negative weekly ETF flow after inflows",
+      "supports": ["hyp-sentiment-shift"],
+      "contradicts": [],
+      "confidence_delta": 0.1,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-sentiment-shift",
+      "title": "Participant sentiment shift",
+      "explanation": "Flow reversal may signal positioning change — no execution.",
+      "supporting_evidence": ["ev-flow-swing"],
+      "contradicting_evidence": [],
+      "confidence": 0.46
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-flow-research",
+      "title": "Research sector flow attribution",
+      "action_type": "research",
+      "expected_benefit": 0.4,
+      "risk_score": 0.03,
+      "alternatives": []
+    }
+  ]
+}

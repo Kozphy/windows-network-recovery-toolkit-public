@@ -1,0 +1,36 @@
+{
+  "case_id": "CASE_3_REVERTER_SUSPECTED",
+  "case_title": "Proxy keeps returning after disable preview",
+  "dry_run": true,
+  "rollback_plan_present": true,
+  "proxy_state": {
+    "wininet_proxy_enabled": true,
+    "wininet_proxy_server": "127.0.0.1:59081",
+    "localhost_port": 59081
+  },
+  "classification": {
+    "primary_classification": "REVERTER_SUSPECTED",
+    "secondary_signals": ["REPEATED_PROXY_REAPPEARANCE"],
+    "severity": "high",
+    "confidence": 0.75,
+    "reasoning": "Proxy settings reappeared after prior disable without operator confirmation.",
+    "recommended_next_actions": ["Run proxy-watch", "Escalate to human review"],
+    "limitations": ["Reverter identity not proven without registry writer telemetry."]
+  },
+  "proxy_owner": {
+    "localhost_port": 59081,
+    "listener_found": true,
+    "process": { "name": "unknown_svc.exe", "pid": 9999 }
+  },
+  "proxy_watch": [
+    { "timestamp_utc": "2026-06-12T08:00:00Z", "proxy_enabled": false },
+    { "timestamp_utc": "2026-06-12T08:04:00Z", "proxy_enabled": true }
+  ],
+  "reverter_signals": ["proxy_reenabled_without_confirmation"],
+  "policy_decision": {
+    "action": "INVESTIGATE_REVERTER",
+    "outcome": "REQUIRE_TYPED_CONFIRMATION",
+    "requires_confirmation": true,
+    "dry_run": true
+  }
+}

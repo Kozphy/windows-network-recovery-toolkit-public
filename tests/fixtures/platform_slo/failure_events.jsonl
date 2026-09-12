@@ -1,0 +1,2 @@
+{"event_id":"fe-slo-1","category":"proxy_drift","severity":"medium","status":"open","timestamp":"2026-06-08T05:00:00+00:00","proof_status":"unavailable","evidence_level":"observation"}
+{"event_id":"fe-slo-2","category":"proxy_drift","severity":"high","status":"open","timestamp":"2026-06-09T10:00:00+00:00","proof_status":"final_causation","evidence_level":"proof","final_causation":true}

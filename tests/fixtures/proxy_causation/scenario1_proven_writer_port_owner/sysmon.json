@@ -1,0 +1,15 @@
+{
+  "events": [
+    {
+      "UtcTime": "2026-06-08T05:00:55Z",
+      "EventID": 13,
+      "ProcessGuid": "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}",
+      "ProcessId": 12345,
+      "Image": "C:\\Program Files\\nodejs\\node.exe",
+      "CommandLine": "node.exe proxy-server.js",
+      "TargetObject": "HKU\\S-1-5-21-123\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ProxyServer",
+      "Details": "127.0.0.1:61526",
+      "User": "DESKTOP\\operator"
+    }
+  ]
+}

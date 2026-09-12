@@ -1,0 +1,103 @@
+control_test_id,incident_id,date_key,control_name,control_domain,result,evidence_available,limitation_count
+CT-INC-001-CTRL-EPR-001,INC-001,20260611,Dead WinINET proxy detection,Endpoint Reliability,PASS,True,0
+CT-INC-001-CTRL-EPR-002,INC-001,20260611,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-001-CTRL-EPR-003,INC-001,20260611,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-001-CTRL-EPR-004,INC-001,20260611,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-001-CTRL-EPR-005,INC-001,20260611,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-001-CTRL-EPR-006,INC-001,20260611,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-002-CTRL-EPR-001,INC-002,20260612,Dead WinINET proxy detection,Endpoint Reliability,PASS,True,0
+CT-INC-002-CTRL-EPR-002,INC-002,20260612,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-002-CTRL-EPR-003,INC-002,20260612,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-002-CTRL-EPR-004,INC-002,20260612,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-002-CTRL-EPR-005,INC-002,20260612,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-002-CTRL-EPR-006,INC-002,20260612,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-003-CTRL-EPR-001,INC-003,20260612,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-003-CTRL-EPR-002,INC-003,20260612,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-003-CTRL-EPR-003,INC-003,20260612,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-003-CTRL-EPR-004,INC-003,20260612,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-003-CTRL-EPR-005,INC-003,20260612,Unknown local proxy triage,Endpoint Reliability,PASS,True,0
+CT-INC-003-CTRL-EPR-006,INC-003,20260612,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-004-CTRL-EPR-001,INC-004,20260612,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-004-CTRL-EPR-002,INC-004,20260612,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-004-CTRL-EPR-003,INC-004,20260612,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-004-CTRL-EPR-004,INC-004,20260612,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-004-CTRL-EPR-005,INC-004,20260612,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-004-CTRL-EPR-006,INC-004,20260612,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-005-CTRL-EPR-001,INC-005,20260612,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-005-CTRL-EPR-002,INC-005,20260612,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-005-CTRL-EPR-003,INC-005,20260612,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-005-CTRL-EPR-004,INC-005,20260612,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-005-CTRL-EPR-005,INC-005,20260612,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-005-CTRL-EPR-006,INC-005,20260612,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-101-CTRL-EPR-001,INC-101,20260610,Dead WinINET proxy detection,Endpoint Reliability,PASS,True,0
+CT-INC-101-CTRL-EPR-002,INC-101,20260610,WinINET / WinHTTP stack alignment,Endpoint Reliability,PASS,True,0
+CT-INC-101-CTRL-EPR-003,INC-101,20260610,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-101-CTRL-EPR-004,INC-101,20260610,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-101-CTRL-EPR-005,INC-101,20260610,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-101-CTRL-EPR-006,INC-101,20260610,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-102-CTRL-EPR-001,INC-102,20260610,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-102-CTRL-EPR-002,INC-102,20260610,WinINET / WinHTTP stack alignment,Endpoint Reliability,PASS,True,0
+CT-INC-102-CTRL-EPR-003,INC-102,20260610,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-102-CTRL-EPR-004,INC-102,20260610,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-102-CTRL-EPR-005,INC-102,20260610,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-102-CTRL-EPR-006,INC-102,20260610,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-103-CTRL-EPR-001,INC-103,20260610,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-103-CTRL-EPR-002,INC-103,20260610,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-103-CTRL-EPR-003,INC-103,20260610,Local proxy listener governance,Endpoint Reliability,PASS,True,0
+CT-INC-103-CTRL-EPR-004,INC-103,20260610,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-103-CTRL-EPR-005,INC-103,20260610,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-103-CTRL-EPR-006,INC-103,20260610,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-104-CTRL-EPR-001,INC-104,20260611,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-104-CTRL-EPR-002,INC-104,20260611,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-104-CTRL-EPR-003,INC-104,20260611,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-104-CTRL-EPR-004,INC-104,20260611,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-104-CTRL-EPR-005,INC-104,20260611,Unknown local proxy triage,Endpoint Reliability,PASS,True,0
+CT-INC-104-CTRL-EPR-006,INC-104,20260611,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-105-CTRL-EPR-001,INC-105,20260611,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-105-CTRL-EPR-002,INC-105,20260611,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-105-CTRL-EPR-003,INC-105,20260611,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-105-CTRL-EPR-004,INC-105,20260611,PAC configuration review,Platform Governance,PASS,True,0
+CT-INC-105-CTRL-EPR-005,INC-105,20260611,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-105-CTRL-EPR-006,INC-105,20260611,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-106-CTRL-EPR-001,INC-106,20260611,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-106-CTRL-EPR-002,INC-106,20260611,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-106-CTRL-EPR-003,INC-106,20260611,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-106-CTRL-EPR-004,INC-106,20260611,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-106-CTRL-EPR-005,INC-106,20260611,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-106-CTRL-EPR-006,INC-106,20260611,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-107-CTRL-EPR-001,INC-107,20260611,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-107-CTRL-EPR-002,INC-107,20260611,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-107-CTRL-EPR-003,INC-107,20260611,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-107-CTRL-EPR-004,INC-107,20260611,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-107-CTRL-EPR-005,INC-107,20260611,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-107-CTRL-EPR-006,INC-107,20260611,Proxy reverter monitoring,Endpoint Reliability,PARTIAL,True,1
+CT-INC-108-CTRL-EPR-001,INC-108,20260612,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-108-CTRL-EPR-002,INC-108,20260612,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-108-CTRL-EPR-003,INC-108,20260612,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-108-CTRL-EPR-004,INC-108,20260612,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-108-CTRL-EPR-005,INC-108,20260612,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-108-CTRL-EPR-006,INC-108,20260612,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-109-CTRL-EPR-001,INC-109,20260612,Dead WinINET proxy detection,Endpoint Reliability,PASS,True,0
+CT-INC-109-CTRL-EPR-002,INC-109,20260612,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-109-CTRL-EPR-003,INC-109,20260612,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-109-CTRL-EPR-004,INC-109,20260612,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-109-CTRL-EPR-005,INC-109,20260612,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-109-CTRL-EPR-006,INC-109,20260612,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-110-CTRL-EPR-001,INC-110,20260612,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-110-CTRL-EPR-002,INC-110,20260612,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-110-CTRL-EPR-003,INC-110,20260612,Local proxy listener governance,Endpoint Reliability,PASS,True,0
+CT-INC-110-CTRL-EPR-004,INC-110,20260612,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-110-CTRL-EPR-005,INC-110,20260612,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-110-CTRL-EPR-006,INC-110,20260612,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-111-CTRL-EPR-001,INC-111,20260612,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-111-CTRL-EPR-002,INC-111,20260612,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-111-CTRL-EPR-003,INC-111,20260612,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-111-CTRL-EPR-004,INC-111,20260612,PAC configuration review,Platform Governance,NOT_TESTED,False,0
+CT-INC-111-CTRL-EPR-005,INC-111,20260612,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-111-CTRL-EPR-006,INC-111,20260612,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-112-CTRL-EPR-001,INC-112,20260613,Dead WinINET proxy detection,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-112-CTRL-EPR-002,INC-112,20260613,WinINET / WinHTTP stack alignment,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-112-CTRL-EPR-003,INC-112,20260613,Local proxy listener governance,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-112-CTRL-EPR-004,INC-112,20260613,PAC configuration review,Platform Governance,PASS,True,0
+CT-INC-112-CTRL-EPR-005,INC-112,20260613,Unknown local proxy triage,Endpoint Reliability,NOT_TESTED,False,0
+CT-INC-112-CTRL-EPR-006,INC-112,20260613,Proxy reverter monitoring,Endpoint Reliability,NOT_TESTED,False,0

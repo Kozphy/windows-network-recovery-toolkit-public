@@ -1,0 +1,65 @@
+{
+  "sysmon_events": [
+    {
+      "utc_time": "2026-06-04T11:59:58Z",
+      "event_id": 13,
+      "process_id": 5512,
+      "image": "C:\\Tools\\mitmproxy.exe",
+      "command_line": "mitmproxy --mode regular@61526",
+      "parent_process_id": 1200,
+      "parent_image": "C:\\Windows\\System32\\cmd.exe",
+      "target_object": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ProxyEnable",
+      "details": "DWORD (0x00000001)",
+      "hashes": "SHA256=abc123def456",
+      "process_guid": "{guid-writer}"
+    }
+  ],
+  "writer_attribution": {
+    "attribution_id": "pwa-test-writer",
+    "timestamp_utc": "2026-06-04T12:00:00Z",
+    "snapshot": {
+      "snapshot_id": "attr-writer",
+      "timestamp_utc": "2026-06-04T12:00:00Z",
+      "proxy_state": {
+        "wininet_proxy_enable": 1,
+        "wininet_proxy_server": "127.0.0.1:61526",
+        "localhost_port": 61526
+      },
+      "listener": {"pid": 5512, "process_name": "mitmproxy.exe"},
+      "classification": "SUSPICIOUS_PROXY",
+      "classification_rationale": "Suspicious proxy tooling.",
+      "limitations": []
+    },
+    "registry_state": {"ProxyEnable": 1, "ProxyServer": "127.0.0.1:61526"},
+    "writer_evidence": [
+      {
+        "source": "sysmon_e13",
+        "event_id": 13,
+        "timestamp_utc": "2026-06-04T11:59:58Z",
+        "target_object": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ProxyEnable",
+        "value_name": "proxyenable",
+        "details": "DWORD (0x00000001)",
+        "process_name": "mitmproxy.exe",
+        "pid": 5512,
+        "ppid": 1200,
+        "parent_process_name": "cmd.exe",
+        "command_line": "mitmproxy --mode regular@61526",
+        "executable_path": "C:\\Tools\\mitmproxy.exe",
+        "sha256": "abc123def456",
+        "details_match": true
+      }
+    ],
+    "registry_writer_confirmed": true,
+    "correlated_process": {
+      "pid": 5512,
+      "process_name": "mitmproxy.exe",
+      "command_line": "mitmproxy --mode regular@61526"
+    },
+    "attribution_confidence": "very_high",
+    "confidence_score": 0.92,
+    "classification": "REGISTRY_WRITER_CONFIRMED",
+    "rationale": "Sysmon registry write observed for proxyenable by mitmproxy.exe.",
+    "limitations": [],
+    "telemetry_sources": ["wininet_registry", "sysmon_e13"]
+  }
+}

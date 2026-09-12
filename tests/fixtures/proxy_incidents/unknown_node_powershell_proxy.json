@@ -1,0 +1,30 @@
+{
+  "incident_id": "unknown_node_powershell_proxy",
+  "timestamp_utc": "2026-06-08T05:00:55Z",
+  "transition": {
+    "timestamp": "2026-06-08T05:00:55Z",
+    "event": "proxy_change_detected",
+    "diff": {
+      "changed": true,
+      "risk_level": "high",
+      "changed_fields": ["ProxyServer", "ProxyEnable"],
+      "before": {"proxy_enable": 0, "proxy_server": null},
+      "after": {"proxy_enable": 1, "proxy_server": "127.0.0.1:64394"}
+    },
+    "attribution": {
+      "confidence": 0.65,
+      "primary_suspect": {"name": "node.exe", "pid": 12345, "parent_name": "powershell.exe"}
+    }
+  },
+  "causation": {
+    "causation_level": "FINAL_CAUSATION",
+    "confidence": 0.95,
+    "writer_process": "C:\\Program Files\\nodejs\\node.exe",
+    "writer_command_line": "node.exe proxy-server.js",
+    "parent_process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "parent_command_line": "powershell.exe -File start-proxy.ps1",
+    "matched_registry_target": "HKU\\S-1-5-21\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ProxyServer",
+    "matched_registry_details": "127.0.0.1:64394",
+    "observed_localhost_port": 64394
+  }
+}

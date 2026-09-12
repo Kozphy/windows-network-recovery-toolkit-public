@@ -1,0 +1,53 @@
+{
+  "proxy_state": {
+    "timestamp_utc": "2026-06-18T10:00:00Z",
+    "wininet_proxy_enabled": true,
+    "wininet_proxy_server": "127.0.0.1:62285",
+    "wininet_auto_config_url": "",
+    "winhttp_direct_access": true,
+    "localhost_port": 62285,
+    "endpoint_id": "endpoint-demo-01"
+  },
+  "proxy_owner": {
+    "timestamp_utc": "2026-06-18T10:00:01Z",
+    "listener_found": true,
+    "localhost_port": 62285,
+    "process": {
+      "pid": 102888,
+      "name": "node.exe",
+      "exe_path": "C:\\\\Program Files\\\\nodejs\\\\node.exe",
+      "cmdline": "node dev-server.js"
+    }
+  },
+  "health_inject": {
+    "timestamp_utc": "2026-06-18T10:00:02Z",
+    "proxy_status": "DIRECT_ONLY_WORKS",
+    "tcp_listening": true,
+    "tcp_connect_ok": true,
+    "direct_probe_ok": true,
+    "proxy_probe_ok": false,
+    "proxy_https_connect_ok": false,
+    "failure_reason": "Proxy path failed",
+    "evidence": ["Direct HTTPS ok", "Proxy HTTPS failed"],
+    "limitations": ["fixture"]
+  },
+  "timeline": [
+    {
+      "timestamp_utc": "2026-06-18T09:58:00Z",
+      "old_state": {
+        "wininet_proxy_enabled": false,
+        "wininet_proxy_server": ""
+      },
+      "new_state": {
+        "wininet_proxy_enabled": true,
+        "wininet_proxy_server": "127.0.0.1:62285",
+        "localhost_port": 62285
+      },
+      "reverter_suspected": true,
+      "reverter_diagnosis": {
+        "status": "REVERTER_SUSPECTED",
+        "enable_disable_cycle_count": 1
+      }
+    }
+  ]
+}

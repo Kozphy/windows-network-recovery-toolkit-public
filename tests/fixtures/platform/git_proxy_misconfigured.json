@@ -1,0 +1,13 @@
+{
+  "schema_version": "1",
+  "event_id": "fixture-git-proxy",
+  "timestamp": "2026-05-02T00:03:00+00:00",
+  "source": "fixture",
+  "event_type": "signal.snapshot",
+  "severity": "low",
+  "endpoint_id_hash": "dddddddddddddddddddddddddddddddd",
+  "signals": {
+    "telemetry": { "git_http_proxy_set": true }
+  },
+  "privacy_classification": "diagnostic_general"
+}

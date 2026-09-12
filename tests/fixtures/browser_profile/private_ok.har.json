@@ -1,0 +1,19 @@
+{
+  "log": {
+    "version": "1.2",
+    "entries": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://www.104.com.tw/",
+          "headers": [{"name": "User-Agent", "value": "Test"}]
+        },
+        "response": {
+          "status": 200,
+          "headers": [{"name": "Content-Type", "value": "text/html"}]
+        },
+        "time": 90
+      }
+    ]
+  }
+}

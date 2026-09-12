@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "infra-cpu-001",
+    "domain": "infrastructure",
+    "category": "compute",
+    "title": "CPU spike on application host",
+    "timestamp_utc": "2026-06-04T13:00:00+00:00",
+    "severity": "high",
+    "observations": [
+      {"signal": "cpu_percent", "value": 94},
+      {"signal": "duration_minutes", "value": 15}
+    ],
+    "source": "fixture:infrastructure/cpu_spike",
+    "metadata": {"scenario": "cpu_spike"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-cpu-high",
+      "type": "observation",
+      "description": "Sustained CPU above 90%",
+      "supports": ["hyp-runaway-job"],
+      "contradicts": [],
+      "confidence_delta": 0.2,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-runaway-job",
+      "title": "Runaway batch or tight loop",
+      "explanation": "CPU saturation without corresponding traffic increase in fixture.",
+      "supporting_evidence": ["ev-cpu-high"],
+      "contradicting_evidence": [],
+      "confidence": 0.59
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-profile-research",
+      "title": "Research top CPU processes",
+      "action_type": "research",
+      "expected_benefit": 0.7,
+      "risk_score": 0.05,
+      "alternatives": []
+    }
+  ]
+}

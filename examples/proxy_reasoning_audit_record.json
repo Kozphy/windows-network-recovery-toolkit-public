@@ -1,0 +1,55 @@
+{
+  "record_type": "proxy_reasoning_run",
+  "run_id": "run_example001",
+  "timestamp": "2026-05-16T14:30:00+00:00",
+  "schema_version": "proxy_reasoning.v1",
+  "engine_version": "2026.05",
+  "signals": [
+    {"name": "wininet_proxy_enabled", "value": true, "source": "collector"},
+    {"name": "proxy_server_localhost", "value": true, "source": "collector"},
+    {"name": "wininet_winhttp_divergent", "value": true, "source": "collector"},
+    {"name": "ping_ok", "value": true, "source": "collector"},
+    {"name": "dns_ok", "value": true, "source": "collector"},
+    {"name": "browser_https_failed", "value": true, "source": "collector"},
+    {"name": "proxy_bypass_succeeded", "value": true, "source": "proof_engine"},
+    {"name": "listener_process_name", "value": "node.exe", "source": "collector"}
+  ],
+  "hypotheses": [
+    {
+      "case_id": "CASE_BROWSER_PROXY_PATH_ISSUE",
+      "title": "Browser/proxy path issue with transport layer appearing healthy",
+      "confidence_rank": "high",
+      "evidence_level": "inferred"
+    }
+  ],
+  "verification_results": [
+    {
+      "check_id": "https_proxy_vs_bypass",
+      "status": "CONFIRMED",
+      "hypothesis_scope": "CASE_BROWSER_PROXY_PATH_ISSUE",
+      "evidence": ["https_bypass_succeeds", "https_proxied_path_fails"]
+    }
+  ],
+  "policy_decision": {
+    "decision": "PREVIEW",
+    "matched_rule": "low_risk_preview",
+    "reason": "Low-risk action remains in preview until operator confirmation."
+  },
+  "limitations": [
+    "Process attribution is listener correlation only; it does not prove registry writer identity or malicious intent."
+  ],
+  "user_visible_summary": {
+    "short_diagnosis": "Proxy reasoning selected CASE_BROWSER_PROXY_PATH_ISSUE. Classification KNOWN_DEV_PROXY; verification CONFIRMED; policy PREVIEW.",
+    "observed": [
+      "Observed: WinINET proxy_enable=True, proxy_server='127.0.0.1:7890'",
+      "Observed: Listener correlation: process='node.exe', pid=4242"
+    ],
+    "inferred": [
+      "Inferred: Browser/proxy path issue with transport layer appearing healthy",
+      "Inferred: Trust classification: KNOWN_DEV_PROXY (risk low)."
+    ],
+    "not_proven": [
+      "Not proven: which process changed proxy registry values or whether intent was malicious."
+    ]
+  }
+}

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Technology Risk Intelligence Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Windows Network Recovery Toolkit</p>
+        <h1>Technology Risk Intelligence Dashboard</h1>
+        <p class="subtitle">Rules + predictive ML + anomaly detection + explainability + audit history.</p>
+      </div>
+      <div id="apiStatus" class="status">API: checking…</div>
+    </header>
+
+    <section class="grid metrics-grid">
+      <article class="card metric"><span>Risk score</span><strong id="riskScore">—</strong></article>
+      <article class="card metric"><span>Failure probability</span><strong id="riskProbability">—</strong></article>
+      <article class="card metric"><span>Severity</span><strong id="severity">—</strong></article>
+      <article class="card metric"><span>Model</span><strong id="modelName">—</strong></article>
+    </section>
+
+    <section class="grid two-col">
+      <article class="card">
+        <div class="section-heading">
+          <h2>Risk prediction</h2>
+          <span class="pill">Human-in-the-loop</span>
+        </div>
+        <form id="predictionForm">
+          <div class="form-grid">
+            <label>Device ID<input id="device_id" value="local-device" maxlength="128" /></label>
+            <label>Model<select id="model"><option value="xgboost">xgboost</option><option value="random_forest">random_forest</option><option value="logistic_regression">logistic_regression</option><option value="lightgbm">lightgbm</option><option value="catboost">catboost</option></select></label>
+            <label>Proxy mismatch<select id="proxy_mismatch"><option value="1">Yes</option><option value="0">No</option></select></label>
+            <label>WinHTTP drift<select id="winhttp_drift"><option value="1">Yes</option><option value="0">No</option></select></label>
+            <label>DNS failure rate<input id="dns_failure_rate" type="number" min="0" step="0.01" value="0.18" /></label>
+            <label>TLS errors<input id="tls_error_count" type="number" min="0" value="6" /></label>
+            <label>Adapter resets<input id="adapter_reset_count" type="number" min="0" value="1" /></label>
+            <label>Network profile<select id="network_profile"><option>domain</option><option>private</option><option>public</option></select></label>
+          </div>
+          <button type="submit">Run prediction</button>
+          <p id="predictionMessage" class="muted">Train the ML artifacts before running live inference.</p>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>Decision & governance</h2>
+        <div class="decision-row"><span>Recommended action</span><strong id="recommendedAction">—</strong></div>
+        <div class="decision-row"><span>Human approval</span><strong id="humanApproval">—</strong></div>
+        <div class="decision-row"><span>Evidence source</span><strong id="evidenceSource">—</strong></div>
+        <div class="decision-row"><span>Policy mode</span><strong>Evidence only</strong></div>
+        <div class="callout" id="governanceNote">Model output is evidence for the policy layer, not an autonomous repair command.</div>
+      </article>
+    </section>
+
+    <section class="grid two-col analytics-row">
+      <article class="card">
+        <div class="section-heading">
+          <h2>Risk history</h2>
+          <button class="secondary" id="refreshHistory" type="button">Refresh</button>
+        </div>
+        <div id="historyChart" class="history-chart muted">No persisted predictions yet.</div>
+        <div class="decision-row"><span>Latest observation</span><strong id="latestObservation">—</strong></div>
+        <div class="decision-row"><span>Recorded points</span><strong id="historyCount">0</strong></div>
+      </article>
+
+      <article class="card">
+        <div class="section-heading">
+          <h2>Drift monitor</h2>
+          <span class="pill" id="driftStatus">Waiting for data</span>
+        </div>
+        <div class="decision-row"><span>Baseline mean risk</span><strong id="baselineRisk">—</strong></div>
+        <div class="decision-row"><span>Recent mean risk</span><strong id="recentRisk">—</strong></div>
+        <div class="decision-row"><span>Risk delta</span><strong id="riskDelta">—</strong></div>
+        <p class="muted" id="driftNote">At least 10 persisted predictions are required.</p>
+      </article>
+    </section>
+
+    <section class="grid two-col analytics-row">
+      <article class="card">
+        <div class="section-heading">
+          <h2>SHAP explainability</h2>
+          <button class="secondary" id="refreshExplainability" type="button">Refresh</button>
+        </div>
+        <p class="muted">Global feature importance from the exported SHAP artifact.</p>
+        <div id="shapBars" class="bar-list"><p class="muted">Generate SHAP importance to populate this panel.</p></div>
+      </article>
+
+      <article class="card">
+        <h2>Live telemetry ingestion</h2>
+        <p class="muted">A collector can POST the same feature contract to <code>/api/telemetry</code>. The API scores it, labels the source as telemetry, and persists the evidence.</p>
+        <pre class="code-sample">POST /api/telemetry
+{
+  "device_id": "PC-001",
+  "model": "xgboost",
+  "proxy_mismatch": 1,
+  "dns_failure_rate": 0.12,
+  "tls_error_count": 7,
+  "adapter_reset_count": 2,
+  "winhttp_drift": 1,
+  "network_profile": "domain"
+}</pre>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="section-heading"><h2>Model benchmark</h2><button class="secondary" id="refreshMetrics" type="button">Refresh metrics</button></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th>F1</th><th>Precision</th><th>Recall</th><th>ROC-AUC</th><th>PR-AUC</th><th>Brier</th></tr></thead>
+          <tbody id="metricsBody"><tr><td colspan="7" class="muted">No trained metrics loaded.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

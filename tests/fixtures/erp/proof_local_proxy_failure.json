@@ -1,0 +1,44 @@
+{
+  "proof_id": "proof-fixture-local",
+  "timestamp_utc": "2026-06-04T10:05:00+00:00",
+  "target_url": "https://example.com/",
+  "observations": [
+    {
+      "probe_id": "dns",
+      "probe_type": "dns_resolution",
+      "observed_value": "93.184.216.34",
+      "success": true,
+      "raw_excerpt": "Address: 93.184.216.34",
+      "limitations": ["DNS success does not prove HTTP path success."]
+    },
+    {
+      "probe_id": "tcp",
+      "probe_type": "tcp_connect",
+      "observed_value": "example.com:443=true",
+      "success": true,
+      "raw_excerpt": "True",
+      "limitations": []
+    },
+    {
+      "probe_id": "http_direct",
+      "probe_type": "http_direct",
+      "observed_value": "200",
+      "success": true,
+      "raw_excerpt": "200",
+      "limitations": []
+    },
+    {
+      "probe_id": "http_system",
+      "probe_type": "http_system",
+      "observed_value": "502",
+      "success": false,
+      "raw_excerpt": "502",
+      "limitations": []
+    }
+  ],
+  "outcome": "LOCAL_PROXY_UPSTREAM_FAILURE",
+  "outcome_rationale": "Direct path succeeds; system-proxy path returns 502/504.",
+  "confidence_level": "high",
+  "limitations": ["Proof engine contrasts paths; it does not identify malware."],
+  "is_proof": true
+}

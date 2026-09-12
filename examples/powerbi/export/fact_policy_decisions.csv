@@ -1,0 +1,19 @@
+decision_id,incident_id,date_key,policy_action,execution_authority,human_confirmation_required,confirmed,blocked_reason
+DEC-INC-001,INC-001,20260611,PREVIEW_ONLY,preview_only,False,False,
+DEC-INC-002,INC-002,20260612,PREVIEW_ONLY,preview_only,False,False,
+DEC-INC-003,INC-003,20260612,PREVIEW_ONLY,preview_only,True,False,
+DEC-INC-004,INC-004,20260612,PREVIEW_ONLY,preview_only,True,False,
+DEC-INC-005,INC-005,20260612,BLOCK,blocked,False,False,Policy gate blocked destructive action
+DEC-INC-005-BLK,INC-005,20260612,BLOCK,blocked,True,False,KILL_PROXY_PROCESS
+DEC-INC-101,INC-101,20260610,PREVIEW_ONLY,preview_only,False,False,
+DEC-INC-102,INC-102,20260610,PREVIEW_ONLY,preview_only,False,False,
+DEC-INC-103,INC-103,20260610,PREVIEW_ONLY,preview_only,False,False,
+DEC-INC-104,INC-104,20260611,HUMAN_REVIEW,preview_only,True,False,
+DEC-INC-105,INC-105,20260611,HUMAN_REVIEW,preview_only,True,False,
+DEC-INC-106,INC-106,20260611,PREVIEW_ONLY,preview_only,True,False,
+DEC-INC-107,INC-107,20260611,HUMAN_REVIEW,preview_only,True,False,
+DEC-INC-108,INC-108,20260612,BLOCK,blocked,False,False,Policy gate blocked destructive action
+DEC-INC-109,INC-109,20260612,PREVIEW_ONLY,preview_only,False,False,
+DEC-INC-110,INC-110,20260612,ALLOW,human_confirmed,False,True,
+DEC-INC-111,INC-111,20260612,HUMAN_REVIEW,preview_only,True,False,
+DEC-INC-112,INC-112,20260613,PREVIEW_ONLY,preview_only,False,False,

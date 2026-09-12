@@ -1,0 +1,1 @@
+{"scenario_id":"healthy_endpoint","title":"Healthy endpoint","proof_inputs":{"proxy_state_observed":true},"context":{"healthy_baseline":true,"confidence_ordinal":0.9},"expected_evidence_level":"OBSERVED_ONLY","expected_policy":"ALLOW_OBSERVE","limitations":["Baseline observation from fixture."],"recommended_next_steps":["Continue proxy-watch"]}

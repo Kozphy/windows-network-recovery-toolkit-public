@@ -1,0 +1,21 @@
+{
+  "device_profile": {
+    "device_id": "sim-edge-driver-01",
+    "device_class": "x86_embedded_npu_simulated",
+    "model": "simulated-ai-edge-soc",
+    "hardware_present": false
+  },
+  "requested_action": "restart_inference_runtime",
+  "explicit_confirmation": false,
+  "observations": {
+    "cpu_load": 0.6,
+    "memory_pressure": 0.5,
+    "temperature_celsius": 58,
+    "npu_available": false,
+    "inference_latency_ms": 90,
+    "inference_error_rate": 0.08,
+    "driver_status": "version_mismatch",
+    "sensor_input_status": "ok",
+    "network_uplink_status": "up"
+  }
+}

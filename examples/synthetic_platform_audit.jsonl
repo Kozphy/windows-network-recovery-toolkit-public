@@ -1,0 +1,2 @@
+{"audit_id":"audit-demo-0001","actor":"demo-user","action":"remediation_preview","target_type":"failure_event","target_id":"demo-ev-001","decision":"allowed","rationale":"Synthetic preview row for public documentation","timestamp":"2026-01-15T12:00:00+00:00"}
+{"audit_id":"audit-demo-0002","actor":"demo-operator","action":"remediation_execute","target_type":"preview","target_id":"preview-demo-001","decision":"dry_run","rationale":"Default dry_run execute — no subprocess","timestamp":"2026-01-15T12:00:01+00:00"}

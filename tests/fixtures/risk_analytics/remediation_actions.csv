@@ -1,0 +1,4 @@
+incident_id,action,dry_run,decision,policy_outcome,timestamp
+INC-001,remediation_preview,true,allowed,PREVIEW_ONLY,2026-06-11T04:35:00Z
+INC-002,remediation_preview,true,allowed,PREVIEW_ONLY,2026-06-12T09:15:00Z
+INC-005,remediation_execute,false,blocked,BLOCKED,2026-06-12T12:00:00Z

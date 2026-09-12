@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "infra-disk-001",
+    "domain": "infrastructure",
+    "category": "storage",
+    "title": "Disk pressure on primary volume",
+    "timestamp_utc": "2026-06-04T13:05:00+00:00",
+    "severity": "medium",
+    "observations": [
+      {"signal": "disk_free_percent", "value": 4},
+      {"signal": "volume", "value": "/data"}
+    ],
+    "source": "fixture:infrastructure/disk_pressure",
+    "metadata": {"scenario": "disk_pressure"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-disk-low",
+      "type": "observation",
+      "description": "Free space below 5% threshold",
+      "supports": ["hyp-log-growth"],
+      "contradicts": [],
+      "confidence_delta": 0.18,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-log-growth",
+      "title": "Unbounded log growth",
+      "explanation": "Disk pressure likely from append-only logs per fixture notes.",
+      "supporting_evidence": ["ev-disk-low"],
+      "contradicting_evidence": [],
+      "confidence": 0.57
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-cleanup-preview",
+      "title": "Preview log rotation plan (no delete execute)",
+      "action_type": "preview",
+      "expected_benefit": 0.55,
+      "risk_score": 0.2,
+      "alternatives": []
+    }
+  ]
+}

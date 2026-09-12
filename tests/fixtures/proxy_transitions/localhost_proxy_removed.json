@@ -1,0 +1,8 @@
+{
+  "description": "localhost proxy server removed while ProxyEnable remains 1",
+  "before": {"wininet_proxy_enabled": true, "wininet_proxy_server": "127.0.0.1:62285", "wininet_auto_config_url": ""},
+  "after": {"wininet_proxy_enabled": true, "wininet_proxy_server": null, "wininet_auto_config_url": ""},
+  "expected_primary": "LOCALHOST_PROXY_REMOVED",
+  "expected_transition": "PROXY_SERVER_REMOVED_PARTIAL",
+  "must_not_classify_as": ["REMOTE_OR_NON_LOOPBACK_PROXY_CONFIGURED", "REMOTE_PROXY_CONFIGURED", "PROXY_SERVER_CHANGED_TO_REMOTE"]
+}

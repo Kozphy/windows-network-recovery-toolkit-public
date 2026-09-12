@@ -1,0 +1,28 @@
+{
+  "schema_version": "proxy_risk_case.v1",
+  "case_id": "DEV-004",
+  "split": "development",
+  "scenario_name": "WinINET enabled while WinHTTP remains direct",
+  "expected_class": "WININET_WINHTTP_MISMATCH",
+  "expected_min_tier": "T2",
+  "expected_policy": "PREVIEW_ONLY",
+  "provenance": "deterministic synthetic fixture",
+  "limitations": ["Stack mismatch alone does not establish user impact."],
+  "signals": {
+    "proxy_state": {
+      "timestamp_utc": "2026-08-01T00:03:00Z",
+      "endpoint_id": "research-endpoint-004",
+      "wininet_proxy_enabled": true,
+      "wininet_proxy_server": "127.0.0.1:3128",
+      "winhttp_direct_access": true,
+      "localhost_port": 3128
+    },
+    "proxy_owner": {
+      "timestamp_utc": "2026-08-01T00:03:01Z",
+      "endpoint_id": "research-endpoint-004",
+      "listener_found": true,
+      "localhost_port": 3128,
+      "process": {"pid": 4204, "name": "python.exe"}
+    }
+  }
+}

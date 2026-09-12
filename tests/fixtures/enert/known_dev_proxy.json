@@ -1,0 +1,41 @@
+{
+  "writer_attribution": {
+    "attribution_id": "pwa-test-dev-proxy",
+    "timestamp_utc": "2026-06-04T12:00:00Z",
+    "snapshot": {
+      "snapshot_id": "attr-dev-proxy",
+      "timestamp_utc": "2026-06-04T12:00:00Z",
+      "proxy_state": {
+        "wininet_proxy_enable": 1,
+        "wininet_proxy_server": "127.0.0.1:8080",
+        "wininet_proxy_override": "",
+        "wininet_auto_config_url": "",
+        "localhost_port": 8080
+      },
+      "listener": {
+        "pid": 4242,
+        "process_name": "node.exe",
+        "command_line": "node dev-server.js"
+      },
+      "classification": "KNOWN_DEV_PROXY",
+      "classification_rationale": "Development proxy pattern matched.",
+      "limitations": []
+    },
+    "registry_state": {
+      "ProxyEnable": 1,
+      "ProxyServer": "127.0.0.1:8080"
+    },
+    "writer_evidence": [],
+    "registry_writer_confirmed": false,
+    "correlated_process": {
+      "pid": 4242,
+      "process_name": "node.exe"
+    },
+    "attribution_confidence": "low",
+    "confidence_score": 0.35,
+    "classification": "KNOWN_DEV_PROXY",
+    "rationale": "Localhost listener owned by node.exe.",
+    "limitations": [],
+    "telemetry_sources": ["wininet_registry", "netstat"]
+  }
+}

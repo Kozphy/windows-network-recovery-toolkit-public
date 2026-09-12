@@ -1,0 +1,26 @@
+{
+  "os_family": "windows",
+  "platform_support_level": "FULL",
+  "collector_id": "windows_network_diagnostics_v1",
+  "observations": [
+    {
+      "signal_name": "os_family",
+      "value": "windows",
+      "source": "fixture.agent.sample"
+    },
+    {
+      "signal_name": "proxy_enable",
+      "value": 1,
+      "source": "fixture.agent.sample",
+      "evidence_level": "observation",
+      "limitations": ["fixture_only_not_live_proof"]
+    }
+  ],
+  "limitations": [
+    "Synthetic fixture for agent spool tests — observation is not proof.",
+    "Classification is not accusation."
+  ],
+  "live_remediation_supported": true,
+  "collected_at_utc": "2026-06-12T12:00:00+00:00",
+  "epistemic_note": "Observations are candidate signals only."
+}

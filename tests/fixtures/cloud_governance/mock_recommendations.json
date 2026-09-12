@@ -1,0 +1,90 @@
+{
+  "schema_version": "cloud_governance_recommendations.v1",
+  "limitations": [
+    "Mock dataset — no live cloud API credentials used.",
+    "Recommendations are advisory; implementation requires change management.",
+    "Cost savings are illustrative estimates, not invoiced amounts."
+  ],
+  "recommendations": [
+    {
+      "recommendation_id": "AZ-COST-001",
+      "provider": "azure",
+      "pillar": "cost_optimization",
+      "category": "Cost Optimization",
+      "resource_id": "res-vm-prod-web-01",
+      "resource_name": "vm-prod-web-01",
+      "title": "Resize underutilized production VM SKU",
+      "description": "Average CPU below 15% over 30 days; smaller SKU may meet SLO.",
+      "estimated_monthly_savings_usd": 420.0,
+      "priority": "high",
+      "evidence_tier": "T1_LOCAL_CONFIG_EVIDENCE",
+      "confidence": 0.62,
+      "recommended_control": "CTRL-FINOPS-001",
+      "status": "open"
+    },
+    {
+      "recommendation_id": "GCP-COST-002",
+      "provider": "gcp",
+      "pillar": "cost_optimization",
+      "category": "Cost Optimization",
+      "resource_id": "res-gke-dev-cluster",
+      "resource_name": "gke-dev-cluster",
+      "title": "Enable cluster autoscaling and rightsizing",
+      "description": "Dev cluster nodes idle overnight; autoscale policy not configured.",
+      "estimated_monthly_savings_usd": 310.0,
+      "priority": "medium",
+      "evidence_tier": "T1_LOCAL_CONFIG_EVIDENCE",
+      "confidence": 0.58,
+      "recommended_control": "CTRL-FINOPS-002",
+      "status": "open"
+    },
+    {
+      "recommendation_id": "AZ-SEC-003",
+      "provider": "azure",
+      "pillar": "security",
+      "category": "Security",
+      "resource_id": "res-storage-logs",
+      "resource_name": "stg-audit-logs",
+      "title": "Enable soft delete and versioning on audit storage",
+      "description": "Audit bucket lacks immutability controls required by retention policy.",
+      "estimated_monthly_savings_usd": 0.0,
+      "priority": "high",
+      "evidence_tier": "T2_RUNTIME_CORROBORATION",
+      "confidence": 0.7,
+      "recommended_control": "CTRL-GOV-003",
+      "status": "open"
+    },
+    {
+      "recommendation_id": "GCP-HA-004",
+      "provider": "gcp",
+      "pillar": "reliability",
+      "category": "High Availability",
+      "resource_id": "res-sql-primary",
+      "resource_name": "cloudsql-primary",
+      "title": "Configure cross-region read replica",
+      "description": "Single-region database without documented failover runbook.",
+      "estimated_monthly_savings_usd": 0.0,
+      "priority": "medium",
+      "evidence_tier": "T1_LOCAL_CONFIG_EVIDENCE",
+      "confidence": 0.55,
+      "recommended_control": "CTRL-HA-001",
+      "status": "open"
+    },
+    {
+      "recommendation_id": "AZ-OPS-005",
+      "provider": "azure",
+      "pillar": "operational_excellence",
+      "category": "Operational Excellence",
+      "resource_id": "res-monitor-workspace",
+      "resource_name": "log-analytics-prod",
+      "title": "Standardize diagnostic settings across resource groups",
+      "description": "12 resource groups missing centralized diagnostic export.",
+      "estimated_monthly_savings_usd": 85.0,
+      "priority": "low",
+      "evidence_tier": "T1_LOCAL_CONFIG_EVIDENCE",
+      "confidence": 0.5,
+      "recommended_control": "CTRL-OPS-001",
+      "status": "open"
+    }
+  ]
+}

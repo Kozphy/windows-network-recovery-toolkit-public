@@ -1,0 +1,21 @@
+{
+  "schema_version": "proxy_risk_case.v1",
+  "case_id": "ADV-002",
+  "split": "adversarial",
+  "scenario_name": "Proxy enabled with missing listener and path evidence",
+  "expected_class": "UNKNOWN_LOCAL_PROXY",
+  "expected_min_tier": "T1",
+  "expected_policy": "HUMAN_REVIEW",
+  "provenance": "synthetic adversarial incomplete-evidence fixture",
+  "limitations": ["Missing evidence must not be converted into a dead-listener assertion."],
+  "signals": {
+    "proxy_state": {
+      "timestamp_utc": "2026-08-03T00:01:00Z",
+      "endpoint_id": "research-endpoint-202",
+      "wininet_proxy_enabled": true,
+      "wininet_proxy_server": "127.0.0.1:7788",
+      "winhttp_direct_access": false,
+      "localhost_port": 7788
+    }
+  }
+}

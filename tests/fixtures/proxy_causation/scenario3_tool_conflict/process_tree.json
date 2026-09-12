@@ -1,0 +1,12 @@
+{
+  "process_tree": {
+    "process": {"image": "Cursor.exe", "process_id": 4000},
+    "parent": {"image": "explorer.exe", "process_id": 1000},
+    "grandparent": null,
+    "chain": [
+      {"image": "explorer.exe", "process_id": 1000},
+      {"image": "Cursor.exe", "process_id": 4000}
+    ],
+    "confidence": 0.75
+  }
+}

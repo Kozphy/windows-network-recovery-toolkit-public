@@ -1,0 +1,26 @@
+{
+  "incident_id": "correlation_only_listener",
+  "timestamp_utc": "2026-06-08T05:03:00Z",
+  "transition": {
+    "timestamp": "2026-06-08T05:03:00Z",
+    "event": "proxy_change_detected",
+    "diff": {
+      "changed": true,
+      "risk_level": "high",
+      "changed_fields": ["ProxyServer", "ProxyEnable"],
+      "before": {"proxy_enable": 0, "proxy_server": null},
+      "after": {"proxy_enable": 1, "proxy_server": "127.0.0.1:64642"}
+    },
+    "attribution": {
+      "confidence": 0.55,
+      "primary_suspect": {"name": "node.exe", "pid": 8888, "parent_name": "powershell.exe"}
+    }
+  },
+  "causation": {
+    "causation_level": "CORRELATION_ONLY",
+    "confidence": 0.45,
+    "writer_process": "node.exe",
+    "explanation": "Likely process / correlation only; registry writer proof unavailable",
+    "observed_localhost_port": 64642
+  }
+}

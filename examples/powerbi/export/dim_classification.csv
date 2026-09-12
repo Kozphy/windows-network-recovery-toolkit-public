@@ -1,0 +1,11 @@
+classification_key,classification,description,is_security_accusation,default_risk_level
+1,DEAD_PROXY_CONFIG,WinINET points to localhost proxy without active listener,False,MEDIUM
+2,WININET_WINHTTP_MISMATCH,WinINET and WinHTTP proxy stacks diverge,False,MEDIUM
+3,LOCAL_PROXY_ACTIVE,Localhost proxy listener active,False,LOW
+4,UNKNOWN_LOCAL_PROXY,Unattributed localhost proxy — triage only,False,HIGH
+5,PAC_CONFIGURED,PAC URL configured for proxy routing,False,MEDIUM
+6,POSSIBLE_MITM_RISK,TLS path inconsistency — not confirmed MITM,False,HIGH
+7,REVERTER_SUSPECTED,Proxy settings reappear after remediation preview,False,HIGH
+8,ERROR_INSUFFICIENT_DATA,Insufficient evidence for classification,False,LOW
+9,NO_PROXY,No proxy misconfiguration in scope,False,LOW
+10,UNCLASSIFIED,Unclassified incident,False,MEDIUM

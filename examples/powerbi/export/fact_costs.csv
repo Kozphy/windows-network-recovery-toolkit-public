@@ -1,0 +1,6 @@
+cost_id,date_key,resource_key,category_key,provider,service,monthly_cost_usd,budget_category,anomaly_flag
+COST-AZ-001,20260601,151958,2,azure,Virtual Machines,1180.0,production,False
+COST-AZ-002,20260601,714831,2,azure,Storage Accounts,240.0,governance,False
+COST-GCP-001,20260601,173482,2,gcp,Kubernetes Engine,890.0,non_production,True
+COST-GCP-002,20260601,667449,2,gcp,Cloud SQL,650.0,production,False
+COST-AZ-003,20260601,399132,2,azure,Log Analytics,320.0,platform,False

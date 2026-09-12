@@ -1,0 +1,54 @@
+{
+  "target": {
+    "url": "http://localhost:61161/ChtPopupForm",
+    "scheme": "http",
+    "host": "localhost",
+    "port": 61161,
+    "path": "/ChtPopupForm",
+    "query": "",
+    "is_loopback": true,
+    "is_ipv6_literal": false
+  },
+  "resolution": {
+    "host": "localhost",
+    "ipv4": ["127.0.0.1"],
+    "ipv6": ["::1"],
+    "has_127_0_0_1": true,
+    "has_ipv6_loopback": true,
+    "errors": [],
+    "hosts_file_mentions": []
+  },
+  "tcp_probes": [
+    {
+      "address": "127.0.0.1",
+      "address_family": "IPv4",
+      "port": 61161,
+      "connect_success": false,
+      "elapsed_ms": 1.2,
+      "error_category": "CONNECTION_REFUSED",
+      "windows_error_code": 10061,
+      "detail": "Connection refused - typically no listener accepted the connection; not by itself proof of a firewall block.",
+      "timestamp_utc": "2026-07-12T04:00:00Z"
+    },
+    {
+      "address": "::1",
+      "address_family": "IPv6",
+      "port": 61161,
+      "connect_success": false,
+      "elapsed_ms": 1.1,
+      "error_category": "CONNECTION_REFUSED",
+      "windows_error_code": 10061,
+      "detail": "Connection refused - typically no listener accepted the connection; not by itself proof of a firewall block.",
+      "timestamp_utc": "2026-07-12T04:00:00Z"
+    }
+  ],
+  "listeners": [],
+  "proxy_evidence": {
+    "wininet_enabled": false,
+    "relation_to_incident": "proxy_unrelated_to_incident",
+    "limitations": [
+      "A localhost page failure does not by itself justify proxy-disable."
+    ]
+  },
+  "prior_listener_evidence": false
+}

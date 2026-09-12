@@ -1,0 +1,4 @@
+risk_id,date_key,category_key,evidence_tier_key,control_key,probability_score,impact_score,severity_score,confidence,recommended_action,status
+RISK-001,20260701,1,2,1,4,3,12,0.65,Preview proxy-disable with typed confirmation and rollback snapshot,open
+RISK-002,20260715,2,1,4,3,3,9,0.5,Collect Sysmon E13 or Procmon evidence before process action,open
+RISK-003,20260630,2,2,8,2,4,8,0.45,Route to cyber risk triage with limitations; do not label as confirmed MITM,open

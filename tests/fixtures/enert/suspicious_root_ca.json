@@ -1,0 +1,39 @@
+{
+  "root_store": [
+    {
+      "subject": "CN=Charles Proxy CA",
+      "issuer": "CN=Charles Proxy CA",
+      "thumbprint": "DEADBEEF",
+      "store": "Cert:\\CurrentUser\\Root",
+      "suspicious": true,
+      "suspicion_reason": "Issuer matches suspicious proxy/MITM keyword heuristics."
+    }
+  ],
+  "tls_proof": {
+    "proof_id": "tls-test-root",
+    "timestamp_utc": "2026-06-04T12:00:00Z",
+    "target_url": "https://example.com",
+    "direct_cert": {
+      "path": "direct",
+      "subject": "CN=example.com",
+      "issuer": "CN=DigiCert",
+      "fingerprint_sha256": "aaa111"
+    },
+    "proxied_cert": null,
+    "certificate_mismatch": false,
+    "mismatch_fields": [],
+    "mitm_risk_level": "MEDIUM",
+    "root_ca_observations": [],
+    "suspicious_roots": [
+      {
+        "subject": "CN=Charles Proxy CA",
+        "issuer": "CN=Charles Proxy CA",
+        "thumbprint": "DEADBEEF",
+        "suspicious": true,
+        "suspicion_reason": "Issuer matches suspicious proxy/MITM keyword heuristics."
+      }
+    ],
+    "evidence": [],
+    "limitations": []
+  }
+}

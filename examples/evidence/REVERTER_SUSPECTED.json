@@ -1,0 +1,25 @@
+{
+  "incident_id": "EX-REVERTER-001",
+  "schema_version": "portfolio_evidence.v1",
+  "symptom": "Proxy disabled then re-enabled within minutes",
+  "proxy_state": {
+    "wininet_proxy_enabled": true,
+    "wininet_proxy_server": "127.0.0.1:59081"
+  },
+  "classification": {
+    "primary_classification": "REVERTER_SUSPECTED",
+    "secondary_signals": ["REPEATED_PROXY_REAPPEARANCE"],
+    "severity": "high",
+    "confidence": 0.75,
+    "reasoning": "Proxy settings reappeared after prior disable without operator confirmation.",
+    "limitations": ["Reverter identity not proven without registry writer telemetry."]
+  },
+  "timeline_events": [
+    { "timestamp_utc": "2026-06-12T08:00:00Z", "event": "proxy_disabled", "detail": "Operator preview disable" },
+    { "timestamp_utc": "2026-06-12T08:04:00Z", "event": "proxy_enabled", "detail": "ProxyEnable=1 restored" }
+  ],
+  "policy_decision": {
+    "outcome": "REQUIRE_HUMAN_APPROVAL",
+    "dry_run": true
+  }
+}

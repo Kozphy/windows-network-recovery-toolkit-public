@@ -1,0 +1,7 @@
+schema_version: knowledge.v1
+knowledge_version: "2026.06.04-alpha"
+entries:
+  alpha_entry:
+    category: test
+    common_causes:
+      - cause_a

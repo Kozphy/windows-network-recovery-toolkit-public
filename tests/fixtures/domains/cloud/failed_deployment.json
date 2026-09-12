@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "cloud-deploy-fail-001",
+    "domain": "cloud",
+    "category": "deployment",
+    "title": "Failed deployment rollout",
+    "timestamp_utc": "2026-06-04T12:10:00+00:00",
+    "severity": "high",
+    "observations": [
+      {"signal": "rollout_status", "value": "FAILED"},
+      {"signal": "replicas_ready", "value": 0}
+    ],
+    "source": "fixture:cloud/failed_deployment",
+    "metadata": {"scenario": "failed_deployment"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-rollout-fail",
+      "type": "observation",
+      "description": "Zero ready replicas after rollout",
+      "supports": ["hyp-bad-image"],
+      "contradicts": [],
+      "confidence_delta": 0.2,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-bad-image",
+      "title": "Container image or config defect",
+      "explanation": "Rollout failed with no healthy replicas.",
+      "supporting_evidence": ["ev-rollout-fail"],
+      "contradicting_evidence": [],
+      "confidence": 0.64
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-deploy-preview",
+      "title": "Preview previous revision pin (dry-run)",
+      "action_type": "preview",
+      "expected_benefit": 0.6,
+      "risk_score": 0.25,
+      "alternatives": []
+    }
+  ]
+}

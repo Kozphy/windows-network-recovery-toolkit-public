@@ -1,0 +1,6 @@
+proof_tier_key,proof_tier,description,maturity_order
+0,T0_OBSERVATION_ONLY,Observation only — not proof,0
+1,T1_LOCAL_CONFIG_EVIDENCE,Local configuration evidence,1
+2,T2_RUNTIME_CORROBORATION,Runtime path or listener corroboration,2
+3,T3_BEHAVIORAL_REPRODUCTION,Structured proof reproduction,3
+4,T4_OPERATOR_CONFIRMED,Operator-confirmed action in audit,4

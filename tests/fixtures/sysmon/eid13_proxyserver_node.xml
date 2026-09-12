@@ -1,0 +1,19 @@
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Sysmon" Guid="{5770385F-C22A-43E0-BF4C-06F5698FFBD9}"/>
+    <EventID>13</EventID>
+    <TimeCreated SystemTime="2026-06-08T05:00:55.1234567Z"/>
+  </System>
+  <EventData>
+    <Data Name="RuleName">-</Data>
+    <Data Name="UtcTime">2026-06-08 05:00:55.123</Data>
+    <Data Name="ProcessGuid">{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</Data>
+    <Data Name="ProcessId">12345</Data>
+    <Data Name="Image">C:\Program Files\nodejs\node.exe</Data>
+    <Data Name="CommandLine">node.exe proxy-server.js</Data>
+    <Data Name="TargetObject">HKU\S-1-5-21-1234567890-123456789-123456789-1001\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ProxyServer</Data>
+    <Data Name="Details">127.0.0.1:64394</Data>
+    <Data Name="User">DESKTOP\operator</Data>
+    <Data Name="Hashes">SHA256=abc123</Data>
+  </EventData>
+</Event>

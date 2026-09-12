@@ -1,0 +1,32 @@
+{
+  "os_family": "windows",
+  "platform_support_level": "FULL",
+  "collector_id": "windows_network_diagnostics_v1",
+  "observations": [
+    {
+      "signal_name": "os_family",
+      "value": "windows",
+      "source": "fixture.cross_platform.windows",
+      "evidence_level": "observation"
+    },
+    {
+      "signal_name": "proxy_enable",
+      "value": 1,
+      "source": "fixture.cross_platform.windows",
+      "evidence_level": "observation",
+      "limitations": ["fixture_only_not_live_proof"]
+    },
+    {
+      "signal_name": "winhttp_proxy_state",
+      "value": "direct",
+      "source": "fixture.cross_platform.windows",
+      "evidence_level": "observation"
+    }
+  ],
+  "limitations": [
+    "Synthetic Windows fixture — WinINET/WinHTTP observations are not malware proof.",
+    "FULL support applies to Windows proxy observation tier only."
+  ],
+  "live_remediation_supported": true,
+  "collected_at_utc": "2026-06-12T12:00:00+00:00"
+}

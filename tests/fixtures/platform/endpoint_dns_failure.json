@@ -1,0 +1,23 @@
+{
+  "snapshot": {
+    "endpoint_id": "demo_endpoint_fixture_hash_deadbeef",
+    "network_state": {"ping_ip_ok": true, "nslookup_ok": false, "curl_https_ok": true},
+    "proxy_state": {"winhttp_direct": true, "proxy_server_line_present": false},
+    "dns_state": {"nslookup_ok": false},
+    "tcp_state": {"curl_https_ok": true},
+    "browser_path_state": {},
+    "process_clues": {},
+    "raw_data_redacted": true
+  },
+  "failure_event": {
+    "event_id": "00000000-0000-4000-8000-000000000001",
+    "endpoint_id": "demo_endpoint_fixture_hash_deadbeef",
+    "failure_block_id": "",
+    "severity": "medium",
+    "category": "dns",
+    "confidence": 0.88,
+    "status": "open",
+    "summary": "Synthetic fixture: ping OK DNS fails.",
+    "recommended_action_key": "reset_dns"
+  }
+}

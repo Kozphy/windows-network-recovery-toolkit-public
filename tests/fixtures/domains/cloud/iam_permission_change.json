@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "cloud-iam-001",
+    "domain": "cloud",
+    "category": "iam",
+    "title": "IAM permission change detected",
+    "timestamp_utc": "2026-06-04T12:05:00+00:00",
+    "severity": "critical",
+    "observations": [
+      {"signal": "principal", "value": "svc-deploy"},
+      {"signal": "new_action", "value": "s3:*"}
+    ],
+    "source": "fixture:cloud/iam_permission_change",
+    "metadata": {"scenario": "iam_permission_change"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-iam-broad",
+      "type": "observation",
+      "description": "Broad S3 wildcard grant added",
+      "supports": ["hyp-privilege-escalation"],
+      "contradicts": [],
+      "confidence_delta": 0.3,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-privilege-escalation",
+      "title": "Over-privileged IAM change",
+      "explanation": "Wildcard resource scope increases blast radius.",
+      "supporting_evidence": ["ev-iam-broad"],
+      "contradicting_evidence": [],
+      "confidence": 0.68
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-iam-review",
+      "title": "Recommend IAM policy review",
+      "action_type": "recommendation",
+      "expected_benefit": 0.85,
+      "risk_score": 0.1,
+      "alternatives": []
+    }
+  ]
+}

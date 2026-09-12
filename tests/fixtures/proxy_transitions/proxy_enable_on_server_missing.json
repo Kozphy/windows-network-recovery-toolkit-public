@@ -1,0 +1,7 @@
+{
+  "description": "ProxyEnable enabled without ProxyServer",
+  "before": {"wininet_proxy_enabled": false, "wininet_proxy_server": "", "wininet_auto_config_url": ""},
+  "after": {"wininet_proxy_enabled": true, "wininet_proxy_server": "", "wininet_auto_config_url": ""},
+  "expected_primary": "PROXY_ENABLED_INCONSISTENT",
+  "expected_transition": "PROXY_ENABLED_WITH_NO_SERVER"
+}

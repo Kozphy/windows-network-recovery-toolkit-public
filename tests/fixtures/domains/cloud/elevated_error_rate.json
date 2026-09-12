@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "cloud-err-rate-001",
+    "domain": "cloud",
+    "category": "reliability",
+    "title": "Elevated API error rate",
+    "timestamp_utc": "2026-06-04T12:00:00+00:00",
+    "severity": "high",
+    "observations": [
+      {"signal": "error_rate_5xx", "value": 0.12},
+      {"signal": "baseline", "value": 0.01}
+    ],
+    "source": "fixture:cloud/elevated_error_rate",
+    "metadata": {"scenario": "elevated_error_rate"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-5xx-spike",
+      "type": "observation",
+      "description": "5xx rate 12% vs 1% baseline",
+      "supports": ["hyp-deployment-regression"],
+      "contradicts": [],
+      "confidence_delta": 0.22,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-deployment-regression",
+      "title": "Recent deployment regression",
+      "explanation": "Error spike correlates with release window in fixture metadata.",
+      "supporting_evidence": ["ev-5xx-spike"],
+      "contradicting_evidence": [],
+      "confidence": 0.61
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-rollback-research",
+      "title": "Research rollback candidates (no auto rollback)",
+      "action_type": "research",
+      "expected_benefit": 0.7,
+      "risk_score": 0.2,
+      "alternatives": []
+    }
+  ]
+}

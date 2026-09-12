@@ -1,0 +1,11 @@
+control_key,control_id,control_name,control_domain
+1,CTRL-001,Dead WinINET Proxy Detection,Endpoint Reliability
+2,CTRL-002,WinINET / WinHTTP Stack Alignment,Platform Governance
+3,CTRL-003,Localhost Proxy Path Health,Endpoint Reliability
+4,CTRL-004,Local Proxy Listener Governance,Technology Risk
+5,CTRL-005,PAC Configuration Observability,Platform Governance
+6,CTRL-006,Unknown Local Proxy Triage,Technology Risk
+7,CTRL-007,Proxy Reverter & Drift Detection,Endpoint Reliability
+8,CTRL-008,Direct vs Proxy Path Comparison,Endpoint Reliability
+9,CTRL-009,Policy-Gated Safe Remediation,Platform Governance
+10,CTRL-010,Audit Hash Chain Integrity,Internal Audit

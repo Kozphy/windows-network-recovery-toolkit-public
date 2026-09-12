@@ -1,0 +1,5 @@
+{"case_id":"RB-001","fixture_path":"examples/evidence/DEAD_PROXY_CONFIG.json"}
+{"case_id":"RB-002","fixture_path":"examples/evidence/WININET_WINHTTP_MISMATCH.json"}
+{"case_id":"RB-003","fixture_path":"tests/fixtures/analytics_pipeline_fixture.json"}
+{"case_id":"RB-004","fixture_path":"tests/fixtures/enert/dead_proxy_59081.json"}
+{"case_id":"RB-005","fixture_path":"examples/evidence/LOCAL_PROXY_ACTIVE.json","audit_path":"tests/fixtures/risk_analytics/audit_sample/incidents.jsonl"}

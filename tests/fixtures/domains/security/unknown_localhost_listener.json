@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "sec-listener-001",
+    "domain": "security",
+    "category": "listener",
+    "title": "Unknown localhost listener on proxy port",
+    "timestamp_utc": "2026-06-04T11:10:00+00:00",
+    "severity": "medium",
+    "observations": [
+      {"signal": "port", "value": 8080},
+      {"signal": "process_name", "value": "unknown"}
+    ],
+    "source": "fixture:security/unknown_localhost_listener",
+    "metadata": {"scenario": "unknown_localhost_listener"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-listener",
+      "type": "correlation",
+      "description": "Unidentified process bound to localhost:8080",
+      "supports": ["hyp-stale-listener"],
+      "contradicts": [],
+      "confidence_delta": 0.12,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-stale-listener",
+      "title": "Stale or unexpected localhost listener",
+      "explanation": "Correlation only — not proof of malicious writer.",
+      "supporting_evidence": ["ev-listener"],
+      "contradicting_evidence": [],
+      "confidence": 0.5
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-listener-research",
+      "title": "Research listener PID and parent chain",
+      "action_type": "research",
+      "expected_benefit": 0.65,
+      "risk_score": 0.08,
+      "alternatives": []
+    }
+  ]
+}

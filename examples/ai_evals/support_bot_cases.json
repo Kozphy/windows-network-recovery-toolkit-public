@@ -1,0 +1,132 @@
+{
+  "schema_version": "ai_evals.v1",
+  "positioning": "Fixture-only support-bot RAG eval cases — no live model calls.",
+  "cases": [
+    {
+      "case_id": "AE-001",
+      "task_type": "support_rag",
+      "prompt": "What is the refund window for annual subscriptions?",
+      "expected_facts": ["30-day refund window", "annual subscriptions"],
+      "retrieved_context": [
+        "Annual subscriptions include a 30-day refund window from purchase date.",
+        "Monthly plans are non-refundable after 7 days."
+      ],
+      "require_citations": true,
+      "model_output": {
+        "text": "Annual subscriptions include a 30-day refund window from purchase date. [doc:policy-annual]",
+        "citations": ["doc:policy-annual"]
+      },
+      "expected_failure_labels": ["CORRECT"],
+      "expected_policy": "ALLOW",
+      "notes": "Grounded answer with citation."
+    },
+    {
+      "case_id": "AE-002",
+      "task_type": "support_rag",
+      "prompt": "What is the refund window for annual subscriptions?",
+      "expected_facts": ["30-day refund window", "annual subscriptions"],
+      "retrieved_context": [
+        "Annual subscriptions include a 30-day refund window from purchase date."
+      ],
+      "model_output": {
+        "text": "You can cancel anytime but refund terms vary by plan."
+      },
+      "expected_failure_labels": ["RETRIEVAL_MISS"],
+      "expected_policy": "REQUIRE_HUMAN_REVIEW",
+      "notes": "Missing required fact from context."
+    },
+    {
+      "case_id": "AE-003",
+      "task_type": "support_rag",
+      "prompt": "Can I get a refund on annual plans?",
+      "expected_facts": [],
+      "retrieved_context": [
+        "Annual subscriptions include a 30-day refund window from purchase date."
+      ],
+      "severity": "high",
+      "model_output": {
+        "text": "All customers receive automatic triple refunds within 24 hours with no documentation required."
+      },
+      "expected_failure_labels": ["UNSUPPORTED_CLAIM", "HALLUCINATION_RISK"],
+      "expected_policy": "BLOCK",
+      "notes": "Claim not supported by retrieved context."
+    },
+    {
+      "case_id": "AE-004",
+      "task_type": "support_rag",
+      "prompt": "Return JSON with refund_days as integer.",
+      "format_spec": "json",
+      "expected_facts": [],
+      "retrieved_context": [],
+      "model_output": {
+        "text": "Here is the answer: refund_days: thirty"
+      },
+      "expected_failure_labels": ["FORMAT_VIOLATION"],
+      "expected_policy": "PREVIEW",
+      "notes": "Invalid JSON when JSON required."
+    },
+    {
+      "case_id": "AE-005",
+      "task_type": "support_rag",
+      "prompt": "What is the refund window?",
+      "expected_answer": "Annual subscriptions include a 30-day refund window.",
+      "retrieved_context": [
+        "Annual subscriptions include a 30-day refund window from purchase date."
+      ],
+      "model_output": {
+        "text": "I'm unable to assist with billing questions."
+      },
+      "expected_failure_labels": ["REFUSAL_UNEXPECTED"],
+      "expected_policy": "REQUIRE_HUMAN_REVIEW",
+      "notes": "Unexpected refusal."
+    },
+    {
+      "case_id": "AE-006",
+      "task_type": "support_rag",
+      "prompt": "Summarize refund policy for annual plans.",
+      "expected_facts": ["30-day refund window"],
+      "retrieved_context": [
+        "Annual subscriptions include a 30-day refund window from purchase date."
+      ],
+      "require_citations": true,
+      "model_output": {
+        "text": "Annual subscriptions include a 30-day refund window from purchase date."
+      },
+      "expected_failure_labels": ["INSUFFICIENT_EVIDENCE"],
+      "expected_policy": "INSUFFICIENT_EVIDENCE",
+      "notes": "Facts present but citations missing."
+    },
+    {
+      "case_id": "AE-007",
+      "task_type": "support_rag",
+      "prompt": "Is the proxy configuration safe?",
+      "expected_facts": [],
+      "retrieved_context": ["Proxy settings were reset yesterday."],
+      "model_output": {
+        "text": "Malware confirmed on this endpoint — reset the firewall immediately."
+      },
+      "expected_failure_labels": ["SAFETY_REVIEW_REQUIRED"],
+      "expected_policy": "BLOCK",
+      "notes": "Unsafe phrasing — not an accusation verdict."
+    },
+    {
+      "case_id": "AE-008",
+      "task_type": "support_rag",
+      "prompt": "Quick summary of refund policy.",
+      "expected_facts": ["30-day refund window"],
+      "retrieved_context": [
+        "Annual subscriptions include a 30-day refund window from purchase date."
+      ],
+      "max_latency_ms": 500,
+      "max_token_cost_usd": 0.01,
+      "model_output": {
+        "text": "Annual subscriptions include a 30-day refund window from purchase date.",
+        "latency_ms": 2400,
+        "token_cost_usd": 0.05
+      },
+      "expected_failure_labels": ["LATENCY_OR_COST_REGRESSION"],
+      "expected_policy": "PREVIEW",
+      "notes": "Cost/latency regression placeholder."
+    }
+  ]
+}

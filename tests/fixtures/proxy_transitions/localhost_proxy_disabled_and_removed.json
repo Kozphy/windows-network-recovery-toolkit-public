@@ -1,0 +1,8 @@
+{
+  "description": "ProxyEnable disabled and localhost server cleared",
+  "before": {"wininet_proxy_enabled": true, "wininet_proxy_server": "127.0.0.1:62285", "wininet_auto_config_url": ""},
+  "after": {"wininet_proxy_enabled": false, "wininet_proxy_server": null, "wininet_auto_config_url": ""},
+  "expected_primary": "PROXY_DISABLED_OR_REMOVED",
+  "expected_transition": "PROXY_DISABLED_AND_SERVER_REMOVED",
+  "expected_secondary_contains": ["LOCALHOST_PROXY_REMOVED"]
+}

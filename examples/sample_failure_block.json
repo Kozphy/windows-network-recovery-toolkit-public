@@ -1,0 +1,29 @@
+{
+  "id": "22222222-2222-4222-8222-222222222222",
+  "name": "Illustrative DNS hypothesis",
+  "symptom": "Illustrative: reachability OK but name resolution fails in this synthetic record.",
+  "observed_signals": [
+    "ping_ip=ok",
+    "nslookup=fail",
+    "curl_https=fail",
+    "winhttp_direct=yes",
+    "proxy_line=no",
+    "intermittent_reported=no"
+  ],
+  "likely_causes": [
+    "DNS resolution failure"
+  ],
+  "diagnostic_commands": {
+    "nslookup_example": "Documentation-only placeholder output; not from a live machine."
+  },
+  "confidence_score": 0.88,
+  "recommended_fix": "Illustrative narrative only: follow operator runbooks and confirm before any repair script.",
+  "risk_level": "low",
+  "safety_boundary": "Example record: Failure Knowledge System does not execute repairs.",
+  "rollback_plan": "Example record: restore any manual DNS edits if you changed them outside this tool.",
+  "created_at": "2026-01-01T00:00:00+00:00",
+  "source_logs": [
+    "rules:dns_failure_likely",
+    "explain:Illustrative explanation text for portfolio samples."
+  ]
+}

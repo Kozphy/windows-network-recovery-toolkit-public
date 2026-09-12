@@ -1,0 +1,29 @@
+{
+  "description": "Synthetic DNS-related correlated failures across endpoints.",
+  "events": [
+    {
+      "event_id": "dns-outage-ep-a-1",
+      "endpoint_id": "endpoint_dns_a",
+      "severity": "low",
+      "category": "dns",
+      "confidence": 0.55,
+      "first_seen_at": "2026-05-02T09:00:00+00:00",
+      "last_seen_at": "2026-05-02T09:01:00+00:00",
+      "status": "open",
+      "summary": "nslookup flaky",
+      "recommended_action_key": "reset_dns"
+    },
+    {
+      "event_id": "dns-outage-ep-b-1",
+      "endpoint_id": "endpoint_dns_b",
+      "severity": "medium",
+      "category": "dns",
+      "confidence": 0.72,
+      "first_seen_at": "2026-05-02T09:02:00+00:00",
+      "last_seen_at": "2026-05-02T09:03:00+00:00",
+      "status": "open",
+      "summary": "nslookup flaky",
+      "recommended_action_key": "reset_dns"
+    }
+  ]
+}

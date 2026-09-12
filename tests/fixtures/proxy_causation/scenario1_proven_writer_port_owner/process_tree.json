@@ -1,0 +1,25 @@
+{
+  "process_tree": {
+    "process": {
+      "image": "C:\\Program Files\\nodejs\\node.exe",
+      "process_id": 12345,
+      "command_line": "node.exe proxy-server.js",
+      "user": "DESKTOP\\operator"
+    },
+    "parent": {
+      "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "process_id": 8000,
+      "command_line": "powershell.exe"
+    },
+    "grandparent": {
+      "image": "C:\\Program Files\\cursor\\Cursor.exe",
+      "process_id": 4000
+    },
+    "chain": [
+      {"image": "Cursor.exe", "process_id": 4000},
+      {"image": "powershell.exe", "process_id": 8000},
+      {"image": "node.exe", "process_id": 12345, "command_line": "node.exe proxy-server.js"}
+    ],
+    "confidence": 0.9
+  }
+}

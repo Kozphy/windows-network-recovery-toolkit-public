@@ -1,0 +1,10 @@
+{
+  "description": "Listener present but proxy HTTPS probe fails",
+  "before": {"wininet_proxy_enabled": false, "wininet_proxy_server": "", "wininet_auto_config_url": ""},
+  "after": {"wininet_proxy_enabled": true, "wininet_proxy_server": "127.0.0.1:62285", "wininet_auto_config_url": "", "localhost_port": 62285},
+  "listener": {"process": {"name": "node.exe", "pid": 200}},
+  "health": {"tcp_listening": true, "proxy_probe_ok": false, "direct_probe_ok": true, "proxy_status": "DIRECT_ONLY_WORKS"},
+  "expected_primary": "LOCALHOST_PROXY_CONFIGURED",
+  "expected_transition": "LOCALHOST_PROXY_ENABLED",
+  "expected_secondary_contains": ["LISTENER_PRESENT", "DIRECT_OK_PROXY_FAIL"]
+}

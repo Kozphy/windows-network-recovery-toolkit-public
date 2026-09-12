@@ -1,0 +1,21 @@
+{
+  "snapshot": {
+    "endpoint_id": "demo_endpoint_fixture_hash_deadbeef",
+    "network_state": {"ping_ip_ok": true, "nslookup_ok": true, "curl_https_ok": false},
+    "proxy_state": {"winhttp_direct": false, "proxy_server_line_present": true},
+    "dns_state": {"nslookup_ok": true},
+    "tcp_state": {"curl_https_ok": false},
+    "browser_path_state": {},
+    "process_clues": {},
+    "raw_data_redacted": true
+  },
+  "failure_event": {
+    "event_id": "00000000-0000-4000-8000-000000000002",
+    "endpoint_id": "demo_endpoint_fixture_hash_deadbeef",
+    "severity": "medium",
+    "category": "proxy",
+    "confidence": 0.75,
+    "summary": "Synthetic fixture: HTTPS path failure with proxy hints.",
+    "recommended_action_key": "reset_proxy"
+  }
+}

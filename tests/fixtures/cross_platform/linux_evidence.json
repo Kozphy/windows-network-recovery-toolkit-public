@@ -1,0 +1,46 @@
+{
+  "os_family": "linux",
+  "platform_support_level": "PARTIAL",
+  "collector_id": "linux_network_diagnostics_v1",
+  "observations": [
+    {
+      "signal_name": "os_family",
+      "value": "linux",
+      "source": "fixture.cross_platform.linux",
+      "evidence_level": "observation"
+    },
+    {
+      "signal_name": "env_https_proxy",
+      "value": "http://127.0.0.1:3128",
+      "source": "fixture.cross_platform.linux",
+      "evidence_level": "observation",
+      "limitations": ["env_proxy_is_candidate_evidence_not_proof"]
+    },
+    {
+      "signal_name": "linux_proxy_configured",
+      "value": true,
+      "source": "fixture.cross_platform.linux",
+      "evidence_level": "observation"
+    },
+    {
+      "signal_name": "listening_port_probe_available",
+      "value": true,
+      "source": "fixture.cross_platform.linux",
+      "evidence_level": "observation",
+      "limitations": ["listener_summary_is_candidate_evidence_not_proof"]
+    },
+    {
+      "signal_name": "common_proxy_ports_listening",
+      "value": "3128",
+      "source": "fixture.cross_platform.linux",
+      "evidence_level": "observation"
+    }
+  ],
+  "limitations": [
+    "Linux PARTIAL foundation — no WinINET/WinHTTP/registry parity.",
+    "Environment proxy and gsettings hints are candidate evidence only.",
+    "Listening-port summary does not prove process ownership."
+  ],
+  "live_remediation_supported": false,
+  "collected_at_utc": "2026-06-12T12:00:00+00:00"
+}

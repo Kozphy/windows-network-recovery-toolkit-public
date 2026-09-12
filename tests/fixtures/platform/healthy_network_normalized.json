@@ -1,0 +1,15 @@
+{
+  "schema_version": "1",
+  "event_id": "fixture-healthy-normalized",
+  "event_type": "signal.snapshot",
+  "timestamp": "2026-05-02T00:00:00+00:00",
+  "source": "fixture",
+  "severity": "low",
+  "endpoint_id_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "signals": {
+    "summary": "Synthetic healthy path",
+    "dns_ok": true,
+    "telemetry": { "proxy_stable": true }
+  },
+  "privacy_classification": "diagnostic_general"
+}

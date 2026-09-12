@@ -1,0 +1,30 @@
+{
+  "website_risk": {
+    "assessment_id": "wr-test-domain",
+    "timestamp_utc": "2026-06-04T12:00:00Z",
+    "url": "https://paypa1-secure-login.tk/signin",
+    "final_url": "https://paypa1-secure-login.tk/signin",
+    "risk_level": "HIGH",
+    "score": 0.85,
+    "evidence": [
+      {
+        "signal": "punycode_homograph",
+        "observed": "paypa1-secure-login.tk",
+        "weight": 0.25,
+        "detail": "Suspicious TLD and brand-like hostname."
+      },
+      {
+        "signal": "suspicious_tld",
+        "observed": ".tk",
+        "weight": 0.25
+      },
+      {
+        "signal": "sensitive_form_fields",
+        "observed": "detected",
+        "weight": 0.3
+      }
+    ],
+    "reputation_plugins_used": [],
+    "limitations": ["Heuristic scoring only — not phishing protection."]
+  }
+}

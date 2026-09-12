@@ -1,0 +1,6 @@
+{"incident_id":"INC-001","case_id":"CASE_1_DEAD_WININET_PROXY","classification":{"primary_classification":"DEAD_PROXY_CONFIG"},"evidence_tier":"proof","policy_decision":{"outcome":"PREVIEW_ONLY"},"proxy_state":{"wininet_proxy_server":"127.0.0.1:59081","localhost_port":59081},"timestamp":"2026-06-11T04:25:00Z"}
+{"incident_id":"INC-001","action":"remediation_preview","decision":"allowed","dry_run":true,"timestamp":"2026-06-11T04:30:00Z"}
+{"incident_id":"INC-002","classification":{"primary_classification":"DEAD_PROXY_CONFIG"},"evidence_tier":"observation","policy_decision":{"outcome":"PREVIEW_ONLY"},"proxy_state":{"wininet_proxy_server":"127.0.0.1:59081"},"timestamp":"2026-06-12T09:00:00Z"}
+{"incident_id":"INC-003","classification":{"primary_classification":"UNKNOWN_LOCAL_PROXY"},"evidence_tier":"correlation","policy_decision":{"outcome":"REQUIRE_TYPED_CONFIRMATION"},"proxy_owner":{"localhost_port":61526},"timestamp":"2026-06-12T10:00:00Z"}
+{"incident_id":"INC-004","action":"remediation_execute","decision":"blocked","blocked_action":"KILL_PROXY_PROCESS","timestamp":"2026-06-12T11:00:00Z"}
+this is not valid json

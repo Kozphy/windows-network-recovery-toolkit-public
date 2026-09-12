@@ -1,0 +1,14 @@
+{
+  "port_owner": {
+    "port": 61526,
+    "process_id": 9999,
+    "process_name": "node.exe",
+    "executable_path": "C:\\Program Files\\nodejs\\node.exe",
+    "command_line": "node dev-server.js",
+    "parent_process": "powershell.exe",
+    "connection_state": "Listen",
+    "local_address": "127.0.0.1",
+    "local_port": 61526,
+    "confidence": 0.7
+  }
+}

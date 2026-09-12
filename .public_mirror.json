@@ -1,0 +1,7 @@
+{
+  "edition": "public",
+  "manifest_version": 1,
+  "public_repo_name": "windows-network-recovery-toolkit-public",
+  "source": "private-monorepo-export",
+  "api_entrypoint": "backend.public_app:app"
+}

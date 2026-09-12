@@ -1,0 +1,26 @@
+{
+  "incident_id": "suspicious_powershell_temp_proxy",
+  "timestamp_utc": "2026-06-08T05:01:10Z",
+  "transition": {
+    "timestamp": "2026-06-08T05:01:10Z",
+    "event": "proxy_change_detected",
+    "diff": {
+      "changed": true,
+      "risk_level": "high",
+      "changed_fields": ["ProxyServer", "ProxyEnable"],
+      "before": {"proxy_enable": 0, "proxy_server": null},
+      "after": {"proxy_enable": 1, "proxy_server": "127.0.0.1:59999"}
+    },
+    "attribution": {"confidence": 0.5, "primary_suspect": {"name": "node.exe", "pid": 2222}}
+  },
+  "causation": {
+    "causation_level": "FINAL_CAUSATION",
+    "confidence": 0.9,
+    "writer_process": "C:\\Users\\dev\\AppData\\Local\\Temp\\node.exe",
+    "parent_process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "parent_command_line": "powershell.exe -EncodedCommand SGVsbG8=",
+    "matched_registry_target": "ProxyServer",
+    "matched_registry_details": "127.0.0.1:59999",
+    "observed_localhost_port": 59999
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "writer_attribution": {
+    "attribution_id": "pwa-test-unknown",
+    "timestamp_utc": "2026-06-04T12:00:00Z",
+    "snapshot": {
+      "snapshot_id": "attr-unknown",
+      "timestamp_utc": "2026-06-04T12:00:00Z",
+      "proxy_state": {
+        "wininet_proxy_enable": 1,
+        "wininet_proxy_server": "127.0.0.1:61526",
+        "localhost_port": 61526
+      },
+      "listener": {
+        "pid": 9999,
+        "process_name": "unknown_svc.exe"
+      },
+      "classification": "UNKNOWN_LOCAL_PROXY",
+      "classification_rationale": "Unknown localhost listener.",
+      "limitations": []
+    },
+    "registry_state": {
+      "ProxyEnable": 1,
+      "ProxyServer": "127.0.0.1:61526"
+    },
+    "writer_evidence": [],
+    "registry_writer_confirmed": false,
+    "attribution_confidence": "low",
+    "confidence_score": 0.35,
+    "classification": "UNKNOWN_LOCAL_PROXY",
+    "rationale": "Proxy enabled with unclassified localhost listener.",
+    "limitations": [],
+    "telemetry_sources": ["wininet_registry"]
+  }
+}

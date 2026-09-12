@@ -1,0 +1,11 @@
+{
+  "proxy_path": {
+    "direct_path_ok": true,
+    "proxied_path_ok": false,
+    "bypass_path_ok": true,
+    "failure_mode": "proxy_broken",
+    "evidence_summary": "Browser path fails through configured localhost proxy but direct bypass works.",
+    "dns_ok": true,
+    "tls_ok": false
+  }
+}

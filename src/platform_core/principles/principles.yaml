@@ -1,0 +1,74 @@
+schema_version: "1.0"
+principles:
+  observation_not_proof:
+    id: observation_not_proof
+    title: "Observation is not proof"
+    summary: "Registry reads and netstat snapshots are observations until structured proof checks pass."
+    rule: "Raw observations cannot directly trigger remediation."
+  correlation_not_causation:
+    id: correlation_not_causation
+    title: "Correlation is not causation"
+    summary: "Listener/process correlation does not prove registry-writer causation without telemetry."
+    rule: "Dead localhost port cannot imply malicious writer without Sysmon E13 or equivalent."
+  confidence_not_certainty:
+    id: confidence_not_certainty
+    title: "Confidence is not certainty"
+    summary: "Scores are ordinal/heuristic rankings — not probabilities of compromise."
+    rule: "Confidence must be rendered as ordinal or heuristic, never as probability."
+  policy_not_safety:
+    id: policy_not_safety
+    title: "Policy permission is not a safety guarantee"
+    summary: "ALLOW outcomes still require dry-run preview, confirmation, rollback, monitoring, and audit."
+    rule: "Policy ALLOW must not bypass dry-run, typed confirmation, rollback plan, monitoring, or audit."
+  classification_not_accusation:
+    id: classification_not_accusation
+    title: "Classification is not accusation"
+    summary: "Risk labels such as UNKNOWN_LOCAL_PROXY or POSSIBLE_MITM_RISK are investigative triage — not verdicts."
+    rule: "Classifications must not be narrated as confirmed compromise, malware, or attacker attribution without evidence tier support."
+  recommendation_not_execution:
+    id: recommendation_not_execution
+    title: "Recommendation is not execution authority"
+    summary: "Remediation recommendations and policy previews do not authorize autonomous execution."
+    rule: "No registry mutation, process kill, or destructive action without human approval and typed confirmation."
+
+telemetry_writer_sources:
+  - sysmon_e13
+  - procmon
+  - etw_registry
+
+blocked_overclaim_terms:
+  - confirmed malware
+  - confirms malware
+  - prove malware
+  - proves malware
+  - proven malware
+  - confirmed mitm
+  - confirms mitm
+  - prove mitm
+  - proves mitm
+  - proven mitm
+  - 100% certain
+  - probability of compromise
+  - caused by
+  - attacker
+  - compromised
+  - safe to execute automatically
+  - malware confirmed
+  - confirmed compromise
+  - confirmed spying
+  - confirmed data theft
+  - confirmed advertising surveillance
+  - confirmed smart tv tracking
+
+probability_phrases:
+  - "% chance"
+  - "percent chance"
+  - "probability of"
+  - "likely probability"
+
+required_policy_controls:
+  - dry_run_default
+  - typed_confirmation
+  - rollback_plan
+  - post_change_monitoring
+  - audit_logging

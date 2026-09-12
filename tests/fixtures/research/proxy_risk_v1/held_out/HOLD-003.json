@@ -1,0 +1,35 @@
+{
+  "schema_version": "proxy_risk_case.v1",
+  "case_id": "HOLD-003",
+  "split": "held_out",
+  "scenario_name": "Both direct and proxy probes fail",
+  "expected_class": "BOTH_DIRECT_AND_PROXY_FAIL",
+  "expected_min_tier": "T3",
+  "expected_policy": "HUMAN_REVIEW",
+  "provenance": "predeclared synthetic holdout fixture",
+  "limitations": ["Failure is not necessarily caused by the proxy configuration."],
+  "signals": {
+    "proxy_state": {
+      "timestamp_utc": "2026-08-02T00:02:00Z",
+      "endpoint_id": "research-endpoint-103",
+      "wininet_proxy_enabled": true,
+      "wininet_proxy_server": "127.0.0.1:9081",
+      "winhttp_direct_access": false,
+      "localhost_port": 9081
+    },
+    "proxy_owner": {
+      "timestamp_utc": "2026-08-02T00:02:01Z",
+      "endpoint_id": "research-endpoint-103",
+      "listener_found": true,
+      "localhost_port": 9081,
+      "process": {"pid": 5103, "name": "proxy.exe"}
+    },
+    "health_inject": {
+      "timestamp_utc": "2026-08-02T00:02:02Z",
+      "endpoint_id": "research-endpoint-103",
+      "proxy_status": "BOTH_DIRECT_AND_PROXY_FAIL",
+      "direct_probe_ok": false,
+      "proxy_probe_ok": false
+    }
+  }
+}

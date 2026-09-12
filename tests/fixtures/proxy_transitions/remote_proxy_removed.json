@@ -1,0 +1,8 @@
+{
+  "description": "Remote proxy server removed",
+  "before": {"wininet_proxy_enabled": true, "wininet_proxy_server": "10.0.0.5:8080", "wininet_auto_config_url": ""},
+  "after": {"wininet_proxy_enabled": true, "wininet_proxy_server": null, "wininet_auto_config_url": ""},
+  "expected_primary": "PROXY_REMOVED",
+  "expected_transition": "PROXY_SERVER_REMOVED_PARTIAL",
+  "must_not_classify_as": ["REMOTE_OR_NON_LOOPBACK_PROXY_CONFIGURED"]
+}

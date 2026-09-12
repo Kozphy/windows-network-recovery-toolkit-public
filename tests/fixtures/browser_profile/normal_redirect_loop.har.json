@@ -1,0 +1,52 @@
+{
+  "log": {
+    "version": "1.2",
+    "entries": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://www.104.com.tw/?session=SECRETSESSION&auth=tok",
+          "headers": [
+            {"name": "Cookie", "value": "session=SUPERSECRET"},
+            {"name": "Authorization", "value": "Bearer SECRET_TOKEN"},
+            {"name": "User-Agent", "value": "Test"}
+          ]
+        },
+        "response": {
+          "status": 302,
+          "redirectURL": "https://www.104.com.tw/login",
+          "headers": [
+            {"name": "Set-Cookie", "value": "session=NEWSECRET; Path=/; HttpOnly"}
+          ]
+        },
+        "time": 120
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://www.104.com.tw/login",
+          "headers": [{"name": "Cookie", "value": "session=SUPERSECRET"}]
+        },
+        "response": {
+          "status": 302,
+          "redirectURL": "https://www.104.com.tw/consent",
+          "headers": []
+        },
+        "time": 80
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://www.104.com.tw/consent",
+          "headers": [{"name": "Cookie", "value": "session=SUPERSECRET"}]
+        },
+        "response": {
+          "status": 302,
+          "redirectURL": "https://www.104.com.tw/login",
+          "headers": []
+        },
+        "time": 70
+      }
+    ]
+  }
+}

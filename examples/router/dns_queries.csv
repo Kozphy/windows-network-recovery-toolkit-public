@@ -1,0 +1,4 @@
+timestamp,client_ip,query,action
+2026-06-12T10:15:00Z,192.168.1.30,api.samsungcloud.com,allowed
+2026-06-12T10:16:00Z,192.168.1.30,metrics.example-cdn.net,allowed
+2026-06-12T10:20:00Z,192.168.1.10,icloud.com,allowed

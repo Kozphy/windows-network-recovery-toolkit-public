@@ -1,0 +1,37 @@
+{
+  "writer_attribution": {
+    "attribution_id": "pwa-test-no-proxy",
+    "timestamp_utc": "2026-06-04T12:00:00Z",
+    "snapshot": {
+      "snapshot_id": "attr-no-proxy",
+      "timestamp_utc": "2026-06-04T12:00:00Z",
+      "proxy_state": {
+        "wininet_proxy_enable": 0,
+        "wininet_proxy_server": "",
+        "wininet_proxy_override": "",
+        "wininet_auto_config_url": "",
+        "winhttp_direct_access": true,
+        "localhost_port": null
+      },
+      "listener": {},
+      "classification": "NO_PROXY",
+      "classification_rationale": "WinINET proxy disabled.",
+      "limitations": []
+    },
+    "registry_state": {
+      "ProxyEnable": 0,
+      "ProxyServer": "",
+      "ProxyOverride": "",
+      "AutoConfigURL": ""
+    },
+    "writer_evidence": [],
+    "registry_writer_confirmed": false,
+    "correlated_process": {},
+    "attribution_confidence": "very_low",
+    "confidence_score": 0.15,
+    "classification": "NO_PROXY",
+    "rationale": "No proxy configured.",
+    "limitations": ["Listener correlation is not registry-writer proof."],
+    "telemetry_sources": ["wininet_registry"]
+  }
+}

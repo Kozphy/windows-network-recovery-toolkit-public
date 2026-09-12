@@ -1,0 +1,6 @@
+resource_key,resource_id,resource_name,provider
+151958,res-vm-prod-web-01,vm-prod-web-01,azure
+173482,res-gke-dev-cluster,gke-dev-cluster,gcp
+399132,res-monitor-workspace,log-analytics-prod,azure
+667449,res-sql-primary,cloudsql-primary,gcp
+714831,res-storage-logs,stg-audit-logs,azure

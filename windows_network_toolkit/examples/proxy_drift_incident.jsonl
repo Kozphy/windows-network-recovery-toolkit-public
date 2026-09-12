@@ -1,0 +1,6 @@
+{"timestamp": "2026-06-09T10:01:00Z", "signal": "wininet_proxy_enabled", "observed_value": "true"}
+{"timestamp": "2026-06-09T10:01:10Z", "signal": "proxy_server_localhost", "observed_value": "127.0.0.1:56186"}
+{"timestamp": "2026-06-09T10:01:10Z", "signal": "wininet_winhttp_divergent", "observed_value": "true"}
+{"timestamp": "2026-06-09T10:02:00Z", "signal": "browser_https_failed", "observed_value": "true"}
+{"timestamp": "2026-06-09T10:02:05Z", "signal": "proxy_bypass_succeeded", "observed_value": "true"}
+{"timestamp": "2026-06-09T10:02:10Z", "signal": "direct_path_success", "observed_value": "true"}

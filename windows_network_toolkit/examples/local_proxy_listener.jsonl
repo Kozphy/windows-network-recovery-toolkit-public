@@ -1,0 +1,4 @@
+{"timestamp": "2026-06-09T11:00:00Z", "signal": "wininet_proxy_enabled", "observed_value": "true"}
+{"timestamp": "2026-06-09T11:00:05Z", "signal": "proxy_server_localhost", "observed_value": "127.0.0.1:8080"}
+{"timestamp": "2026-06-09T11:00:10Z", "signal": "listener_on_proxy_port", "observed_value": "true"}
+{"timestamp": "2026-06-09T11:00:15Z", "signal": "classification", "observed_value": "UNKNOWN_LOCAL_PROXY"}

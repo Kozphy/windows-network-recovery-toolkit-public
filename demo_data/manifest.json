@@ -1,0 +1,70 @@
+{
+  "schema_version": "1",
+  "description": "Deterministic demo scenarios for portfolio metrics and the 3-minute demo path.",
+  "scenarios": [
+    {
+      "id": "healthy_endpoint",
+      "title": "Healthy endpoint",
+      "fixture": "tests/fixtures/features_healthy_signals.json",
+      "layer": "none",
+      "policy_expectation": "no primary failure"
+    },
+    {
+      "id": "proxy_drift",
+      "title": "WinINET proxy drift",
+      "fixture": "tests/fixtures/features_proxy_issue.json",
+      "layer": "L7",
+      "policy_expectation": "PREVIEW for unproven proxy hypotheses"
+    },
+    {
+      "id": "localhost_proxy_stale_listener",
+      "title": "Localhost proxy stale listener",
+      "fixture": "tests/fixtures/platform/proxy_loopback_enabled.json",
+      "layer": "L7",
+      "policy_expectation": "PREVIEW; listener correlation is not writer proof"
+    },
+    {
+      "id": "dns_failure",
+      "title": "DNS resolution failure",
+      "fixture": "tests/fixtures/features_dns_issue.json",
+      "layer": "L7",
+      "policy_expectation": "PREVIEW or BLOCK by confidence band"
+    },
+    {
+      "id": "tcp443_blocked",
+      "title": "TCP 443 blocked",
+      "fixture": "tests/fixtures/tcp_failure.json",
+      "layer": "L4",
+      "policy_expectation": "PREVIEW for transport-layer hypotheses"
+    },
+    {
+      "id": "https_browser_path_failure",
+      "title": "HTTPS browser path failure",
+      "fixture": "tests/fixtures/https_failure.json",
+      "layer": "L7",
+      "policy_expectation": "PREVIEW until proof or more evidence"
+    },
+    {
+      "id": "remediation_not_sticky",
+      "title": "Remediation not sticky (proxy re-enable)",
+      "fixture": "tests/fixtures/edge/uplink_degraded_local_ok.json",
+      "notes": "Use proxy-investigate + soak docs for sticky remediation narrative",
+      "layer": "L7",
+      "policy_expectation": "BLOCK or PREVIEW on repeat execute without reverter stop"
+    },
+    {
+      "id": "suspected_proxy_hijack_unproven",
+      "title": "Suspected proxy hijack (unproven)",
+      "fixture": "tests/fixtures/platform/suspicious_proxy_change.json",
+      "layer": "L7",
+      "policy_expectation": "PREVIEW only; attribution heuristic"
+    },
+    {
+      "id": "confirmed_proxy_bypass_contrast",
+      "title": "Confirmed proxy bypass contrast",
+      "fixture": "tests/fixtures/platform/endpoint_browser_only_failure.json",
+      "layer": "L7",
+      "policy_expectation": "ALLOW for safe-tier only when proof CONFIRMED in live engine"
+    }
+  ]
+}

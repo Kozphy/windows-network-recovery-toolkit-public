@@ -1,0 +1,131 @@
+# Python
+# -----------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
+*.egg-info/
+.pytest_cache/
+.pytest-tmp/
+.pytest_tmp/
+.pytest_tmp_*/
+.public_mirror_export/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.hypothesis/
+.dmypy.json
+dmypy.json
+.coverage
+.coverage.*
+coverage/
+coverage.xml
+htmlcov/
+.python-version.local
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+.tools/
+
+# Node / frontend build
+node_modules/
+.next/
+dist/
+build/
+.cache/
+*.tsbuildinfo
+
+# Environment secrets (keep examples)
+.env
+.env.local
+.env.*.local
+!.env.example
+!**/.env.example
+
+# Runtime output (local only — never commit real machine data)
+*.log
+*.tmp
+logs/
+!logs/.gitignore
+.audit/
+!.audit/.gitignore
+# OpenClaw coding-agent run audits (local only)
+.openclaw/runs/
+!.openclaw/openclaw.example.json5
+!.openclaw/task.example.json
+!.openclaw/README.md
+reports/
+!reports/.gitignore
+!reports/sample_*.md
+!src/reports/
+!src/reports/**
+src/reports/**/__pycache__/
+src/reports/**/*.py[cod]
+!analytics/powerbi/reports/
+!analytics/powerbi/reports/**
+platform_data/
+platform_data_fleet_demo/
+data/failure_blocks/
+!data/failure_blocks/.gitignore
+!platform_data/.gitkeep
+
+# Operator-generated snapshots (use *.example.json in repo)
+config/last_known_good_proxy.json
+
+# JSONL audit/runtime exports — allow synthetic demo fixtures only
+*.jsonl
+!tests/fixtures/**/*.jsonl
+!examples/**/*.jsonl
+!windows_network_toolkit/examples/*.jsonl
+!demo_data/**/*.jsonl
+
+# Local IDE / plugin caches (do not commit)
+.understand-anything/
+.ua/intermediate/
+.ua/tmp/
+.ua/.trash-*/
+.cursor/plans/
+*.canvas.data.json
+
+# Local pytest / cleanup dumps
+*_cleanup_pytest.txt
+pre_cleanup_pytest.txt
+post_cleanup_pytest.txt
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Large / binary / local DB artifacts
+*.sqlite
+*.sqlite3
+trisk_local.db
+mlflow.db
+*.db-journal
+schemathesis-junit.xml
+schemathesis-run.log
+*.zip
+*.exe
+*.msi
+
+# Tests and committed synthetic fixtures remain visible (see negated *.jsonl above).
+
+# Demo output artifacts (keep directory structure via .gitkeep)
+demo-output/*
+!demo-output/.gitkeep
+!demo-output/audit/
+demo-output/audit/*
+!demo-output/audit/.gitkeep
+!demo-output/reports/
+demo-output/reports/*
+!demo-output/reports/.gitkeep
+!demo-output/timelines/
+demo-output/timelines/*
+!demo-output/timelines/.gitkeep

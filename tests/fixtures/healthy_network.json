@@ -1,0 +1,15 @@
+{
+  "ping_ok": true,
+  "dns_ok": true,
+  "tcp_443_ok": true,
+  "https_ok": true,
+  "winhttp_proxy_summary": "Direct access (no proxy server).",
+  "user_proxy_enabled": false,
+  "user_proxy_server": null,
+  "tls_cert_issue_detected": false,
+  "firewall_blocking_suspected": false,
+  "time_wait_count": 3,
+  "established_count": 12,
+  "recent_processes": [],
+  "notes": ""
+}

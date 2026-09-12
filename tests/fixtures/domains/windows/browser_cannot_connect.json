@@ -1,0 +1,73 @@
+{
+  "event": {
+    "event_id": "win-browser-fail-001",
+    "domain": "windows",
+    "category": "browser_path",
+    "title": "Browser cannot connect while ping OK",
+    "timestamp_utc": "2026-06-04T10:10:00+00:00",
+    "severity": "high",
+    "observations": [
+      {"signal": "ping_ok", "value": true},
+      {"signal": "https_probe_ok", "value": false},
+      {"signal": "proxy_enabled", "value": true}
+    ],
+    "source": "fixture:windows/browser_cannot_connect",
+    "metadata": {"scenario": "browser_cannot_connect"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-https-fail",
+      "type": "observation",
+      "description": "HTTPS path probe failed",
+      "supports": ["hyp-browser-proxy"],
+      "contradicts": [],
+      "confidence_delta": 0.18,
+      "source": "fixture"
+    },
+    {
+      "evidence_id": "ev-ping-ok",
+      "type": "observation",
+      "description": "ICMP ping succeeded",
+      "supports": [],
+      "contradicts": ["hyp-total-outage"],
+      "confidence_delta": -0.1,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-browser-proxy",
+      "title": "Browser-path proxy misconfiguration",
+      "explanation": "Network layer healthy; application proxy path broken.",
+      "supporting_evidence": ["ev-https-fail"],
+      "contradicting_evidence": [],
+      "confidence": 0.62
+    },
+    {
+      "hypothesis_id": "hyp-total-outage",
+      "title": "Total network outage",
+      "explanation": "Unlikely given ping success.",
+      "supporting_evidence": [],
+      "contradicting_evidence": ["ev-ping-ok"],
+      "confidence": 0.2
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-browser-path-research",
+      "title": "Research WinINET/WinHTTP proxy divergence",
+      "action_type": "research",
+      "expected_benefit": 0.75,
+      "risk_score": 0.05,
+      "alternatives": ["dec-proxy-preview"]
+    },
+    {
+      "decision_id": "dec-proxy-preview",
+      "title": "Preview proxy remediation",
+      "action_type": "preview",
+      "expected_benefit": 0.55,
+      "risk_score": 0.2,
+      "alternatives": []
+    }
+  ]
+}

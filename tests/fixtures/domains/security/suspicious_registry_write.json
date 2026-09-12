@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "sec-reg-write-001",
+    "domain": "security",
+    "category": "registry",
+    "title": "Suspicious registry write to proxy keys",
+    "timestamp_utc": "2026-06-04T11:05:00+00:00",
+    "severity": "high",
+    "observations": [
+      {"signal": "registry_key", "value": "HKCU\\...\\Internet Settings"},
+      {"signal": "writer_process", "value": "unknown.exe"}
+    ],
+    "source": "fixture:security/suspicious_registry_write",
+    "metadata": {"scenario": "suspicious_registry_write"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-reg-change",
+      "type": "proof",
+      "description": "Sysmon E13-class writer event in fixture",
+      "supports": ["hyp-unauthorized-writer"],
+      "contradicts": [],
+      "confidence_delta": 0.25,
+      "source": "fixture:sysmon"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-unauthorized-writer",
+      "title": "Unauthorized proxy registry writer",
+      "explanation": "Writer proof present in fixture — correlate with process tree.",
+      "supporting_evidence": ["ev-reg-change"],
+      "contradicting_evidence": [],
+      "confidence": 0.72
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-isolate-research",
+      "title": "Research writer process attribution",
+      "action_type": "research",
+      "expected_benefit": 0.8,
+      "risk_score": 0.15,
+      "alternatives": []
+    }
+  ]
+}

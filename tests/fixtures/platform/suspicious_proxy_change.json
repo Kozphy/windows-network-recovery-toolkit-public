@@ -1,0 +1,23 @@
+{
+  "schema_version": "1",
+  "event_id": "fixture-suspicious-proxy",
+  "event_type": "normalized.remediation_candidate",
+  "severity": "high",
+  "endpoint_id_hash": "ffffffffffffffffffffffffffffffff",
+  "signals": {
+    "remediation_action": "reset_proxy",
+    "simulated_operator_role": "admin",
+    "simulated_surface": "dashboard",
+    "telemetry": { "proxy_flap_count": 5 }
+  },
+  "actor_attribution": { "confidence": "low", "method": "process_keyword_snapshot", "provider": "fixture" },
+  "policy_decision": {
+    "execute_allowed": false,
+    "preview_allowed": true,
+    "reason_codes": ["stale"],
+    "required_role": "admin",
+    "required_confirmation": "RUN_PROXY_RESET",
+    "risk_tier": "medium"
+  },
+  "privacy_classification": "diagnostic_proxy"
+}

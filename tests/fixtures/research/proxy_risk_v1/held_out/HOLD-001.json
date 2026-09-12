@@ -1,0 +1,35 @@
+{
+  "schema_version": "proxy_risk_case.v1",
+  "case_id": "HOLD-001",
+  "split": "held_out",
+  "scenario_name": "Direct path works while configured proxy path fails",
+  "expected_class": "DIRECT_ONLY_WORKS",
+  "expected_min_tier": "T3",
+  "expected_policy": "PREVIEW_ONLY",
+  "provenance": "predeclared synthetic holdout fixture",
+  "limitations": ["Held-out from rule development, but not independently authored."],
+  "signals": {
+    "proxy_state": {
+      "timestamp_utc": "2026-08-02T00:00:00Z",
+      "endpoint_id": "research-endpoint-101",
+      "wininet_proxy_enabled": true,
+      "wininet_proxy_server": "127.0.0.1:8888",
+      "winhttp_direct_access": false,
+      "localhost_port": 8888
+    },
+    "proxy_owner": {
+      "timestamp_utc": "2026-08-02T00:00:01Z",
+      "endpoint_id": "research-endpoint-101",
+      "listener_found": true,
+      "localhost_port": 8888,
+      "process": {"pid": 5101, "name": "unknown-proxy.exe"}
+    },
+    "health_inject": {
+      "timestamp_utc": "2026-08-02T00:00:02Z",
+      "endpoint_id": "research-endpoint-101",
+      "proxy_status": "DIRECT_ONLY_WORKS",
+      "direct_probe_ok": true,
+      "proxy_probe_ok": false
+    }
+  }
+}

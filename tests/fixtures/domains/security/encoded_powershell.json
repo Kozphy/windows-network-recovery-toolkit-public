@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "sec-encoded-ps-001",
+    "domain": "security",
+    "category": "suspicious_execution",
+    "title": "Encoded PowerShell execution observed",
+    "timestamp_utc": "2026-06-04T11:00:00+00:00",
+    "severity": "high",
+    "observations": [
+      {"signal": "command_line", "value": "powershell -enc ..."},
+      {"signal": "parent_process", "value": "unknown"}
+    ],
+    "source": "fixture:security/encoded_powershell",
+    "metadata": {"scenario": "encoded_powershell"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-encoded-cmd",
+      "type": "observation",
+      "description": "Base64-encoded PowerShell command line",
+      "supports": ["hyp-script-abuse"],
+      "contradicts": [],
+      "confidence_delta": 0.2,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-script-abuse",
+      "title": "Suspicious script execution",
+      "explanation": "Encoded launcher may hide intent — research only, not malware verdict.",
+      "supporting_evidence": ["ev-encoded-cmd"],
+      "contradicting_evidence": [],
+      "confidence": 0.58
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-forensics-research",
+      "title": "Collect process tree and script hash (research)",
+      "action_type": "research",
+      "expected_benefit": 0.7,
+      "risk_score": 0.1,
+      "alternatives": []
+    }
+  ]
+}

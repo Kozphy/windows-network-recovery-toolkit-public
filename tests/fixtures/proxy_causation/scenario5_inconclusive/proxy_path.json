@@ -1,0 +1,9 @@
+{
+  "proxy_path": {
+    "direct_path_ok": null,
+    "proxied_path_ok": null,
+    "bypass_path_ok": null,
+    "failure_mode": "unknown",
+    "evidence_summary": "No path probes in fixture mode."
+  }
+}

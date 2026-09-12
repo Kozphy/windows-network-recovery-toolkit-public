@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "infra-restart-001",
+    "domain": "infrastructure",
+    "category": "availability",
+    "title": "Service restart loop",
+    "timestamp_utc": "2026-06-04T13:10:00+00:00",
+    "severity": "high",
+    "observations": [
+      {"signal": "restart_count_1h", "value": 12},
+      {"signal": "exit_code", "value": 1}
+    ],
+    "source": "fixture:infrastructure/service_restart_loop",
+    "metadata": {"scenario": "service_restart_loop"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-restart-loop",
+      "type": "observation",
+      "description": "12 restarts in one hour with exit code 1",
+      "supports": ["hyp-config-error"],
+      "contradicts": [],
+      "confidence_delta": 0.22,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-config-error",
+      "title": "Invalid service configuration",
+      "explanation": "Crash loop pattern suggests startup failure.",
+      "supporting_evidence": ["ev-restart-loop"],
+      "contradicting_evidence": [],
+      "confidence": 0.63
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-config-research",
+      "title": "Research config diff since last stable deploy",
+      "action_type": "research",
+      "expected_benefit": 0.72,
+      "risk_score": 0.08,
+      "alternatives": []
+    }
+  ]
+}

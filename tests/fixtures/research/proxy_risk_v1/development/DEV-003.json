@@ -1,0 +1,35 @@
+{
+  "schema_version": "proxy_risk_case.v1",
+  "case_id": "DEV-003",
+  "split": "development",
+  "scenario_name": "Healthy localhost proxy with both paths working",
+  "expected_class": "BOTH_DIRECT_AND_PROXY_WORK",
+  "expected_min_tier": "T3",
+  "expected_policy": "OBSERVE",
+  "provenance": "deterministic synthetic fixture",
+  "limitations": ["Successful probes do not establish that the proxy is intended."],
+  "signals": {
+    "proxy_state": {
+      "timestamp_utc": "2026-08-01T00:02:00Z",
+      "endpoint_id": "research-endpoint-003",
+      "wininet_proxy_enabled": true,
+      "wininet_proxy_server": "127.0.0.1:8080",
+      "winhttp_direct_access": false,
+      "localhost_port": 8080
+    },
+    "proxy_owner": {
+      "timestamp_utc": "2026-08-01T00:02:01Z",
+      "endpoint_id": "research-endpoint-003",
+      "listener_found": true,
+      "localhost_port": 8080,
+      "process": {"pid": 4203, "name": "node.exe"}
+    },
+    "health_inject": {
+      "timestamp_utc": "2026-08-01T00:02:02Z",
+      "endpoint_id": "research-endpoint-003",
+      "proxy_status": "BOTH_DIRECT_AND_PROXY_WORK",
+      "direct_probe_ok": true,
+      "proxy_probe_ok": true
+    }
+  }
+}

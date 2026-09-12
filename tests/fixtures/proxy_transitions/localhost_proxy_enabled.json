@@ -1,0 +1,8 @@
+{
+  "description": "None -> localhost proxy enabled",
+  "before": {"wininet_proxy_enabled": false, "wininet_proxy_server": "", "wininet_auto_config_url": ""},
+  "after": {"wininet_proxy_enabled": true, "wininet_proxy_server": "127.0.0.1:62285", "wininet_auto_config_url": "", "localhost_port": 62285},
+  "listener": {"process": {"name": "node.exe", "pid": 100, "parent": "powershell.exe"}},
+  "expected_primary": "LOCALHOST_PROXY_CONFIGURED",
+  "expected_transition": "LOCALHOST_PROXY_ENABLED"
+}

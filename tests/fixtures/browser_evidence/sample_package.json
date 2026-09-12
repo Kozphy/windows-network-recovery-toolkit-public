@@ -1,0 +1,10 @@
+{
+  "url": "https://internal.example.test/app",
+  "screenshot_path": "tests/fixtures/browser_evidence/screenshot.png",
+  "har_path": "tests/fixtures/browser_evidence/sample.har.json",
+  "trace_path": "",
+  "navigation_error": "ERR_PROXY_CONNECTION_FAILED",
+  "tls_errors": [],
+  "proxy_hints": ["proxy_connection_failure_suspected"],
+  "limitations": ["Fixture browser package for CI — not live capture."]
+}

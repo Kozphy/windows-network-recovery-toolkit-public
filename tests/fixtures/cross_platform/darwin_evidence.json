@@ -1,0 +1,46 @@
+{
+  "os_family": "darwin",
+  "platform_support_level": "PARTIAL",
+  "collector_id": "darwin_network_diagnostics_v1",
+  "observations": [
+    {
+      "signal_name": "os_family",
+      "value": "darwin",
+      "source": "fixture.cross_platform.darwin",
+      "evidence_level": "observation"
+    },
+    {
+      "signal_name": "env_https_proxy",
+      "value": "http://127.0.0.1:8888",
+      "source": "fixture.cross_platform.darwin",
+      "evidence_level": "observation",
+      "limitations": ["env_proxy_is_candidate_evidence_not_proof"]
+    },
+    {
+      "signal_name": "networksetup_available",
+      "value": true,
+      "source": "fixture.cross_platform.darwin",
+      "evidence_level": "observation"
+    },
+    {
+      "signal_name": "networksetup_web_proxy_enabled",
+      "value": true,
+      "source": "fixture.cross_platform.darwin",
+      "evidence_level": "observation",
+      "limitations": ["networksetup_hints_are_not_wininet_winhttp_parity"]
+    },
+    {
+      "signal_name": "listening_port_probe_available",
+      "value": true,
+      "source": "fixture.cross_platform.darwin",
+      "evidence_level": "observation"
+    }
+  ],
+  "limitations": [
+    "macOS PARTIAL foundation — no WinINET/WinHTTP/registry collectors.",
+    "networksetup proxy hints are candidate evidence only.",
+    "Listening-port summary does not prove proxy ownership."
+  ],
+  "live_remediation_supported": false,
+  "collected_at_utc": "2026-06-12T12:00:00+00:00"
+}

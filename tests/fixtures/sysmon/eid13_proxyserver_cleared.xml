@@ -1,0 +1,13 @@
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <EventID>13</EventID>
+    <TimeCreated SystemTime="2026-06-08T05:01:10.0000000Z"/>
+  </System>
+  <EventData>
+    <Data Name="UtcTime">2026-06-08 05:01:10.000</Data>
+    <Data Name="ProcessGuid">{WRITER-CLEAR-GUID-0000-1111-222233334444}</Data>
+    <Data Name="Image">C:\Windows\System32\reg.exe</Data>
+    <Data Name="TargetObject">HKU\S-1-5-21\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ProxyServer</Data>
+    <Data Name="Details"></Data>
+  </EventData>
+</Event>

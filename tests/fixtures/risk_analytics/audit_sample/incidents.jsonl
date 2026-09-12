@@ -1,0 +1,7 @@
+{"incident_id":"INC-001","case_id":"CASE_1","classification":{"primary_classification":"DEAD_PROXY_CONFIG"},"evidence_tier":"proof","policy_decision":{"outcome":"PREVIEW_ONLY"},"timestamp":"2026-06-11T04:25:00Z"}
+{"incident_id":"INC-001","action":"remediation_preview","dry_run":true,"timestamp":"2026-06-11T04:35:00Z"}
+{"incident_id":"INC-002","classification":{"primary_classification":"DEAD_PROXY_CONFIG"},"evidence_tier":"observation","policy_decision":{"outcome":"PREVIEW_ONLY"},"timestamp":"2026-06-12T09:00:00Z"}
+{"incident_id":"INC-002","action":"remediation_preview","dry_run":true,"timestamp":"2026-06-12T09:15:00Z"}
+{"incident_id":"INC-003","classification":{"primary_classification":"UNKNOWN_LOCAL_PROXY"},"evidence_tier":"correlation","policy_decision":{"outcome":"REQUIRE_TYPED_CONFIRMATION"},"timestamp":"2026-06-12T10:00:00Z"}
+{"incident_id":"INC-004","classification":{"primary_classification":"POSSIBLE_MITM_RISK"},"evidence_tier":"correlation","policy_decision":{"outcome":"PREVIEW_ONLY"},"timestamp":"2026-06-12T11:00:00Z"}
+{"incident_id":"INC-005","action":"remediation_execute","decision":"blocked","blocked_action":"KILL_PROXY_PROCESS","timestamp":"2026-06-12T12:00:00Z"}

@@ -1,0 +1,28 @@
+{
+  "tls_proof": {
+    "proof_id": "tls-test-mismatch",
+    "timestamp_utc": "2026-06-04T12:00:00Z",
+    "target_url": "https://example.com",
+    "direct_cert": {
+      "path": "direct",
+      "subject": "CN=example.com",
+      "issuer": "CN=DigiCert",
+      "fingerprint_sha256": "aaa111",
+      "serial_number": "1001"
+    },
+    "proxied_cert": {
+      "path": "proxied",
+      "subject": "CN=example.com",
+      "issuer": "CN=Charles Proxy CA",
+      "fingerprint_sha256": "bbb222",
+      "serial_number": "9001"
+    },
+    "certificate_mismatch": true,
+    "mismatch_fields": ["fingerprint_sha256", "issuer"],
+    "mitm_risk_level": "HIGH",
+    "root_ca_observations": [],
+    "suspicious_roots": [],
+    "evidence": [],
+    "limitations": ["Certificate contrast is not definitive MITM without writer proof."]
+  }
+}

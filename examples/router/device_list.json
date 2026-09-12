@@ -1,0 +1,6 @@
+[
+  {"mac": "00:1D:0F:AA:BB:01", "ip": "192.168.1.1", "name": "router"},
+  {"mac": "3C:22:FB:AA:BB:10", "ip": "192.168.1.10", "name": "iphone"},
+  {"mac": "CC:B1:1A:AA:BB:30", "ip": "192.168.1.30", "name": "samsung-tv"},
+  {"mac": "DC:A6:32:AA:BB:50", "ip": "192.168.1.50", "name": "laptop"}
+]

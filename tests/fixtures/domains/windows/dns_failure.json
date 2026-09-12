@@ -1,0 +1,47 @@
+{
+  "event": {
+    "event_id": "win-dns-failure-001",
+    "domain": "windows",
+    "category": "dns",
+    "title": "DNS resolution failure",
+    "timestamp_utc": "2026-06-04T10:05:00+00:00",
+    "severity": "medium",
+    "observations": [
+      {"signal": "dns_resolve_ok", "value": false},
+      {"signal": "ping_ip_ok", "value": true}
+    ],
+    "source": "fixture:windows/dns_failure",
+    "metadata": {"scenario": "dns_failure"}
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev-dns-fail",
+      "type": "observation",
+      "description": "DNS probe failed for test host",
+      "supports": ["hyp-dns-cache"],
+      "contradicts": [],
+      "confidence_delta": 0.2,
+      "source": "fixture"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp-dns-cache",
+      "title": "Stale DNS cache or resolver misconfig",
+      "explanation": "IP reachability OK but name resolution fails.",
+      "supporting_evidence": ["ev-dns-fail"],
+      "contradicting_evidence": [],
+      "confidence": 0.6
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "dec-flush-dns-preview",
+      "title": "Preview DNS cache flush",
+      "action_type": "preview",
+      "expected_benefit": 0.65,
+      "risk_score": 0.15,
+      "alternatives": []
+    }
+  ]
+}

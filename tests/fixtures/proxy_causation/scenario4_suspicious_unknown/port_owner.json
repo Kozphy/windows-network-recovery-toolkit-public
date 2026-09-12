@@ -1,0 +1,14 @@
+{
+  "port_owner": {
+    "port": 49152,
+    "process_id": 7777,
+    "process_name": "upd.exe",
+    "executable_path": "C:\\Users\\victim\\AppData\\Local\\Temp\\upd.exe",
+    "command_line": "upd.exe",
+    "parent_process": "unknown",
+    "connection_state": "Listen",
+    "local_address": "127.0.0.1",
+    "local_port": 49152,
+    "confidence": 0.8
+  }
+}

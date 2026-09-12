@@ -1,0 +1,7 @@
+{
+  "description": "PAC URL removed",
+  "before": {"wininet_proxy_enabled": false, "wininet_proxy_server": "", "wininet_auto_config_url": "http://pac.example.com/proxy.pac"},
+  "after": {"wininet_proxy_enabled": false, "wininet_proxy_server": "", "wininet_auto_config_url": ""},
+  "expected_primary": "PAC_REMOVED",
+  "expected_transition": "PAC_REMOVED"
+}

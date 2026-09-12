@@ -1,0 +1,27 @@
+{
+  "schema_version": "proxy_risk_case.v1",
+  "case_id": "ADV-004",
+  "split": "adversarial",
+  "scenario_name": "WinHTTP mismatch combined with missing listener",
+  "expected_class": "DEAD_PROXY_CONFIG",
+  "expected_min_tier": "T2",
+  "expected_policy": "PREVIEW_ONLY",
+  "provenance": "synthetic adversarial contradictory-signal fixture",
+  "limitations": ["Multiple signals exist; classification precedence must remain explicit."],
+  "signals": {
+    "proxy_state": {
+      "timestamp_utc": "2026-08-03T00:03:00Z",
+      "endpoint_id": "research-endpoint-204",
+      "wininet_proxy_enabled": true,
+      "wininet_proxy_server": "127.0.0.1:7999",
+      "winhttp_direct_access": true,
+      "localhost_port": 7999
+    },
+    "proxy_owner": {
+      "timestamp_utc": "2026-08-03T00:03:01Z",
+      "endpoint_id": "research-endpoint-204",
+      "listener_found": false,
+      "localhost_port": 7999
+    }
+  }
+}

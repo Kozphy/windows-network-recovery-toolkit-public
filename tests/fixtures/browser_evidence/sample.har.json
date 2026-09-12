@@ -1,0 +1,14 @@
+{
+  "log": {
+    "entries": [
+      {
+        "request": {"url": "https://internal.example.test/app"},
+        "response": {"status": 502}
+      },
+      {
+        "request": {"url": "https://internal.example.test/favicon.ico"},
+        "response": {"status": 0}
+      }
+    ]
+  }
+}

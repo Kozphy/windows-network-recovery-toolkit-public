@@ -1,0 +1,22 @@
+{
+  "log": {
+    "version": "1.2",
+    "entries": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://www.104.com.tw/app.js",
+          "headers": []
+        },
+        "response": {"status": 0},
+        "_error": "net::ERR_BLOCKED_BY_CLIENT",
+        "_blocked_reason": "blocked_by_client"
+      },
+      {
+        "request": {"method": "GET", "url": "https://www.104.com.tw/", "headers": []},
+        "response": {"status": 0},
+        "_error": "blocked_by_client"
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "incident_id": "EX-DEAD-PROXY-001",
+  "schema_version": "portfolio_evidence.v1",
+  "symptom": "Browser ERR_PROXY_CONNECTION_FAILED; ping and DNS succeed",
+  "proxy_state": {
+    "wininet_proxy_enabled": true,
+    "wininet_proxy_server": "127.0.0.1:59081",
+    "winhttp_direct_access": true,
+    "localhost_port": 59081
+  },
+  "classification": {
+    "primary_classification": "DEAD_PROXY_CONFIG",
+    "secondary_signals": ["WININET_WINHTTP_MISMATCH", "DEAD_LOCALHOST_PORT"],
+    "severity": "medium",
+    "confidence": 0.92,
+    "reasoning": "WinINET references localhost:59081 but no listener is bound.",
+    "limitations": ["Does not prove malware or MITM."]
+  },
+  "listener_info": {
+    "listener_found": false,
+    "localhost_port": 59081,
+    "process": null
+  },
+  "proof": {
+    "hypothesis": "Browser failure is consistent with stale dead WinINET proxy configuration.",
+    "conclusion": { "status": "supported", "confidence": 0.92 }
+  },
+  "policy_decision": {
+    "action": "DISABLE_WININET_PROXY",
+    "outcome": "PREVIEW_ONLY",
+    "requires_confirmation": true,
+    "dry_run": true
+  }
+}

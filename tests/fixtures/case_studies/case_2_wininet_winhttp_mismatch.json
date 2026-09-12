@@ -1,0 +1,40 @@
+{
+  "case_id": "CASE_2_WININET_WINHTTP_MISMATCH",
+  "case_title": "Business app fails while WinHTTP path appears healthy",
+  "dry_run": true,
+  "rollback_plan_present": true,
+  "proxy_state": {
+    "wininet_proxy_enabled": true,
+    "wininet_proxy_server": "127.0.0.1:63489",
+    "winhttp_direct_access": true,
+    "localhost_port": 63489
+  },
+  "classification": {
+    "primary_classification": "WININET_WINHTTP_MISMATCH",
+    "secondary_signals": ["WININET_WINHTTP_MISMATCH", "LOCALHOST_PROXY"],
+    "severity": "medium",
+    "confidence": 0.88,
+    "reasoning": "WinINET proxy enabled while WinHTTP uses direct access — stack divergence.",
+    "recommended_next_actions": ["Run diagnose --proof", "Preview proxy alignment"],
+    "limitations": ["Mismatch is correlational until path proof completes."]
+  },
+  "proxy_owner": {
+    "localhost_port": 63489,
+    "listener_found": true,
+    "process": { "name": "node.exe", "pid": 12345 }
+  },
+  "proof": {
+    "proof_attempts": [
+      { "name": "wininet_winhttp_comparison", "status": "supported" },
+      { "name": "direct_https_probe", "status": "supported" },
+      { "name": "proxied_https_probe", "status": "failed" }
+    ],
+    "conclusion": { "status": "supported", "confidence": 0.88 }
+  },
+  "policy_decision": {
+    "action": "ALIGN_PROXY_STACK_PREVIEW",
+    "outcome": "PREVIEW_ONLY",
+    "requires_confirmation": true,
+    "dry_run": true
+  }
+}

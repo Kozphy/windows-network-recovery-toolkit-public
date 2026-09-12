@@ -1,0 +1,7 @@
+control_id,control_objective,result,incident_id,reviewed_at
+CT-AUDIT-001,Proxy configuration changes require audit evidence,PASS,INC-001,2026-06-11T05:00:00Z
+CT-REG-002,Registry mutation requires typed confirmation,PASS,INC-003,2026-06-12T10:30:00Z
+CT-REM-003,Remediation must default to dry-run,PASS,INC-001,2026-06-11T05:00:00Z
+CT-EVID-004,Low evidence tier must not unlock destructive action,PASS,INC-005,2026-06-12T12:30:00Z
+CT-CLASS-005,Unknown local proxy must not be treated as malware proof,PASS,INC-003,2026-06-12T10:30:00Z
+CT-TLS-006,TLS mismatch must be reported with limitations,INSUFFICIENT_EVIDENCE,INC-004,2026-06-12T11:30:00Z
