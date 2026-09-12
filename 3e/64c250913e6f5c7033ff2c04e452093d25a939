@@ -1,0 +1,2297 @@
+backend/__main__.py
+  s_3c40ae827cabfc::t_137c9dc6b1da69 1-63
+src/platform_core/audit/tip_anchor.py
+  s_3c40ae827cabfc::t_8b344ccd018f70 1-205
+tools/export_public_mirror.py
+  s_3c40ae827cabfc::t_9ee0dc365123f7 1-308
+.github/workflows/public-mirror-ci.yml
+  s_3c40ae827cabfc::t_76b58a028dbfed 1-37
+.gitignore
+  s_3c40ae827cabfc::t_abeeea67f5c1f3 1-131
+.public_mirror.json
+  s_3c40ae827cabfc::t_756c78aaad5e06 1-7
+AGENTS.md
+  s_3c40ae827cabfc::t_f031ead0daa69b 1-33
+LICENSE
+  s_3c40ae827cabfc::t_b1fee33dba64be 1-26
+PUBLIC_RELEASE_CHECKLIST.md
+  s_3c40ae827cabfc::t_d46e7550931695 1-105
+README.md
+  s_3c40ae827cabfc::t_e16127c147b43a 1-58
+SECURITY.md
+  s_3c40ae827cabfc::t_09a4d85e396443 1-76
+backend/.env.example
+  s_3c40ae827cabfc::t_039a11f7b351d9 1-30
+backend/README.md
+  s_3c40ae827cabfc::t_67cb12d5b7191a 1-138
+backend/__init__.py
+  s_3c40ae827cabfc::t_3f95cef7c6cbe5 1-14
+backend/auth/__init__.py
+  s_3c40ae827cabfc::t_42dc27266af74f 1-6
+backend/auth/dependencies.py
+  s_3c40ae827cabfc::t_fa2f714118ca80 1-37
+backend/auth/rbac.py
+  s_3c40ae827cabfc::t_7cebacc623682b 1-177
+backend/canonical_routes.py
+  s_3c40ae827cabfc::t_adeb8b3cf9da4d 1-386
+backend/db/__init__.py
+  s_3c40ae827cabfc::t_745fa3412e4199 1-120
+backend/db/enterprise_schema.sql
+  s_3c40ae827cabfc::t_9250055480e05a 1-107
+backend/db/models.py
+  s_3c40ae827cabfc::t_2bfb70bf36c41e 1-471
+backend/db/repositories.py
+  s_3c40ae827cabfc::t_342915ed6b83b3 1-367
+backend/db/schema.sql
+  s_3c40ae827cabfc::t_c7398429b9c571 1-116
+backend/decision_context_routes.py
+  s_3c40ae827cabfc::t_8e36f3f1c7f34f 1-227
+backend/decision_intelligence/__init__.py
+  s_3c40ae827cabfc::t_c4a172d1c9575a 1-8
+backend/decision_intelligence/logging_utils.py
+  s_3c40ae827cabfc::t_7d087158523e96 1-49
+backend/decision_intelligence/metrics.py
+  s_3c40ae827cabfc::t_ed7e279cc57865 1-220
+backend/decision_intelligence/models.py
+  s_3c40ae827cabfc::t_735abc87d24c97 1-318
+backend/decision_intelligence/routes.py
+  s_3c40ae827cabfc::t_2c92960b00cc4d 1-372
+backend/decision_intelligence/service.py
+  s_3c40ae827cabfc::t_50a4f778e09c4b 1-117
+backend/decision_intelligence/store.py
+  s_3c40ae827cabfc::t_d2ba93f866a6ce 1-1108
+backend/decision_platform_routes.py
+  s_3c40ae827cabfc::t_8dd90652f423b8 1-656
+backend/engine.py
+  s_3c40ae827cabfc::t_ad82df891280a9 1-226
+backend/jwt_auth.py
+  s_3c40ae827cabfc::t_98ae7867588d83 1-97
+backend/legacy_sqlite.py
+  s_3c40ae827cabfc::t_2ed372b079e81b 1-525
+backend/live_observability.py
+  s_3c40ae827cabfc::t_662df8d28e0499 1-367
+backend/main.py
+  s_3c40ae827cabfc::t_75bacb0b28b4ce 1-678
+backend/observability_metrics.py
+  s_3c40ae827cabfc::t_5cd387254ee022 1-388
+backend/platform_auth.py
+  s_3c40ae827cabfc::t_244cad8d04d941 1-32
+backend/platform_fleet_routes.py
+  s_3c40ae827cabfc::t_2b4e58ff5334f4 1-197
+backend/platform_mdp_routes.py
+  s_3c40ae827cabfc::t_f64d31c39c2e9e 1-233
+backend/platform_routes.py
+  s_3c40ae827cabfc::t_2b2e9d50ae890e 1-1560
+backend/platform_sre_routes.py
+  s_3c40ae827cabfc::t_a94efabe055203 1-394
+backend/platform_v2_routes.py
+  s_3c40ae827cabfc::t_9e8bad3a110026 1-266
+backend/product_outbox.py
+  s_3c40ae827cabfc::t_8dd2dfaba08636 1-407
+backend/product_outbox_sweeper.py
+  s_3c40ae827cabfc::t_599bb49be9404d 1-228
+backend/product_v1_models.py
+  s_3c40ae827cabfc::t_473ed3e3c819ef 1-161
+backend/product_v1_routes.py
+  s_3c40ae827cabfc::t_4991ca075ef0d3 1-1083
+backend/prometheus_exporter.py
+  s_3c40ae827cabfc::t_d4986f8d3dce3a 1-217
+backend/public_app.py
+  s_3c40ae827cabfc::t_4521c41bf44c6b 1-139
+backend/queue/__init__.py
+  s_3c40ae827cabfc::t_038e3e4c65c0d6 1-28
+backend/queue/jobs.py
+  s_3c40ae827cabfc::t_b109a72b518a58 1-5
+backend/queue/memory_backend.py
+  s_3c40ae827cabfc::t_fced074614e438 1-114
+backend/queue/protocol.py
+  s_3c40ae827cabfc::t_acbd4f6020aa88 1-60
+backend/queue/retry_policy.py
+  s_3c40ae827cabfc::t_1ae15e1a83cb82 1-38
+backend/queue/rq_backend.py
+  s_3c40ae827cabfc::t_7d1ba1f3a9325c 1-114
+backend/requirements.txt
+  s_3c40ae827cabfc::t_d49931197e6a71 1-9
+backend/schema.sql
+  s_3c40ae827cabfc::t_33f95111fde121 1-57
+backend/services/__init__.py
+  s_3c40ae827cabfc::t_0e4d17ebe4d134 1-15
+backend/services/audit_service.py
+  s_3c40ae827cabfc::t_4479c7776dd325 1-152
+backend/services/base.py
+  s_3c40ae827cabfc::t_001b0ee43480c1 1-82
+backend/services/classification_service.py
+  s_3c40ae827cabfc::t_5408a21c93aa5a 1-145
+backend/services/evidence_service.py
+  s_3c40ae827cabfc::t_b5fbde9fc5e1d2 1-177
+backend/services/pipeline.py
+  s_3c40ae827cabfc::t_465292a2ee2929 1-299
+backend/services/policy_service.py
+  s_3c40ae827cabfc::t_f9a1484798c201 1-193
+backend/services/policy_yaml.py
+  s_3c40ae827cabfc::t_e250722a9dc744 1-142
+backend/services/reporting_service.py
+  s_3c40ae827cabfc::t_7ce076d7eede13 1-133
+backend/technology_risk_routes.py
+  s_3c40ae827cabfc::t_16399fb2811142 1-450
+backend/tracing.py
+  s_3c40ae827cabfc::t_6f5678d6c92fc4 1-65
+backend/trisk_logging.py
+  s_3c40ae827cabfc::t_2c348e09896012 1-41
+backend/trisk_metrics.py
+  s_3c40ae827cabfc::t_5706c4da5e9eaf 1-158
+backend/v1_routes.py
+  s_3c40ae827cabfc::t_ba9f6b5e6c4a71 1-568
+backend/workers/classifier_worker.py
+  s_3c40ae827cabfc::t_9cb8a63b2d3177 1-182
+config/public_mirror_manifest.yaml
+  s_3c40ae827cabfc::t_2ed37a30bb1ab9 1-112
+demo_data/manifest.json
+  s_3c40ae827cabfc::t_49ba7038cd4526 1-70
+docs/DOCUMENTATION_INDEX.md
+  s_3c40ae827cabfc::t_6de26ebe49c31e 1-362
+docs/ONBOARDING.md
+  s_3c40ae827cabfc::t_26f3f1bae5b2f5 1-150
+docs/START_HERE.md
+  s_3c40ae827cabfc::t_a2ec405fb11e7b 1-81
+docs/code-documentation-standards.md
+  s_3c40ae827cabfc::t_831a48cd0d6763 1-156
+docs/dead-proxy-guardian.md
+  s_3c40ae827cabfc::t_8ac25e04a84e64 1-211
+docs/demo_3_minute.md
+  s_3c40ae827cabfc::t_56ac3a70ea1993 1-184
+docs/demo_walkthrough.md
+  s_3c40ae827cabfc::t_2e7ea58dd17c86 1-210
+docs/private-public-split.md
+  s_3c40ae827cabfc::t_7367aec5622860 1-111
+docs/runbooks/active_reverter.md
+  s_3c40ae827cabfc::t_605a19f209ed21 1-55
+docs/runbooks/classification-outbox-stuck.md
+  s_3c40ae827cabfc::t_f296ea449ca6a3 1-86
+docs/runbooks/dns-edge-err-name-not-resolved.md
+  s_3c40ae827cabfc::t_f40f563a29ba21 1-58
+docs/runbooks/ipv6-path-blackhole.md
+  s_3c40ae827cabfc::t_a2d06317189fd6 1-74
+docs/safety_doctrine.md
+  s_3c40ae827cabfc::t_b9d78d3316a8c5 1-27
+docs/safety_model.md
+  s_3c40ae827cabfc::t_14c36260ea2879 1-30
+docs/startup-observability.md
+  s_3c40ae827cabfc::t_d8bda2c5d019be 1-174
+docs/troubleshooting_flow.md
+  s_3c40ae827cabfc::t_b9d9803e7d74ad 1-86
+examples/README.md
+  s_3c40ae827cabfc::t_4015ec5ee492e6 1-38
+examples/ai_evals/support_bot_cases.json
+  s_3c40ae827cabfc::t_99d81d73c58c35 1-132
+examples/evaluation/classifier_benchmark_sample.json
+  s_3c40ae827cabfc::t_16376ec7fe3a16 1-128
+examples/evidence/DEAD_PROXY_CONFIG.json
+  s_3c40ae827cabfc::t_1b29e94499947d 1-34
+examples/evidence/LOCAL_PROXY_ACTIVE.json
+  s_3c40ae827cabfc::t_16ba177753d98e 1-28
+examples/evidence/POSSIBLE_MITM_RISK.json
+  s_3c40ae827cabfc::t_c4182bf0ab506d 1-28
+examples/evidence/README.md
+  s_3c40ae827cabfc::t_1b092f49bd295f 1-17
+examples/evidence/REVERTER_SUSPECTED.json
+  s_3c40ae827cabfc::t_ab695e654dd4b4 1-25
+examples/evidence/WININET_WINHTTP_MISMATCH.json
+  s_3c40ae827cabfc::t_0d7fc612152f85 1-31
+examples/fixtures/demo/README.md
+  s_3c40ae827cabfc::t_f95531a07b8c7e 1-20
+examples/lan/executive_bundle.json
+  s_3c40ae827cabfc::t_cdc4fce75d06ad 1-17
+examples/lan/normal_home_network.jsonl
+  s_3c40ae827cabfc::t_7295e5f3077c32 1-2
+examples/lan/router_evidence_unavailable.jsonl
+  s_3c40ae827cabfc::t_a040aa349911ba 1
+examples/lan/smart_tv_frequent_discovery.jsonl
+  s_3c40ae827cabfc::t_1e74e320fa92c4 1
+examples/lan/unknown_broad_probing.jsonl
+  s_3c40ae827cabfc::t_556aab0e438c3e 1
+examples/powerbi/dax/measures.md
+  s_3c40ae827cabfc::t_3ae612b2c7e7c6 1-134
+examples/powerbi/export/README.md
+  s_3c40ae827cabfc::t_d88ecddf8f4018 1-46
+examples/powerbi/export/dim_category.csv
+  s_3c40ae827cabfc::t_ac862a711d9cdc 1-9
+examples/powerbi/export/dim_classification.csv
+  s_3c40ae827cabfc::t_112430a43f6f24 1-11
+examples/powerbi/export/dim_control.csv
+  s_3c40ae827cabfc::t_584913f35d0c6d 1-11
+examples/powerbi/export/dim_date.csv
+  s_3c40ae827cabfc::t_661239fc3c2c9c 1-9
+examples/powerbi/export/dim_evidence_tier.csv
+  s_3c40ae827cabfc::t_e1e7e2bf91ba26 1-7
+examples/powerbi/export/dim_proof_tier.csv
+  s_3c40ae827cabfc::t_c152e7afbf1cbe 1-6
+examples/powerbi/export/dim_resource.csv
+  s_3c40ae827cabfc::t_f77264aa9c5c3e 1-6
+examples/powerbi/export/dim_stakeholder.csv
+  s_3c40ae827cabfc::t_8d417c02ce1907 1-7
+examples/powerbi/export/fact_control_tests.csv
+  s_3c40ae827cabfc::t_23ac5a554c4a31 1-103
+examples/powerbi/export/fact_costs.csv
+  s_3c40ae827cabfc::t_ff83c6f03551da 1-6
+examples/powerbi/export/fact_incidents.csv
+  s_3c40ae827cabfc::t_5fd1e1f5e0fb43 1-18
+examples/powerbi/export/fact_policy_decisions.csv
+  s_3c40ae827cabfc::t_f4363bb2e87186 1-19
+examples/powerbi/export/fact_recommendations.csv
+  s_3c40ae827cabfc::t_812089394d4386 1-6
+examples/powerbi/export/fact_risks.csv
+  s_3c40ae827cabfc::t_81b39148620a95 1-4
+examples/powerbi/power_query_guidance.md
+  s_3c40ae827cabfc::t_eb26fd2125378b 1-71
+examples/powerbi/report_blueprint.md
+  s_3c40ae827cabfc::t_27a3cdfd5878f1 1-3
+examples/powerbi/rls_design.md
+  s_3c40ae827cabfc::t_ec97ec2d9fc5f8 1-103
+examples/proof_engine_localhost_proxy_confirmed_example.json
+  s_3c40ae827cabfc::t_03409ddd5755e3 1-63
+examples/proxy_reasoning_audit_record.json
+  s_3c40ae827cabfc::t_2ee39aae1a4e59 1-55
+examples/router/device_list.json
+  s_3c40ae827cabfc::t_b2e0894500a6a9 1-6
+examples/router/dhcp_leases.csv
+  s_3c40ae827cabfc::t_a590baf7282738 1-5
+examples/router/dns_queries.csv
+  s_3c40ae827cabfc::t_9b4b65e498440a 1-4
+examples/router/dns_queries.jsonl
+  s_3c40ae827cabfc::t_c781f9e5902123 1-3
+examples/router/firewall_log.csv
+  s_3c40ae827cabfc::t_9e3200e1f8e7e2 1-7
+examples/sample_failure_block.json
+  s_3c40ae827cabfc::t_2def2eadde241e 1-29
+examples/synthetic_platform_audit.jsonl
+  s_3c40ae827cabfc::t_721419ceaf7f6a 1-2
+frontend/.env.local.example
+  s_3c40ae827cabfc::t_66f5ea64015875 1-4
+frontend/Dockerfile
+  s_3c40ae827cabfc::t_cad3581fdf1169 1-19
+frontend/README.md
+  s_3c40ae827cabfc::t_60a5b138117811 1-74
+frontend/app.js
+  s_3c40ae827cabfc::t_8b18f79d68e287 1-213
+frontend/app/billing/page.tsx
+  s_3c40ae827cabfc::t_211cf060436652 1-91
+frontend/app/dashboard/page.tsx
+  s_3c40ae827cabfc::t_f01cd0f41a3af3 1-112
+frontend/app/globals.css
+  s_3c40ae827cabfc::t_0e21316eea7474 1-21
+frontend/app/layout.tsx
+  s_3c40ae827cabfc::t_e5c14a3ea4da46 1-25
+frontend/app/login/page.tsx
+  s_3c40ae827cabfc::t_95795f8c33f3f7 1-38
+frontend/app/page.tsx
+  s_3c40ae827cabfc::t_fce2d543bd9792 1-60
+frontend/app/platform/audit-viewer/page.tsx
+  s_3c40ae827cabfc::t_9779f0072e1455 1-36
+frontend/app/platform/causation/page.tsx
+  s_3c40ae827cabfc::t_d5b25192ffdecd 1-15
+frontend/app/platform/events/page.tsx
+  s_3c40ae827cabfc::t_25c426c9857478 1-71
+frontend/app/platform/evidence-timeline/page.tsx
+  s_3c40ae827cabfc::t_8b6229e1bc4972 1-29
+frontend/app/platform/evidence/page.tsx
+  s_3c40ae827cabfc::t_6950b9bdcd7e69 1-57
+frontend/app/platform/incidents/[id]/page.tsx
+  s_3c40ae827cabfc::t_eb46d42e2e51f0 1-68
+frontend/app/platform/incidents/page.tsx
+  s_3c40ae827cabfc::t_6e1fa116c56b7b 1-57
+frontend/app/platform/page.tsx
+  s_3c40ae827cabfc::t_7b21421603b791 1-677
+frontend/app/platform/policies/page.tsx
+  s_3c40ae827cabfc::t_397e6eb4579b48 1-70
+frontend/app/platform/policy/page.tsx
+  s_3c40ae827cabfc::t_7708f25532ed57 1-17
+frontend/app/platform/proxy-events/[incidentId]/page.tsx
+  s_3c40ae827cabfc::t_18111a20de1976 1-70
+frontend/app/platform/proxy-events/page.tsx
+  s_3c40ae827cabfc::t_64f9049bbd7117 1-66
+frontend/app/platform/replay/page.tsx
+  s_3c40ae827cabfc::t_3e13a317bae35a 1-58
+frontend/app/platform/risk-overview/page.tsx
+  s_3c40ae827cabfc::t_d1dc2446d940b1 1-34
+frontend/app/platform/slo/page.tsx
+  s_3c40ae827cabfc::t_0cf7d22d7f590f 1-86
+frontend/app/platform/sre/page.tsx
+  s_3c40ae827cabfc::t_a7de3aae7963f0 1-78
+frontend/app/platform/states/page.tsx
+  s_3c40ae827cabfc::t_d5dabad1158ade 1-49
+frontend/app/platform/timeline/page.tsx
+  s_3c40ae827cabfc::t_36b7af683225ec 1-77
+frontend/components/NetworkToolkitHero.tsx
+  s_3c40ae827cabfc::t_324fd929192e17 1-408
+frontend/components/PlatformShell.tsx
+  s_3c40ae827cabfc::t_8673489bd0a440 1-107
+frontend/index.html
+  s_3c40ae827cabfc::t_d05b50d14438df 1-121
+frontend/lib/api.ts
+  s_3c40ae827cabfc::t_867fabce66da3d 1-41
+frontend/lib/supabase.ts
+  s_3c40ae827cabfc::t_fee859ed41ccad 1-19
+frontend/lib/trisk-api.ts
+  s_3c40ae827cabfc::t_893d086339be8d 1-65
+frontend/next-env.d.ts
+  s_3c40ae827cabfc::t_df7510a19c4c44 1-5
+frontend/next.config.js
+  s_3c40ae827cabfc::t_3f2ef93c0633af 1-6
+frontend/package-lock.json
+  s_3c40ae827cabfc::t_eeb1ead758d673 1-1793
+frontend/package.json
+  s_3c40ae827cabfc::t_d188e7df04f6b9 1-27
+frontend/postcss.config.mjs
+  s_3c40ae827cabfc::t_76ae754cff985c 1-9
+frontend/styles.css
+  s_3c40ae827cabfc::t_0803319803c1ae 1-52
+frontend/tailwind.config.ts
+  s_3c40ae827cabfc::t_73ee1e81f2f556 1-40
+frontend/tsconfig.json
+  s_3c40ae827cabfc::t_09a797d6efd37b 1-20
+platform_core/__init__.py
+  s_3c40ae827cabfc::t_17d82bc79424a2 1-73
+platform_core/agent_identity.py
+  s_3c40ae827cabfc::t_3207c3cba955eb 1-71
+platform_core/agent_planner.py
+  s_3c40ae827cabfc::t_6b0fe50ea16faa 1-324
+platform_core/attribution/__init__.py
+  s_3c40ae827cabfc::t_493d5a36888b4b 1-14
+platform_core/attribution/base.py
+  s_3c40ae827cabfc::t_e8968c0f31aac9 1-57
+platform_core/attribution/polling.py
+  s_3c40ae827cabfc::t_08fe26c9cc0af6 1-82
+platform_core/attribution/psutil_provider.py
+  s_3c40ae827cabfc::t_219440785694c2 1-110
+platform_core/attribution/windows_eventlog.py
+  s_3c40ae827cabfc::t_3362078e447117 1-56
+platform_core/audit.py
+  s_3c40ae827cabfc::t_14319c79f4bdd4 1-75
+platform_core/canonical_bridge.py
+  s_3c40ae827cabfc::t_9ec55ade70f650 1-31
+platform_core/correlation_engine.py
+  s_3c40ae827cabfc::t_36aa28ddc238a3 1-84
+platform_core/db/__init__.py
+  s_3c40ae827cabfc::t_b7cecff1d3091c 1-15
+platform_core/db/decision_intelligence_schema.sql
+  s_3c40ae827cabfc::t_0e28f7d6b89f75 1-68
+platform_core/db/migrations/postgres/001_rag_schema.sql
+  s_3c40ae827cabfc::t_d8c6201d435936 1-117
+platform_core/db/migrations/sqlite/001_rag_schema.sql
+  s_3c40ae827cabfc::t_3aa4eb28d0a7c5 1-117
+platform_core/db/postgres.py
+  s_3c40ae827cabfc::t_a589572e95ebda 1-124
+platform_core/db/schema.sql
+  s_3c40ae827cabfc::t_85e54662aec3e4 1-77
+platform_core/decision_domain/__init__.py
+  s_3c40ae827cabfc::t_643eb2325d7289 1-43
+platform_core/decision_domain/models.py
+  s_3c40ae827cabfc::t_13ecc063347590 1-129
+platform_core/decision_domain/serialization.py
+  s_3c40ae827cabfc::t_255709b6e928b8 1-74
+platform_core/decision_pipeline_contract.py
+  s_3c40ae827cabfc::t_45efd4154a1c90 1-132
+platform_core/decision_platform/__init__.py
+  s_3c40ae827cabfc::t_bb466d9db8e5a3 1-45
+platform_core/decision_platform/adapter.py
+  s_3c40ae827cabfc::t_7ba540bc436d6d 1-124
+platform_core/decision_platform/adapters/__init__.py
+  s_3c40ae827cabfc::t_7130fc9eeea9fb 1-15
+platform_core/decision_platform/adapters/cloud.py
+  s_3c40ae827cabfc::t_0d8b736cf4145f 1-116
+platform_core/decision_platform/adapters/infrastructure.py
+  s_3c40ae827cabfc::t_82f31aaa0c982a 1-122
+platform_core/decision_platform/adapters/market.py
+  s_3c40ae827cabfc::t_e39283158e47c1 1-131
+platform_core/decision_platform/adapters/security.py
+  s_3c40ae827cabfc::t_cd211df9503696 1-133
+platform_core/decision_platform/adapters/windows.py
+  s_3c40ae827cabfc::t_17b2973a7fc0ba 1-176
+platform_core/decision_platform/models.py
+  s_3c40ae827cabfc::t_2e0c18c8551f77 1-157
+platform_core/decision_platform/reasoning.py
+  s_3c40ae827cabfc::t_2f7484ae8811e6 1-106
+platform_core/decision_platform/registry.py
+  s_3c40ae827cabfc::t_5fe6466935e274 1-60
+platform_core/demo.py
+  s_3c40ae827cabfc::t_45dfaedd913ea9 1-108
+platform_core/demo_fleet.py
+  s_3c40ae827cabfc::t_b244ccee246af6 1-286
+platform_core/demo_replay.py
+  s_3c40ae827cabfc::t_713c32db278865 1-106
+platform_core/diagnosis_text.py
+  s_3c40ae827cabfc::t_882e2d0d6a439c 1-49
+platform_core/endpoint_model.py
+  s_3c40ae827cabfc::t_4a7c0c8ca2386e 1-53
+platform_core/endpoint_observability.py
+  s_3c40ae827cabfc::t_3938dcf114f9e0 1-109
+platform_core/event_bus.py
+  s_3c40ae827cabfc::t_6169bc7e614e4a 1-180
+platform_core/event_store.py
+  s_3c40ae827cabfc::t_54ac795a42b5ce 1-189
+platform_core/events.py
+  s_3c40ae827cabfc::t_924bf151ac3fa1 1-186
+platform_core/evidence_model.py
+  s_3c40ae827cabfc::t_5a28e51b79ffbd 1-148
+platform_core/evidence_tree.py
+  s_3c40ae827cabfc::t_59568e56d5995b 1-123
+platform_core/failure_scenarios.py
+  s_3c40ae827cabfc::t_22543af6d75f34 1-212
+platform_core/fleet/__init__.py
+  s_3c40ae827cabfc::t_b092e60f091e40 1-41
+platform_core/fleet/deduplication.py
+  s_3c40ae827cabfc::t_4255069f7c23ff 1-151
+platform_core/fleet/ingestion.py
+  s_3c40ae827cabfc::t_0aea2b6b45e0ad 1-161
+platform_core/fleet/linkage.py
+  s_3c40ae827cabfc::t_9252654eca07c5 1-59
+platform_core/fleet/models.py
+  s_3c40ae827cabfc::t_c879a4bd9884a2 1-107
+platform_core/fleet/observability.py
+  s_3c40ae827cabfc::t_7b3f13b1077b33 1-84
+platform_core/fleet/partitioning.py
+  s_3c40ae827cabfc::t_12b35cba348be4 1-73
+platform_core/fleet/replay.py
+  s_3c40ae827cabfc::t_72e1c4c52609dc 1-178
+platform_core/fleet/tenancy.py
+  s_3c40ae827cabfc::t_1435b9b4280b9f 1-73
+platform_core/fleet_simulation.py
+  s_3c40ae827cabfc::t_b9d4d3ce931c93 1-282
+platform_core/fleet_store.py
+  s_3c40ae827cabfc::t_f4e0e340c016c1 1-144
+platform_core/impact_score.py
+  s_3c40ae827cabfc::t_c78ae7b49e610f 1-88
+platform_core/incident_engine.py
+  s_3c40ae827cabfc::t_8c742584c795b0 1-132
+platform_core/incident_model.py
+  s_3c40ae827cabfc::t_da2709edc05df0 1-34
+platform_core/incident_review/__init__.py
+  s_3c40ae827cabfc::t_ed8d44e5c779d9 1-17
+platform_core/incident_review/generator.py
+  s_3c40ae827cabfc::t_9d9ea1fe73f22a 1-269
+platform_core/incident_store.py
+  s_3c40ae827cabfc::t_1111ffa79de0c5 1-102
+platform_core/incidents.py
+  s_3c40ae827cabfc::t_c59a79dd8c5436 1-194
+platform_core/metrics.py
+  s_3c40ae827cabfc::t_751b25ad0138ed 1-275
+platform_core/models.py
+  s_3c40ae827cabfc::t_6a8134e1925e18 1-148
+platform_core/network_diagnostics/__init__.py
+  s_3c40ae827cabfc::t_ed65f7230d6417 1-38
+platform_core/network_diagnostics/base.py
+  s_3c40ae827cabfc::t_87a55dbca45775 1-236
+platform_core/network_diagnostics/darwin.py
+  s_3c40ae827cabfc::t_5b1292da89ccc0 1-224
+platform_core/network_diagnostics/generic.py
+  s_3c40ae827cabfc::t_377744f813cf62 1-68
+platform_core/network_diagnostics/linux.py
+  s_3c40ae827cabfc::t_0264acdb41754f 1-152
+platform_core/network_diagnostics/listeners.py
+  s_3c40ae827cabfc::t_f9945325b4ac18 1-162
+platform_core/network_diagnostics/windows.py
+  s_3c40ae827cabfc::t_58a4d8cdf8251a 1-154
+platform_core/os_probe.py
+  s_3c40ae827cabfc::t_8d13e5f926739e 1-64
+platform_core/outcome_learning/__init__.py
+  s_3c40ae827cabfc::t_09f44934a274c3 1-47
+platform_core/outcome_learning/evaluation.py
+  s_3c40ae827cabfc::t_3710e2305e5470 1-45
+platform_core/outcome_learning/learning.py
+  s_3c40ae827cabfc::t_0a0da4a031e611 1-54
+platform_core/outcome_learning/models.py
+  s_3c40ae827cabfc::t_3cbe0498f281b6 1-84
+platform_core/outcome_learning/replay.py
+  s_3c40ae827cabfc::t_b9f8682aaad5a6 1-78
+platform_core/outcome_learning/reports.py
+  s_3c40ae827cabfc::t_9bc3f2155bbba0 1-128
+platform_core/outcome_learning/store.py
+  s_3c40ae827cabfc::t_d8445dd5f085fe 1-54
+platform_core/platform_event_contract.py
+  s_3c40ae827cabfc::t_821966ff452bdd 1-203
+platform_core/policy/__init__.py
+  s_3c40ae827cabfc::t_3668c1f077267f 1-35
+platform_core/policy/classic.py
+  s_3c40ae827cabfc::t_f8b7f1481a03d9 1-231
+platform_core/policy/engine.py
+  s_3c40ae827cabfc::t_c52c0e331e64c1 1-175
+platform_core/policy_as_code.py
+  s_3c40ae827cabfc::t_f13ce20510d733 1-175
+platform_core/policy_engine.py
+  s_3c40ae827cabfc::t_8b68ce70eea8a9 1-208
+platform_core/policy_model.py
+  s_3c40ae827cabfc::t_cc48bd8ff5bb81 1-70
+platform_core/policy_v2.py
+  s_3c40ae827cabfc::t_a2c6a848147e25 1-95
+platform_core/policy_vocabulary.py
+  s_3c40ae827cabfc::t_9b5fd909cb2f8f 1-65
+platform_core/privacy.py
+  s_3c40ae827cabfc::t_8a59223e6b7031 1-159
+platform_core/product_contract.py
+  s_3c40ae827cabfc::t_cacdba2236fd7a 1-789
+platform_core/rbac.py
+  s_3c40ae827cabfc::t_686881e7b3d96e 1-170
+platform_core/reasoning/__init__.py
+  s_3c40ae827cabfc::t_3fc4da79c4f432 1-70
+platform_core/reasoning/layers.py
+  s_3c40ae827cabfc::t_db3a0045774aef 1-59
+platform_core/reasoning_audit.py
+  s_3c40ae827cabfc::t_197c106d14a0e2 1-126
+platform_core/reasoning_engine.py
+  s_3c40ae827cabfc::t_6e29d67d688364 1-622
+platform_core/reasoning_models.py
+  s_3c40ae827cabfc::t_8b36136c34dbe6 1-260
+platform_core/reliability/__init__.py
+  s_3c40ae827cabfc::t_02fe3a7b57fc30 1-22
+platform_core/reliability/audit_integrity.py
+  s_3c40ae827cabfc::t_6503a6d2d25389 1-67
+platform_core/reliability/decision_engine.py
+  s_3c40ae827cabfc::t_2d715e73c34145 1-101
+platform_core/reliability/event_pipeline.py
+  s_3c40ae827cabfc::t_0e21965c47b6be 1-192
+platform_core/reliability/evidence_graph.py
+  s_3c40ae827cabfc::t_15aac7bec25f15 1-173
+platform_core/reliability/hypothesis_engine.py
+  s_3c40ae827cabfc::t_c02fe191439716 1-146
+platform_core/reliability/models.py
+  s_3c40ae827cabfc::t_ec03f674b86b19 1-153
+platform_core/reliability/platform_states.py
+  s_3c40ae827cabfc::t_f738abf560e145 1-111
+platform_core/reliability/policy_config.py
+  s_3c40ae827cabfc::t_b673a215600dce 1-150
+platform_core/reliability/resilience.py
+  s_3c40ae827cabfc::t_ed74dd6a263b35 1-113
+platform_core/reliability/time_travel.py
+  s_3c40ae827cabfc::t_5fe3bb5878fceb 1-119
+platform_core/reliability_metrics.py
+  s_3c40ae827cabfc::t_8ae01e12b56c75 1-187
+platform_core/remediation.py
+  s_3c40ae827cabfc::t_a1acd48e6b003d 1-33
+platform_core/remediation_registry.py
+  s_3c40ae827cabfc::t_a4feb11dd2e669 1-573
+platform_core/replay/__init__.py
+  s_3c40ae827cabfc::t_65f3a97931c9aa 1-5
+platform_core/replay/__main__.py
+  s_3c40ae827cabfc::t_d7b75b69610e51 1-10
+platform_core/replay/runner.py
+  s_3c40ae827cabfc::t_094688f2aa6f1b 1-169
+platform_core/schemas.py
+  s_3c40ae827cabfc::t_2549736daa1149 1-37
+platform_core/settings.py
+  s_3c40ae827cabfc::t_7dba350a56de05 1-136
+platform_core/slo_engine.py
+  s_3c40ae827cabfc::t_312b65923594e4 1-40
+platform_core/slo_model.py
+  s_3c40ae827cabfc::t_8083499a39d940 1-36
+platform_core/sre/__init__.py
+  s_3c40ae827cabfc::t_54d7738473747b 1-35
+platform_core/sre/event_store.py
+  s_3c40ae827cabfc::t_5fd734203af317 1-171
+platform_core/sre/failure_domains.py
+  s_3c40ae827cabfc::t_648b3405efe353 1-172
+platform_core/sre/incident_aggregate.py
+  s_3c40ae827cabfc::t_65f07090a5b0c0 1-307
+platform_core/sre/investigation.py
+  s_3c40ae827cabfc::t_4efc271600ba80 1-121
+platform_core/sre/models.py
+  s_3c40ae827cabfc::t_eebc549db3c870 1-241
+platform_core/sre/mttr.py
+  s_3c40ae827cabfc::t_655f9d129bc253 1-113
+platform_core/sre/postmortem.py
+  s_3c40ae827cabfc::t_dc047bccec7c62 1-122
+platform_core/sre/projector.py
+  s_3c40ae827cabfc::t_c5e6cd778b6b16 1-130
+platform_core/sre/rca.py
+  s_3c40ae827cabfc::t_6104f84638bbe6 1-107
+platform_core/sre/timeline.py
+  s_3c40ae827cabfc::t_a84c40eb240ea5 1-101
+platform_core/startup_checks.py
+  s_3c40ae827cabfc::t_bc1c0dbdb6a332 1-146
+platform_core/state_machine.py
+  s_3c40ae827cabfc::t_bc12770e9c24ea 1-231
+platform_core/storage.py
+  s_3c40ae827cabfc::t_7b6ce80aa88236 1-362
+platform_core/toolkit_metrics.py
+  s_3c40ae827cabfc::t_017a18cc0e21df 1-93
+pyproject.toml
+  s_3c40ae827cabfc::t_9cefdc10a5976d 1-82
+pytest.ini
+  s_3c40ae827cabfc::t_147d6316c9707f 1-25
+src/__init__.py
+  s_3c40ae827cabfc::t_31a763f8a778de 1-23
+src/__main__.py
+  s_3c40ae827cabfc::t_ab041c471a2bb1 1-58
+src/api/__init__.py
+  s_3c40ae827cabfc::t_95f0644782eda2 1-6
+src/api/incident_store.py
+  s_3c40ae827cabfc::t_d5281947fb5741 1-166
+src/api/routes_evidence_tree.py
+  s_3c40ae827cabfc::t_7c91c194a0c32f 1-28
+src/api/routes_proxy_incidents.py
+  s_3c40ae827cabfc::t_470069cc63cf58 1-87
+src/attribution/__init__.py
+  s_3c40ae827cabfc::t_027f8bffc5436f 1-16
+src/attribution/port_owner.py
+  s_3c40ae827cabfc::t_e6970a6160bb84 1-88
+src/attribution/process_tree.py
+  s_3c40ae827cabfc::t_726c8de4977fa1 1-41
+src/attribution/suspicious_process.py
+  s_3c40ae827cabfc::t_3655427b49c73e 1-69
+src/audit/__init__.py
+  s_3c40ae827cabfc::t_c3f6798a50a45c 1-27
+src/audit/replay.py
+  s_3c40ae827cabfc::t_5971eb06a3114b 1-309
+src/classification/__init__.py
+  s_3c40ae827cabfc::t_4ff5020bd20a2c 1-23
+src/classification/models.py
+  s_3c40ae827cabfc::t_1d6a308bde71c4 1-242
+src/classification/process_classifier.py
+  s_3c40ae827cabfc::t_6a4dd90c9f717d 1-215
+src/classification/rules.py
+  s_3c40ae827cabfc::t_3337b3ca4b4bfe 1-292
+src/cli.py
+  s_3c40ae827cabfc::t_97cecb507b9ffb 1-2793
+src/command_handlers.py
+  s_3c40ae827cabfc::t_46418cb2f605b2 1-2686
+src/command_handlers_safety.py
+  s_3c40ae827cabfc::t_c2a457cfa630b8 1-367
+src/core/__init__.py
+  s_3c40ae827cabfc::t_b6d0182945aa76 1-19
+src/core/audit.py
+  s_3c40ae827cabfc::t_48623f5dda4227 1-23
+src/core/decision.py
+  s_3c40ae827cabfc::t_feae1f71015fde 1-11
+src/core/decision_engine.py
+  s_3c40ae827cabfc::t_aca22480d29fdb 1-3
+src/core/event.py
+  s_3c40ae827cabfc::t_77d94a92f2cf2c 1-11
+src/core/evidence.py
+  s_3c40ae827cabfc::t_d2b0ba08355f09 1-11
+src/core/evidence_engine.py
+  s_3c40ae827cabfc::t_7bb806d01005b0 1-3
+src/core/jsonl.py
+  s_3c40ae827cabfc::t_2e13d417bd6189 1-42
+src/core/models.py
+  s_3c40ae827cabfc::t_14e0c6d95e49df 1-187
+src/core/outcome.py
+  s_3c40ae827cabfc::t_3dd35b32d9a04e 1-11
+src/core/outcome_engine.py
+  s_3c40ae827cabfc::t_b7b1704b033f1d 1-3
+src/core/policy.py
+  s_3c40ae827cabfc::t_7b09c2ef0f4c77 1-11
+src/core/policy_engine.py
+  s_3c40ae827cabfc::t_550a1bd00724c9 1-3
+src/core/replay.py
+  s_3c40ae827cabfc::t_554f073e503133 1-3
+src/core/result.py
+  s_3c40ae827cabfc::t_a725705b9c0714 1-29
+src/core/serialization.py
+  s_3c40ae827cabfc::t_1eb3bc96e8d3dd 1-29
+src/core/time_utils.py
+  s_3c40ae827cabfc::t_cd24a7d0354cae 1-10
+src/core/windows_cli.py
+  s_3c40ae827cabfc::t_b9b2a69c98a9a6 1-21
+src/correlation/__init__.py
+  s_3c40ae827cabfc::t_31b0d2ae97531e 1-11
+src/correlation/process_tree.py
+  s_3c40ae827cabfc::t_5cc9faa51d68c0 1-159
+src/correlation/proxy_causation.py
+  s_3c40ae827cabfc::t_c5a7b31f03f3ae 1-419
+src/decision_engine/__init__.py
+  s_3c40ae827cabfc::t_c150ae2dd64b0b 1-63
+src/decision_engine/adversarial_hints.py
+  s_3c40ae827cabfc::t_15b20dd74d7b60 1-7
+src/decision_engine/counterfactual.py
+  s_3c40ae827cabfc::t_9b5b7287382316 1-281
+src/decision_engine/decision_engine.py
+  s_3c40ae827cabfc::t_a1e41fe9a0e70b 1-154
+src/decision_engine/explanations.py
+  s_3c40ae827cabfc::t_4be1ea0e686472 1-7
+src/decision_engine/hypotheses.py
+  s_3c40ae827cabfc::t_fde48f384a62d5 1-7
+src/decision_engine/hypothesis_decision.py
+  s_3c40ae827cabfc::t_7405dde7694fcd 1-27
+src/decision_engine/legacy_scoring.py
+  s_3c40ae827cabfc::t_5919fc0e4c06f9 1-21
+src/decision_engine/live_replay.py
+  s_3c40ae827cabfc::t_ce65365f3e45fc 1-27
+src/decision_engine/live_scoring.py
+  s_3c40ae827cabfc::t_2582c05aef78e1 1-7
+src/decision_engine/ranking.py
+  s_3c40ae827cabfc::t_a5504c798e7784 1-62
+src/decision_engine/recommendations.py
+  s_3c40ae827cabfc::t_ab39340a5f4a51 1-7
+src/decision_engine/risk_numeric.py
+  s_3c40ae827cabfc::t_b9466b5c1c0608 1-7
+src/decision_engine/scoring.py
+  s_3c40ae827cabfc::t_a14a084ccef456 1-251
+src/decision_engine/trust_layer.py
+  s_3c40ae827cabfc::t_63c14a50d42b17 1-7
+src/demo_handlers.py
+  s_3c40ae827cabfc::t_a21631592f9d26 1-153
+src/diagnostics/__init__.py
+  s_3c40ae827cabfc::t_565fe5791aef69 1-6
+src/diagnostics/collector.py
+  s_3c40ae827cabfc::t_f3c7b0827e62c1 1-338
+src/diagnostics/features.py
+  s_3c40ae827cabfc::t_0a672ef5465ce5 1-102
+src/domains/__init__.py
+  s_3c40ae827cabfc::t_62ce8d266c0ae4 1-5
+src/domains/_fixture_adapter.py
+  s_3c40ae827cabfc::t_a03cd729b07534 1-7
+src/domains/base.py
+  s_3c40ae827cabfc::t_05795ade3a4dd7 1-5
+src/domains/cloud/__init__.py
+  s_3c40ae827cabfc::t_860934f32ebecf 1-18
+src/domains/cloud/adapter.py
+  s_3c40ae827cabfc::t_34539474d6c3d5 1-18
+src/domains/infrastructure/__init__.py
+  s_3c40ae827cabfc::t_b44520d1064b0a 1-18
+src/domains/infrastructure/adapter.py
+  s_3c40ae827cabfc::t_0a901674d7af6b 1-18
+src/domains/market/__init__.py
+  s_3c40ae827cabfc::t_74894cd0346f9d 1-18
+src/domains/market/adapter.py
+  s_3c40ae827cabfc::t_5862778c6a18dc 1-18
+src/domains/registry.py
+  s_3c40ae827cabfc::t_fb06fb02edd8b1 1-5
+src/domains/security/__init__.py
+  s_3c40ae827cabfc::t_0b45f75597a133 1-18
+src/domains/security/adapter.py
+  s_3c40ae827cabfc::t_a30af0398f8ee5 1-18
+src/domains/windows/__init__.py
+  s_3c40ae827cabfc::t_5b9b3d43560f3b 1-18
+src/domains/windows/adapter.py
+  s_3c40ae827cabfc::t_683cc0deab2206 1-5
+src/hypothesis/__init__.py
+  s_3c40ae827cabfc::t_d0c25d8e258ea6 1-36
+src/hypothesis/explanations.py
+  s_3c40ae827cabfc::t_f9730c407bf1d7 1-44
+src/hypothesis/keys.py
+  s_3c40ae827cabfc::t_0df2d15e0b27e6 1-32
+src/hypothesis/live_scoring.py
+  s_3c40ae827cabfc::t_e8ac87608110d1 1-264
+src/hypothesis/recommendations.py
+  s_3c40ae827cabfc::t_53b669fdc607d9 1-156
+src/hypothesis/risk.py
+  s_3c40ae827cabfc::t_567cfc3c6a9fb6 1-41
+src/hypothesis/v1_scoring.py
+  s_3c40ae827cabfc::t_aad05a85e3759d 1-303
+src/knowledge/__init__.py
+  s_3c40ae827cabfc::t_a31432929f4a5e 1-37
+src/knowledge/knowledge_loader.py
+  s_3c40ae827cabfc::t_758181ca1d06cc 1-232
+src/knowledge/knowledge_models.py
+  s_3c40ae827cabfc::t_55a58ca4c3a787 1-72
+src/knowledge/knowledge_registry.py
+  s_3c40ae827cabfc::t_8b72aae5f93730 1-282
+src/logging/__init__.py
+  s_3c40ae827cabfc::t_42bb37e3182a6d 1-6
+src/logging/audit.py
+  s_3c40ae827cabfc::t_22fd02b4b0b296 1-78
+src/logging/feedback.py
+  s_3c40ae827cabfc::t_5b10bd02afd154 1-62
+src/market_events/__init__.py
+  s_3c40ae827cabfc::t_7e44bd64188be9 1-19
+src/market_events/__main__.py
+  s_3c40ae827cabfc::t_85dd9ddd4f1185 1-6
+src/market_events/audit.py
+  s_3c40ae827cabfc::t_2baad951655877 1-94
+src/market_events/calendar.py
+  s_3c40ae827cabfc::t_106f3210600396 1-69
+src/market_events/cli.py
+  s_3c40ae827cabfc::t_2b4df4b0f6f124 1-251
+src/market_events/evidence.py
+  s_3c40ae827cabfc::t_de450f2e811fef 1-107
+src/market_events/models.py
+  s_3c40ae827cabfc::t_308325518e10ed 1-278
+src/market_events/policy.py
+  s_3c40ae827cabfc::t_9c7e34d01905cf 1-60
+src/market_events/replay.py
+  s_3c40ae827cabfc::t_935c48c91b041a 1-36
+src/market_events/review.py
+  s_3c40ae827cabfc::t_cea93d6b776764 1-71
+src/market_events/scoring.py
+  s_3c40ae827cabfc::t_8b4b0fc8ef7a4f 1-134
+src/market_events/thesis.py
+  s_3c40ae827cabfc::t_138391af1f6515 1-56
+src/network_recovery/__init__.py
+  s_3c40ae827cabfc::t_f736f15ecb36a0 1-33
+src/network_recovery/audit.py
+  s_3c40ae827cabfc::t_165db284ca3be7 1-62
+src/network_recovery/auto_fix.py
+  s_3c40ae827cabfc::t_d8e2b4e9a48d93 1-180
+src/network_recovery/cli_handlers.py
+  s_3c40ae827cabfc::t_35e85a85df9474 1-262
+src/network_recovery/collectors.py
+  s_3c40ae827cabfc::t_5ef9447e108845 1-204
+src/network_recovery/diagnosis_text.py
+  s_3c40ae827cabfc::t_1e6dcb50869d81 1-105
+src/network_recovery/engine.py
+  s_3c40ae827cabfc::t_e643b3335f20f6 1-120
+src/network_recovery/models.py
+  s_3c40ae827cabfc::t_e99e1c5cc1ff1e 1-284
+src/network_recovery/remediation_catalog.py
+  s_3c40ae827cabfc::t_f6263d4ded3f0f 1-108
+src/network_recovery/remediation_executor.py
+  s_3c40ae827cabfc::t_7964ed93b015cf 1-280
+src/network_recovery/scenarios/__init__.py
+  s_3c40ae827cabfc::t_b850f5089dfb67 1-5
+src/network_recovery/scenarios/chatgpt_app_firewall.py
+  s_3c40ae827cabfc::t_94565376f32ff9 1-189
+src/network_state/__init__.py
+  s_3c40ae827cabfc::t_d152831ce9ea35 1-10
+src/network_state/audit.py
+  s_3c40ae827cabfc::t_33c59d68af7f91 1-81
+src/network_state/cli_handlers.py
+  s_3c40ae827cabfc::t_1f24265a7baa52 1-360
+src/network_state/diff_engine.py
+  s_3c40ae827cabfc::t_b3dfb8f433b21f 1-138
+src/network_state/event_log.py
+  s_3c40ae827cabfc::t_55c7305f8af84b 1-536
+src/network_state/events.py
+  s_3c40ae827cabfc::t_ce772702a76c7a 1-80
+src/network_state/evidence_import.py
+  s_3c40ae827cabfc::t_c0ca6910277f3b 1-95
+src/network_state/paths.py
+  s_3c40ae827cabfc::t_be76ac8431ef53 1-66
+src/network_state/policy.py
+  s_3c40ae827cabfc::t_548e4a7df62936 1-190
+src/network_state/report.py
+  s_3c40ae827cabfc::t_8674a9a3d98ccb 1-156
+src/network_state/snapshot_store.py
+  s_3c40ae827cabfc::t_9f81be723d5aa3 1-188
+src/observability/__init__.py
+  s_3c40ae827cabfc::t_722617fdde375a 1-16
+src/observability/browser_probe.py
+  s_3c40ae827cabfc::t_c729f699efc262 1-19
+src/observability/dns_probe.py
+  s_3c40ae827cabfc::t_23902f654e2831 1-12
+src/observability/lan_neighbor.py
+  s_3c40ae827cabfc::t_e04793eeb02c0e 1-199
+src/observability/mdns_probe.py
+  s_3c40ae827cabfc::t_f93d58c0a07d73 1-93
+src/observability/process_table.py
+  s_3c40ae827cabfc::t_a26a1ac2abd466 1-73
+src/observability/proxy_registry.py
+  s_3c40ae827cabfc::t_d21f9a2d4ff2cd 1-7
+src/observability/snapshot.py
+  s_3c40ae827cabfc::t_9d58749fe41a96 1-90
+src/observability/ssdp_probe.py
+  s_3c40ae827cabfc::t_6cb948be11fa51 1-104
+src/observability/tcp_table.py
+  s_3c40ae827cabfc::t_6c45d7899d0564 1-92
+src/observability/tls_probe.py
+  s_3c40ae827cabfc::t_422d755aac1752 1-10
+src/observation/__init__.py
+  s_3c40ae827cabfc::t_b48eefe52cf6ea 1-18
+src/observation/adversarial.py
+  s_3c40ae827cabfc::t_55654accbd0e70 1-30
+src/observation/trust.py
+  s_3c40ae827cabfc::t_494b5246891e4e 1-166
+src/platform/__init__.py
+  s_3c40ae827cabfc::t_07cbbd508b6ad4 1-26
+src/platform/audit.py
+  s_3c40ae827cabfc::t_1cd14b84aef6b0 1-140
+src/platform/compat/decision_platform_shim.py
+  s_3c40ae827cabfc::t_dca6d44b6966d6 1-128
+src/platform/decision_engine.py
+  s_3c40ae827cabfc::t_8e165418cff438 1-112
+src/platform/domains/__init__.py
+  s_3c40ae827cabfc::t_ab60434b75ed3d 1-28
+src/platform/domains/_evidence.py
+  s_3c40ae827cabfc::t_6ac774190492f7 1-44
+src/platform/domains/base.py
+  s_3c40ae827cabfc::t_9a43d847711d55 1-103
+src/platform/domains/cloud.py
+  s_3c40ae827cabfc::t_5ad93d0c62dff5 1-28
+src/platform/domains/fixture_graph.py
+  s_3c40ae827cabfc::t_6374937829d62d 1-57
+src/platform/domains/infrastructure.py
+  s_3c40ae827cabfc::t_94fede9889fd37 1-28
+src/platform/domains/market.py
+  s_3c40ae827cabfc::t_09a97932657dc8 1-28
+src/platform/domains/security.py
+  s_3c40ae827cabfc::t_e20b1c7b32202a 1-28
+src/platform/domains/windows.py
+  s_3c40ae827cabfc::t_98fc0adc954abe 1-28
+src/platform/evidence_engine.py
+  s_3c40ae827cabfc::t_f0c05e084d36dd 1-129
+src/platform/models.py
+  s_3c40ae827cabfc::t_0eda18ce9537aa 1-167
+src/platform/outcome_engine.py
+  s_3c40ae827cabfc::t_878a979c5a1154 1-149
+src/platform/pipeline.py
+  s_3c40ae827cabfc::t_299a0c170a523c 1-7
+src/platform/policy_engine.py
+  s_3c40ae827cabfc::t_4ecd8d91389cf4 1-148
+src/platform/registry.py
+  s_3c40ae827cabfc::t_198a325a0bb5e9 1-66
+src/platform/replay.py
+  s_3c40ae827cabfc::t_36cf1b0d88f618 1-146
+src/platform/serialization.py
+  s_3c40ae827cabfc::t_738d18ecedd316 1-43
+src/platform_core/__init__.py
+  s_3c40ae827cabfc::t_ce3f7094d0bfcf 1-30
+src/platform_core/agents/__init__.py
+  s_3c40ae827cabfc::t_019d0fbb0e5dbb 1-5
+src/platform_core/agents/contracts/__init__.py
+  s_3c40ae827cabfc::t_e6c75b4ab6f493 1-19
+src/platform_core/agents/contracts/schemas.py
+  s_3c40ae827cabfc::t_518e15d0143ee4 1-135
+src/platform_core/agents/orchestrator.py
+  s_3c40ae827cabfc::t_8b7b0def8a401a 1-113
+src/platform_core/ai_evals/__init__.py
+  s_3c40ae827cabfc::t_a5b60314b70304 1-40
+src/platform_core/ai_evals/evaluator.py
+  s_3c40ae827cabfc::t_5d95b0a834f34d 1-481
+src/platform_core/ai_evals/failure_taxonomy.py
+  s_3c40ae827cabfc::t_2bfc96e91844d4 1-117
+src/platform_core/ai_evals/policy.py
+  s_3c40ae827cabfc::t_c758736a9058d8 1-156
+src/platform_core/ai_evals/report.py
+  s_3c40ae827cabfc::t_293ce25fcd14e8 1-133
+src/platform_core/ai_evals/schemas.py
+  s_3c40ae827cabfc::t_dbcaa82765a620 1-177
+src/platform_core/ai_risk_analyst/__init__.py
+  s_3c40ae827cabfc::t_9417d6455e2d3f 1-38
+src/platform_core/ai_risk_analyst/explanation_guardrails.py
+  s_3c40ae827cabfc::t_4207f22ce4ecf9 1-71
+src/platform_core/ai_risk_analyst/guardrails.py
+  s_3c40ae827cabfc::t_a3b848f76a4139 1-223
+src/platform_core/ai_risk_analyst/models.py
+  s_3c40ae827cabfc::t_de1c29428f1c4e 1-324
+src/platform_core/ai_risk_analyst/providers/__init__.py
+  s_3c40ae827cabfc::t_c2d382f7064a95 1-15
+src/platform_core/ai_risk_analyst/providers/base.py
+  s_3c40ae827cabfc::t_ee8d7e8c030528 1-27
+src/platform_core/ai_risk_analyst/providers/local_rule_based.py
+  s_3c40ae827cabfc::t_45dd661054a44d 1-195
+src/platform_core/ai_risk_analyst/providers/mock.py
+  s_3c40ae827cabfc::t_36e91015f595ab 1-38
+src/platform_core/ai_risk_analyst/providers/openai_analyst.py
+  s_3c40ae827cabfc::t_428aa1bb5fa0ff 1-154
+src/platform_core/analytics/__init__.py
+  s_3c40ae827cabfc::t_15b9d9206e87c5 1-32
+src/platform_core/analytics/executive_evidence_report.py
+  s_3c40ae827cabfc::t_c20d97e8f2cbd8 1-156
+src/platform_core/analytics/powerbi_export.py
+  s_3c40ae827cabfc::t_7c138ebcb5bfee 1-650
+src/platform_core/analytics/powerbi_star_export.py
+  s_3c40ae827cabfc::t_ed1ae9206f91fc 1-931
+src/platform_core/analytics/risk_kpi.py
+  s_3c40ae827cabfc::t_7de6f80901a10e 1-232
+src/platform_core/analytics/summary.py
+  s_3c40ae827cabfc::t_419c20d6106b47 1-371
+src/platform_core/attribution/__init__.py
+  s_3c40ae827cabfc::t_b3718c515f8782 1-31
+src/platform_core/attribution/classifier.py
+  s_3c40ae827cabfc::t_86439da734ec86 1-110
+src/platform_core/attribution/collector.py
+  s_3c40ae827cabfc::t_c1a60954fb7144 1-247
+src/platform_core/attribution/models.py
+  s_3c40ae827cabfc::t_1ac0373ebc0547 1-113
+src/platform_core/attribution/writer_engine.py
+  s_3c40ae827cabfc::t_21ca4115494070 1-306
+src/platform_core/attribution/writer_models.py
+  s_3c40ae827cabfc::t_6de43a30da6425 1-79
+src/platform_core/audit/custody.py
+  s_3c40ae827cabfc::t_2c4637011467e6 1-144
+src/platform_core/audit/paths.py
+  s_3c40ae827cabfc::t_c813c7cb44da05 1-25
+src/platform_core/audit/reader.py
+  s_3c40ae827cabfc::t_b9230e4171c8e9 1-63
+src/platform_core/audit/schema.py
+  s_3c40ae827cabfc::t_4e66e192c8f943 1-103
+src/platform_core/audit/writer.py
+  s_3c40ae827cabfc::t_25166ce50a5b02 1-180
+src/platform_core/classification/__init__.py
+  s_3c40ae827cabfc::t_4ddfcafd9dd110 1-6
+src/platform_core/classification/adapters.py
+  s_3c40ae827cabfc::t_bfc3d628aca2ad 1-35
+src/platform_core/classification/engine.py
+  s_3c40ae827cabfc::t_6b8ab211ceb5a8 1-422
+src/platform_core/classification/models.py
+  s_3c40ae827cabfc::t_025eff3296e50e 1-72
+src/platform_core/cloud_governance/__init__.py
+  s_3c40ae827cabfc::t_f00722df85a4ed 1-17
+src/platform_core/cloud_governance/recommendations.py
+  s_3c40ae827cabfc::t_ae87d3cc0ac8d9 1-148
+src/platform_core/contracts.py
+  s_3c40ae827cabfc::t_4bbcc610802484 1-424
+src/platform_core/controls/__init__.py
+  s_3c40ae827cabfc::t_6160521b073a07 1-5
+src/platform_core/controls/control_test.py
+  s_3c40ae827cabfc::t_087bd540b8e51f 1-269
+src/platform_core/decision/__init__.py
+  s_3c40ae827cabfc::t_90403ea9055142 1-18
+src/platform_core/decision/engine.py
+  s_3c40ae827cabfc::t_6f95f869e74496 1-80
+src/platform_core/decision_context/__init__.py
+  s_3c40ae827cabfc::t_e715ce07c44e79 1-35
+src/platform_core/decision_context/explanation.py
+  s_3c40ae827cabfc::t_e6609b2192de8d 1-68
+src/platform_core/decision_context/models.py
+  s_3c40ae827cabfc::t_5bd67489eaebbe 1-100
+src/platform_core/decision_context/orchestrator.py
+  s_3c40ae827cabfc::t_e8272019811e18 1-245
+src/platform_core/decision_context/store.py
+  s_3c40ae827cabfc::t_512d754c63c102 1-105
+src/platform_core/decision_intelligence/__init__.py
+  s_3c40ae827cabfc::t_6be49b38f5b39d 1-23
+src/platform_core/decision_intelligence/adapters.py
+  s_3c40ae827cabfc::t_5af2b82205257f 1-657
+src/platform_core/decision_intelligence/models.py
+  s_3c40ae827cabfc::t_2732c8a03c4e2b 1-245
+src/platform_core/decision_intelligence/orchestrator.py
+  s_3c40ae827cabfc::t_bc4679e1d5126f 1-271
+src/platform_core/evaluation/__init__.py
+  s_3c40ae827cabfc::t_851937c0273b08 1-33
+src/platform_core/evaluation/classifier_benchmark.py
+  s_3c40ae827cabfc::t_91da9e59b2bf84 1-347
+src/platform_core/evaluation/replay_benchmark.py
+  s_3c40ae827cabfc::t_aaae3b978564b5 1-187
+src/platform_core/evaluation/research_benchmark.py
+  s_3c40ae827cabfc::t_b03543ad89925d 1-940
+src/platform_core/events/__init__.py
+  s_3c40ae827cabfc::t_96cfea37727b0d 1-17
+src/platform_core/events/models.py
+  s_3c40ae827cabfc::t_cdeef6b4ca8616 1-62
+src/platform_core/events/projector.py
+  s_3c40ae827cabfc::t_d335149064424b 1-83
+src/platform_core/events/replay.py
+  s_3c40ae827cabfc::t_2df266cc316a4f 1-26
+src/platform_core/events/store.py
+  s_3c40ae827cabfc::t_555dc55d5b5ffb 1-247
+src/platform_core/evidence/__init__.py
+  s_3c40ae827cabfc::t_bf76edab785329 1-27
+src/platform_core/evidence/conflicts.py
+  s_3c40ae827cabfc::t_7fb9aa5fbefd6c 1-86
+src/platform_core/evidence/explanations.py
+  s_3c40ae827cabfc::t_c0f426c05ac926 1-91
+src/platform_core/evidence/guards.py
+  s_3c40ae827cabfc::t_70ffb644e0284a 1-165
+src/platform_core/evidence/record.py
+  s_3c40ae827cabfc::t_449b90a4b2d44e 1-239
+src/platform_core/evidence/state_machine.py
+  s_3c40ae827cabfc::t_0b7057492f1598 1-139
+src/platform_core/evidence/tiers.py
+  s_3c40ae827cabfc::t_cc055af0138756 1-84
+src/platform_core/evidence_collection/__init__.py
+  s_3c40ae827cabfc::t_762a73cf6ab117 1-46
+src/platform_core/evidence_collection/base.py
+  s_3c40ae827cabfc::t_4de1d97af0b976 1-59
+src/platform_core/evidence_collection/darwin.py
+  s_3c40ae827cabfc::t_4ccb96a7ecac1d 1-139
+src/platform_core/evidence_collection/factory.py
+  s_3c40ae827cabfc::t_73d2a15669c323 1-42
+src/platform_core/evidence_collection/linux.py
+  s_3c40ae827cabfc::t_9ff13924da0e55 1-139
+src/platform_core/evidence_collection/models.py
+  s_3c40ae827cabfc::t_c2b475f664395a 1-51
+src/platform_core/evidence_collection/normalize.py
+  s_3c40ae827cabfc::t_a0f14300c136d7 1-94
+src/platform_core/evidence_collection/unsupported.py
+  s_3c40ae827cabfc::t_02df68dfd28883 1-135
+src/platform_core/evidence_collection/windows.py
+  s_3c40ae827cabfc::t_6d3e0736cc2a92 1-129
+src/platform_core/evidence_report/__init__.py
+  s_3c40ae827cabfc::t_be100072d3300c 1-6
+src/platform_core/evidence_report/confidence_model.py
+  s_3c40ae827cabfc::t_343bb852db7d7d 1-151
+src/platform_core/evidence_report/generator.py
+  s_3c40ae827cabfc::t_5f04c2f2975c6d 1-111
+src/platform_core/evidence_report/timeline_merger.py
+  s_3c40ae827cabfc::t_c5d030a5ac501e 1-134
+src/platform_core/finops/__init__.py
+  s_3c40ae827cabfc::t_39718604d778da 1-21
+src/platform_core/finops/export.py
+  s_3c40ae827cabfc::t_26df5cebd0a8c6 1-141
+src/platform_core/governance/__init__.py
+  s_3c40ae827cabfc::t_9f8320c23ab428 1-55
+src/platform_core/governance/audit_report.py
+  s_3c40ae827cabfc::t_4f354efb80133f 1-371
+src/platform_core/governance/chain_of_custody.py
+  s_3c40ae827cabfc::t_61a0d306311701 1-69
+src/platform_core/governance/control_mapping.py
+  s_3c40ae827cabfc::t_c470e8a3daa803 1-35
+src/platform_core/governance/coordination_kpis.py
+  s_3c40ae827cabfc::t_cf0a2afb449c40 1-84
+src/platform_core/governance/evidence_decision_lifecycle.py
+  s_3c40ae827cabfc::t_8b0e0bdde244df 1-226
+src/platform_core/governance/evidence_to_action.py
+  s_3c40ae827cabfc::t_09aaeee9bff074 1-358
+src/platform_core/governance/human_review.py
+  s_3c40ae827cabfc::t_b9ab7facf44404 1-358
+src/platform_core/governance/policy_compiler.py
+  s_3c40ae827cabfc::t_ab9702cbbfd2b0 1-44
+src/platform_core/governance/proof_tier.py
+  s_3c40ae827cabfc::t_ab31a55d6c3ce8 1-319
+src/platform_core/governance/report_sections.py
+  s_3c40ae827cabfc::t_0b588d629bfbed 1-43
+src/platform_core/governance/report_signing.py
+  s_3c40ae827cabfc::t_7ade7f7dcd808f 1-48
+src/platform_core/governance/risk_decision_record.py
+  s_3c40ae827cabfc::t_8fae62270c72b0 1-243
+src/platform_core/hypothesis/__init__.py
+  s_3c40ae827cabfc::t_45533ce654ae52 1-35
+src/platform_core/hypothesis/engine.py
+  s_3c40ae827cabfc::t_bf45885bd83706 1-45
+src/platform_core/hypothesis/models.py
+  s_3c40ae827cabfc::t_b1897a9d8fa587 1-245
+src/platform_core/hypothesis/multievidence_engine.py
+  s_3c40ae827cabfc::t_440761e884a4dd 1-386
+src/platform_core/hypothesis/scenarios.py
+  s_3c40ae827cabfc::t_be3a73f8b6c94c 1-160
+src/platform_core/hypothesis/scorer.py
+  s_3c40ae827cabfc::t_c6fa473559a6f4 1-129
+src/platform_core/io/__init__.py
+  s_3c40ae827cabfc::t_66c45331feae20 1-9
+src/platform_core/io/locked_jsonl.py
+  s_3c40ae827cabfc::t_9331cc55a6dc5e 1-120
+src/platform_core/learning/feedback.py
+  s_3c40ae827cabfc::t_e50d5317e0629b 1-31
+src/platform_core/operability/__init__.py
+  s_3c40ae827cabfc::t_d9d908d268343d 1-78
+src/platform_core/operability/context.py
+  s_3c40ae827cabfc::t_ec9a9cd8c3c1d6 1-129
+src/platform_core/operability/events.py
+  s_3c40ae827cabfc::t_e25edcad68b973 1-242
+src/platform_core/operability/health.py
+  s_3c40ae827cabfc::t_813927c098ac2e 1-24
+src/platform_core/operability/metrics_registry.py
+  s_3c40ae827cabfc::t_337c17a5b47f03 1-130
+src/platform_core/operability/slo.py
+  s_3c40ae827cabfc::t_f8789a31552f59 1-77
+src/platform_core/operability/structured_logging.py
+  s_3c40ae827cabfc::t_0b3a37742ad787 1-34
+src/platform_core/outcome/classification.py
+  s_3c40ae827cabfc::t_16bd23e00cbc58 1-114
+src/platform_core/outcome/metrics.py
+  s_3c40ae827cabfc::t_80a4b9d0f33527 1-63
+src/platform_core/outcome/store.py
+  s_3c40ae827cabfc::t_9d33771894ece2 1-107
+src/platform_core/pipeline.py
+  s_3c40ae827cabfc::t_397887c88d12dc 1-181
+src/platform_core/policy/__init__.py
+  s_3c40ae827cabfc::t_2b408567582e38 1-18
+src/platform_core/policy/actions.py
+  s_3c40ae827cabfc::t_c60e411a0d57e4 1-84
+src/platform_core/policy/approval.py
+  s_3c40ae827cabfc::t_bd2f83be28c8b0 1-64
+src/platform_core/policy/engine.py
+  s_3c40ae827cabfc::t_d85a19c45dae3c 1-114
+src/platform_core/policy/outcome_normalizer.py
+  s_3c40ae827cabfc::t_5e2559f11e2ee7 1-109
+src/platform_core/policy/outcomes.py
+  s_3c40ae827cabfc::t_f1ce574ae4b78e 1-31
+src/platform_core/principles/__init__.py
+  s_3c40ae827cabfc::t_4f716c56f29988 1-31
+src/platform_core/principles/models.py
+  s_3c40ae827cabfc::t_bf3832cc807754 1-172
+src/platform_core/principles/principles.yaml
+  s_3c40ae827cabfc::t_5d003496163457 1-74
+src/platform_core/principles/report.py
+  s_3c40ae827cabfc::t_4a37c5a12f1b18 1-191
+src/platform_core/principles/rules.py
+  s_3c40ae827cabfc::t_4e778d3c40fa67 1-480
+src/platform_core/principles/validator.py
+  s_3c40ae827cabfc::t_d24061f381d184 1-328
+src/platform_core/proof/__init__.py
+  s_3c40ae827cabfc::t_db6abf7289e2d3 1-12
+src/platform_core/proof/engine.py
+  s_3c40ae827cabfc::t_f4933ec4f0bcab 1-268
+src/platform_core/proof/models.py
+  s_3c40ae827cabfc::t_9a427262f1a0f7 1-77
+src/platform_core/remediation/__init__.py
+  s_3c40ae827cabfc::t_9235e7898aaf66 1-6
+src/platform_core/remediation/planner.py
+  s_3c40ae827cabfc::t_51d2b7477525b5 1-192
+src/platform_core/remediation/rollback.py
+  s_3c40ae827cabfc::t_b480b0785500aa 1-392
+src/platform_core/replay/certifier.py
+  s_3c40ae827cabfc::t_8a7f7f8a6d63c8 1-102
+src/platform_core/replay/golden.py
+  s_3c40ae827cabfc::t_714febf335c7e3 1-21
+src/platform_core/replay/hash.py
+  s_3c40ae827cabfc::t_2790fb39924701 1-23
+src/platform_core/risk/__init__.py
+  s_3c40ae827cabfc::t_bc3253d424c770 1-54
+src/platform_core/risk/asset.py
+  s_3c40ae827cabfc::t_ec5a0214e76e3c 1-65
+src/platform_core/risk/business_impact.py
+  s_3c40ae827cabfc::t_96428ba8f0a60f 1-103
+src/platform_core/risk/business_impact_mapping.py
+  s_3c40ae827cabfc::t_81b0fd646723d6 1-128
+src/platform_core/risk/business_objective.py
+  s_3c40ae827cabfc::t_af7d543a1afbf0 1-63
+src/platform_core/risk/control.py
+  s_3c40ae827cabfc::t_18c9061fc29a50 1-87
+src/platform_core/risk/control_test.py
+  s_3c40ae827cabfc::t_20aadccc978470 1-235
+src/platform_core/risk/control_test_mature.py
+  s_3c40ae827cabfc::t_f2dd4de61ed612 1-213
+src/platform_core/risk/finding.py
+  s_3c40ae827cabfc::t_39a96e339e5733 1-128
+src/platform_core/risk/governance_report.py
+  s_3c40ae827cabfc::t_1763b6acdc804c 1-397
+src/platform_core/risk/risk_matrix.py
+  s_3c40ae827cabfc::t_bedc1868850a06 1-225
+src/platform_core/risk/risk_rating.py
+  s_3c40ae827cabfc::t_bfe2e3f156d8f0 1-115
+src/platform_core/risk/threat.py
+  s_3c40ae827cabfc::t_6fc00eaa9c492d 1-81
+src/platform_core/scale/__init__.py
+  s_3c40ae827cabfc::t_2f69e5e8e84075 1-31
+src/platform_core/scale/replay.py
+  s_3c40ae827cabfc::t_51d331a08bad92 1-62
+src/platform_core/scale/synthetic.py
+  s_3c40ae827cabfc::t_06e2ff8051c757 1-117
+src/platform_core/serialization.py
+  s_3c40ae827cabfc::t_ed2a7afe73ad11 1-43
+src/platform_core/stakeholder/__init__.py
+  s_3c40ae827cabfc::t_66e437e9e9747a 1-24
+src/platform_core/stakeholder/escalation.py
+  s_3c40ae827cabfc::t_e750846d1183ac 1-50
+src/platform_core/stakeholder/models.py
+  s_3c40ae827cabfc::t_acceaabe4f4f1a 1-133
+src/platform_core/stakeholder/registry.py
+  s_3c40ae827cabfc::t_016cccec0d26d0 1-159
+src/platform_core/stakeholder/resolver.py
+  s_3c40ae827cabfc::t_a8406933ad049a 1-321
+src/platform_core/timeline/__init__.py
+  s_3c40ae827cabfc::t_56cac66c1cdef1 1-6
+src/platform_core/timeline/builder.py
+  s_3c40ae827cabfc::t_a96a41208ceef5 1-254
+src/platform_core/timeline/models.py
+  s_3c40ae827cabfc::t_9a6bf7b0eff814 1-47
+src/platform_core/timing/__init__.py
+  s_3c40ae827cabfc::t_a547a4339acb02 1-22
+src/platform_core/timing/evaluator.py
+  s_3c40ae827cabfc::t_597e2400f7063d 1-266
+src/platform_core/timing/models.py
+  s_3c40ae827cabfc::t_0917339f561ef0 1-147
+src/platform_core/timing/sla.py
+  s_3c40ae827cabfc::t_ebb535ff6a9950 1-80
+src/platform_core/timing/windows.py
+  s_3c40ae827cabfc::t_f5fde3664327df 1-113
+src/platform_core/tls/__init__.py
+  s_3c40ae827cabfc::t_eedf0b40173760 1-6
+src/platform_core/tls/engine.py
+  s_3c40ae827cabfc::t_bbcb986867ccd9 1-180
+src/platform_core/tls/models.py
+  s_3c40ae827cabfc::t_d3e65188a42861 1-127
+src/platform_core/tls/root_store.py
+  s_3c40ae827cabfc::t_ad920a3dbde2d5 1-110
+src/platform_core/website_risk/__init__.py
+  s_3c40ae827cabfc::t_f89f6342c87d5b 1-6
+src/platform_core/website_risk/engine.py
+  s_3c40ae827cabfc::t_3fc4820b7ce077 1-114
+src/platform_core/website_risk/heuristics.py
+  s_3c40ae827cabfc::t_4a40a0cbe24bed 1-169
+src/platform_core/website_risk/models.py
+  s_3c40ae827cabfc::t_edbfccc93e0488 1-99
+src/platform_core/website_risk/plugins.py
+  s_3c40ae827cabfc::t_3c9c31698d3f7c 1-326
+src/platform_handlers.py
+  s_3c40ae827cabfc::t_840eed9776ad46 1-271
+src/policy/__init__.py
+  s_3c40ae827cabfc::t_026651342bf724 1-40
+src/policy/default_policy.yaml
+  s_3c40ae827cabfc::t_f9194237e5b0a5 1-42
+src/policy/hypothesis_gates.py
+  s_3c40ae827cabfc::t_fcb753950f6cf3 1-295
+src/policy/models.py
+  s_3c40ae827cabfc::t_5d30afd77fc73f 1-212
+src/policy/proxy_policy_engine.py
+  s_3c40ae827cabfc::t_4320b4e80ff1d5 1-260
+src/production_handlers.py
+  s_3c40ae827cabfc::t_b03543368e7cfe 1-127
+src/proof/__init__.py
+  s_3c40ae827cabfc::t_c43736fb7dda7a 1-19
+src/proof/contracts.py
+  s_3c40ae827cabfc::t_282fd626fa5c0a 1-121
+src/proof/proxy_https.py
+  s_3c40ae827cabfc::t_691594d12fb519 1-503
+src/proxy_drift/__init__.py
+  s_3c40ae827cabfc::t_8eba9bc350da8e 1-20
+src/proxy_drift/auto_fix.py
+  s_3c40ae827cabfc::t_b20a3d8eec985f 1-400
+src/proxy_drift/boot_trace.py
+  s_3c40ae827cabfc::t_971facc80c4224 1-148
+src/proxy_drift/boot_trace_task.py
+  s_3c40ae827cabfc::t_b6fcc5add92391 1-196
+src/proxy_drift/classify.py
+  s_3c40ae827cabfc::t_80849854e9ccc5 1-107
+src/proxy_drift/dns_health.py
+  s_3c40ae827cabfc::t_28e632620cd3a4 1-127
+src/proxy_drift/ensure_health.py
+  s_3c40ae827cabfc::t_1e5ec134e2ac95 1-292
+src/proxy_drift/evidence_bundle.py
+  s_3c40ae827cabfc::t_bc52365ebdc0e5 1-131
+src/proxy_drift/guardian.py
+  s_3c40ae827cabfc::t_dbe0b6bcfe35b8 1-379
+src/proxy_drift/guardian_task.py
+  s_3c40ae827cabfc::t_1e2e7e808a360b 1-198
+src/proxy_drift/handlers.py
+  s_3c40ae827cabfc::t_bacfc0a4396c1a 1-422
+src/proxy_drift/proxy_fix.py
+  s_3c40ae827cabfc::t_de780ad2f2a26f 1-259
+src/proxy_drift/safe_search.py
+  s_3c40ae827cabfc::t_bd501f3b6d658d 1-182
+src/proxy_drift/startup_hook.py
+  s_3c40ae827cabfc::t_0c5da65a8ebada 1-76
+src/proxy_drift/startup_inventory.py
+  s_3c40ae827cabfc::t_d78a270094d253 1-329
+src/proxy_drift/startup_observability.py
+  s_3c40ae827cabfc::t_1602389d40b7aa 1-145
+src/proxy_drift/startup_observability_report.py
+  s_3c40ae827cabfc::t_f867f84a81439e 1-71
+src/proxy_guard/__init__.py
+  s_3c40ae827cabfc::t_8449dc50ed3c1f 1-24
+src/proxy_guard/attribution.py
+  s_3c40ae827cabfc::t_85e68ced5a1620 1-406
+src/proxy_guard/attribution_engine.py
+  s_3c40ae827cabfc::t_33520d89a3a7f1 1-281
+src/proxy_guard/attribution_levels.py
+  s_3c40ae827cabfc::t_e1294a35fb3482 1-173
+src/proxy_guard/attribution_model.py
+  s_3c40ae827cabfc::t_2ac35a8f6b7182 1-148
+src/proxy_guard/audit.py
+  s_3c40ae827cabfc::t_4694fa36dac356 1-151
+src/proxy_guard/causality_labels.py
+  s_3c40ae827cabfc::t_1682f01a128042 1-63
+src/proxy_guard/change_attribution.py
+  s_3c40ae827cabfc::t_790b36e6c9efc8 1-310
+src/proxy_guard/config.py
+  s_3c40ae827cabfc::t_fa74c4f182a51e 1-275
+src/proxy_guard/connectivity.py
+  s_3c40ae827cabfc::t_df532632439dcc 1-309
+src/proxy_guard/control.py
+  s_3c40ae827cabfc::t_803cdfc57689e6 1-19
+src/proxy_guard/decision.py
+  s_3c40ae827cabfc::t_4edb135e28cc40 1-99
+src/proxy_guard/diff.py
+  s_3c40ae827cabfc::t_dacadaa47ac3d5 1-86
+src/proxy_guard/eventlog_attribution.py
+  s_3c40ae827cabfc::t_2cb1797093cfeb 1-140
+src/proxy_guard/events.py
+  s_3c40ae827cabfc::t_20c377265ba0ed 1-77
+src/proxy_guard/evidence.py
+  s_3c40ae827cabfc::t_ff811714187690 1-145
+src/proxy_guard/evidence_import.py
+  s_3c40ae827cabfc::t_49f9b2a69a91c2 1-181
+src/proxy_guard/failure_block.py
+  s_3c40ae827cabfc::t_74da3a830f0ca0 1-169
+src/proxy_guard/final_causation.py
+  s_3c40ae827cabfc::t_a2e9e9201c6846 1-359
+src/proxy_guard/flip_flop.py
+  s_3c40ae827cabfc::t_9ef96d33c3e261 1-169
+src/proxy_guard/guard.py
+  s_3c40ae827cabfc::t_28009114ed69cc 1-632
+src/proxy_guard/guard_evaluation.py
+  s_3c40ae827cabfc::t_7f3a0e4b5e6359 1-277
+src/proxy_guard/human_report.py
+  s_3c40ae827cabfc::t_fac737dcc44e78 1-321
+src/proxy_guard/incident_pipeline.py
+  s_3c40ae827cabfc::t_f2a719e84e084e 1-209
+src/proxy_guard/investigation_bundle.py
+  s_3c40ae827cabfc::t_de0ebaf7b2a461 1-674
+src/proxy_guard/investigation_evidence.py
+  s_3c40ae827cabfc::t_26eccea2b1c862 1-97
+src/proxy_guard/investigation_models.py
+  s_3c40ae827cabfc::t_ddab824124e2fe 1-134
+src/proxy_guard/investigation_risk.py
+  s_3c40ae827cabfc::t_c4623680b786cd 1-269
+src/proxy_guard/known_good_diff.py
+  s_3c40ae827cabfc::t_cd9cd68b72c964 1-93
+src/proxy_guard/known_good_store.py
+  s_3c40ae827cabfc::t_29f66154ceb81d 1-264
+src/proxy_guard/linux_proxy_commands.py
+  s_3c40ae827cabfc::t_00b25556c52cbd 1-70
+src/proxy_guard/linux_proxy_snapshot.py
+  s_3c40ae827cabfc::t_ccbe4f66f811d2 1-273
+src/proxy_guard/listener_attribution.py
+  s_3c40ae827cabfc::t_64521532f7b1b8 1-109
+src/proxy_guard/localhost_attribution.py
+  s_3c40ae827cabfc::t_c832c20c6a14e9 1-66
+src/proxy_guard/models.py
+  s_3c40ae827cabfc::t_3cf6553b8ca098 1-413
+src/proxy_guard/operator_language.py
+  s_3c40ae827cabfc::t_98da641d80fae1 1-42
+src/proxy_guard/owner.py
+  s_3c40ae827cabfc::t_1f999ced021efa 1-142
+src/proxy_guard/parser.py
+  s_3c40ae827cabfc::t_7e7eb699499ce7 1-239
+src/proxy_guard/pipeline.py
+  s_3c40ae827cabfc::t_8137752b6e9765 1-199
+src/proxy_guard/planning.py
+  s_3c40ae827cabfc::t_931e0cf3d22ea7 1-36
+src/proxy_guard/policy.py
+  s_3c40ae827cabfc::t_701e3663840a05 1-322
+src/proxy_guard/port_listen_probe.py
+  s_3c40ae827cabfc::t_2c8683721036ed 1-24
+src/proxy_guard/port_owner.py
+  s_3c40ae827cabfc::t_78c6cddb9b3aeb 1-215
+src/proxy_guard/probes.py
+  s_3c40ae827cabfc::t_7898116face287 1-56
+src/proxy_guard/process_attribution.py
+  s_3c40ae827cabfc::t_1ab17bcac601a8 1-165
+src/proxy_guard/process_inventory.py
+  s_3c40ae827cabfc::t_86d9c108c1e420 1-320
+src/proxy_guard/process_snapshot_enrichment.py
+  s_3c40ae827cabfc::t_fd232d72f82e92 1-155
+src/proxy_guard/process_tree.py
+  s_3c40ae827cabfc::t_0de306d8003c1c 1-234
+src/proxy_guard/procmon_filter_set.py
+  s_3c40ae827cabfc::t_6760237387efc5 1-207
+src/proxy_guard/procmon_import.py
+  s_3c40ae827cabfc::t_10909d8d77e301 1-143
+src/proxy_guard/proxy_allowlist.py
+  s_3c40ae827cabfc::t_fa0021963b040f 1-129
+src/proxy_guard/proxy_path_operational.py
+  s_3c40ae827cabfc::t_1c2220a7caf5d1 1-381
+src/proxy_guard/proxy_path_proof.py
+  s_3c40ae827cabfc::t_cb75335a056ba6 1-191
+src/proxy_guard/proxy_snapshot_commands.py
+  s_3c40ae827cabfc::t_5bcf35aca93b5a 1-202
+src/proxy_guard/proxy_transitions.py
+  s_3c40ae827cabfc::t_ea4acdcaced840 1-181
+src/proxy_guard/proxy_watch.py
+  s_3c40ae827cabfc::t_35f7dcfa97b110 1-728
+src/proxy_guard/registry.py
+  s_3c40ae827cabfc::t_28d380377e8a84 1-155
+src/proxy_guard/registry_writer_proof.py
+  s_3c40ae827cabfc::t_033af39a5bff34 1-279
+src/proxy_guard/remediation.py
+  s_3c40ae827cabfc::t_25e4fb3a2e67d7 1-258
+src/proxy_guard/repair_snapshots.py
+  s_3c40ae827cabfc::t_3e2f50684702eb 1-182
+src/proxy_guard/rollback.py
+  s_3c40ae827cabfc::t_e2ebf2d740e9ba 1-455
+src/proxy_guard/rollback_limits.py
+  s_3c40ae827cabfc::t_83d2adb6a39387 1-49
+src/proxy_guard/service.py
+  s_3c40ae827cabfc::t_1e9701c33c31ce 1-79
+src/proxy_guard/snapshot_capture.py
+  s_3c40ae827cabfc::t_acad970fcf1dda 1-139
+src/proxy_guard/soak.py
+  s_3c40ae827cabfc::t_506cd96384059c 1-146
+src/proxy_guard/state.py
+  s_3c40ae827cabfc::t_e82ad371b75b69 1-90
+src/proxy_guard/stop_listener.py
+  s_3c40ae827cabfc::t_e17841fb239fa0 1-378
+src/proxy_guard/stop_reverter.py
+  s_3c40ae827cabfc::t_21d9e260ed6294 1-220
+src/proxy_guard/structured_log.py
+  s_3c40ae827cabfc::t_236b80eabc0a2d 1-80
+src/proxy_guard/sysmon_attribution.py
+  s_3c40ae827cabfc::t_821122627a8f47 1-340
+src/proxy_guard/sysmon_correlation.py
+  s_3c40ae827cabfc::t_c9b03842af9b5a 1-42
+src/proxy_guard/verification.py
+  s_3c40ae827cabfc::t_d7e7e6ab09c71c 1-74
+src/proxy_guard/watcher.py
+  s_3c40ae827cabfc::t_f762c3cb7f5445 1-88
+src/proxy_guard/wininet_change_diff.py
+  s_3c40ae827cabfc::t_28fd7868547232 1-198
+src/proxy_investigation/__init__.py
+  s_3c40ae827cabfc::t_d4ff916b29f11b 1-19
+src/proxy_investigation/audit.py
+  s_3c40ae827cabfc::t_28c7fef85b3268 1-54
+src/proxy_investigation/collectors.py
+  s_3c40ae827cabfc::t_0a867a415ad03a 1-213
+src/proxy_investigation/constants.py
+  s_3c40ae827cabfc::t_4eb7a27cb49de7 1-47
+src/proxy_investigation/hypotheses.py
+  s_3c40ae827cabfc::t_2b17cea241e4a6 1-258
+src/proxy_investigation/models.py
+  s_3c40ae827cabfc::t_befe8484ba8af6 1-213
+src/proxy_investigation/remediation.py
+  s_3c40ae827cabfc::t_def01b0d500394 1-78
+src/proxy_investigation/report.py
+  s_3c40ae827cabfc::t_d9b8aa7cebc85d 1-166
+src/proxy_investigation/validation.py
+  s_3c40ae827cabfc::t_5638bb7ab74dd2 1-88
+src/proxy_investigation/workflow.py
+  s_3c40ae827cabfc::t_b31cfb2ffca9fc 1-180
+src/recommendations/__init__.py
+  s_3c40ae827cabfc::t_7d89348d44c229 1-5
+src/recommendations/engine.py
+  s_3c40ae827cabfc::t_caf5df8ab2f0b4 1-355
+src/repair/__init__.py
+  s_3c40ae827cabfc::t_b26f74616517ca 1-10
+src/repair/executor.py
+  s_3c40ae827cabfc::t_be0c393fdc6c1d 1-117
+src/repair/policy.py
+  s_3c40ae827cabfc::t_155c7757723fd9 1-19
+src/repair/preview.py
+  s_3c40ae827cabfc::t_fb060c4cbaee0a 1-10
+src/replay/__init__.py
+  s_3c40ae827cabfc::t_b6d63a47eb6495 1-21
+src/replay/fixture_loader.py
+  s_3c40ae827cabfc::t_4300cc94c65e4a 1-62
+src/replay/models.py
+  s_3c40ae827cabfc::t_86db89c2b62911 1-123
+src/replay/proxy_timeline.py
+  s_3c40ae827cabfc::t_2fb43c1c17d363 1-334
+src/reports/__init__.py
+  s_3c40ae827cabfc::t_9ea989e8703e30 1-5
+src/reports/causation_report.py
+  s_3c40ae827cabfc::t_ca7978ae174037 1-136
+src/reports/evidence_tree.py
+  s_3c40ae827cabfc::t_7428a432bb7330 1-220
+src/reports/models.py
+  s_3c40ae827cabfc::t_d3d6f03db18ce5 1-64
+src/reports/proxy_causation_report.py
+  s_3c40ae827cabfc::t_84d0ac69d904e1 1-91
+src/telemetry/__init__.py
+  s_3c40ae827cabfc::t_0b74e578cf23bb 1-20
+src/telemetry/registry_targets.py
+  s_3c40ae827cabfc::t_56b78ed644cb46 1-122
+src/telemetry/sysmon_reader.py
+  s_3c40ae827cabfc::t_12d797c5caecbc 1-250
+src/version.py
+  s_3c40ae827cabfc::t_e6ad315b4d0b3b 1-12
+tests/backend/conftest.py
+  s_3c40ae827cabfc::t_ace4fb869a3cc8 1-50
+tests/backend/test_api_contract.py
+  s_3c40ae827cabfc::t_940199ef537259 1-70
+tests/fixtures/agent/sample_evidence_bundle.json
+  s_3c40ae827cabfc::t_f785b8af0508b7 1-26
+tests/fixtures/analytics/audit_sample/incidents.jsonl
+  s_3c40ae827cabfc::t_42f42ca72ff55f 1-6
+tests/fixtures/analytics_pipeline_fixture.json
+  s_3c40ae827cabfc::t_ccda7981b97934 1-53
+tests/fixtures/browser_evidence/sample.har.json
+  s_3c40ae827cabfc::t_e63cc3fc5f31f5 1-14
+tests/fixtures/browser_evidence/sample_package.json
+  s_3c40ae827cabfc::t_f2ae0460a07d3b 1-10
+tests/fixtures/browser_profile/104_profile_fail.json
+  s_3c40ae827cabfc::t_dedf31b3024074 1-63
+tests/fixtures/browser_profile/normal_blocked.har.json
+  s_3c40ae827cabfc::t_e02f3fe08071e9 1-22
+tests/fixtures/browser_profile/normal_redirect_loop.har.json
+  s_3c40ae827cabfc::t_df185bb8b31aab 1-52
+tests/fixtures/browser_profile/private_ok.har.json
+  s_3c40ae827cabfc::t_1b9bbd83dea6a3 1-19
+tests/fixtures/case_studies/case_1_dead_wininet_proxy.json
+  s_3c40ae827cabfc::t_14751459827b7d 1-68
+tests/fixtures/case_studies/case_2_wininet_winhttp_mismatch.json
+  s_3c40ae827cabfc::t_dfcc63f7f1f16f 1-40
+tests/fixtures/case_studies/case_3_reverter_suspected.json
+  s_3c40ae827cabfc::t_9eaf76b1b67e46 1-36
+tests/fixtures/cloud_governance/mock_recommendations.json
+  s_3c40ae827cabfc::t_0277088d5b913a 1-90
+tests/fixtures/connection_exhaustion.json
+  s_3c40ae827cabfc::t_348cbc6b0f0fc3 1-15
+tests/fixtures/cross_platform/darwin_evidence.json
+  s_3c40ae827cabfc::t_d047d736d57de8 1-46
+tests/fixtures/cross_platform/linux_evidence.json
+  s_3c40ae827cabfc::t_41c7bde653fe5a 1-46
+tests/fixtures/cross_platform/windows_evidence.json
+  s_3c40ae827cabfc::t_31fd02cbad7012 1-32
+tests/fixtures/demo/developer_tool_proxy_allowed.json
+  s_3c40ae827cabfc::t_c6b5517a34a6f4 1
+tests/fixtures/demo/final_causation_browser_path_failure.json
+  s_3c40ae827cabfc::t_387afbe8a66171 1
+tests/fixtures/demo/healthy_endpoint.json
+  s_3c40ae827cabfc::t_c923fab84f806f 1
+tests/fixtures/demo/proxy_drift_correlated_only.json
+  s_3c40ae827cabfc::t_d4d0153fb2d012 1
+tests/fixtures/demo/stale_localhost_proxy_listener.json
+  s_3c40ae827cabfc::t_f1ec59e5559d99 1
+tests/fixtures/demo/suspicious_external_proxy.json
+  s_3c40ae827cabfc::t_16a93f9a761b74 1
+tests/fixtures/demo/sysmon_registry_writer_proven.json
+  s_3c40ae827cabfc::t_cd83f30e66a6f5 1
+tests/fixtures/dns_failure.json
+  s_3c40ae827cabfc::t_a519e8f5fda01c 1-15
+tests/fixtures/domains/cloud/elevated_error_rate.json
+  s_3c40ae827cabfc::t_ddc17eb5a702e7 1-47
+tests/fixtures/domains/cloud/failed_deployment.json
+  s_3c40ae827cabfc::t_4d691b92078191 1-47
+tests/fixtures/domains/cloud/iam_permission_change.json
+  s_3c40ae827cabfc::t_7dbd84c46de2a3 1-47
+tests/fixtures/domains/infrastructure/cpu_spike.json
+  s_3c40ae827cabfc::t_4f2c2e4c65ec36 1-47
+tests/fixtures/domains/infrastructure/disk_pressure.json
+  s_3c40ae827cabfc::t_8cfdc1bbe3a9fb 1-47
+tests/fixtures/domains/infrastructure/service_restart_loop.json
+  s_3c40ae827cabfc::t_0557a17b302b3a 1-47
+tests/fixtures/domains/market/cpi_release.json
+  s_3c40ae827cabfc::t_7210084dbcccfb 1-47
+tests/fixtures/domains/market/etf_flow.json
+  s_3c40ae827cabfc::t_55a6742ee13945 1-47
+tests/fixtures/domains/market/protocol_upgrade.json
+  s_3c40ae827cabfc::t_b659c29235b74e 1-47
+tests/fixtures/domains/market/token_unlock.json
+  s_3c40ae827cabfc::t_88420f48e21835 1-47
+tests/fixtures/domains/security/encoded_powershell.json
+  s_3c40ae827cabfc::t_6816905d7091ec 1-47
+tests/fixtures/domains/security/suspicious_registry_write.json
+  s_3c40ae827cabfc::t_f9234f75f4a072 1-47
+tests/fixtures/domains/security/unknown_localhost_listener.json
+  s_3c40ae827cabfc::t_84cc6879d9b596 1-47
+tests/fixtures/domains/windows/browser_cannot_connect.json
+  s_3c40ae827cabfc::t_9e8c5f0ea77c95 1-73
+tests/fixtures/domains/windows/dns_failure.json
+  s_3c40ae827cabfc::t_fab35ec212fb1e 1-47
+tests/fixtures/domains/windows/proxy_localhost.json
+  s_3c40ae827cabfc::t_cb3908dc88b294 1-82
+tests/fixtures/edge/driver_mismatch.json
+  s_3c40ae827cabfc::t_7c605835b42367 1-21
+tests/fixtures/edge/healthy.json
+  s_3c40ae827cabfc::t_29c49b3483503f 1-21
+tests/fixtures/edge/latency_regression.json
+  s_3c40ae827cabfc::t_a5f6985e57d600 1-28
+tests/fixtures/edge/npu_fallback.json
+  s_3c40ae827cabfc::t_5e6d7a663d0b26 1-21
+tests/fixtures/edge/sensor_degraded.json
+  s_3c40ae827cabfc::t_e6dd5bdb2f0b27 1-21
+tests/fixtures/edge/thermal_throttle.json
+  s_3c40ae827cabfc::t_edf35ac55cb40a 1-21
+tests/fixtures/edge/uplink_degraded_local_ok.json
+  s_3c40ae827cabfc::t_8991cb04ee7be0 1-21
+tests/fixtures/enert/dead_proxy_59081.json
+  s_3c40ae827cabfc::t_34dd12e575f053 1-53
+tests/fixtures/enert/known_dev_proxy.json
+  s_3c40ae827cabfc::t_a9d36dfd51ca52 1-41
+tests/fixtures/enert/no_proxy.json
+  s_3c40ae827cabfc::t_421e60a243c714 1-37
+tests/fixtures/enert/redirect_phishing.json
+  s_3c40ae827cabfc::t_921010d01364c9 1-30
+tests/fixtures/enert/registry_writer_observed.json
+  s_3c40ae827cabfc::t_55d8bbfb91c2ff 1-65
+tests/fixtures/enert/suspicious_domain.json
+  s_3c40ae827cabfc::t_6ce7b52b8e56d1 1-30
+tests/fixtures/enert/suspicious_root_ca.json
+  s_3c40ae827cabfc::t_6818de2ef7ab49 1-39
+tests/fixtures/enert/tls_cert_mismatch.json
+  s_3c40ae827cabfc::t_04656e53ee0c1f 1-28
+tests/fixtures/enert/unknown_localhost_proxy.json
+  s_3c40ae827cabfc::t_cd999e19bb6af3 1-34
+tests/fixtures/erp/attribution_dead_proxy.json
+  s_3c40ae827cabfc::t_2d1f293e0cdbc7 1-30
+tests/fixtures/erp/proof_local_proxy_failure.json
+  s_3c40ae827cabfc::t_bc51495135bd1e 1-44
+tests/fixtures/erp/sample_audit_report.json
+  s_3c40ae827cabfc::t_02eaa491ab4b8a 1-77
+tests/fixtures/evaluation/replay_cases.jsonl
+  s_3c40ae827cabfc::t_abe1e1d2196f42 1-5
+tests/fixtures/evaluation/scenarios_15.json
+  s_3c40ae827cabfc::t_f0601f17729249 1-111
+tests/fixtures/evidence_report_latest.json
+  s_3c40ae827cabfc::t_1bf4f4e73ccc63 1-58
+tests/fixtures/features_adapter_down.json
+  s_3c40ae827cabfc::t_a9da33c10803d8 1-18
+tests/fixtures/features_dns_issue.json
+  s_3c40ae827cabfc::t_59235e3a5d2e09 1-18
+tests/fixtures/features_healthy_signals.json
+  s_3c40ae827cabfc::t_8e3c991926fa47 1-18
+tests/fixtures/features_proxy_issue.json
+  s_3c40ae827cabfc::t_3f1054d808df2b 1-18
+tests/fixtures/finops/mock_costs.json
+  s_3c40ae827cabfc::t_c2d333dff209a8 1-70
+tests/fixtures/healthy_network.json
+  s_3c40ae827cabfc::t_ced1640e8fa9ab 1-15
+tests/fixtures/https_failure.json
+  s_3c40ae827cabfc::t_c22595e808018d 1-15
+tests/fixtures/knowledge/alpha.yaml
+  s_3c40ae827cabfc::t_1dcab112cc4f49 1-7
+tests/fixtures/knowledge/beta.yaml
+  s_3c40ae827cabfc::t_684857f095e7b5 1-7
+tests/fixtures/knowledge/invalid/invalid_version.yaml
+  s_3c40ae827cabfc::t_3b0ce41866321e 1-7
+tests/fixtures/localhost/cht_popup_refused.json
+  s_3c40ae827cabfc::t_c8a0cc207fd433 1-54
+tests/fixtures/netstat_sample_listen.txt
+  s_3c40ae827cabfc::t_0ee2cc7cf694da 1-5
+tests/fixtures/platform/endpoint_browser_only_failure.json
+  s_3c40ae827cabfc::t_c315adc54d3edf 1-21
+tests/fixtures/platform/endpoint_clean.json
+  s_3c40ae827cabfc::t_deb32e39f87732 1-21
+tests/fixtures/platform/endpoint_dns_failure.json
+  s_3c40ae827cabfc::t_db6ad682ad8914 1-23
+tests/fixtures/platform/endpoint_proxy_timeout.json
+  s_3c40ae827cabfc::t_ba93ccf5b42eb3 1-21
+tests/fixtures/platform/git_proxy_misconfigured.json
+  s_3c40ae827cabfc::t_386c24d631f57d 1-13
+tests/fixtures/platform/healthy_network_normalized.json
+  s_3c40ae827cabfc::t_c25f9c7cfb0e4f 1-15
+tests/fixtures/platform/multi_endpoint_dns_outage.json
+  s_3c40ae827cabfc::t_903fb56cbf6b73 1-29
+tests/fixtures/platform/multi_endpoint_proxy_outage.json
+  s_3c40ae827cabfc::t_82850267500672 1-44
+tests/fixtures/platform/npm_proxy_misconfigured.json
+  s_3c40ae827cabfc::t_de2b0e6c324e29 1-13
+tests/fixtures/platform/proxy_loopback_enabled.json
+  s_3c40ae827cabfc::t_81ce4b216adfff 1-25
+tests/fixtures/platform/stale_winhttp_proxy.json
+  s_3c40ae827cabfc::t_f69e274b719855 1-13
+tests/fixtures/platform/suspicious_proxy_change.json
+  s_3c40ae827cabfc::t_e793541eb8e7e0 1-23
+tests/fixtures/platform_core/golden/proxy_drift.jsonl
+  s_3c40ae827cabfc::t_ee7f1cad1c49f0 1-5
+tests/fixtures/platform_slo/audit.jsonl
+  s_3c40ae827cabfc::t_56b990ee2fc619 1-2
+tests/fixtures/platform_slo/failure_events.jsonl
+  s_3c40ae827cabfc::t_4d6c2866277123 1-2
+tests/fixtures/platform_slo/platform_signals.jsonl
+  s_3c40ae827cabfc::t_7b256150d2de06 1-3
+tests/fixtures/platform_slo/remediation_previews.jsonl
+  s_3c40ae827cabfc::t_67b8d56c7a7480 1
+tests/fixtures/proxy_causation/scenario1_proven_writer_port_owner/port_owner.json
+  s_3c40ae827cabfc::t_57091eaa8f146b 1-14
+tests/fixtures/proxy_causation/scenario1_proven_writer_port_owner/process_tree.json
+  s_3c40ae827cabfc::t_cc3e78d9d3cc73 1-25
+tests/fixtures/proxy_causation/scenario1_proven_writer_port_owner/scenario.json
+  s_3c40ae827cabfc::t_b202e363a6d2d1 1-12
+tests/fixtures/proxy_causation/scenario1_proven_writer_port_owner/sysmon.json
+  s_3c40ae827cabfc::t_b1249127e57298 1-15
+tests/fixtures/proxy_causation/scenario2_likely_local_tool/port_owner.json
+  s_3c40ae827cabfc::t_0f053e0242d603 1-14
+tests/fixtures/proxy_causation/scenario2_likely_local_tool/scenario.json
+  s_3c40ae827cabfc::t_b42ddcb6988361 1-12
+tests/fixtures/proxy_causation/scenario3_tool_conflict/process_tree.json
+  s_3c40ae827cabfc::t_2cef64f2b62f1f 1-12
+tests/fixtures/proxy_causation/scenario3_tool_conflict/scenario.json
+  s_3c40ae827cabfc::t_8b13f7b0d293fe 1-28
+tests/fixtures/proxy_causation/scenario4_suspicious_unknown/port_owner.json
+  s_3c40ae827cabfc::t_1985557b97b5d1 1-14
+tests/fixtures/proxy_causation/scenario4_suspicious_unknown/proxy_path.json
+  s_3c40ae827cabfc::t_97a3b1308c6c59 1-11
+tests/fixtures/proxy_causation/scenario4_suspicious_unknown/scenario.json
+  s_3c40ae827cabfc::t_4a1feff66b30ca 1-12
+tests/fixtures/proxy_causation/scenario4_suspicious_unknown/sysmon.json
+  s_3c40ae827cabfc::t_10536100406f3f 1-14
+tests/fixtures/proxy_causation/scenario5_inconclusive/proxy_path.json
+  s_3c40ae827cabfc::t_a466ddf2462979 1-9
+tests/fixtures/proxy_causation/scenario5_inconclusive/scenario.json
+  s_3c40ae827cabfc::t_ec92b6a80b239f 1-8
+tests/fixtures/proxy_failure.json
+  s_3c40ae827cabfc::t_cccaa73248e4c5 1-15
+tests/fixtures/proxy_health_dead.json
+  s_3c40ae827cabfc::t_fb8656ed547fcc 1-30
+tests/fixtures/proxy_incidents/correlation_only_listener.json
+  s_3c40ae827cabfc::t_0db6592cac5cc0 1-26
+tests/fixtures/proxy_incidents/cursor_known_proxy.json
+  s_3c40ae827cabfc::t_8505a57a8c18c1 1-31
+tests/fixtures/proxy_incidents/external_proxy_mitm_risk.json
+  s_3c40ae827cabfc::t_533cd012ab1a44 1-24
+tests/fixtures/proxy_incidents/suspicious_powershell_temp_proxy.json
+  s_3c40ae827cabfc::t_1b0387fd79068c 1-26
+tests/fixtures/proxy_incidents/unknown_node_powershell_proxy.json
+  s_3c40ae827cabfc::t_e7a0b2d92a36af 1-30
+tests/fixtures/proxy_loop.jsonl
+  s_3c40ae827cabfc::t_2d76f213fb52b3 1-7
+tests/fixtures/proxy_transitions/ipv6_loopback_proxy.json
+  s_3c40ae827cabfc::t_4d8d77a73d5d94 1-7
+tests/fixtures/proxy_transitions/listener_probe_failed.json
+  s_3c40ae827cabfc::t_8a412c58c429d1 1-10
+tests/fixtures/proxy_transitions/localhost_port_changed.json
+  s_3c40ae827cabfc::t_9133c31c9cf678 1-7
+tests/fixtures/proxy_transitions/localhost_proxy_disabled_and_removed.json
+  s_3c40ae827cabfc::t_cf10181933f84e 1-8
+tests/fixtures/proxy_transitions/localhost_proxy_enabled.json
+  s_3c40ae827cabfc::t_fc4a18a653d974 1-8
+tests/fixtures/proxy_transitions/localhost_proxy_removed.json
+  s_3c40ae827cabfc::t_0a11f1dc7d7396 1-8
+tests/fixtures/proxy_transitions/localhost_to_remote_proxy.json
+  s_3c40ae827cabfc::t_201a30071e5c7f 1-7
+tests/fixtures/proxy_transitions/malformed_proxy_server.json
+  s_3c40ae827cabfc::t_88c8c1ce0c0239 1-7
+tests/fixtures/proxy_transitions/pac_added.json
+  s_3c40ae827cabfc::t_ab4c3464de1188 1-7
+tests/fixtures/proxy_transitions/pac_removed.json
+  s_3c40ae827cabfc::t_5fefab25242f70 1-7
+tests/fixtures/proxy_transitions/proxy_enable_flapping_loop.jsonl
+  s_3c40ae827cabfc::t_bab59f54e993be 1-5
+tests/fixtures/proxy_transitions/proxy_enable_on_server_missing.json
+  s_3c40ae827cabfc::t_10fc8d07bc9524 1-7
+tests/fixtures/proxy_transitions/proxy_server_present_enable_off.json
+  s_3c40ae827cabfc::t_e615ba0a874e92 1-7
+tests/fixtures/proxy_transitions/remote_proxy_removed.json
+  s_3c40ae827cabfc::t_61caddbe26cf1e 1-8
+tests/fixtures/proxy_watch_localhost.json
+  s_3c40ae827cabfc::t_dd2c2d82e9b772 1-33
+tests/fixtures/research/proxy_risk_v1/adversarial/ADV-001.json
+  s_3c40ae827cabfc::t_cfa34be75787e0 1-28
+tests/fixtures/research/proxy_risk_v1/adversarial/ADV-002.json
+  s_3c40ae827cabfc::t_b198bd389cf408 1-21
+tests/fixtures/research/proxy_risk_v1/adversarial/ADV-003.json
+  s_3c40ae827cabfc::t_6ec39ce38d905a 1-39
+tests/fixtures/research/proxy_risk_v1/adversarial/ADV-004.json
+  s_3c40ae827cabfc::t_c3cb9558f2f12e 1-27
+tests/fixtures/research/proxy_risk_v1/development/DEV-001.json
+  s_3c40ae827cabfc::t_62f79cd43073ab 1-27
+tests/fixtures/research/proxy_risk_v1/development/DEV-002.json
+  s_3c40ae827cabfc::t_870e31fa726dc4 1-27
+tests/fixtures/research/proxy_risk_v1/development/DEV-003.json
+  s_3c40ae827cabfc::t_d5cfe2516f7133 1-35
+tests/fixtures/research/proxy_risk_v1/development/DEV-004.json
+  s_3c40ae827cabfc::t_05f21671befb7e 1-28
+tests/fixtures/research/proxy_risk_v1/held_out/HOLD-001.json
+  s_3c40ae827cabfc::t_6b15e2c95e5b4a 1-35
+tests/fixtures/research/proxy_risk_v1/held_out/HOLD-002.json
+  s_3c40ae827cabfc::t_128fde18543e7e 1-35
+tests/fixtures/research/proxy_risk_v1/held_out/HOLD-003.json
+  s_3c40ae827cabfc::t_d0814630f20d5a 1-35
+tests/fixtures/research/proxy_risk_v1/held_out/HOLD-004.json
+  s_3c40ae827cabfc::t_deaa9c42184cce 1-12
+tests/fixtures/risk_analytics/audit_sample/incidents.jsonl
+  s_3c40ae827cabfc::t_151e523aac6194 1-7
+tests/fixtures/risk_analytics/audit_sample_chained/incidents.jsonl
+  s_3c40ae827cabfc::t_cde33088f42be9 1-3
+tests/fixtures/risk_analytics/control_tests.csv
+  s_3c40ae827cabfc::t_4adce4a487c20a 1-7
+tests/fixtures/risk_analytics/incidents.csv
+  s_3c40ae827cabfc::t_046e20d38d3733 1-6
+tests/fixtures/risk_analytics/remediation_actions.csv
+  s_3c40ae827cabfc::t_d24c5c8596c134 1-4
+tests/fixtures/risk_register/sample_risk_register.json
+  s_3c40ae827cabfc::t_581f0af9bde3bf 1-84
+tests/fixtures/sysmon/eid13_proxyenable_dword1.xml
+  s_3c40ae827cabfc::t_f8768ae674b900 1-16
+tests/fixtures/sysmon/eid13_proxyserver_cleared.xml
+  s_3c40ae827cabfc::t_cbf7aff6d0f547 1-13
+tests/fixtures/sysmon/eid13_proxyserver_node.xml
+  s_3c40ae827cabfc::t_29cbf03263bdbc 1-19
+tests/fixtures/sysmon/eid1_node_from_powershell.xml
+  s_3c40ae827cabfc::t_7d192177c16a11 1-17
+tests/fixtures/sysmon/eid1_powershell_parent.xml
+  s_3c40ae827cabfc::t_af175a96f6f0cb 1-15
+tests/fixtures/sysmon/eid3_listener_64394.xml
+  s_3c40ae827cabfc::t_6e757c2003aa4c 1-15
+tests/fixtures/tcp_failure.json
+  s_3c40ae827cabfc::t_a29347bdb86ec4 1-15
+tests/fixtures/telemetry/conflicting_writer.json
+  s_3c40ae827cabfc::t_9d2a1a3fc39ae0 1-18
+tests/fixtures/telemetry/listener_conflicting.json
+  s_3c40ae827cabfc::t_81130fa16e72a3 1-7
+tests/fixtures/telemetry/listener_node.json
+  s_3c40ae827cabfc::t_c30fcef7e917cd 1-7
+tests/fixtures/telemetry/missing_fields.json
+  s_3c40ae827cabfc::t_ba916e74b6a7f4 1-6
+tests/fixtures/telemetry/sysmon_event13_proxy_enable_node.json
+  s_3c40ae827cabfc::t_f954916cd0bb9e 1-10
+tests/fixtures/telemetry/sysmon_event13_proxy_server_node.json
+  s_3c40ae827cabfc::t_3f846ecd819648 1-10
+tests/fixtures/wmic_process_fixture.txt
+  s_3c40ae827cabfc::t_c7d6b89b3ff50c 1-4
+tests/test_api_dry_run_default.py
+  s_3c40ae827cabfc::t_e1b551711177e6 1-73
+tests/test_export_public_mirror.py
+  s_3c40ae827cabfc::t_f4ac7dce97bf27 1-67
+tests/test_policy_safety_contract.py
+  s_3c40ae827cabfc::t_c9a5a6d3d24917 1-70
+tests/test_public_release_audit.py
+  s_3c40ae827cabfc::t_dabf9260ec29a9 1-102
+tests/windows_network_toolkit/test_analytics_pipeline.py
+  s_3c40ae827cabfc::t_c1220de7c47fc9 1-131
+tests/windows_network_toolkit/test_audit_soft_fail.py
+  s_3c40ae827cabfc::t_3f62bf8a371a6b 1-26
+tests/windows_network_toolkit/test_browser_evidence_package.py
+  s_3c40ae827cabfc::t_df4060aeca2266 1-31
+tests/windows_network_toolkit/test_browser_profile_diff.py
+  s_3c40ae827cabfc::t_8989be893fca2c 1-281
+tests/windows_network_toolkit/test_cli_json_contract.py
+  s_3c40ae827cabfc::t_fe3e08ad04623a 1-38
+tests/windows_network_toolkit/test_control_tests.py
+  s_3c40ae827cabfc::t_aac8f2a553f00e 1-153
+tests/windows_network_toolkit/test_diagnose_proof.py
+  s_3c40ae827cabfc::t_ba2b079aa7cac1 1-26
+tests/windows_network_toolkit/test_dns_edge.py
+  s_3c40ae827cabfc::t_a35f2e8b7d2bc7 1-187
+tests/windows_network_toolkit/test_executive_report.py
+  s_3c40ae827cabfc::t_a2805f2df8007f 1-70
+tests/windows_network_toolkit/test_ipv6_path.py
+  s_3c40ae827cabfc::t_ec7ab970b9c77b 1-229
+tests/windows_network_toolkit/test_lan_control_tests.py
+  s_3c40ae827cabfc::t_447a7e98777e3d 1-50
+tests/windows_network_toolkit/test_lan_privacy.py
+  s_3c40ae827cabfc::t_5b8c35348e5ed1 1-146
+tests/windows_network_toolkit/test_localhost_diagnose.py
+  s_3c40ae827cabfc::t_1e892549fba961 1-403
+tests/windows_network_toolkit/test_monitoring_dashboard.py
+  s_3c40ae827cabfc::t_ff198bd712cac8 1-229
+tests/windows_network_toolkit/test_privacy_risk_score.py
+  s_3c40ae827cabfc::t_4d201c41be6161 1-61
+tests/windows_network_toolkit/test_proxy_guardian.py
+  s_3c40ae827cabfc::t_4e66444cc3cc81 1-71
+tests/windows_network_toolkit/test_proxy_health.py
+  s_3c40ae827cabfc::t_0e08d4a5f1acd9 1-305
+tests/windows_network_toolkit/test_proxy_owner.py
+  s_3c40ae827cabfc::t_4de67429e20f66 1-41
+tests/windows_network_toolkit/test_proxy_state_machine.py
+  s_3c40ae827cabfc::t_a7d1fec1ec4e2a 1-209
+tests/windows_network_toolkit/test_read_only_agent.py
+  s_3c40ae827cabfc::t_87bcd3e000e7b2 1-168
+tests/windows_network_toolkit/test_reporting.py
+  s_3c40ae827cabfc::t_eb5909cbd70738 1-42
+tests/windows_network_toolkit/test_risk_scoring_engine.py
+  s_3c40ae827cabfc::t_c0817d7bc7ee97 1-81
+tests/windows_network_toolkit/test_router_evidence.py
+  s_3c40ae827cabfc::t_f3e02aa2fd47fb 1-65
+tests/windows_network_toolkit/test_safety_contract.py
+  s_3c40ae827cabfc::t_997df954a5a0b4 1-78
+toolkit/__init__.py
+  s_3c40ae827cabfc::t_3128e4642b37e0 1
+toolkit/__main__.py
+  s_3c40ae827cabfc::t_0e1b89e11f058e 1-6
+tools/cleanup_generated.py
+  s_3c40ae827cabfc::t_43a5b82e7b4114 1-75
+tools/public_release_audit.py
+  s_3c40ae827cabfc::t_ea067d2aa598f8 1-319
+windows_network_toolkit/__init__.py
+  s_3c40ae827cabfc::t_c239b42555011e 1-23
+windows_network_toolkit/__main__.py
+  s_3c40ae827cabfc::t_18eba3d3b0bf28 1-21
+windows_network_toolkit/_version.py
+  s_3c40ae827cabfc::t_fd81da21302c28 1-52
+windows_network_toolkit/agent/__init__.py
+  s_3c40ae827cabfc::t_c1a3bc02579e14 1-37
+windows_network_toolkit/agent/read_only.py
+  s_3c40ae827cabfc::t_dba5039ed1b439 1-362
+windows_network_toolkit/agent/spool.py
+  s_3c40ae827cabfc::t_78068053053998 1-98
+windows_network_toolkit/analytics.py
+  s_3c40ae827cabfc::t_0a75cd32498d18 1-212
+windows_network_toolkit/analytics_pipeline.py
+  s_3c40ae827cabfc::t_f6ae33d8de71b6 1-476
+windows_network_toolkit/architecture.py
+  s_3c40ae827cabfc::t_7dfca223b25982 1-58
+windows_network_toolkit/audit/__init__.py
+  s_3c40ae827cabfc::t_d4a4cc7869bac1 1-28
+windows_network_toolkit/audit/evidence_exporter.py
+  s_3c40ae827cabfc::t_b5fbfe45ec28ac 1-76
+windows_network_toolkit/audit/jsonl_logger.py
+  s_3c40ae827cabfc::t_00498e1fe7b5d8 1-135
+windows_network_toolkit/audit/replay.py
+  s_3c40ae827cabfc::t_1990ecfe4cd9ab 1-141
+windows_network_toolkit/audit/report_generator.py
+  s_3c40ae827cabfc::t_af7d7d988908e1 1-292
+windows_network_toolkit/audit_store.py
+  s_3c40ae827cabfc::t_2873081d02ad94 1-126
+windows_network_toolkit/benchmark_quality.py
+  s_3c40ae827cabfc::t_6a5b69b782b9ef 1-188
+windows_network_toolkit/browser_evidence.py
+  s_3c40ae827cabfc::t_c406f0c7a3cd09 1-134
+windows_network_toolkit/cli.py
+  s_3c40ae827cabfc::t_6ec7225600d112 1-3330
+windows_network_toolkit/collectors/__init__.py
+  s_3c40ae827cabfc::t_db743a07ce9473 1-41
+windows_network_toolkit/collectors/browser_collector.py
+  s_3c40ae827cabfc::t_ecee6dac666076 1-67
+windows_network_toolkit/collectors/dns_collector.py
+  s_3c40ae827cabfc::t_70a0e2d9765252 1-53
+windows_network_toolkit/collectors/eventlog_collector.py
+  s_3c40ae827cabfc::t_f03b6e403412c2 1-75
+windows_network_toolkit/collectors/netstat_collector.py
+  s_3c40ae827cabfc::t_6a7a1361f7279c 1-63
+windows_network_toolkit/collectors/playwright_collector.py
+  s_3c40ae827cabfc::t_bde3154253eb83 1-150
+windows_network_toolkit/collectors/process_collector.py
+  s_3c40ae827cabfc::t_73c8936ce4a16d 1-76
+windows_network_toolkit/collectors/process_snapshot.py
+  s_3c40ae827cabfc::t_ab4e716a12f977 1-158
+windows_network_toolkit/collectors/procmon_import.py
+  s_3c40ae827cabfc::t_9fbb6bee8dc52b 1-200
+windows_network_toolkit/collectors/proxy_listener.py
+  s_3c40ae827cabfc::t_5cde92ff4e64f3 1-279
+windows_network_toolkit/collectors/proxy_registry_collector.py
+  s_3c40ae827cabfc::t_90e78e27b33aa2 1-69
+windows_network_toolkit/collectors/proxy_state.py
+  s_3c40ae827cabfc::t_a2f707dc23865e 1-181
+windows_network_toolkit/collectors/proxy_watcher.py
+  s_3c40ae827cabfc::t_d14328a1477567 1-337
+windows_network_toolkit/concurrency_benchmark.py
+  s_3c40ae827cabfc::t_95f06452fe7edd 1-155
+windows_network_toolkit/control_tests.py
+  s_3c40ae827cabfc::t_964070f7f6fa50 1-519
+windows_network_toolkit/dashboard/__init__.py
+  s_3c40ae827cabfc::t_7d8be4f6f34802 1-16
+windows_network_toolkit/dashboard/app.py
+  s_3c40ae827cabfc::t_b680ba1a7e2e38 1-132
+windows_network_toolkit/dashboard/config.py
+  s_3c40ae827cabfc::t_f926bfe84a46d5 1-57
+windows_network_toolkit/dashboard/state.py
+  s_3c40ae827cabfc::t_d4f6121be7ea3b 1-88
+windows_network_toolkit/dashboard/views.py
+  s_3c40ae827cabfc::t_110f7eac107083 1-283
+windows_network_toolkit/decision/__init__.py
+  s_3c40ae827cabfc::t_d1c0a78a09bee1 1-35
+windows_network_toolkit/decision/decision_model.py
+  s_3c40ae827cabfc::t_b2ba8dcc6ad8cd 1-129
+windows_network_toolkit/decision/hypothesis_engine.py
+  s_3c40ae827cabfc::t_f505d7062f7455 1-270
+windows_network_toolkit/decision/policy_engine.py
+  s_3c40ae827cabfc::t_7d05e42cceab90 1-125
+windows_network_toolkit/decision/remediation_planner.py
+  s_3c40ae827cabfc::t_f82aeadc2e677b 1-95
+windows_network_toolkit/decision/risk_classifier.py
+  s_3c40ae827cabfc::t_26c4313ac8937e 1-61
+windows_network_toolkit/diagnostics/__init__.py
+  s_3c40ae827cabfc::t_9c7cbc3f0affd1 1-26
+windows_network_toolkit/diagnostics/bad_gateway/__init__.py
+  s_3c40ae827cabfc::t_3ec30a4c167d95 1-16
+windows_network_toolkit/diagnostics/bad_gateway/classifier.py
+  s_3c40ae827cabfc::t_f079aa5760da48 1-136
+windows_network_toolkit/diagnostics/bad_gateway/collectors.py
+  s_3c40ae827cabfc::t_5a28eb685eac84 1-277
+windows_network_toolkit/diagnostics/bad_gateway/runner.py
+  s_3c40ae827cabfc::t_4b6182a20646e1 1-157
+windows_network_toolkit/diagnostics/bad_gateway/url.py
+  s_3c40ae827cabfc::t_dbc9b6baaa15c4 1-47
+windows_network_toolkit/diagnostics/browser_profile/__init__.py
+  s_3c40ae827cabfc::t_0361060bfa3713 1-37
+windows_network_toolkit/diagnostics/browser_profile/adapters/__init__.py
+  s_3c40ae827cabfc::t_965ed9bdff8f98 1-55
+windows_network_toolkit/diagnostics/browser_profile/adapters/base.py
+  s_3c40ae827cabfc::t_c6bc00e9b34034 1-100
+windows_network_toolkit/diagnostics/browser_profile/adapters/chrome.py
+  s_3c40ae827cabfc::t_36eeb369f54b3a 1-156
+windows_network_toolkit/diagnostics/browser_profile/adapters/chromium.py
+  s_3c40ae827cabfc::t_9927ba8ef58a8b 1-487
+windows_network_toolkit/diagnostics/browser_profile/adapters/edge.py
+  s_3c40ae827cabfc::t_b6e71984f19306 1-156
+windows_network_toolkit/diagnostics/browser_profile/classifier.py
+  s_3c40ae827cabfc::t_41a9a609bd2e0d 1-351
+windows_network_toolkit/diagnostics/browser_profile/har_compare.py
+  s_3c40ae827cabfc::t_010c2f2f90fac5 1-224
+windows_network_toolkit/diagnostics/browser_profile/models.py
+  s_3c40ae827cabfc::t_4d26cead80f5cd 1-326
+windows_network_toolkit/diagnostics/browser_profile/os_baseline.py
+  s_3c40ae827cabfc::t_045bbe16635541 1-284
+windows_network_toolkit/diagnostics/browser_profile/redaction.py
+  s_3c40ae827cabfc::t_ff7c70ccb099dd 1-175
+windows_network_toolkit/diagnostics/browser_profile/repair.py
+  s_3c40ae827cabfc::t_85f61208605076 1-160
+windows_network_toolkit/diagnostics/browser_profile/runner.py
+  s_3c40ae827cabfc::t_8b26c0d971519f 1-428
+windows_network_toolkit/diagnostics/evidence/__init__.py
+  s_3c40ae827cabfc::t_d4d5414475c664 1-30
+windows_network_toolkit/diagnostics/evidence/runner.py
+  s_3c40ae827cabfc::t_277c1d379092e1 1-198
+windows_network_toolkit/diagnostics/lan_privacy/__init__.py
+  s_3c40ae827cabfc::t_06af1debbfd045 1-33
+windows_network_toolkit/diagnostics/lan_privacy/classifier.py
+  s_3c40ae827cabfc::t_fa88b356205235 1-229
+windows_network_toolkit/diagnostics/lan_privacy/collectors.py
+  s_3c40ae827cabfc::t_cf75436ad2b359 1-264
+windows_network_toolkit/diagnostics/lan_privacy/executive_report.py
+  s_3c40ae827cabfc::t_dc6d4085a94768 1-254
+windows_network_toolkit/diagnostics/lan_privacy/models.py
+  s_3c40ae827cabfc::t_de8cf7a65d0f77 1-185
+windows_network_toolkit/diagnostics/lan_privacy/oui_lookup.py
+  s_3c40ae827cabfc::t_708974c8d67f14 1-135
+windows_network_toolkit/diagnostics/lan_privacy/privacy_risk_score.py
+  s_3c40ae827cabfc::t_9ec7c5c35264a5 1-259
+windows_network_toolkit/diagnostics/lan_privacy/report.py
+  s_3c40ae827cabfc::t_0524be514aeb81 1-215
+windows_network_toolkit/diagnostics/lan_privacy/runner.py
+  s_3c40ae827cabfc::t_53ecbc1421bd33 1-270
+windows_network_toolkit/diagnostics/lan_privacy/segmentation_advisor.py
+  s_3c40ae827cabfc::t_4e7dc0b7ba4226 1-160
+windows_network_toolkit/diagnostics/lan_privacy/watch.py
+  s_3c40ae827cabfc::t_a8764b337124ef 1-209
+windows_network_toolkit/diagnostics/localhost/__init__.py
+  s_3c40ae827cabfc::t_54c411c19dbc56 1-45
+windows_network_toolkit/diagnostics/localhost/classifier.py
+  s_3c40ae827cabfc::t_996526bfa39bd3 1-399
+windows_network_toolkit/diagnostics/localhost/formatters.py
+  s_3c40ae827cabfc::t_32c41b7ad4a1a6 1-95
+windows_network_toolkit/diagnostics/localhost/http_probe.py
+  s_3c40ae827cabfc::t_8d292de71c3e33 1-312
+windows_network_toolkit/diagnostics/localhost/listeners.py
+  s_3c40ae827cabfc::t_9afc5783640de9 1-372
+windows_network_toolkit/diagnostics/localhost/nearby.py
+  s_3c40ae827cabfc::t_8ec40345b3cb4a 1-237
+windows_network_toolkit/diagnostics/localhost/process_info.py
+  s_3c40ae827cabfc::t_245771f9043b10 1-265
+windows_network_toolkit/diagnostics/localhost/proxy_evidence.py
+  s_3c40ae827cabfc::t_5c14822146ff4e 1-231
+windows_network_toolkit/diagnostics/localhost/remediation.py
+  s_3c40ae827cabfc::t_a083033778c656 1-283
+windows_network_toolkit/diagnostics/localhost/resolution.py
+  s_3c40ae827cabfc::t_8ea9f496d10e4e 1-208
+windows_network_toolkit/diagnostics/localhost/runner.py
+  s_3c40ae827cabfc::t_42b8632f685fad 1-401
+windows_network_toolkit/diagnostics/localhost/target.py
+  s_3c40ae827cabfc::t_8484571ffc6272 1-254
+windows_network_toolkit/diagnostics/localhost/tcp_probe.py
+  s_3c40ae827cabfc::t_caee0f2f0c7d3d 1-235
+windows_network_toolkit/diagnostics/localhost/watch.py
+  s_3c40ae827cabfc::t_a5de2f99ee93af 1-254
+windows_network_toolkit/diagnostics/proxy/__init__.py
+  s_3c40ae827cabfc::t_ebaac4dc14dbd3 1-44
+windows_network_toolkit/diagnostics/proxy/runner.py
+  s_3c40ae827cabfc::t_4c8c503c7ebd86 1-410
+windows_network_toolkit/diagnostics/router_evidence/__init__.py
+  s_3c40ae827cabfc::t_928a439e86310e 1-19
+windows_network_toolkit/diagnostics/router_evidence/correlator.py
+  s_3c40ae827cabfc::t_1f9cbb51050cfb 1-103
+windows_network_toolkit/diagnostics/router_evidence/importers.py
+  s_3c40ae827cabfc::t_1d37b4a3b2fa9d 1-227
+windows_network_toolkit/diagnostics/router_evidence/models.py
+  s_3c40ae827cabfc::t_59e6e875c1e94e 1-83
+windows_network_toolkit/diagnostics/router_evidence/normalizer.py
+  s_3c40ae827cabfc::t_579f06794eaaf4 1-60
+windows_network_toolkit/diagnostics/router_evidence/runner.py
+  s_3c40ae827cabfc::t_c6d0176658b21e 1-123
+windows_network_toolkit/distributed_delivery.py
+  s_3c40ae827cabfc::t_fd45e46d1a1f98 1-267
+windows_network_toolkit/dns_edge.py
+  s_3c40ae827cabfc::t_80025b664ae461 1-622
+windows_network_toolkit/evidence/__init__.py
+  s_3c40ae827cabfc::t_0da0d136754860 1-31
+windows_network_toolkit/evidence/confidence_score.py
+  s_3c40ae827cabfc::t_3e15b57246f628 1-83
+windows_network_toolkit/evidence/converters.py
+  s_3c40ae827cabfc::t_fb206b07d1f9da 1-141
+windows_network_toolkit/evidence/evidence_model.py
+  s_3c40ae827cabfc::t_698ea24be1486e 1-141
+windows_network_toolkit/evidence/proof_runner.py
+  s_3c40ae827cabfc::t_803e6a5c7e9e17 1-70
+windows_network_toolkit/evidence/timeline_builder.py
+  s_3c40ae827cabfc::t_24533088e433a8 1-216
+windows_network_toolkit/evidence_schema.py
+  s_3c40ae827cabfc::t_0f983cb049fe9a 1-345
+windows_network_toolkit/examples/dns_ok_browser_fail.jsonl
+  s_3c40ae827cabfc::t_4103087ebc202e 1-4
+windows_network_toolkit/examples/local_proxy_listener.jsonl
+  s_3c40ae827cabfc::t_2adec9f89457a7 1-4
+windows_network_toolkit/examples/proxy_drift_incident.jsonl
+  s_3c40ae827cabfc::t_a49f5b07c8221a 1-6
+windows_network_toolkit/examples/registry_rewriter_observed.jsonl
+  s_3c40ae827cabfc::t_6aa74104d27058 1-4
+windows_network_toolkit/fleet_benchmark.py
+  s_3c40ae827cabfc::t_1dae2f2c84d61b 1-277
+windows_network_toolkit/fleet_simulate.py
+  s_3c40ae827cabfc::t_9ea60b1f4a8947 1-243
+windows_network_toolkit/incident_classifier.py
+  s_3c40ae827cabfc::t_13f8f71b9dae5a 1-340
+windows_network_toolkit/ipv6_path.py
+  s_3c40ae827cabfc::t_13632ffd3e9ee5 1-1182
+windows_network_toolkit/lan_control_tests.py
+  s_3c40ae827cabfc::t_3acf3fde1ac2eb 1-318
+windows_network_toolkit/latest_evidence_report.py
+  s_3c40ae827cabfc::t_baa72cbcf47486 1-254
+windows_network_toolkit/models.py
+  s_3c40ae827cabfc::t_53196440338590 1-286
+windows_network_toolkit/pipeline.py
+  s_3c40ae827cabfc::t_dcdf66557bf5e5 1-189
+windows_network_toolkit/platform/__init__.py
+  s_3c40ae827cabfc::t_a85871334d1aa9 1-23
+windows_network_toolkit/platform/api.py
+  s_3c40ae827cabfc::t_709571edaef935 1-275
+windows_network_toolkit/platform/dashboard/app.js
+  s_3c40ae827cabfc::t_7af4e398728bdb 1-80
+windows_network_toolkit/platform/dashboard/index.html
+  s_3c40ae827cabfc::t_ef5f2f679a47da 1-33
+windows_network_toolkit/platform/dashboard/styles.css
+  s_3c40ae827cabfc::t_a141959715b7e5 1-11
+windows_network_toolkit/platform/decision_engine.py
+  s_3c40ae827cabfc::t_7b07d36c0878d0 1-83
+windows_network_toolkit/platform/metrics.py
+  s_3c40ae827cabfc::t_1d3be22a446a82 1-58
+windows_network_toolkit/platform/policy.py
+  s_3c40ae827cabfc::t_6867bfcf659e36 1-138
+windows_network_toolkit/platform/risk_scoring.py
+  s_3c40ae827cabfc::t_e811b6816a2053 1-74
+windows_network_toolkit/platform/schemas.py
+  s_3c40ae827cabfc::t_dbb580d4e31648 1-123
+windows_network_toolkit/platform/store.py
+  s_3c40ae827cabfc::t_a750b1b2fb392e 1-81
+windows_network_toolkit/proof.py
+  s_3c40ae827cabfc::t_9b82ea505eb72e 1-266
+windows_network_toolkit/proxy_classification.py
+  s_3c40ae827cabfc::t_3723738757583d 1-144
+windows_network_toolkit/proxy_guardian.py
+  s_3c40ae827cabfc::t_9886e42d787d86 1-125
+windows_network_toolkit/proxy_health.py
+  s_3c40ae827cabfc::t_abbc5333e387a5 1-811
+windows_network_toolkit/proxy_owner.py
+  s_3c40ae827cabfc::t_5b7c6312d9b2c2 1-123
+windows_network_toolkit/proxy_remediation.py
+  s_3c40ae827cabfc::t_429eb7e0d9c0a0 1-243
+windows_network_toolkit/proxy_replay.py
+  s_3c40ae827cabfc::t_6936427f401828 1-186
+windows_network_toolkit/proxy_state.py
+  s_3c40ae827cabfc::t_3f86d46e592006 1-93
+windows_network_toolkit/proxy_state_machine.py
+  s_3c40ae827cabfc::t_3a743dbe6ccc8f 1-1286
+windows_network_toolkit/proxy_watch_controls.py
+  s_3c40ae827cabfc::t_8b5c7675607a11 1-412
+windows_network_toolkit/proxy_watch_diagnosis.py
+  s_3c40ae827cabfc::t_1467bd7e8ae2df 1-232
+windows_network_toolkit/remediation/__init__.py
+  s_3c40ae827cabfc::t_fdb8b753e72015 1-37
+windows_network_toolkit/remediation/dns_flush.py
+  s_3c40ae827cabfc::t_a05205a2ac2327 1-58
+windows_network_toolkit/remediation/proxy_disable.py
+  s_3c40ae827cabfc::t_19b06f569d4fb3 1-79
+windows_network_toolkit/remediation/rollback.py
+  s_3c40ae827cabfc::t_9f0f62a7e55eae 1-64
+windows_network_toolkit/remediation/stop_listener.py
+  s_3c40ae827cabfc::t_cb881a159e619e 1-68
+windows_network_toolkit/remediation/stop_reverter.py
+  s_3c40ae827cabfc::t_05eb2cdc99676c 1-69
+windows_network_toolkit/report.py
+  s_3c40ae827cabfc::t_e6a8823507d77e 1-216
+windows_network_toolkit/reporting.py
+  s_3c40ae827cabfc::t_ab0823ebad6341 1-190
+windows_network_toolkit/reviewer_demo.py
+  s_3c40ae827cabfc::t_596a8300a08c14 1-311
+windows_network_toolkit/risk_scoring_engine.py
+  s_3c40ae827cabfc::t_c799e19e392aac 1-375
+windows_network_toolkit/safety.py
+  s_3c40ae827cabfc::t_3e0bd14840e107 1-104
+windows_network_toolkit/storage/__init__.py
+  s_3c40ae827cabfc::t_87fc261f80447d 1-40
+windows_network_toolkit/storage/event_store.py
+  s_3c40ae827cabfc::t_08efefd93b5985 1-165
+windows_network_toolkit/storage/events.py
+  s_3c40ae827cabfc::t_3feb94e3942e86 1-125
+windows_network_toolkit/tests/test_api.py
+  s_3c40ae827cabfc::t_d0ec41c0f9f4eb 1-71
+windows_network_toolkit/tests/test_bad_gateway_diagnose.py
+  s_3c40ae827cabfc::t_893d74aaccd4ea 1-67
+windows_network_toolkit/tests/test_collectors.py
+  s_3c40ae827cabfc::t_8dc10770056360 1-37
+windows_network_toolkit/tests/test_decision_engine.py
+  s_3c40ae827cabfc::t_7428f6bebadcec 1-42
+windows_network_toolkit/tests/test_evidence_model.py
+  s_3c40ae827cabfc::t_2bca833a9f4fdf 1-56
+windows_network_toolkit/tests/test_policy_engine.py
+  s_3c40ae827cabfc::t_325ff016013b4c 1-47
+windows_network_toolkit/tests/test_proxy_cli.py
+  s_3c40ae827cabfc::t_dfceefc0f60fd5 1-75
+windows_network_toolkit/tests/test_replay.py
+  s_3c40ae827cabfc::t_a53834b4ee6e9a 1-40
+windows_network_toolkit/tests/test_report_generator.py
+  s_3c40ae827cabfc::t_f533e2e5cc3093 1-29
+windows_network_toolkit/tests/test_timeline_builder.py
+  s_3c40ae827cabfc::t_24cd943c5f36e2 1-29
+windows_network_toolkit/timeline.py
+  s_3c40ae827cabfc::t_5ea0d29d6d1d5b 1-62
+windows_network_toolkit/watch.py
+  s_3c40ae827cabfc::t_2105ec1eeec431 1-417
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3e64c250913e6f5c7033ff2c04e452093d25a939",
+  "prompts": {},
+  "sessions": {
+    "s_3c40ae827cabfc": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e6015d50-7421-45b1-b567-fa743c688232",
+        "model": "default"
+      },
+      "human_author": "Zixsa <50504962+Kozphy@users.noreply.github.com>"
+    }
+  }
+}
