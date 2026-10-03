@@ -57,9 +57,25 @@ and exits non-zero on the first failure:
    the export has no tracked files of its own.) High-risk findings fail the gate;
    medium findings such as synthetic fixture emails or RFC1918 demo IPs are
    reported for review.
-2. Policy safety, DNS-edge/IPv6, and backend API contract pytest slices. These
+2. `ruff check` — the same command as the public repo's CI lint step.
+3. Policy safety, DNS-edge/IPv6, and backend API contract pytest slices. These
    write `.audit/` and `.pytest_tmp/` into the export; both are gitignored there,
    so `git add -A` does not publish them.
+
+Inside a git checkout the exporter copies only **git-tracked** files; untracked
+files under an allowlisted path are listed in `skipped_untracked` instead.
+
+`--run-checks` uses your current interpreter. If the private repo is installed in
+editable mode or on `PYTHONPATH`, a missing private package still imports and the
+checks pass while public CI fails. Before pushing, verify in a clean venv:
+
+```powershell
+python -m venv $env:TEMP\wnrt_pubvenv
+cd .public_mirror_export
+$env:PYTHONPATH = (Get-Location).Path
+& $env:TEMP\wnrt_pubvenv\Scripts\python.exe -m pip install -e ".[dev]"
+& $env:TEMP\wnrt_pubvenv\Scripts\python.exe -m windows_network_toolkit --help
+```
 
 Hygiene in the private repo before exporting:
 

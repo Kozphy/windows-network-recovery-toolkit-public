@@ -16,6 +16,10 @@ include_paths:
   - toolkit/
   - backend/
   - platform_core/
+  # Imported at load time by backend/platform_routes.py (evidence) and the CLI via
+  # windows_network_toolkit/decision/hypothesis_engine.py (proxy_reasoning).
+  - evidence/
+  - proxy_reasoning/
   - src/
   - frontend/
   - tests/fixtures/

@@ -20,6 +20,8 @@ python -m windows_network_toolkit dns-edge-fix --dry-run true
 
 Remediation defaults to **dry-run**. Live apply requires elevation and an exact confirmation token (`DISABLE_WININET_PROXY`, `PREFER_IPV4_OVER_IPV6`, `RESTORE_IPV6_PREFERENCE`, `FIX_ERR_NAME_NOT_RESOLVED`).
 
+`agent once` is not available in this edition: it depends on the private endpoint-agent package.
+
 ## Demo API + frontend (fixture / read-only)
 
 ```powershell

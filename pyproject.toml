@@ -49,6 +49,8 @@ include = [
     "src*",
     "windows_network_toolkit*",
     "toolkit*",
+    "evidence*",
+    "proxy_reasoning*",
 ]
 exclude = ["tests*", "frontend*", "scripts*", "docs*", "tools*"]
 
@@ -76,10 +78,10 @@ ignore = ["E501", "B008"]
 "windows_network_toolkit/distributed_delivery.py" = ["UP042"]
 
 [tool.ruff.lint.isort]
-# Private-monorepo packages that are not exported but are still imported by
-# windows_network_toolkit/agent/read_only.py and decision/hypothesis_engine.py;
-# keep their import grouping identical to the private repo.
-known-first-party = ["endpoint_agent", "proxy_reasoning"]
+# Private-only package imported by windows_network_toolkit/agent/read_only.py
+# (`agent once` needs the private edition); keep import grouping identical to
+# the private repo.
+known-first-party = ["endpoint_agent"]
 
 [tool.mypy]
 python_version = "3.11"
