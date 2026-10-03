@@ -1,0 +1,77 @@
+README.md
+  s_3c40ae827cabfc::t_1e85b563cb0e55 23-24
+config/public_mirror_manifest.yaml
+  s_3c40ae827cabfc::t_ea8620acb098bf 19-22
+docs/private-public-split.md
+  s_3c40ae827cabfc::t_a7a2bb028e527d 60-61,65-79
+evidence/__init__.py
+  s_3c40ae827cabfc::t_cf635bbe24b7da 1-43
+evidence/attribution_engine.py
+  s_3c40ae827cabfc::t_e30e8c59cb84c2 1-311
+evidence/etw_reader.py
+  s_3c40ae827cabfc::t_5af25c9413dc90 1-154
+evidence/etw_stub.py
+  s_3c40ae827cabfc::t_4bebddbe09dcba 1-32
+evidence/evidence_event.py
+  s_3c40ae827cabfc::t_45bef5e8190421 1-43
+evidence/models.py
+  s_3c40ae827cabfc::t_5cbdd65511adaa 1-128
+evidence/procmon_csv.py
+  s_3c40ae827cabfc::t_36d9a5682256d2 1-35
+evidence/procmon_importer.py
+  s_3c40ae827cabfc::t_7d4d5e336556b5 1-120
+evidence/redaction.py
+  s_3c40ae827cabfc::t_d863f694fbe749 1-111
+evidence/registry_event_parser.py
+  s_3c40ae827cabfc::t_942a0d4c839e99 1-114
+evidence/registry_writer.py
+  s_3c40ae827cabfc::t_12eb57528ff01b 1-715
+evidence/registry_writer_proof.py
+  s_3c40ae827cabfc::t_64542a8bc19451 1-133
+evidence/sysmon_eventlog.py
+  s_3c40ae827cabfc::t_58f9f0ed7809db 1-29
+evidence/sysmon_reader.py
+  s_3c40ae827cabfc::t_80264407cc248c 1-105
+proxy_reasoning/__init__.py
+  s_3c40ae827cabfc::t_ccd04fc65d0209 1-58
+proxy_reasoning/audit.py
+  s_3c40ae827cabfc::t_d8b5076ae6d321 1-116
+proxy_reasoning/bridge.py
+  s_3c40ae827cabfc::t_c4d47ce4216d86 1-42
+proxy_reasoning/builders.py
+  s_3c40ae827cabfc::t_67ec76610fab41 1-211
+proxy_reasoning/classification.py
+  s_3c40ae827cabfc::t_161c15278f7fe3 1-132
+proxy_reasoning/constants.py
+  s_3c40ae827cabfc::t_ca9cdad7ddbb52 1-52
+proxy_reasoning/diagnosis_text.py
+  s_3c40ae827cabfc::t_ec230dd27c0717 1-96
+proxy_reasoning/models.py
+  s_3c40ae827cabfc::t_9e039163a1d10d 1-223
+proxy_reasoning/pipeline.py
+  s_3c40ae827cabfc::t_e841fd85d04b44 1-228
+proxy_reasoning/policy.py
+  s_3c40ae827cabfc::t_67b6678d414e08 1-168
+proxy_reasoning/scenarios.py
+  s_3c40ae827cabfc::t_57e797e3f350a3 1-176
+proxy_reasoning/verification.py
+  s_3c40ae827cabfc::t_a2d537bf4c5b14 1-157
+pyproject.toml
+  s_3c40ae827cabfc::t_9318b14db31e66 52-53,81-84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "231158231b89fbd129212b5f392a070f9ddaf634",
+  "prompts": {},
+  "sessions": {
+    "s_3c40ae827cabfc": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e6015d50-7421-45b1-b567-fa743c688232",
+        "model": "default"
+      },
+      "human_author": "Zixsa <50504962+Kozphy@users.noreply.github.com>"
+    }
+  }
+}
