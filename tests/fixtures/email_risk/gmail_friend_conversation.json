@@ -1,0 +1,10 @@
+{
+  "description": "Synthetic ordinary personal Gmail conversation; consumer mailbox alone must stay LOW.",
+  "email": {
+    "from": "\"Tom\" <tom.lee.1990@gmail.com>",
+    "to": ["friend@example.net"],
+    "subject": "Dinner tonight?",
+    "authentication_results": "mx.example.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass header.d=gmail.com; dmarc=pass header.from=gmail.com",
+    "body_text": "Hey! Are we still on for dinner tonight?\nLet me know if 7pm works.\nI'll bring the photos from the trip.\n\nThanks,\nTom"
+  }
+}

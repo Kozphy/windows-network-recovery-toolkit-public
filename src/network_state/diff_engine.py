@@ -34,7 +34,9 @@ def _empty(val: Any) -> bool:
     return val is None or (isinstance(val, str) and val.strip() == "")
 
 
-def detect_suspicious_cases(saved: ProxySnapshot, current: ProxySnapshot, changed_fields: dict[str, Any]) -> list[str]:
+def detect_suspicious_cases(
+    saved: ProxySnapshot, current: ProxySnapshot, changed_fields: dict[str, Any]
+) -> list[str]:
     """Enumerate advisory transition codes for tooling and policy correlation.
 
     ``changed_fields`` mirrors :func:`~src.proxy_guard.known_good_diff.diff_snapshots` output for future
@@ -124,7 +126,9 @@ def drift_bundle(
 
     parsed: ParsedProxy = parse_proxy_server(current.proxy_server)
     policy_out = (
-        evaluate_network_state_policy(policy, parsed=parsed, suspicions=suspicions, attribution=attribution_heuristic)
+        evaluate_network_state_policy(
+            policy, parsed=parsed, suspicions=suspicions, attribution=attribution_heuristic
+        )
         if policy is not None
         else None
     )

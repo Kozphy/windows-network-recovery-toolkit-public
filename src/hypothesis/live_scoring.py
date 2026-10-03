@@ -74,14 +74,28 @@ def score_live_snapshot(snap: LiveNetworkSnapshot) -> tuple[LiveHypothesisScore,
         n = "DNS lookup succeeded, so this is less likely to be a DNS-only issue."
         _add_neg(bag, "dns_resolution_issue", n)
     if fv.tcp_443_ok:
-        _add_neg(bag, "unexpected_user_proxy", "TCP 443 succeeded, so remote TLS reachability is available.")
-        _add_neg(bag, "tls_path_issue", "TCP 443 succeeded; failures are more likely app-layer or proxy path.")
+        _add_neg(
+            bag,
+            "unexpected_user_proxy",
+            "TCP 443 succeeded, so remote TLS reachability is available.",
+        )
+        _add_neg(
+            bag,
+            "tls_path_issue",
+            "TCP 443 succeeded; failures are more likely app-layer or proxy path.",
+        )
     if fv.browser_http_ok:
         _add_neg(bag, "browser_proxy_path_issue", "Automated curl HTTPS succeeded.")
         _add_neg(bag, "tls_path_issue", "curl HTTPS succeeded.")
 
     # unexpected_user_proxy (localhost manual proxy + healthy transport)
-    if user_proxy_on and parsed.is_localhost_proxy and fv.tcp_443_ok and fv.nslookup_ok and fv.browser_http_ok:
+    if (
+        user_proxy_on
+        and parsed.is_localhost_proxy
+        and fv.tcp_443_ok
+        and fv.nslookup_ok
+        and fv.browser_http_ok
+    ):
         _bump(
             bag,
             "unexpected_user_proxy",

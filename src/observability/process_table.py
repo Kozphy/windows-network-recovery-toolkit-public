@@ -44,7 +44,9 @@ _INTERESTING = (
 )
 
 
-def extract_interesting_processes(tasklist_csv: str, *, limit: int = 40) -> tuple[dict[str, str], ...]:
+def extract_interesting_processes(
+    tasklist_csv: str, *, limit: int = 40
+) -> tuple[dict[str, str], ...]:
     """Return up to ``limit`` CSV rows matching substring tokens in executable image paths.
 
     Constraints:

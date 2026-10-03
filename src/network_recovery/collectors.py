@@ -59,7 +59,18 @@ def _run_cmd(
 
 def _curl_ok(url: str, *, run: Callable[..., Any], timeout: float) -> bool | None:
     code, out = _run_cmd(
-        ["curl", "-sS", "-o", "NUL", "-w", "%{http_code}", "-L", "--max-time", str(int(timeout)), url],
+        [
+            "curl",
+            "-sS",
+            "-o",
+            "NUL",
+            "-w",
+            "%{http_code}",
+            "-L",
+            "--max-time",
+            str(int(timeout)),
+            url,
+        ],
         run=run,
         timeout=timeout + 5.0,
     )
@@ -81,7 +92,9 @@ def _firewall_snapshot(*, run: Callable[..., Any], timeout: float) -> dict[str, 
     current: str | None = None
     if code == 0:
         for line in out.splitlines():
-            if line.strip().endswith("Profile Settings:") or line.strip().endswith("Profile Settings"):
+            if line.strip().endswith("Profile Settings:") or line.strip().endswith(
+                "Profile Settings"
+            ):
                 current = line.split()[0].lower() if line.split() else None
             if "State" in line and current:
                 profiles[current] = line.strip()
@@ -151,10 +164,10 @@ def collect_signals(
     reg = read_proxy_registry(run=run, query_timeout=timeout_seconds)
     parsed = parse_proxy_server(reg.proxy_server)
 
-    wh_code, wh_out = _run_cmd(["netsh", "winhttp", "show", "proxy"], run=run, timeout=timeout_seconds)
-    wh_loopback, _wh_port = (
-        _winhttp_hints_localhost(wh_out) if wh_code == 0 else (False, None)
+    wh_code, wh_out = _run_cmd(
+        ["netsh", "winhttp", "show", "proxy"], run=run, timeout=timeout_seconds
     )
+    wh_loopback, _wh_port = _winhttp_hints_localhost(wh_out) if wh_code == 0 else (False, None)
     wh_direct = "direct access" in wh_out.lower() if wh_code == 0 else None
 
     browser_ok = _curl_ok(_BROWSER_URL, run=run, timeout=timeout_seconds)
@@ -173,9 +186,9 @@ def collect_signals(
     fw = _firewall_snapshot(run=run, timeout=timeout_seconds)
     listen_ports = _localhost_ports_from_proxy(reg.proxy_server, run=run)
     chatgpt_proc = _process_detected("ChatGPT.exe", run=run, timeout=timeout_seconds)
-    electron_proc = _process_detected("electron.exe", run=run, timeout=timeout_seconds) or _process_detected(
-        "ChatGPT.exe", run=run, timeout=timeout_seconds
-    )
+    electron_proc = _process_detected(
+        "electron.exe", run=run, timeout=timeout_seconds
+    ) or _process_detected("ChatGPT.exe", run=run, timeout=timeout_seconds)
     vpn_hint = _vpn_adapter_hint(run=run, timeout=timeout_seconds)
 
     if reg.proxy_enable == 1 and parsed.is_localhost_proxy:

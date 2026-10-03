@@ -27,7 +27,7 @@ Severity = Literal["low", "medium", "high", "critical"]
 
 class NormalizedEvent(BaseModel):
     """Represent normalized event data used by the toolkit.
-    
+
     Attributes:
         event_id: Field or variant describing event id evidence or state.
         domain: Field or variant describing domain evidence or state.
@@ -37,10 +37,11 @@ class NormalizedEvent(BaseModel):
         severity: Field or variant describing severity evidence or state.
         observations: Field or variant describing observations evidence or state.
         source: Field or variant describing source evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     event_id: str
     domain: DomainName
     category: str
@@ -54,7 +55,7 @@ class NormalizedEvent(BaseModel):
 
 class EvidenceItem(BaseModel):
     """Represent evidence item data used by the toolkit.
-    
+
     Attributes:
         evidence_id: Field or variant describing evidence id evidence or state.
         event_id: Field or variant describing event id evidence or state.
@@ -64,10 +65,11 @@ class EvidenceItem(BaseModel):
         contradicts: Field or variant describing contradicts evidence or state.
         confidence_delta: Field or variant describing confidence delta evidence or state.
         source: Field or variant describing source evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     evidence_id: str
     event_id: str
     type: EvidenceType = "observation"
@@ -81,7 +83,7 @@ class EvidenceItem(BaseModel):
 
 class Hypothesis(BaseModel):
     """Represent hypothesis data used by the toolkit.
-    
+
     Attributes:
         hypothesis_id: Field or variant describing hypothesis id evidence or state.
         event_id: Field or variant describing event id evidence or state.
@@ -90,10 +92,11 @@ class Hypothesis(BaseModel):
         supporting_evidence: Field or variant describing supporting evidence evidence or state.
         contradicting_evidence: Field or variant describing contradicting evidence evidence or state.
         confidence: Field or variant describing confidence evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     hypothesis_id: str
     event_id: str
     title: str
@@ -105,7 +108,7 @@ class Hypothesis(BaseModel):
 
 class DecisionOption(BaseModel):
     """Represent decision option data used by the toolkit.
-    
+
     Attributes:
         decision_id: Field or variant describing decision id evidence or state.
         event_id: Field or variant describing event id evidence or state.
@@ -115,10 +118,11 @@ class DecisionOption(BaseModel):
         risk_score: Field or variant describing risk score evidence or state.
         confidence: Field or variant describing confidence evidence or state.
         alternatives: Field or variant describing alternatives evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     decision_id: str
     event_id: str
     title: str
@@ -145,7 +149,7 @@ class PolicyDecision(BaseModel):
 
 class DecisionOutcome(BaseModel):
     """Represent decision outcome data used by the toolkit.
-    
+
     Attributes:
         outcome_id: Field or variant describing outcome id evidence or state.
         decision_id: Field or variant describing decision id evidence or state.
@@ -154,10 +158,11 @@ class DecisionOutcome(BaseModel):
         cost_score: Field or variant describing cost score evidence or state.
         time_to_resolution_seconds: Field or variant describing time to resolution seconds evidence or state.
         lessons_learned: Field or variant describing lessons learned evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     outcome_id: str
     decision_id: str
     success: bool

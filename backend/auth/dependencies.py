@@ -16,15 +16,15 @@ def get_v1_principal(
     x_api_tenant: Annotated[str | None, Header(alias="X-Api-Tenant")] = None,
 ) -> V1Principal:
     """Get v1 principal.
-    
+
     Args:
         x_api_role: The x api role value supplied by the caller.
         x_api_token: The x api token value supplied by the caller.
         x_api_tenant: The x api tenant value supplied by the caller.
-    
+
     Returns:
         The V1Principal result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

@@ -36,6 +36,7 @@ class EvidenceKind(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     REGISTRY = "registry"
     PROCESS = "process"
     TIMELINE = "timeline"
@@ -74,6 +75,7 @@ class RegistryEvidence(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     evidence_id: str = "reg-001"
     tier: EvidenceTierName = "OBSERVED_ONLY"
     proxy_enable: int | None = None
@@ -105,6 +107,7 @@ class ProcessEvidence(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     evidence_id: str = "proc-001"
     tier: EvidenceTierName = "CORRELATED"
     listener_found: bool = False
@@ -131,6 +134,7 @@ class TimelineEvent(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     timestamp_utc: str
     signal: str
     observed_value: str = ""
@@ -150,6 +154,7 @@ class TimelineEvidence(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     evidence_id: str = "tl-001"
     events: list[TimelineEvent] = Field(default_factory=list)
 
@@ -174,6 +179,7 @@ class NetworkEvidence(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     evidence_id: str = "net-001"
     tier: EvidenceTierName = "OBSERVED_ONLY"
     dns_ok: bool | None = None

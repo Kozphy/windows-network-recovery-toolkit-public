@@ -42,13 +42,13 @@ def append_jsonl(path: Path, row: dict[str, Any]) -> None:
 
 def logs_dir(repo_root: Path) -> Path:
     """Logs dir.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -57,13 +57,13 @@ def logs_dir(repo_root: Path) -> Path:
 
 def path_snapshots(repo_root: Path) -> Path:
     """Path snapshots.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -72,13 +72,13 @@ def path_snapshots(repo_root: Path) -> Path:
 
 def path_repairs(repo_root: Path) -> Path:
     """Path repairs.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -87,13 +87,13 @@ def path_repairs(repo_root: Path) -> Path:
 
 def path_verifications(repo_root: Path) -> Path:
     """Path verifications.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -102,13 +102,13 @@ def path_verifications(repo_root: Path) -> Path:
 
 def path_drifts(repo_root: Path) -> Path:
     """Path drifts.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -117,13 +117,13 @@ def path_drifts(repo_root: Path) -> Path:
 
 def path_attribution(repo_root: Path) -> Path:
     """Path attribution.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -132,13 +132,13 @@ def path_attribution(repo_root: Path) -> Path:
 
 def path_incidents(repo_root: Path) -> Path:
     """Path incidents.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -277,7 +277,9 @@ def log_repair_attempt(
 ) -> str:
     """Append ``repair_attempt`` event; returns ``event_id``."""
 
-    row = _base_row("repair_attempt", incident_id=incident_id, correlation_key_val=correlation_key_val)
+    row = _base_row(
+        "repair_attempt", incident_id=incident_id, correlation_key_val=correlation_key_val
+    )
     default_risk: dict[str, Any] = {
         "risk_level": "low",
         "changes_winhttp": False,
@@ -315,12 +317,18 @@ def log_verification(
 
     interp = interpretation
     if interp is None:
-        interp = "ProxyEnable matches expected disabled value." if ok else "Observed ProxyEnable differs from expectation."
+        interp = (
+            "ProxyEnable matches expected disabled value."
+            if ok
+            else "Observed ProxyEnable differs from expectation."
+        )
     conf = confidence
     if conf is None:
         conf = 0.99 if ok else 0.5
 
-    row = _base_row("verification", incident_id=incident_id, correlation_key_val=correlation_key_val)
+    row = _base_row(
+        "verification", incident_id=incident_id, correlation_key_val=correlation_key_val
+    )
     row.update(
         {
             "repair_event_id": repair_event_id,
@@ -341,7 +349,9 @@ def drift_severity(repeat_count: int) -> str:
     return "high" if repeat_count >= 3 else "medium"
 
 
-def count_drift_events(repo_root: Path, correlation_key_val: str, drift_type: str = "proxy_reenabled") -> int:
+def count_drift_events(
+    repo_root: Path, correlation_key_val: str, drift_type: str = "proxy_reenabled"
+) -> int:
     """Count existing v2 drift rows for repeat indexing."""
 
     p = path_drifts(repo_root)
@@ -396,7 +406,9 @@ def log_drift(
             "Repair may be temporary; root cause likely external process, policy, startup item, or agent."
         )
 
-    row = _base_row("drift_detected", incident_id=incident_id, correlation_key_val=correlation_key_val)
+    row = _base_row(
+        "drift_detected", incident_id=incident_id, correlation_key_val=correlation_key_val
+    )
     row.update(
         {
             "drift_type": drift_type,

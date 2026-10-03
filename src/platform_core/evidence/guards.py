@@ -61,6 +61,7 @@ class ProofInputs:
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     has_registry_writer_telemetry: bool = False
     has_process_lineage: bool = False
     has_timestamp_alignment: bool = False
@@ -138,6 +139,7 @@ def proof_inputs_from_signals(signals: dict[str, Any]) -> ProofInputs:
         routing for the supplied inputs; callers should preserve source
         evidence, policy context, and limitations with the result.
     """
+
     def truthy(v: Any) -> bool:
         if isinstance(v, bool):
             return v

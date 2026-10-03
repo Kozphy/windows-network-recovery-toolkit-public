@@ -19,7 +19,9 @@ Key invariants:
     * Observation only for diagnose — not proof of ISP DNS malice.
 
 Side effects:
-    Diagnose: DNS lookups, registry/policy reads, adapter DNS reads.
+    Diagnose: DNS lookups, registry/policy reads, adapter DNS reads. With
+    ``--url``: direct UDP/53 queries to root, TLD, and the domain's own
+    nameservers plus 1.1.1.1 / 8.8.8.8 (read-only, no state change).
     Apply: may set Wi-Fi DNS servers (elevation), flush DNS, write HKCU Edge
     policy values, optionally stop ``msedge`` processes.
 
@@ -45,6 +47,7 @@ from typing import Any
 from src.platform_core.governance.evidence_to_action import attach_governance_envelope
 from src.proxy_drift.dns_health import assess_dns_mismatch
 from windows_network_toolkit.audit_store import append_audit_dict
+from windows_network_toolkit.dns_authoritative import check_authoritative_dns
 from windows_network_toolkit.safety import CONFIRMATION_TOKENS, DEFAULT_SAFETY_NOTES, is_demo_mode
 
 CONFIRMATION_PHRASE = CONFIRMATION_TOKENS.get(
@@ -222,9 +225,7 @@ def write_edge_dns_policy(*, doh_mode: str = "off", builtin_enabled: int = 0) ->
         winreg.HKEY_CURRENT_USER, EDGE_POLICY_KEY, 0, winreg.KEY_SET_VALUE
     ) as key:
         winreg.SetValueEx(key, "DnsOverHttpsMode", 0, winreg.REG_SZ, doh_mode)
-        winreg.SetValueEx(
-            key, "BuiltInDnsClientEnabled", 0, winreg.REG_DWORD, int(builtin_enabled)
-        )
+        winreg.SetValueEx(key, "BuiltInDnsClientEnabled", 0, winreg.REG_DWORD, int(builtin_enabled))
 
 
 def set_wifi_dns_servers(
@@ -333,7 +334,9 @@ def classify_dns_edge(
             "limitations": limitations,
         }
 
-    if resolve_ok_count > 0 and (not edge_forced_os or not public_first or mismatch.get("primary_off_subnet")):
+    if resolve_ok_count > 0 and (
+        not edge_forced_os or not public_first or mismatch.get("primary_off_subnet")
+    ):
         reasons = []
         if not public_first:
             reasons.append("primary DNS is not 1.1.1.1/8.8.8.8 (router-first is common)")
@@ -370,6 +373,27 @@ def classify_dns_edge(
     }
 
 
+def _target_next_step(authoritative: dict[str, Any]) -> dict[str, Any] | None:
+    """Override the next step when the target site's own DNS decides the outcome."""
+    verdict = authoritative.get("verdict")
+    if verdict in ("site_side", "site_side_intermittent"):
+        return {
+            "kind": "site_side_dns",
+            "command": None,
+            "reason": (
+                f"{authoritative.get('summary')} Changing this PC's DNS or Edge settings "
+                "will not fix it; FIX_ERR_NAME_NOT_RESOLVED is not recommended."
+            ),
+        }
+    if verdict == "client_side":
+        return {
+            "kind": "dns_edge_fix_apply",
+            "command": ELEVATED_APPLY_HINT + " --restart-edge",
+            "reason": str(authoritative.get("summary")),
+        }
+    return None
+
+
 def diagnose_dns_edge(
     *,
     interface_alias: str = "Wi-Fi",
@@ -378,12 +402,21 @@ def diagnose_dns_edge(
     wifi: dict[str, Any] | None = None,
     edge_policy: dict[str, Any] | None = None,
     resolves: list[dict[str, Any]] | None = None,
+    url: str | None = None,
+    authoritative: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Read-only DNS + Edge policy diagnosis for ERR_NAME_NOT_RESOLVED."""
+    """Read-only DNS + Edge policy diagnosis for ERR_NAME_NOT_RESOLVED.
+
+    When ``url`` is given, also asks the target domain's own nameservers
+    directly (``dns_authoritative``) so a broken site-side delegation is not
+    mistaken for a local DNS problem.
+    """
     if platform.system() != "Windows" and wifi is None and resolves is None:
         return attach_governance_envelope(_unsupported())
 
-    wifi_snap = wifi if wifi is not None else read_wifi_dns(interface_alias=interface_alias, run=run)
+    wifi_snap = (
+        wifi if wifi is not None else read_wifi_dns(interface_alias=interface_alias, run=run)
+    )
     policy = edge_policy if edge_policy is not None else read_edge_dns_policy()
     resolve_rows = resolves
     if resolve_rows is None:
@@ -425,6 +458,17 @@ def diagnose_dns_edge(
             "reason": classification["reasoning"],
         }
 
+    limitations = list(classification["limitations"])
+    target: dict[str, Any] | None = None
+    if url or authoritative is not None:
+        target = authoritative if authoritative is not None else check_authoritative_dns(url or "")
+        override = _target_next_step(target)
+        if override is not None:
+            next_step = override
+        limitations.extend(
+            item for item in target.get("limitations", []) if item not in limitations
+        )
+
     payload = {
         "timestamp_utc": _utc_now(),
         "command": "dns-edge-status",
@@ -436,8 +480,12 @@ def diagnose_dns_edge(
         "classification": classification["primary_classification"],
         "classification_result": classification,
         "operator_next_step": next_step,
-        "limitations": classification["limitations"],
+        "limitations": limitations,
     }
+    if target is not None:
+        payload["target_url"] = url
+        payload["target_verdict"] = target.get("verdict")
+        payload["authoritative_check"] = target
     return attach_governance_envelope(payload)
 
 
@@ -496,8 +544,7 @@ def run_dns_edge_fix(
             "DnsOverHttpsMode": "off",
             "BuiltInDnsClientEnabled": 0,
         },
-        "elevated_apply_command": ELEVATED_APPLY_HINT
-        + (" --restart-edge" if restart_edge else ""),
+        "elevated_apply_command": ELEVATED_APPLY_HINT + (" --restart-edge" if restart_edge else ""),
         "reboot_recommended": False,
         "limitations": list(DEFAULT_SAFETY_NOTES)
         + [
@@ -534,15 +581,12 @@ def run_dns_edge_fix(
         )
     elif not token_ok:
         payload["status"] = "blocked"
-        payload["message"] = (
-            f"Live apply blocked: confirm must be exactly {CONFIRMATION_PHRASE}."
-        )
+        payload["message"] = f"Live apply blocked: confirm must be exactly {CONFIRMATION_PHRASE}."
     elif require_elevation and elev is False and write_dns is None:
         payload["status"] = "needs_elevation"
         payload["action_allowed"] = False
         payload["message"] = (
-            "Live DNS change needs an elevated shell. "
-            f"Re-run: {payload['elevated_apply_command']}"
+            f"Live DNS change needs an elevated shell. Re-run: {payload['elevated_apply_command']}"
         )
         payload["operator_next_step"] = {
             "kind": "dns_edge_fix_apply_elevated",

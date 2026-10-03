@@ -15,9 +15,17 @@ def _inject(**overrides: object) -> dict:
         "tcp": {"ok": True, "host": "example.com", "port": 443},
         "http_system_proxy": {"ok": False, "status_code": 502, "via_system_proxy": True},
         "http_direct": {"ok": True, "status_code": 200, "via_system_proxy": False},
-        "wininet_proxy": {"proxy_enable": 1, "proxy_server": "127.0.0.1:8888", "auto_config_url": ""},
+        "wininet_proxy": {
+            "proxy_enable": 1,
+            "proxy_server": "127.0.0.1:8888",
+            "auto_config_url": "",
+        },
         "winhttp_proxy": {"ok": True, "direct_access": False, "raw": ""},
-        "local_proxy_process": {"detected": True, "port": 8888, "process": {"pid": 1234, "name": "unknown.exe"}},
+        "local_proxy_process": {
+            "detected": True,
+            "port": 8888,
+            "process": {"pid": 1234, "name": "unknown.exe"},
+        },
     }
     base.update(overrides)
     return base
@@ -55,7 +63,12 @@ def test_runner_mocked_no_subprocess() -> None:
     )
     assert report["classification"] == "LOCAL_LOOPBACK_PROXY"
     assert report["headline"] == headline("LOCAL_LOOPBACK_PROXY")
-    assert report["policy_gate"]["outcome"] in {"PREVIEW_ONLY", "BLOCK", "REQUIRE_HUMAN_APPROVAL", "ALLOW"}
+    assert report["policy_gate"]["outcome"] in {
+        "PREVIEW_ONLY",
+        "BLOCK",
+        "REQUIRE_HUMAN_APPROVAL",
+        "ALLOW",
+    }
     assert "Observation is not proof" in report["safety_notes"][0]
 
 

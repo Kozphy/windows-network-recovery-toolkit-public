@@ -69,13 +69,13 @@ class FinalCausationReport:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -112,14 +112,16 @@ def _is_suspicious_path(path: str) -> bool:
     return any(x in low for x in ("\\appdata\\local\\temp\\", "\\temp\\", "\\appdata\\roaming\\"))
 
 
-def _process_matches_port(writer_image: str, writer_pid: int | None, port_owner: PortOwnerEvidence | None) -> bool:
+def _process_matches_port(
+    writer_image: str, writer_pid: int | None, port_owner: PortOwnerEvidence | None
+) -> bool:
     if port_owner is None:
         return False
     if writer_pid is not None and port_owner.process_id == writer_pid:
         return True
-    return _basename(writer_image) == _basename(port_owner.process_name) or _basename(writer_image) == _basename(
-        port_owner.executable_path
-    )
+    return _basename(writer_image) == _basename(port_owner.process_name) or _basename(
+        writer_image
+    ) == _basename(port_owner.executable_path)
 
 
 def _detect_flapping(transitions: list[dict[str, Any]]) -> bool:
@@ -174,7 +176,9 @@ def build_final_causation_report(
         "network_path": "not tested",
     }
     if writer and writer.proof_level == "PROVEN":
-        proven_vs_likely["registry_writer"] = f"proven — {writer.image} wrote {writer.registry_value_name}"
+        proven_vs_likely["registry_writer"] = (
+            f"proven — {writer.image} wrote {writer.registry_value_name}"
+        )
     elif writer:
         proven_vs_likely["registry_writer"] = f"likely/correlated only — {writer.image}"
     if port_owner:
@@ -223,7 +227,9 @@ def build_final_causation_report(
         verdict = "TOOL_CONFLICT_PROXY_FLAPPING"
         confidence = 0.72
         root_sentence = "Repeated enable/disable proxy flapping suggests conflicting tools (e.g. dev server vs IDE reset)."
-        proof_level = "FINAL_CAUSATION" if writer and writer.proof_level == "PROVEN" else proof_level
+        proof_level = (
+            "FINAL_CAUSATION" if writer and writer.proof_level == "PROVEN" else proof_level
+        )
     elif writer and writer.proof_level == "PROVEN":
         if port_owner and _process_matches_port(writer.image, writer.process_id, port_owner):
             verdict = "PROVEN_PROXY_WRITER_AND_PORT_OWNER"
@@ -247,7 +253,9 @@ def build_final_causation_report(
         )
     elif writer or port_owner:
         image = (writer.image if writer else "") or (port_owner.process_name if port_owner else "")
-        cmd = (writer.command_line if writer else "") or (port_owner.command_line if port_owner else "")
+        cmd = (writer.command_line if writer else "") or (
+            port_owner.command_line if port_owner else ""
+        )
         if _is_dev_tool(image, cmd):
             verdict = "BENIGN_DEVELOPER_PROXY"
             confidence = 0.65
@@ -255,7 +263,9 @@ def build_final_causation_report(
 
     if path_proof.failure_mode == "proxy_broken":
         actions.insert(0, "Verify localhost listener is running on configured proxy port")
-        actions.insert(1, "Compare proxy-owner PID with attribution suspect — correlation ≠ writer proof")
+        actions.insert(
+            1, "Compare proxy-owner PID with attribution suspect — correlation ≠ writer proof"
+        )
 
     evidence_tree = {
         "registry_writes": [e.to_dict() for e in registry_evidence],

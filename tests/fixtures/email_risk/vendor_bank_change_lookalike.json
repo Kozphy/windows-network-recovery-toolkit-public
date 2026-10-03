@@ -1,0 +1,15 @@
+{
+  "description": "Synthetic vendor payment fraud from a confusable lookalike of a known vendor domain; authentication passes because the sender controls the lookalike domain.",
+  "org_context": {
+    "organization_domains": ["example-corp.test"],
+    "vendors": [{"name": "Contoso Supplies", "domains": ["contoso-supplies.test"]}]
+  },
+  "email": {
+    "from": "\"Contoso Supplies Billing\" <billing@cont0so-supplies.test>",
+    "to": ["ap@example-corp.test"],
+    "subject": "Invoice INV-2291 - new banking details",
+    "message_id": "<synthetic-vendor-0003@cont0so-supplies.test>",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=cont0so-supplies.test; dkim=pass header.d=cont0so-supplies.test; dmarc=pass header.from=cont0so-supplies.test",
+    "body_text": "Dear customer,\n\nPlease note our banking details have changed.\nKindly remit payment for invoice INV-2291 to the new account below by Friday.\nBank: Example Bank, Account 9876543210\n\nThank you,\nContoso Supplies Billing"
+  }
+}

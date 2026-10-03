@@ -102,7 +102,11 @@ class StakeholderResolver:
 
         def pick(field: str, default_role: str) -> tuple[str, StakeholderResolutionSource, str]:
             if field in cfg and cfg[field]:
-                return str(cfg[field]), StakeholderResolutionSource.EXPLICIT_CONFIGURATION, "explicit config"
+                return (
+                    str(cfg[field]),
+                    StakeholderResolutionSource.EXPLICIT_CONFIGURATION,
+                    "explicit config",
+                )
             asset_meta = evidence_summary.get("asset") or {}
             if isinstance(asset_meta, dict) and asset_meta.get(field):
                 return (
@@ -124,7 +128,11 @@ class StakeholderResolver:
                     StakeholderResolutionSource.CLASSIFICATION_MAPPING,
                     f"classification {classification}",
                 )
-            return default_role, StakeholderResolutionSource.DEFAULT_ROLE_MAPPING, "default role map"
+            return (
+                default_role,
+                StakeholderResolutionSource.DEFAULT_ROLE_MAPPING,
+                "default role map",
+            )
 
         ao_id, ao_src, ao_why = pick("asset_owner", class_map["asset_owner"])
         co_id, co_src, co_why = pick("control_owner", class_map["control_owner"])
@@ -261,7 +269,11 @@ class StakeholderResolver:
             security_required=security_required,
         )
 
-        if unresolved and StakeholderReasonCode.OWNER_UNRESOLVED not in reasons and "asset_owner" in unresolved:
+        if (
+            unresolved
+            and StakeholderReasonCode.OWNER_UNRESOLVED not in reasons
+            and "asset_owner" in unresolved
+        ):
             reasons.append(StakeholderReasonCode.OWNER_UNRESOLVED)
 
         confidence: str = "role_only"

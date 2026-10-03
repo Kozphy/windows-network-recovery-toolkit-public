@@ -12,11 +12,7 @@ from src.platform_core.governance.evidence_to_action import attach_governance_en
 SCHEMA_VERSION = "finops_export.v1"
 
 DEFAULT_FIXTURE_PATH = (
-    Path(__file__).resolve().parents[3]
-    / "tests"
-    / "fixtures"
-    / "finops"
-    / "mock_costs.json"
+    Path(__file__).resolve().parents[3] / "tests" / "fixtures" / "finops" / "mock_costs.json"
 )
 
 FACT_COSTS_COLUMNS = [

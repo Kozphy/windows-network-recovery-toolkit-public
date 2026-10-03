@@ -258,7 +258,13 @@ def collect_sysmon_proxy_events(
             ),
         ]
 
-    argv = ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", _powershell_sysmon_json(since_seconds)]
+    argv = [
+        "powershell.exe",
+        "-NoProfile",
+        "-NonInteractive",
+        "-Command",
+        _powershell_sysmon_json(since_seconds),
+    ]
     blob: Any = None
     try:
         proc = subprocess_run(argv, capture_output=True, text=True, shell=False, timeout=65.0)
@@ -267,7 +273,10 @@ def collect_sysmon_proxy_events(
             AttributionEvidence(
                 source="unknown",
                 confidence_score=0.0,
-                notes=["Sysmon log unavailable", f"collector_subprocess_failure:{type(exc).__name__}"],
+                notes=[
+                    "Sysmon log unavailable",
+                    f"collector_subprocess_failure:{type(exc).__name__}",
+                ],
             ),
         ]
 
@@ -325,7 +334,9 @@ def collect_sysmon_proxy_events(
                 time_hint = tc.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
             except (OSError, ValueError):
                 time_hint = str(tc)
-        ev = attribution_evidence_from_sysmon_message(msg, time_created_hint=time_hint or _utc_now_compact())
+        ev = attribution_evidence_from_sysmon_message(
+            msg, time_created_hint=time_hint or _utc_now_compact()
+        )
         if ev is not None:
             out.append(ev)
 

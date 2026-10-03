@@ -1,0 +1,34 @@
+Return-Path: <bounce-123@em.esp-mailer.test>
+Authentication-Results: mx.example.net;
+	spf=pass smtp.mailfrom=em.esp-mailer.test;
+	dkim=pass header.d=shop.example.com;
+	dmarc=pass header.from=shop.example.com
+From: "Example Shop" <news@shop.example.com>
+To: customer@example.net
+Subject: Autumn sale ends today
+Message-ID: <synthetic-news-0011@shop.example.com>
+Date: Thu, 24 Sep 2026 08:00:00 +0800
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="b1"
+
+--b1
+Content-Type: text/plain; charset="utf-8"
+
+Autumn Sale
+Sale ends today! Shop now and save 30%.
+Our payment methods have changed: we now accept bank transfer and LINE Pay.
+Follow us on LINE for exclusive deals.
+https://shop.example.com/sale?utm_source=news&token=abc123
+Unsubscribe: https://shop.example.com/unsubscribe
+
+--b1
+Content-Type: text/html; charset="utf-8"
+
+<html><head><style>body{color:red}</style><script>document.write('ACTIVE_SCRIPT_MARKER')</script></head>
+<body><h1>Autumn Sale</h1><p>Sale ends today! Shop now and save 30%.</p>
+<p>Our payment methods have changed: we now accept bank transfer and LINE Pay.</p>
+<p>Follow us on LINE for exclusive deals.</p>
+<a href="https://shop.example.com/sale?utm_source=news&amp;token=abc123">Shop the sale</a>
+<img src="https://tracker.example.com/pixel.gif" width="1" height="1">
+</body></html>
+--b1--

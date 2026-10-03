@@ -79,9 +79,17 @@ def finalize_decision(
             "Listener attribution identifies process listening on localhost proxy port; it does not prove registry writer."
         )
     if attribution.mode != "verified_eventlog":
-        notes.append("No direct Sysmon/EventLog registry-write proof; candidate actor remains heuristic.")
+        notes.append(
+            "No direct Sysmon/EventLog registry-write proof; candidate actor remains heuristic."
+        )
 
-    confidence = "high" if attribution.mode == "verified_eventlog" else "medium" if attribution.process else "low"
+    confidence = (
+        "high"
+        if attribution.mode == "verified_eventlog"
+        else "medium"
+        if attribution.process
+        else "low"
+    )
     return {
         "decision": decision,
         "reason": reason,
@@ -92,8 +100,9 @@ def finalize_decision(
         "attribution": {
             "confidence": confidence,
             "method": attribution.mode,
-            "candidate_actor": None if attribution.process is None else attribution.process.to_jsonable(),
+            "candidate_actor": None
+            if attribution.process is None
+            else attribution.process.to_jsonable(),
             "notes": notes,
         },
     }
-

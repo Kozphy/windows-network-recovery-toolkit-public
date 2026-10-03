@@ -155,7 +155,9 @@ def classify_incident_from_events(
         )
 
     ts = timestamp_utc or sorted(events, key=lambda e: e.timestamp_utc)[-1].timestamp_utc
-    endpoint_id = endpoint_id or next((e.endpoint_id for e in reversed(events) if e.endpoint_id), None)
+    endpoint_id = endpoint_id or next(
+        (e.endpoint_id for e in reversed(events) if e.endpoint_id), None
+    )
 
     state = _latest_by_type(events, "proxy_state")
     listener = _latest_by_type(events, "listener_state")
@@ -193,8 +195,14 @@ def classify_incident_from_events(
     policy = "observe"
     interpretation = "Endpoint proxy evidence reviewed."
 
-    if reverter_status in ("REVERTER_SUSPECTED", "PROXY_FLAPPING", "REPEATED_LOCALHOST_PROXY_PORTS") or reverter_flag:
-        incident_class = "REVERTER_SUSPECTED" if reverter_status != "PROXY_FLAPPING" else "PROXY_FLAPPING"
+    if (
+        reverter_status
+        in ("REVERTER_SUSPECTED", "PROXY_FLAPPING", "REPEATED_LOCALHOST_PROXY_PORTS")
+        or reverter_flag
+    ):
+        incident_class = (
+            "REVERTER_SUSPECTED" if reverter_status != "PROXY_FLAPPING" else "PROXY_FLAPPING"
+        )
         if reverter_status == "REPEATED_LOCALHOST_PROXY_PORTS":
             incident_class = "PROXY_FLAPPING"
         risk = "HIGH"
@@ -219,7 +227,9 @@ def classify_incident_from_events(
         confidence = 0.92
         policy = "block_or_disable_preview"
         interpretation = "WinINET points to localhost proxy but no listener is attributed."
-    elif proxy_status == "DIRECT_ONLY_WORKS" or (direct_ok is True and proxy_ok is False and enabled):
+    elif proxy_status == "DIRECT_ONLY_WORKS" or (
+        direct_ok is True and proxy_ok is False and enabled
+    ):
         incident_class = "DIRECT_ONLY_WORKS"
         risk = "HIGH"
         confidence = 0.9
@@ -248,7 +258,9 @@ def classify_incident_from_events(
         risk = "MEDIUM"
         confidence = 0.72
         policy = "observe_or_alert"
-        interpretation = "Proxy path works while direct path failed — possible tunnel/VPN dependency."
+        interpretation = (
+            "Proxy path works while direct path failed — possible tunnel/VPN dependency."
+        )
     elif direct_ok is False and proxy_ok is False:
         incident_class = "BOTH_DIRECT_AND_PROXY_FAIL"
         risk = "HIGH"
@@ -266,7 +278,9 @@ def classify_incident_from_events(
         risk = "MEDIUM"
         confidence = 0.7
         policy = "observe_or_alert"
-        interpretation = f"Localhost proxy active; listener appears to be {listener_name or 'unknown'}."
+        interpretation = (
+            f"Localhost proxy active; listener appears to be {listener_name or 'unknown'}."
+        )
     elif enabled:
         incident_class = "UNKNOWN_LOCAL_PROXY"
         risk = "HIGH"
@@ -274,10 +288,15 @@ def classify_incident_from_events(
         policy = "human_review"
         interpretation = "Proxy enabled but listener and probe evidence incomplete."
 
-    if listener_name and listener_name.lower() in _DEV_TRUSTED and incident_class in (
-        "LOCAL_PROXY_ACTIVE",
-        "BOTH_DIRECT_AND_PROXY_WORK",
-        "UNKNOWN_LOCAL_PROXY",
+    if (
+        listener_name
+        and listener_name.lower() in _DEV_TRUSTED
+        and incident_class
+        in (
+            "LOCAL_PROXY_ACTIVE",
+            "BOTH_DIRECT_AND_PROXY_WORK",
+            "UNKNOWN_LOCAL_PROXY",
+        )
     ):
         risk = "MEDIUM" if incident_class != "UNKNOWN_LOCAL_PROXY" else "MEDIUM"
 
@@ -292,7 +311,9 @@ def classify_incident_from_events(
     if listener_found and listener_name and not has_writer_proof:
         limitations.append("Likely process / correlation only; registry writer proof unavailable.")
 
-    stale = _str_field(events, "proxy_change", "reverter_status") == "STALE_PROXY_AFTER_PROCESS_EXIT"
+    stale = (
+        _str_field(events, "proxy_change", "reverter_status") == "STALE_PROXY_AFTER_PROCESS_EXIT"
+    )
     if stale:
         incident_class = "STALE_PROXY_AFTER_PROCESS_EXIT"
         risk = "HIGH"

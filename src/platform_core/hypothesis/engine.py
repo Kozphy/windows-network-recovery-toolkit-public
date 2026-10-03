@@ -9,7 +9,9 @@ from src.platform_core.hypothesis.models import MultievidenceInput
 from src.platform_core.hypothesis.multievidence_engine import evaluate_hypotheses
 
 
-def build_hypothesis(bundle: EvidenceBundle, *, incident_type: str, title: str, explanation: str) -> Hypothesis:
+def build_hypothesis(
+    bundle: EvidenceBundle, *, incident_type: str, title: str, explanation: str
+) -> Hypothesis:
     """Build hypothesis.
 
     Args:

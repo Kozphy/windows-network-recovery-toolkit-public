@@ -38,13 +38,13 @@ class ProxyPathProof:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -175,7 +175,9 @@ def collect_proxy_path_proof(
     failure = failure_mode
     summary_parts = []
     if proxied_ok is False and bypass_ok is True:
-        summary_parts.append("Browser path fails through configured localhost proxy but direct bypass works.")
+        summary_parts.append(
+            "Browser path fails through configured localhost proxy but direct bypass works."
+        )
     elif proxied_ok is True:
         summary_parts.append("Proxied HTTPS path succeeded.")
     else:

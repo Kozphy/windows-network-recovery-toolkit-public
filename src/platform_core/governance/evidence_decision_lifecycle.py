@@ -32,6 +32,7 @@ class ClaimStatus(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     PROPOSED = "proposed"
     SUPPORTED = "supported"
     PARTIALLY_SUPPORTED = "partially_supported"
@@ -55,6 +56,7 @@ class VerificationStatus(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     VERIFIED = "verified"
     PARTIALLY_VERIFIED = "partially_verified"
     NOT_VERIFIED = "not_verified"
@@ -174,9 +176,9 @@ def lifecycle_from_risk_decision(record: Any) -> EvidenceDecisionLifecycle:
         confidence_score=float(record.confidence_score),
         probability_calibrated=False,
         uncertainty_sources=limitations,
-        missing_evidence=[] if verification_status == VerificationStatus.VERIFIED else [
-            "Higher proof-tier corroboration may be required before stronger causal claims."
-        ],
+        missing_evidence=[]
+        if verification_status == VerificationStatus.VERIFIED
+        else ["Higher proof-tier corroboration may be required before stronger causal claims."],
     )
 
     claim = Claim(
@@ -210,7 +212,8 @@ def lifecycle_from_risk_decision(record: Any) -> EvidenceDecisionLifecycle:
         uncertainty=uncertainty,
         evidence_ids=[evidence_id],
         limitations=limitations,
-        valid_for_decision=verification_status in {
+        valid_for_decision=verification_status
+        in {
             VerificationStatus.VERIFIED,
             VerificationStatus.PARTIALLY_VERIFIED,
         },

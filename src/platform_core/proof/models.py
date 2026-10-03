@@ -27,6 +27,7 @@ class ProofOutcome(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     REMOTE_SERVER_FAILURE = "REMOTE_SERVER_FAILURE"
     LOCAL_PROXY_UPSTREAM_FAILURE = "LOCAL_PROXY_UPSTREAM_FAILURE"
     DNS_FAILURE = "DNS_FAILURE"

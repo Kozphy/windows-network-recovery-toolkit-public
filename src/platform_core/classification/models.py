@@ -25,6 +25,7 @@ class PrimaryClassification(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     NO_PROXY = "NO_PROXY"
     DEAD_PROXY_CONFIG = "DEAD_PROXY_CONFIG"
     LOCAL_PROXY_ACTIVE = "LOCAL_PROXY_ACTIVE"
@@ -59,6 +60,7 @@ class SecondarySignal(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     WININET_WINHTTP_MISMATCH = "WININET_WINHTTP_MISMATCH"
     LOCALHOST_PROXY = "LOCALHOST_PROXY"
     DEAD_LOCALHOST_PORT = "DEAD_LOCALHOST_PORT"

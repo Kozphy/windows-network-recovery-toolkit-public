@@ -33,6 +33,7 @@ class BusinessImpactEstimate(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     downtime_minutes: int = 0
     affected_users: int = 0
     estimated_cost_per_hour: float = 0.0
@@ -69,7 +70,9 @@ def estimate_business_impact(
         classification_block = fixture.get("classification") or {}
         cls = cls or str(classification_block.get("primary_classification") or "").upper()
         if affected_users is None:
-            affected_users = int(fixture.get("affected_users") or classification_block.get("affected_users") or 0)
+            affected_users = int(
+                fixture.get("affected_users") or classification_block.get("affected_users") or 0
+            )
         if downtime_minutes is None:
             downtime_minutes = int(fixture.get("downtime_minutes") or 0)
 

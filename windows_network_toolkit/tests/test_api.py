@@ -25,7 +25,9 @@ def test_routes_not_404(method: str, path: str) -> None:
     if method == "GET":
         r = client.get(path)
     else:
-        r = client.post(path, json={"action": "disable_wininet_proxy", "evidence_level": "CORRELATED"})
+        r = client.post(
+            path, json={"action": "disable_wininet_proxy", "evidence_level": "CORRELATED"}
+        )
     assert r.status_code != 404, f"{method} {path} returned 404"
 
 

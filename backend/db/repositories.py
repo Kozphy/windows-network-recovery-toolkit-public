@@ -24,18 +24,18 @@ from src.platform_core.governance.human_review import REVIEW_CLASSES
 
 
 def content_hash(endpoint_id: str, source_event_id: str | None, raw: dict[str, Any]) -> str:
-    """Content hash.
-    
+    """Compute a stable SHA-256 identity for one evidence snapshot.
+
     Args:
-        endpoint_id: The endpoint id value supplied by the caller.
-        source_event_id: The source event id value supplied by the caller.
-        raw: The raw value supplied by the caller.
-    
+        endpoint_id: Endpoint that produced the evidence.
+        source_event_id: Optional upstream source identifier.
+        raw: Raw evidence payload included in the hash material.
+
     Returns:
-        The str result produced by the operation.
-    
+        Hex-encoded SHA-256 digest of the canonical JSON identity payload.
+
     Side effects:
-        None beyond deterministic computation and calls to supplied collaborators.
+        None.
     """
     payload = json.dumps(
         {"endpoint_id": endpoint_id, "source_event_id": source_event_id, "raw": raw},
@@ -46,18 +46,18 @@ def content_hash(endpoint_id: str, source_event_id: str | None, raw: dict[str, A
 
 
 def ensure_endpoint(session: Session, endpoint_id: str, hostname: str | None = None) -> Endpoint:
-    """Ensure endpoint.
-    
+    """Return an existing endpoint row or create a minimal placeholder.
+
     Args:
-        session: Database session used to read or persist records.
-        endpoint_id: The endpoint id value supplied by the caller.
-        hostname: The hostname value supplied by the caller.
-    
+        session: Active SQLModel session.
+        endpoint_id: Stable endpoint identifier.
+        hostname: Optional display hostname; defaults to ``endpoint_id``.
+
     Returns:
-        The Endpoint result produced by the operation.
-    
+        The existing or newly flushed ``Endpoint`` row.
+
     Side effects:
-        May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
+        May insert and flush one endpoint row.
     """
     row = session.exec(select(Endpoint).where(Endpoint.endpoint_id == endpoint_id)).first()
     if row:
@@ -80,19 +80,45 @@ def upsert_evidence(
     evidence_tier: str,
     limitations: list[str],
     c_hash: str,
+    tenant_id: str | None = None,
 ) -> tuple[EvidenceEvent, bool]:
-    """Return (row, created). Duplicate content_hash returns existing row."""
-    existing = session.exec(select(EvidenceEvent).where(EvidenceEvent.content_hash == c_hash)).first()
+    """Insert evidence or return an existing tenant-scoped duplicate.
+
+    Args:
+        session: Active SQLModel session.
+        event_id: Candidate event identifier for new rows.
+        endpoint_id: Endpoint that produced the evidence.
+        source_event_id: Optional upstream source identifier.
+        evidence_type: Stable evidence category.
+        raw_snapshot: Source payload retained for audit review.
+        normalized_fields: Derived classifier fields.
+        evidence_tier: Ordinal proof/evidence tier.
+        limitations: Reviewer-facing constraints.
+        c_hash: Content hash used for deduplication.
+        tenant_id: Optional tenant scope for identity checks.
+
+    Returns:
+        A tuple of ``(row, created)``. Duplicate ``content_hash`` or
+        endpoint/source identity returns the existing row with ``created=False``.
+
+    Side effects:
+        May insert and flush one evidence row. Existing rows are not rewritten.
+    """
+    existing_q = select(EvidenceEvent).where(EvidenceEvent.content_hash == c_hash)
+    if tenant_id is not None:
+        existing_q = existing_q.where(EvidenceEvent.tenant_id == tenant_id)
+    existing = session.exec(existing_q).first()
     if existing:
         return existing, False
     by_source = None
     if source_event_id:
-        by_source = session.exec(
-            select(EvidenceEvent).where(
-                EvidenceEvent.endpoint_id == endpoint_id,
-                EvidenceEvent.source_event_id == source_event_id,
-            )
-        ).first()
+        source_q = select(EvidenceEvent).where(
+            EvidenceEvent.endpoint_id == endpoint_id,
+            EvidenceEvent.source_event_id == source_event_id,
+        )
+        if tenant_id is not None:
+            source_q = source_q.where(EvidenceEvent.tenant_id == tenant_id)
+        by_source = session.exec(source_q).first()
     if by_source:
         return by_source, False
 
@@ -107,26 +133,32 @@ def upsert_evidence(
         normalized_fields=normalized_fields,
         limitations=limitations,
         classification_status=ClassificationStatus.PENDING.value,
+        tenant_id=tenant_id,
     )
     session.add(row)
     session.flush()
     return row, True
 
 
-def mark_evidence_status(session: Session, event_id: str, status: str, job_id: str | None = None) -> None:
-    """Mark evidence status.
-    
+def mark_evidence_status(
+    session: Session,
+    event_id: str,
+    status: str,
+    job_id: str | None = None,
+) -> None:
+    """Update classification status for one evidence event.
+
     Args:
-        session: Database session used to read or persist records.
-        event_id: The event id value supplied by the caller.
-        status: The status value supplied by the caller.
-        job_id: The job id value supplied by the caller.
-    
+        session: Active SQLModel session.
+        event_id: Evidence event identifier.
+        status: New classification status value.
+        job_id: Optional worker job identifier to attach.
+
     Returns:
-        None.
-    
+        None. Missing events are ignored.
+
     Side effects:
-        May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
+        Updates and flushes the matching evidence row when present.
     """
     row = session.exec(select(EvidenceEvent).where(EvidenceEvent.event_id == event_id)).first()
     if not row:
@@ -139,18 +171,18 @@ def mark_evidence_status(session: Session, event_id: str, status: str, job_id: s
 
 
 def quarantine_evidence(session: Session, event_id: str, reason: str) -> None:
-    """Quarantine evidence.
-    
+    """Mark evidence as quarantined and append a reviewer-facing reason.
+
     Args:
-        session: Database session used to read or persist records.
-        event_id: The event id value supplied by the caller.
-        reason: The reason value supplied by the caller.
-    
+        session: Active SQLModel session.
+        event_id: Evidence event identifier.
+        reason: Quarantine explanation preserved in ``limitations``.
+
     Returns:
         None.
-    
+
     Side effects:
-        May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
+        Updates status and limitations on the matching evidence row.
     """
     mark_evidence_status(session, event_id, ClassificationStatus.QUARANTINED.value)
     row = session.exec(select(EvidenceEvent).where(EvidenceEvent.event_id == event_id)).first()
@@ -162,20 +194,22 @@ def quarantine_evidence(session: Session, event_id: str, reason: str) -> None:
 
 
 def incident_exists_for_evidence(session: Session, event_id: str) -> bool:
-    """Incident exists for evidence.
-    
+    """Return whether an incident already references the evidence event.
+
     Args:
-        session: Database session used to read or persist records.
-        event_id: The event id value supplied by the caller.
-    
+        session: Active SQLModel session.
+        event_id: Evidence event identifier.
+
     Returns:
-        The bool result produced by the operation.
-    
+        ``True`` when at least one incident row links to ``event_id``.
+
     Side effects:
-        None beyond deterministic computation and calls to supplied collaborators.
+        None.
     """
     return (
-        session.exec(select(IncidentRecord).where(IncidentRecord.evidence_event_id == event_id)).first()
+        session.exec(
+            select(IncidentRecord).where(IncidentRecord.evidence_event_id == event_id)
+        ).first()
         is not None
     )
 
@@ -189,21 +223,22 @@ def store_incident_bundle(
     control_tests: list[dict[str, Any]],
     policy: dict[str, Any],
 ) -> IncidentRecord:
-    """Store incident bundle.
-    
+    """Persist an incident with related control tests and policy decision.
+
     Args:
-        session: Database session used to read or persist records.
-        event_id: The event id value supplied by the caller.
-        endpoint_id: The endpoint id value supplied by the caller.
-        incident_payload: The incident payload value supplied by the caller.
-        control_tests: The control tests value supplied by the caller.
-        policy: The policy value supplied by the caller.
-    
+        session: Active SQLModel session.
+        event_id: Source evidence event identifier.
+        endpoint_id: Endpoint associated with the incident.
+        incident_payload: Classification payload used to populate the incident.
+        control_tests: Control-test result dictionaries to attach.
+        policy: Policy decision dictionary to attach.
+
     Returns:
-        The IncidentRecord result produced by the operation.
-    
+        The existing or newly created ``IncidentRecord``.
+
     Side effects:
-        May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
+        May insert incident, control-test, policy, and human-review rows, then
+        flush the session. Duplicate evidence links return the prior incident.
     """
     if incident_exists_for_evidence(session, event_id):
         existing = session.exec(
@@ -213,7 +248,11 @@ def store_incident_bundle(
         return existing
 
     inc_id = incident_payload.get("incident_id") or f"INC-{uuid.uuid4().hex[:12].upper()}"
-    cls = incident_payload.get("incident_class") or incident_payload.get("primary_classification") or "ERROR_INSUFFICIENT_DATA"
+    cls = (
+        incident_payload.get("incident_class")
+        or incident_payload.get("primary_classification")
+        or "ERROR_INSUFFICIENT_DATA"
+    )
     if isinstance(cls, dict):
         cls = cls.get("primary_classification", "ERROR_INSUFFICIENT_DATA")
 
@@ -229,7 +268,11 @@ def store_incident_bundle(
         endpoint_id=endpoint_id,
         primary_classification=str(cls).upper(),
         secondary_signals=list(incident_payload.get("secondary_signals") or []),
-        proof_tier=str(incident_payload.get("proof_tier") or incident_payload.get("evidence_tier") or "T1_STATE_EVIDENCE"),
+        proof_tier=str(
+            incident_payload.get("proof_tier")
+            or incident_payload.get("evidence_tier")
+            or "T1_STATE_EVIDENCE"
+        ),
         confidence=float(incident_payload.get("confidence") or 0.5),
         limitations=list(incident_payload.get("limitations") or []),
     )
@@ -274,20 +317,17 @@ def store_incident_bundle(
 
 
 def append_audit_chain_row(session: Session, payload: dict[str, Any]) -> AuditChainEntry:
-    """Append audit chain row.
-    
+    """Append one hash-chained backend audit-chain row.
+
     Args:
-        session: Database session used to read or persist records.
-        payload: Request or domain payload supplied by the caller.
-    
+        session: Active SQLModel session.
+        payload: JSON-compatible event body included in the hash.
+
     Returns:
-        The AuditChainEntry result produced by the operation.
-    
+        The flushed ``AuditChainEntry``.
+
     Side effects:
-        May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
-    
-    Audit Notes:
-        Preserves observation, policy, and audit boundaries established by the caller.
+        Inserts and flushes one chain row linked to the previous hash.
     """
     last = session.exec(select(AuditChainEntry).order_by(AuditChainEntry.row_index.desc())).first()
     idx = (last.row_index + 1) if last else 0
@@ -301,67 +341,76 @@ def append_audit_chain_row(session: Session, payload: dict[str, Any]) -> AuditCh
 
 
 def list_incidents(session: Session, *, limit: int = 50, offset: int = 0) -> list[IncidentRecord]:
-    """List incidents.
-    
+    """List newest incidents with optional pagination.
+
     Args:
-        session: Database session used to read or persist records.
-        limit: The limit value supplied by the caller.
-        offset: The offset value supplied by the caller.
-    
+        session: Active SQLModel session.
+        limit: Maximum number of rows to return.
+        offset: Number of newest rows to skip.
+
     Returns:
-        The list[IncidentRecord] result produced by the operation.
-    
+        Incident rows ordered by ``created_at`` descending.
+
     Side effects:
-        None beyond deterministic computation and calls to supplied collaborators.
+        None.
     """
     return list(
-        session.exec(select(IncidentRecord).order_by(IncidentRecord.created_at.desc()).offset(offset).limit(limit))
+        session.exec(
+            select(IncidentRecord)
+            .order_by(IncidentRecord.created_at.desc())
+            .offset(offset)
+            .limit(limit)
+        )
     )
 
 
 def get_incident(session: Session, incident_id: str) -> IncidentRecord | None:
-    """Get incident.
-    
+    """Fetch one incident by stable identifier.
+
     Args:
-        session: Database session used to read or persist records.
-        incident_id: The incident id value supplied by the caller.
-    
+        session: Active SQLModel session.
+        incident_id: Incident identifier.
+
     Returns:
-        The IncidentRecord | None result produced by the operation.
-    
+        The matching incident, or ``None`` when absent.
+
     Side effects:
-        None beyond deterministic computation and calls to supplied collaborators.
+        None.
     """
-    return session.exec(select(IncidentRecord).where(IncidentRecord.incident_id == incident_id)).first()
+    return session.exec(
+        select(IncidentRecord).where(IncidentRecord.incident_id == incident_id)
+    ).first()
 
 
 def get_evidence(session: Session, event_id: str) -> EvidenceEvent | None:
-    """Get evidence.
-    
+    """Fetch one evidence event by identifier without tenant filtering.
+
     Args:
-        session: Database session used to read or persist records.
-        event_id: The event id value supplied by the caller.
-    
+        session: Active SQLModel session.
+        event_id: Evidence event identifier.
+
     Returns:
-        The EvidenceEvent | None result produced by the operation.
-    
+        The matching evidence row, or ``None`` when absent.
+
     Side effects:
-        None beyond deterministic computation and calls to supplied collaborators.
+        None.
     """
     return session.exec(select(EvidenceEvent).where(EvidenceEvent.event_id == event_id)).first()
 
 
 def human_review_queue_depth(session: Session) -> int:
-    """Human review queue depth.
-    
+    """Count human-review items still pending review.
+
     Args:
-        session: Database session used to read or persist records.
-    
+        session: Active SQLModel session.
+
     Returns:
-        Integer process exit code or status value.
-    
+        Number of rows with status ``PENDING_REVIEW``.
+
     Side effects:
-        None beyond deterministic computation and calls to supplied collaborators.
+        None.
     """
-    rows = session.exec(select(HumanReviewItem).where(HumanReviewItem.status == "PENDING_REVIEW")).all()
+    rows = session.exec(
+        select(HumanReviewItem).where(HumanReviewItem.status == "PENDING_REVIEW")
+    ).all()
     return len(list(rows))

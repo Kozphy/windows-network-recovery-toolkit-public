@@ -66,9 +66,7 @@ class AnalystEvidenceBundle(BaseModel):
                     signal="wininet_proxy_state",
                     observed_value=str(self.proxy_status.get("classification", "")),
                     tier="OBSERVED_ONLY",
-                    confidence=float(
-                        (self.classification or {}).get("confidence", 0.5)
-                    ),
+                    confidence=float((self.classification or {}).get("confidence", 0.5)),
                     raw_data=self.proxy_status,
                 )
             )
@@ -143,6 +141,7 @@ class RiskHypothesis(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     hypothesis_id: str
     title: str
     explanation: str
@@ -168,6 +167,7 @@ class HumanReviewRequired(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     required: bool = False
     status: ReviewStatus = "not_required"
     reasons: list[str] = Field(default_factory=list)
@@ -194,6 +194,7 @@ class AIRecommendation(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     schema_version: str = AI_SCHEMA_VERSION
     audit_id: str = Field(default_factory=lambda: f"ai-audit-{uuid.uuid4().hex[:12]}")
     provider: str = "local_rule_based"
@@ -235,6 +236,7 @@ class DecisionRecord(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     decision_id: str = Field(default_factory=lambda: f"dec-{uuid.uuid4().hex[:12]}")
     incident_id: str
     schema_version: str = AI_SCHEMA_VERSION
@@ -286,6 +288,7 @@ class SimilarIncidentMatch(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     incident_id: str
     classification: str
     similarity_score: float = Field(ge=0.0, le=1.0)
@@ -314,6 +317,7 @@ class RiskAnalysisResult(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     schema_version: str = AI_SCHEMA_VERSION
     incident_id: str
     timestamp_utc: str = Field(default_factory=utc_now_iso)

@@ -20,7 +20,16 @@ def startup_folder() -> Path:
     appdata = os.environ.get("APPDATA", "")
     if appdata:
         return Path(appdata) / "Microsoft" / "Windows" / "Start Menu" / "Programs" / "Startup"
-    return Path.home() / "AppData" / "Roaming" / "Microsoft" / "Windows" / "Start Menu" / "Programs" / "Startup"
+    return (
+        Path.home()
+        / "AppData"
+        / "Roaming"
+        / "Microsoft"
+        / "Windows"
+        / "Start Menu"
+        / "Programs"
+        / "Startup"
+    )
 
 
 def startup_hook_path(name: str) -> Path:

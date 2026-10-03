@@ -16,7 +16,7 @@ _DEFAULT_POLICY_PATH = (
 @dataclass(frozen=True)
 class YamlPolicyEvaluation:
     """Represent yaml policy evaluation data used by the toolkit.
-    
+
     Attributes:
         classification: Field or variant describing classification evidence or state.
         decision: Field or variant describing decision evidence or state.
@@ -26,10 +26,11 @@ class YamlPolicyEvaluation:
         requires_confirmation: Field or variant describing requires confirmation evidence or state.
         requires_human_approval: Field or variant describing requires human approval evidence or state.
         limitations: Field or variant describing limitations evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     classification: str
     decision: str
     severity: str
@@ -42,16 +43,16 @@ class YamlPolicyEvaluation:
 
 def load_policy_yaml(path: Path | None = None) -> dict[str, Any]:
     """Load policy yaml.
-    
+
     Args:
         path: Filesystem path used by the operation.
-    
+
     Returns:
         The dict[str, Any] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """

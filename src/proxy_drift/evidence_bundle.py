@@ -77,15 +77,29 @@ def collect_evidence_bundle(
         encoding="utf-8",
     )
 
-    startup_payload = collect_startup_inventory(repo_root=repo_root, audit_path=repo_root / "logs" / "startup_inventory.jsonl")
+    startup_payload = collect_startup_inventory(
+        repo_root=repo_root, audit_path=repo_root / "logs" / "startup_inventory.jsonl"
+    )
     import json
 
-    (out_dir / "startup-inventory.json").write_text(json.dumps(startup_payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    (out_dir / "startup-inventory.json").write_text(
+        json.dumps(startup_payload, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
     search_payload = safe_search(query="proxy", target="project", repo_root=repo_root)
-    (out_dir / "safe-search-proxy.json").write_text(json.dumps(search_payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    (out_dir / "safe-search-proxy.json").write_text(
+        json.dumps(search_payload, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
 
-    winhttp = subprocess.run(["netsh", "winhttp", "show", "proxy"], capture_output=True, text=True, shell=False, timeout=60)
-    (out_dir / "winhttp.txt").write_text(((winhttp.stdout or "") + (winhttp.stderr or "")).strip(), encoding="utf-8")
+    winhttp = subprocess.run(
+        ["netsh", "winhttp", "show", "proxy"],
+        capture_output=True,
+        text=True,
+        shell=False,
+        timeout=60,
+    )
+    (out_dir / "winhttp.txt").write_text(
+        ((winhttp.stdout or "") + (winhttp.stderr or "")).strip(), encoding="utf-8"
+    )
     reg = subprocess.run(
         ["reg", "query", r"HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"],
         capture_output=True,
@@ -93,12 +107,21 @@ def collect_evidence_bundle(
         shell=False,
         timeout=60,
     )
-    (out_dir / "wininet-registry.txt").write_text(((reg.stdout or "") + (reg.stderr or "")).strip(), encoding="utf-8")
+    (out_dir / "wininet-registry.txt").write_text(
+        ((reg.stdout or "") + (reg.stderr or "")).strip(), encoding="utf-8"
+    )
 
-    dns_hosts = ["hr.esunfhc.com", "recruit.esunbank.com.tw", "www.esunbank.com.tw", "www.microsoft.com"]
+    dns_hosts = [
+        "hr.esunfhc.com",
+        "recruit.esunbank.com.tw",
+        "www.esunbank.com.tw",
+        "www.microsoft.com",
+    ]
     dns_lines: list[str] = []
     for host in dns_hosts:
-        proc = subprocess.run(["nslookup", host, "8.8.8.8"], capture_output=True, text=True, shell=False, timeout=30)
+        proc = subprocess.run(
+            ["nslookup", host, "8.8.8.8"], capture_output=True, text=True, shell=False, timeout=30
+        )
         dns_lines.append(f"=== {host} ===")
         dns_lines.append(((proc.stdout or "") + (proc.stderr or "")).strip())
     (out_dir / "dns-lookups.txt").write_text("\n".join(dns_lines).strip() + "\n", encoding="utf-8")
@@ -117,7 +140,9 @@ def collect_evidence_bundle(
         source = repo_root / "logs" / log_name
         if source.exists():
             lines = source.read_text(encoding="utf-8", errors="ignore").splitlines()[-20:]
-            (out_dir / f"{log_name}.tail").write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+            (out_dir / f"{log_name}.tail").write_text(
+                "\n".join(lines) + ("\n" if lines else ""), encoding="utf-8"
+            )
 
     return {
         "schema_version": "evidence_bundle.v1",

@@ -52,7 +52,9 @@ def verify_decision_record(
     return False, "signature_mismatch"
 
 
-def detect_tamper_in_jsonl(rows: list[dict[str, Any]], *, secret: str | None = None) -> list[dict[str, Any]]:
+def detect_tamper_in_jsonl(
+    rows: list[dict[str, Any]], *, secret: str | None = None
+) -> list[dict[str, Any]]:
     """Return rows that fail signature verification."""
     bad: list[dict[str, Any]] = []
     for row in rows:

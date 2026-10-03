@@ -1,0 +1,12 @@
+{
+  "description": "Synthetic benign vendor security notice from the real brand domain (microsoft.com): informational new-sign-in alert with protective wording (hard negative).",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Microsoft account team\" <account-security-noreply@accountprotection.microsoft.com>",
+    "to": ["staff@example-corp.test"],
+    "subject": "New sign-in to your Microsoft account",
+    "message_id": "<synthetic-eval-mssec-0102@accountprotection.microsoft.com>",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=accountprotection.microsoft.com; dkim=pass header.d=accountprotection.microsoft.com; dmarc=pass header.from=microsoft.com",
+    "body_text": "We noticed a new sign-in to your Microsoft account on a Windows device.\nIf this was you, you can safely ignore this email.\nMicrosoft will never ask you to share your password in an email.\n\nThanks,\nThe Microsoft account team"
+  }
+}

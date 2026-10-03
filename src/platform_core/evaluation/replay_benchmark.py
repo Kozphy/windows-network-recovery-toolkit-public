@@ -41,9 +41,7 @@ class ReplayBenchmarkSummary(BaseModel):
     audit_verification_pass_rate: float = 0.0
     replay_duration_ms: int = 0
     results: list[ReplayBenchmarkResult] = Field(default_factory=list)
-    positioning: str = (
-        "Deterministic replay benchmark for endpoint evidence analytics pipeline."
-    )
+    positioning: str = "Deterministic replay benchmark for endpoint evidence analytics pipeline."
 
 
 def _repo_root(explicit: Path | None = None) -> Path:

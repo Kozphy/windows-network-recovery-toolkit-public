@@ -302,7 +302,9 @@ def cmd_collect_evidence_bundle(args: argparse.Namespace) -> int:
 def cmd_startup_observability_report(args: argparse.Namespace) -> int:
     """Summarize startup observability logs for operators."""
     trace_path_arg = str(getattr(args, "trace_path", "") or "")
-    trace_path = Path(trace_path_arg) if trace_path_arg else Path.cwd() / "logs" / "proxy_boot_trace.jsonl"
+    trace_path = (
+        Path(trace_path_arg) if trace_path_arg else Path.cwd() / "logs" / "proxy_boot_trace.jsonl"
+    )
     result = summarize_boot_trace(trace_path.resolve())
     if getattr(args, "emit_json", False):
         _print_json(result)
@@ -335,7 +337,9 @@ def cmd_auto_fix_proxy(args: argparse.Namespace) -> int:
         _print_json(result)
     else:
         print(f"Outcome: {result.get('outcome')}")
-        print(f"Classification: {result.get('classification')} (legacy: {result.get('legacy_classification')})")
+        print(
+            f"Classification: {result.get('classification')} (legacy: {result.get('legacy_classification')})"
+        )
         if result.get("outcome") == "healthy":
             print("OK: Proxy path is clean. Restart your browser.")
         elif result.get("outcome") == "still_dead":
@@ -346,7 +350,9 @@ def cmd_auto_fix_proxy(args: argparse.Namespace) -> int:
                 "Re-run with --confirm PREFER_DIRECT_WININET"
             )
         elif result.get("outcome") == "localhost_proxy_active":
-            print("WARN: Localhost proxy still active — re-run with --prefer-direct --confirm PREFER_DIRECT_WININET")
+            print(
+                "WARN: Localhost proxy still active — re-run with --prefer-direct --confirm PREFER_DIRECT_WININET"
+            )
         elif result.get("outcome") == "needs_prefer_direct_confirm":
             print("WARN: prefer-direct blocked — supply --confirm PREFER_DIRECT_WININET")
         elif dry_run:

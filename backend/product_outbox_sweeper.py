@@ -126,6 +126,7 @@ def run_sweeper_once(
             limit=limit,
             max_attempts=max_attempts,
             force=force,
+            respect_backoff=True,
         )
 
 

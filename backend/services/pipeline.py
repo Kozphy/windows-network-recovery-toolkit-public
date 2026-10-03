@@ -31,7 +31,7 @@ def _confidence_label(score: float) -> str:
 @dataclass
 class PipelineResult:
     """Represent pipeline result data used by the toolkit.
-    
+
     Attributes:
         correlation_id: Field or variant describing correlation id evidence or state.
         observation_id: Field or variant describing observation id evidence or state.
@@ -41,10 +41,11 @@ class PipelineResult:
         incident_id: Field or variant describing incident id evidence or state.
         classification: Field or variant describing classification evidence or state.
         confidence_score: Field or variant describing confidence score evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     correlation_id: str
     observation_id: str
     evidence_event_id: str
@@ -64,14 +65,14 @@ class DecisionPipeline:
 
     def __init__(self, session: Session, ctx: TenantContext) -> None:
         """Initialize the object with caller supplied state.
-        
+
         Args:
             session: Database session used to read or persist records.
             ctx: The ctx value supplied by the caller.
-        
+
         Returns:
             None.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -93,17 +94,17 @@ class DecisionPipeline:
         requested_action: str = "observe",
     ) -> PipelineResult:
         """Run.
-        
+
         Args:
             endpoint_id: The endpoint id value supplied by the caller.
             signal_type: The signal type value supplied by the caller.
             raw_observation: The raw observation value supplied by the caller.
             evidence_type: The evidence type value supplied by the caller.
             requested_action: The requested action value supplied by the caller.
-        
+
         Returns:
             The PipelineResult result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """
@@ -183,9 +184,7 @@ class DecisionPipeline:
         policy_result = self._policy.evaluate(
             classification=classification,
             confidence_score=confidence,
-            evidence_tier=str(
-                incidents[0].get("proof_tier") if incidents else "T1_STATE_EVIDENCE"
-            ),
+            evidence_tier=str(incidents[0].get("proof_tier") if incidents else "T1_STATE_EVIDENCE"),
             requested_action=requested_action,
             requires_human_review=needs_review,
         )
@@ -208,7 +207,9 @@ class DecisionPipeline:
             recommended_action=policy_result.get("yaml_decision", "OBSERVE"),
             execution_authority=execution_authority,
             human_approval_required=policy_result["requires_human_approval"],
-            human_approval_status="pending" if policy_result["requires_human_approval"] else "not_required",
+            human_approval_status="pending"
+            if policy_result["requires_human_approval"]
+            else "not_required",
             actor=self._ctx.actor_id,
             rationale=policy_result.get("rationale", ""),
             limitations=list(policy_result.get("limitations") or []),
@@ -270,7 +271,7 @@ def run_decision_pipeline(
     requested_action: str = "observe",
 ) -> PipelineResult:
     """Run decision pipeline.
-    
+
     Args:
         session: Database session used to read or persist records.
         principal: The principal value supplied by the caller.
@@ -279,13 +280,13 @@ def run_decision_pipeline(
         raw_observation: The raw observation value supplied by the caller.
         evidence_type: The evidence type value supplied by the caller.
         requested_action: The requested action value supplied by the caller.
-    
+
     Returns:
         The PipelineResult result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """

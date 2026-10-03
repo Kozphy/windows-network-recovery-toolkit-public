@@ -12,13 +12,13 @@ from src.platform.models import DecisionOption, DecisionOutcome, EvidenceItem, N
 
 def warn_deprecated(caller: str) -> None:
     """Warn deprecated.
-    
+
     Args:
         caller: The caller value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -31,15 +31,15 @@ def warn_deprecated(caller: str) -> None:
 
 def event_from_observation(obs: dict, *, event_id: str, domain: str) -> NormalizedEvent:
     """Event from observation.
-    
+
     Args:
         obs: The obs value supplied by the caller.
         event_id: The event id value supplied by the caller.
         domain: The domain value supplied by the caller.
-    
+
     Returns:
         The NormalizedEvent result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -57,14 +57,14 @@ def event_from_observation(obs: dict, *, event_id: str, domain: str) -> Normaliz
 
 def evidence_from_legacy(ev: dict, *, event_id: str) -> EvidenceItem:
     """Evidence from legacy.
-    
+
     Args:
         ev: The ev value supplied by the caller.
         event_id: The event id value supplied by the caller.
-    
+
     Returns:
         The EvidenceItem result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -81,17 +81,17 @@ def evidence_from_legacy(ev: dict, *, event_id: str) -> EvidenceItem:
 
 def decision_from_legacy(dec: dict, *, event_id: str) -> DecisionOption:
     """Decision from legacy.
-    
+
     Args:
         dec: The dec value supplied by the caller.
         event_id: The event id value supplied by the caller.
-    
+
     Returns:
         The DecisionOption result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -109,13 +109,13 @@ def decision_from_legacy(dec: dict, *, event_id: str) -> DecisionOption:
 
 def outcome_from_legacy(oc: dict) -> DecisionOutcome:
     """Outcome from legacy.
-    
+
     Args:
         oc: The oc value supplied by the caller.
-    
+
     Returns:
         The DecisionOutcome result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

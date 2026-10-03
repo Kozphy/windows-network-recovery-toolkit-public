@@ -170,7 +170,7 @@ def build_why(
 ) -> list[str]:
     """Human-readable rationale list for JSON export."""
     why: list[str] = [
-        f"confidence={confidence:.2f} (bands: low<{ _LOW_CONF_BLOCK }, high≥{ _HIGH_CONF_PREVIEW } when unproven).",
+        f"confidence={confidence:.2f} (bands: low<{_LOW_CONF_BLOCK}, high≥{_HIGH_CONF_PREVIEW} when unproven).",
         f"proof_status={proof_status}.",
     ]
     if risk_score is not None:

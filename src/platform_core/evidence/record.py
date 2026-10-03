@@ -90,9 +90,7 @@ class TypedEvidenceRecord(BaseModel):
             routing for the supplied inputs; callers should preserve source
             evidence, policy context, and limitations with the result.
         """
-        coc = self.chain_of_custody.model_copy(
-            update={"integrity_hash": self.integrity_hash()}
-        )
+        coc = self.chain_of_custody.model_copy(update={"integrity_hash": self.integrity_hash()})
         return self.model_copy(update={"chain_of_custody": coc})
 
     def to_evidence_item(self) -> EvidenceItem:

@@ -16,4 +16,6 @@ def assert_no_firewall_reset_in_preview(text_blob: str) -> None:
     """Guardrail tests / runtime sanity: ensure previews never silently add firewall resets."""
     lower = text_blob.lower()
     if "reset_firewall" in lower or ("advfirewall" in lower and "reset" in lower):
-        raise ValueError("Policy violation: firewall reset must never be auto-linked to proxy remediation.")
+        raise ValueError(
+            "Policy violation: firewall reset must never be auto-linked to proxy remediation."
+        )

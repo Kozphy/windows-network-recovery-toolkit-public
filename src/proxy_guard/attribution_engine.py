@@ -73,7 +73,11 @@ def _image_basename(image: str | None) -> str | None:
 def _actor_from_sysmon(ev: AttributionEvidence) -> ProxyActor | None:
     raw = ev.raw_excerpt or {}
     pid = raw.get("process_id")
-    pid_i = int(pid) if isinstance(pid, int) else (int(pid) if isinstance(pid, str) and pid.strip().isdigit() else None)
+    pid_i = (
+        int(pid)
+        if isinstance(pid, int)
+        else (int(pid) if isinstance(pid, str) and pid.strip().isdigit() else None)
+    )
     if pid_i is None:
         return None
     img = raw.get("image")
@@ -95,7 +99,11 @@ def _actor_from_sysmon(ev: AttributionEvidence) -> ProxyActor | None:
 def _actor_from_procmon(ev: AttributionEvidence) -> ProxyActor | None:
     raw = ev.raw_excerpt or {}
     pid = raw.get("pid")
-    pid_i = int(pid) if isinstance(pid, int) else (int(pid) if isinstance(pid, str) and str(pid).isdigit() else None)
+    pid_i = (
+        int(pid)
+        if isinstance(pid, int)
+        else (int(pid) if isinstance(pid, str) and str(pid).isdigit() else None)
+    )
     if pid_i is None:
         return None
     pname = str(raw.get("process_name") or "").strip()

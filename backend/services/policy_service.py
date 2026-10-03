@@ -17,20 +17,21 @@ from src.platform_core.policy.engine import evaluate_policy
 
 class PolicyService:
     """Represent policy service data used by the toolkit.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     def __init__(self, session: Session, ctx: TenantContext) -> None:
         """Initialize the object with caller supplied state.
-        
+
         Args:
             session: Database session used to read or persist records.
             ctx: The ctx value supplied by the caller.
-        
+
         Returns:
             None.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -40,16 +41,16 @@ class PolicyService:
 
     def get_active_policy_doc(self) -> dict[str, Any]:
         """Get active policy doc.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -67,20 +68,22 @@ class PolicyService:
             return yaml.safe_load(row.yaml_content) or {}
         return load_policy_yaml()
 
-    def register_policy_pack(self, *, yaml_content: str, version: str = "1.0.0", activate: bool = True) -> PolicyPackRecord:
+    def register_policy_pack(
+        self, *, yaml_content: str, version: str = "1.0.0", activate: bool = True
+    ) -> PolicyPackRecord:
         """Register policy pack.
-        
+
         Args:
             yaml_content: The yaml content value supplied by the caller.
             version: The version value supplied by the caller.
             activate: The activate value supplied by the caller.
-        
+
         Returns:
             The PolicyPackRecord result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -113,7 +116,7 @@ class PolicyService:
         decision_id: str | None = None,
     ) -> dict[str, Any]:
         """Evaluate.
-        
+
         Args:
             classification: The classification value supplied by the caller.
             confidence_score: The confidence score value supplied by the caller.
@@ -121,10 +124,10 @@ class PolicyService:
             requested_action: The requested action value supplied by the caller.
             requires_human_review: The requires human review value supplied by the caller.
             decision_id: The decision id value supplied by the caller.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

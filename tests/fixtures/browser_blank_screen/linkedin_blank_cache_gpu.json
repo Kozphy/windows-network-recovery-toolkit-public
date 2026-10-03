@@ -1,0 +1,62 @@
+{
+  "timestamp_utc": "2026-09-15T00:00:00Z",
+  "command": "browser-blank-screen",
+  "url": "https://www.linkedin.com/",
+  "origin_probe": {
+    "url": "https://www.linkedin.com/",
+    "host": "www.linkedin.com",
+    "ok": true,
+    "returncode": 0,
+    "excerpt": "HTTP/1.1 200 OK",
+    "error": null
+  },
+  "ipv6": {
+    "classification": "IPV6_PATH_BLACKHOLE",
+    "prefer_ipv4_bit_set": true,
+    "error": null
+  },
+  "edge": {
+    "user_data_dir": "C:/Users/example/AppData/Local/Microsoft/Edge/User Data",
+    "running": true,
+    "hardware_acceleration": {
+      "prefs_path": "C:/Users/example/AppData/Local/Microsoft/Edge/User Data/Default/Preferences",
+      "present": true,
+      "hardware_acceleration_mode_enabled": true,
+      "error": null
+    },
+    "cache_targets": [
+      {
+        "relative": "Default/GPUCache",
+        "path": "C:/Users/example/AppData/Local/Microsoft/Edge/User Data/Default/GPUCache",
+        "exists": true,
+        "bytes": 1048576
+      },
+      {
+        "relative": "Default/Code Cache",
+        "path": "C:/Users/example/AppData/Local/Microsoft/Edge/User Data/Default/Code Cache",
+        "exists": true,
+        "bytes": 2097152
+      }
+    ],
+    "cache_dirs_present": 2
+  },
+  "classification": "BROWSER_BLANK_SCREEN_CACHE_GPU",
+  "classification_result": {
+    "primary_classification": "BROWSER_BLANK_SCREEN_CACHE_GPU",
+    "severity": "medium",
+    "confidence": 0.7,
+    "reasoning": "Origin IPv4 OK while UI is blank/black — typical Edge GPU/cache/service-worker corruption pattern (seen on LinkedIn).",
+    "recommended_next_actions": [
+      "python -m windows_network_toolkit browser-blank-screen-fix --dry-run true"
+    ]
+  },
+  "operator_next_step": {
+    "kind": "browser_blank_screen",
+    "command": "python -m windows_network_toolkit browser-blank-screen-fix --dry-run true",
+    "reason": "Origin IPv4 OK while UI is blank/black — typical Edge GPU/cache/service-worker corruption pattern (seen on LinkedIn)."
+  },
+  "limitations": [
+    "Blank/black UI with HTTP 200 on origin is correlation — not proof of a single root cause.",
+    "GPU/cache cleanup does not fix ISP IPv6 blackholes; use ipv6-path for path issues."
+  ]
+}

@@ -72,13 +72,13 @@ class SignalBundle:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -105,17 +105,18 @@ class SignalBundle:
 @dataclass(frozen=True)
 class RankedHypothesis:
     """Represent ranked hypothesis data used by the toolkit.
-    
+
     Attributes:
         hypothesis_id: Field or variant describing hypothesis id evidence or state.
         confidence: Field or variant describing confidence evidence or state.
         evidence_for: Field or variant describing evidence for evidence or state.
         evidence_against: Field or variant describing evidence against evidence or state.
         limitations: Field or variant describing limitations evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     hypothesis_id: str
     confidence: OrdinalConfidence
     evidence_for: tuple[str, ...]
@@ -124,13 +125,13 @@ class RankedHypothesis:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -146,7 +147,7 @@ class RankedHypothesis:
 @dataclass(frozen=True)
 class RemediationActionPreview:
     """Represent remediation action preview data used by the toolkit.
-    
+
     Attributes:
         action_id: Field or variant describing action id evidence or state.
         title: Field or variant describing title evidence or state.
@@ -155,10 +156,11 @@ class RemediationActionPreview:
         dry_run_only: Field or variant describing dry run only evidence or state.
         detail: Field or variant describing detail evidence or state.
         script_or_command_preview: Field or variant describing script or command preview evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     action_id: str
     title: str
     risk: RiskTier
@@ -169,13 +171,13 @@ class RemediationActionPreview:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -212,16 +214,16 @@ class DiagnosisResult:
 
     def to_audit_dict(self) -> dict[str, Any]:
         """To audit dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -256,13 +258,13 @@ class AuditRecord:
     @staticmethod
     def from_diagnosis(result: DiagnosisResult) -> AuditRecord:
         """From diagnosis.
-        
+
         Args:
             result: The result value supplied by the caller.
-        
+
         Returns:
             The AuditRecord result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -271,13 +273,13 @@ class AuditRecord:
 
 def new_run_id() -> str:
     """New run id.
-    
+
     Args:
         None.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

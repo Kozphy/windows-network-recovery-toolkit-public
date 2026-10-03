@@ -65,12 +65,18 @@ def build_proxy_timeline(
     incident_ids = incident_ids or []
 
     for idx, row in enumerate(transition_rows):
-        iid = incident_ids[idx] if idx < len(incident_ids) else str(row.get("incident_id") or f"incident-{idx}")
+        iid = (
+            incident_ids[idx]
+            if idx < len(incident_ids)
+            else str(row.get("incident_id") or f"incident-{idx}")
+        )
         ts = _parse_ts(str(row.get("timestamp") or ""))
         diff = row.get("diff") or {}
         before = diff.get("before") or {}
         after = diff.get("after") or {}
-        caus = row.get("causation") or (causation_results[idx] if idx < len(causation_results) else {})
+        caus = row.get("causation") or (
+            causation_results[idx] if idx < len(causation_results) else {}
+        )
 
         if isinstance(caus, dict) and caus.get("writer_process"):
             events.append(
@@ -104,7 +110,11 @@ def build_proxy_timeline(
 
         suspect = (row.get("attribution") or {}).get("primary_suspect")
         if isinstance(suspect, dict) and suspect.get("name"):
-            port = after.get("proxy_server") or caus.get("observed_localhost_port") if isinstance(caus, dict) else None
+            port = (
+                after.get("proxy_server") or caus.get("observed_localhost_port")
+                if isinstance(caus, dict)
+                else None
+            )
             events.append(
                 ProxyTimelineEvent(
                     timestamp_utc=ts,
@@ -218,7 +228,9 @@ def build_proxy_timeline(
     return events
 
 
-def build_timeline_from_fixture(fixture: dict[str, Any], *, repo_root: Path | None = None) -> list[ProxyTimelineEvent]:
+def build_timeline_from_fixture(
+    fixture: dict[str, Any], *, repo_root: Path | None = None
+) -> list[ProxyTimelineEvent]:
     """Build timeline from a single incident fixture blob."""
     from src.proxy_guard.incident_pipeline import analyze_fixture
 
@@ -276,13 +288,13 @@ def build_timeline_around(
 
 def render_timeline_json(events: list[ProxyTimelineEvent]) -> str:
     """Render timeline json.
-    
+
     Args:
         events: The events value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -291,13 +303,13 @@ def render_timeline_json(events: list[ProxyTimelineEvent]) -> str:
 
 def render_timeline_markdown(events: list[ProxyTimelineEvent]) -> str:
     """Render timeline markdown.
-    
+
     Args:
         events: The events value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -314,13 +326,13 @@ def render_timeline_markdown(events: list[ProxyTimelineEvent]) -> str:
 
 def render_timeline_text(events: list[ProxyTimelineEvent]) -> str:
     """Render timeline text.
-    
+
     Args:
         events: The events value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """

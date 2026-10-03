@@ -34,13 +34,13 @@ class WinInetCapturedState:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -120,7 +120,9 @@ def build_rollback_plan(state: WinInetCapturedState | dict[str, Any]) -> dict[st
     }
 
 
-def build_restore_reg_argv(state: WinInetCapturedState | dict[str, Any]) -> tuple[tuple[str, ...], ...]:
+def build_restore_reg_argv(
+    state: WinInetCapturedState | dict[str, Any],
+) -> tuple[tuple[str, ...], ...]:
     """Synthesize ordered ``reg.exe`` argument vectors that restore captured state."""
     if isinstance(state, WinInetCapturedState):
         vals = state.values
@@ -139,7 +141,9 @@ def build_restore_reg_argv(state: WinInetCapturedState | dict[str, Any]) -> tupl
         v = vals.get(name)
         if name in {"ProxyEnable", "AutoDetect"}:
             dword = 0 if v is None else int(v)
-            argv_list.append(("reg", "add", key, "/v", name, "/t", "REG_DWORD", "/d", str(dword), "/f"))
+            argv_list.append(
+                ("reg", "add", key, "/v", name, "/t", "REG_DWORD", "/d", str(dword), "/f")
+            )
         else:
             s = "" if v is None else str(v)
             argv_list.append(("reg", "add", key, "/v", name, "/t", "REG_SZ", "/d", s, "/f"))
@@ -175,7 +179,9 @@ def load_snapshot_record_by_id(path: Path, snapshot_id: str) -> dict[str, Any] |
     return found
 
 
-def merge_snapshot_payload(capture: WinInetCapturedState, rollback_plan: dict[str, Any]) -> dict[str, Any]:
+def merge_snapshot_payload(
+    capture: WinInetCapturedState, rollback_plan: dict[str, Any]
+) -> dict[str, Any]:
     """Persist JSONL row including embedded rollback plan for offline review."""
     base = capture.to_jsonable()
     base["rollback_plan"] = rollback_plan

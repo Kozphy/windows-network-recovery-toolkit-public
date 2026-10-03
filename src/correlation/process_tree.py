@@ -10,7 +10,7 @@ from src.telemetry.sysmon_reader import SysmonEvent
 @dataclass
 class ProcessTreeNode:
     """Represent process tree node data used by the toolkit.
-    
+
     Attributes:
         process_guid: Field or variant describing process guid evidence or state.
         process_id: Field or variant describing process id evidence or state.
@@ -18,10 +18,11 @@ class ProcessTreeNode:
         command_line: Field or variant describing command line evidence or state.
         parent_process_guid: Field or variant describing parent process guid evidence or state.
         children: Field or variant describing children evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     process_guid: str | None
     process_id: int | None
     image: str | None
@@ -31,13 +32,13 @@ class ProcessTreeNode:
 
     def to_dict(self) -> dict:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -56,13 +57,13 @@ class ProcessTreeBuilder:
 
     def __init__(self, events: list[SysmonEvent]) -> None:
         """Initialize the object with caller supplied state.
-        
+
         Args:
             events: The events value supplied by the caller.
-        
+
         Returns:
             None.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -74,13 +75,13 @@ class ProcessTreeBuilder:
 
     def get_creation(self, process_guid: str | None) -> SysmonEvent | None:
         """Get creation.
-        
+
         Args:
             process_guid: The process guid value supplied by the caller.
-        
+
         Returns:
             The SysmonEvent | None result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -124,16 +125,18 @@ class ProcessTreeBuilder:
             depth += 1
         return list(reversed(chain))
 
-    def lineage_for_guid(self, process_guid: str | None, *, max_depth: int = 6) -> ProcessTreeNode | None:
+    def lineage_for_guid(
+        self, process_guid: str | None, *, max_depth: int = 6
+    ) -> ProcessTreeNode | None:
         """Lineage for guid.
-        
+
         Args:
             process_guid: The process guid value supplied by the caller.
             max_depth: The max depth value supplied by the caller.
-        
+
         Returns:
             The ProcessTreeNode | None result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """

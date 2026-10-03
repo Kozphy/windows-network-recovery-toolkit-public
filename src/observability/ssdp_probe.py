@@ -27,7 +27,7 @@ SSDP_PORT = 1900
 _MSEARCH = (
     "M-SEARCH * HTTP/1.1\r\n"
     "HOST: 239.255.255.250:1900\r\n"
-    "MAN: \"ssdp:discover\"\r\n"
+    'MAN: "ssdp:discover"\r\n'
     "MX: 2\r\n"
     "ST: ssdp:all\r\n"
     "\r\n"
@@ -88,7 +88,7 @@ def probe_ssdp(
                         st = line.strip()
                         break
                 services.append({"source_ip": src_ip, "header": st[:120]})
-            except socket.timeout:
+            except TimeoutError:
                 break
     finally:
         sock.close()

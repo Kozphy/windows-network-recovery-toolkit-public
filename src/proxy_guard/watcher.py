@@ -61,7 +61,9 @@ def monitor_proxy_registry(
         reg_d = snap.to_dict()
         parsed = parse_proxy_server(snap.proxy_server)
         view = normalize_registry_view(reg_d, parsed.to_dict())
-        if prior is not None and json.dumps(prior, sort_keys=True) != json.dumps(view, sort_keys=True):
+        if prior is not None and json.dumps(prior, sort_keys=True) != json.dumps(
+            view, sort_keys=True
+        ):
             msg = "[proxy-monitor] registry change detected"
             print(msg, file=sys.stderr)
             print(json.dumps(view, indent=2, ensure_ascii=False))

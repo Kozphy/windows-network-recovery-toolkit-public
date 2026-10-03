@@ -133,7 +133,9 @@ def _resolve_fixture_path(fixture: str | None) -> Path | None:
         resolved = path.resolve()
     except OSError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
-    if not any(resolved.is_relative_to(root.resolve()) for root in _ALLOWED_FIXTURE_ROOTS if root.exists()):
+    if not any(
+        resolved.is_relative_to(root.resolve()) for root in _ALLOWED_FIXTURE_ROOTS if root.exists()
+    ):
         raise HTTPException(status_code=403, detail="fixture path outside allowed directories")
     return resolved
 
@@ -161,7 +163,9 @@ def trisk_health() -> HealthResponse:
 
 @router.get("/incidents", response_model=dict[str, Any])
 def list_incidents(
-    fixture: str | None = Query(default=None, description="Fixture path under tests/fixtures or examples"),
+    fixture: str | None = Query(
+        default=None, description="Fixture path under tests/fixtures or examples"
+    ),
     limit: int = Query(default=50, ge=1, le=200),
     offset: int = Query(default=0, ge=0),
 ) -> dict[str, Any]:
@@ -287,13 +291,13 @@ def browser_diff(
 @router.get("/trisk/browser/profiles", response_model=dict[str, Any])
 def browser_profiles(browser: str = Query(default="auto")) -> dict[str, Any]:
     """Handle the GET request for browser profiles.
-    
+
     Args:
         browser: The browser value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -308,14 +312,14 @@ def browser_site_state(
     browser: str = Query(default="auto"),
 ) -> dict[str, Any]:
     """Handle the GET request for browser site state.
-    
+
     Args:
         domain: The domain value supplied by the caller.
         browser: The browser value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -327,13 +331,13 @@ def browser_site_state(
 @router.get("/trisk/browser/extensions", response_model=dict[str, Any])
 def browser_extensions(browser: str = Query(default="auto")) -> dict[str, Any]:
     """Handle the GET request for browser extensions.
-    
+
     Args:
         browser: The browser value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -356,13 +360,13 @@ def browser_extensions(browser: str = Query(default="auto")) -> dict[str, Any]:
 @router.get("/trisk/browser/policies", response_model=dict[str, Any])
 def browser_policies(browser: str = Query(default="auto")) -> dict[str, Any]:
     """Handle the GET request for browser policies.
-    
+
     Args:
         browser: The browser value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -379,16 +383,17 @@ def browser_policies(browser: str = Query(default="auto")) -> dict[str, Any]:
 
 class HarCompareBody(BaseModel):
     """Represent har compare body data used by the toolkit.
-    
+
     Attributes:
         normal_har: Field or variant describing normal har evidence or state.
         private_har: Field or variant describing private har evidence or state.
         target_url: Field or variant describing target url evidence or state.
         browser: Field or variant describing browser evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     normal_har: dict[str, Any]
     private_har: dict[str, Any]
     target_url: str = "https://example.invalid/"
@@ -420,14 +425,15 @@ def browser_har_compare(body: HarCompareBody) -> dict[str, Any]:
 
 class RepairPreviewBody(BaseModel):
     """Represent repair preview body data used by the toolkit.
-    
+
     Attributes:
         domain: Field or variant describing domain evidence or state.
         browser: Field or variant describing browser evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     domain: str
     browser: str = "auto"
 
@@ -435,13 +441,13 @@ class RepairPreviewBody(BaseModel):
 @router.post("/trisk/browser/repair/preview", response_model=dict[str, Any])
 def browser_repair_preview(body: RepairPreviewBody) -> dict[str, Any]:
     """Handle the POST request for browser repair preview.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """

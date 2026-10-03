@@ -34,6 +34,7 @@ class FailureLabel(StrEnum):
     Side effects:
         None.
     """
+
     CORRECT = "CORRECT"
     HALLUCINATION_RISK = "HALLUCINATION_RISK"
     RETRIEVAL_MISS = "RETRIEVAL_MISS"
@@ -62,6 +63,7 @@ class EvalPolicyGate(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     ALLOW = "ALLOW"
     PREVIEW = "PREVIEW"
     REQUIRE_HUMAN_REVIEW = "REQUIRE_HUMAN_REVIEW"

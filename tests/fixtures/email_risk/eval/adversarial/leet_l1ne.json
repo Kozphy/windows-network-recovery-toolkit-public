@@ -1,0 +1,11 @@
+{
+  "description": "Adversarial: 'L1NE' digit substitution with secrecy and a wire request from a claimed executive.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"President\" <president.tw.office@outlook.com>",
+    "to": ["controller@example-corp.test"],
+    "subject": "Confidential",
+    "message_id": "<synthetic-adv-leet-0202@outlook.com>",
+    "body_text": "Please add me on L1NE immediately, I cannot talk on email.\nKeep this confidential.\nWe need a wire transfer processed today."
+  }
+}

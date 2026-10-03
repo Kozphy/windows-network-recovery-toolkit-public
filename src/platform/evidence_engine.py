@@ -11,7 +11,7 @@ from src.platform.models import EvidenceItem, Hypothesis, NormalizedEvent
 @dataclass
 class EvidenceTreeNode:
     """Represent evidence tree node data used by the toolkit.
-    
+
     Attributes:
         evidence_id: Field or variant describing evidence id evidence or state.
         description: Field or variant describing description evidence or state.
@@ -19,10 +19,11 @@ class EvidenceTreeNode:
         confidence_delta: Field or variant describing confidence delta evidence or state.
         supports: Field or variant describing supports evidence or state.
         contradicts: Field or variant describing contradicts evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     evidence_id: str
     description: str
     type: str
@@ -34,7 +35,7 @@ class EvidenceTreeNode:
 @dataclass
 class EvidenceEngineResult:
     """Represent evidence engine result data used by the toolkit.
-    
+
     Attributes:
         ranked_hypotheses: Field or variant describing ranked hypotheses evidence or state.
         confidence_score: Field or variant describing confidence score evidence or state.
@@ -43,10 +44,11 @@ class EvidenceEngineResult:
         contradicting_evidence: Field or variant describing contradicting evidence evidence or state.
         explanation: Field or variant describing explanation evidence or state.
         metadata: Field or variant describing metadata evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     ranked_hypotheses: list[Hypothesis]
     confidence_score: float
     evidence_tree: list[EvidenceTreeNode]
@@ -66,15 +68,15 @@ def rank_hypotheses(
     hypotheses: list[Hypothesis],
 ) -> EvidenceEngineResult:
     """Rank hypotheses.
-    
+
     Args:
         event: Evidence or domain record being processed.
         evidence: The evidence value supplied by the caller.
         hypotheses: The hypotheses value supplied by the caller.
-    
+
     Returns:
         The EvidenceEngineResult result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """

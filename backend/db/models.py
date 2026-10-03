@@ -16,17 +16,18 @@ def _utc_now() -> datetime:
 
 class ClassificationStatus(StrEnum):
     """Represent classification status data used by the toolkit.
-    
+
     Attributes:
         PENDING: Field or variant describing p e n d i n g evidence or state.
         CLASSIFIED: Field or variant describing c l a s s i f i e d evidence or state.
         REVIEW_REQUIRED: Field or variant describing r e v i e w r e q u i r e d evidence or state.
         REJECTED: Field or variant describing r e j e c t e d evidence or state.
         QUARANTINED: Field or variant describing q u a r a n t i n e d evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     PENDING = "pending"
     CLASSIFIED = "classified"
     REVIEW_REQUIRED = "review_required"
@@ -36,7 +37,7 @@ class ClassificationStatus(StrEnum):
 
 class Endpoint(SQLModel, table=True):
     """Represent endpoint data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         endpoint_id: Field or variant describing endpoint id evidence or state.
@@ -44,10 +45,11 @@ class Endpoint(SQLModel, table=True):
         tenant_id: Field or variant describing tenant id evidence or state.
         created_at: Field or variant describing created at evidence or state.
         updated_at: Field or variant describing updated at evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_endpoints"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -60,7 +62,7 @@ class Endpoint(SQLModel, table=True):
 
 class EvidenceEvent(SQLModel, table=True):
     """Represent evidence event data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         event_id: Field or variant describing event id evidence or state.
@@ -70,10 +72,11 @@ class EvidenceEvent(SQLModel, table=True):
         evidence_type: Field or variant describing evidence type evidence or state.
         evidence_tier: Field or variant describing evidence tier evidence or state.
         raw_snapshot: Field or variant describing raw snapshot evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_evidence_events"
     __table_args__ = (
         UniqueConstraint("endpoint_id", "source_event_id", name="uq_endpoint_source_event"),
@@ -98,7 +101,7 @@ class EvidenceEvent(SQLModel, table=True):
 
 class IncidentRecord(SQLModel, table=True):
     """Represent incident record data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         incident_id: Field or variant describing incident id evidence or state.
@@ -108,10 +111,11 @@ class IncidentRecord(SQLModel, table=True):
         secondary_signals: Field or variant describing secondary signals evidence or state.
         proof_tier: Field or variant describing proof tier evidence or state.
         confidence: Field or variant describing confidence evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_incidents"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -130,7 +134,7 @@ class IncidentRecord(SQLModel, table=True):
 
 class ControlTestResult(SQLModel, table=True):
     """Represent control test result data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         incident_id: Field or variant describing incident id evidence or state.
@@ -139,10 +143,11 @@ class ControlTestResult(SQLModel, table=True):
         evidence: Field or variant describing evidence evidence or state.
         limitations: Field or variant describing limitations evidence or state.
         created_at: Field or variant describing created at evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_control_tests"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -156,7 +161,7 @@ class ControlTestResult(SQLModel, table=True):
 
 class PolicyDecision(SQLModel, table=True):
     """Represent policy decision data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         incident_id: Field or variant describing incident id evidence or state.
@@ -164,10 +169,11 @@ class PolicyDecision(SQLModel, table=True):
         outcome: Field or variant describing outcome evidence or state.
         dry_run: Field or variant describing dry run evidence or state.
         created_at: Field or variant describing created at evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_policy_decisions"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -180,7 +186,7 @@ class PolicyDecision(SQLModel, table=True):
 
 class RiskDecisionRecord(SQLModel, table=True):
     """Represent risk decision record data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         decision_id: Field or variant describing decision id evidence or state.
@@ -189,10 +195,11 @@ class RiskDecisionRecord(SQLModel, table=True):
         reason: Field or variant describing reason evidence or state.
         policy_decision_id: Field or variant describing policy decision id evidence or state.
         created_at: Field or variant describing created at evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_risk_decisions"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -206,7 +213,7 @@ class RiskDecisionRecord(SQLModel, table=True):
 
 class HumanReviewItem(SQLModel, table=True):
     """Represent human review item data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         review_id: Field or variant describing review id evidence or state.
@@ -216,10 +223,11 @@ class HumanReviewItem(SQLModel, table=True):
         policy_decision_id: Field or variant describing policy decision id evidence or state.
         status: Field or variant describing status evidence or state.
         actor: Field or variant describing actor evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_human_reviews"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -237,7 +245,7 @@ class HumanReviewItem(SQLModel, table=True):
 
 class AuditChainEntry(SQLModel, table=True):
     """Represent audit chain entry data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         row_index: Field or variant describing row index evidence or state.
@@ -245,10 +253,11 @@ class AuditChainEntry(SQLModel, table=True):
         row_hash: Field or variant describing row hash evidence or state.
         payload: Field or variant describing payload evidence or state.
         created_at: Field or variant describing created at evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_audit_chain"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -261,7 +270,7 @@ class AuditChainEntry(SQLModel, table=True):
 
 class TriskDomainEventRow(SQLModel, table=True):
     """Represent trisk domain event row data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         event_id: Field or variant describing event id evidence or state.
@@ -271,10 +280,11 @@ class TriskDomainEventRow(SQLModel, table=True):
         sequence: Field or variant describing sequence evidence or state.
         actor: Field or variant describing actor evidence or state.
         correlation_id: Field or variant describing correlation id evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_domain_events"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -292,7 +302,7 @@ class TriskDomainEventRow(SQLModel, table=True):
 
 class TenantRecord(SQLModel, table=True):
     """Represent tenant record data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         tenant_id: Field or variant describing tenant id evidence or state.
@@ -300,10 +310,11 @@ class TenantRecord(SQLModel, table=True):
         status: Field or variant describing status evidence or state.
         created_at: Field or variant describing created at evidence or state.
         updated_at: Field or variant describing updated at evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_tenants"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -316,7 +327,7 @@ class TenantRecord(SQLModel, table=True):
 
 class ObservationRecord(SQLModel, table=True):
     """Represent observation record data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         observation_id: Field or variant describing observation id evidence or state.
@@ -326,10 +337,11 @@ class ObservationRecord(SQLModel, table=True):
         raw_observation: Field or variant describing raw observation evidence or state.
         limitations: Field or variant describing limitations evidence or state.
         correlation_id: Field or variant describing correlation id evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_observations"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -345,7 +357,7 @@ class ObservationRecord(SQLModel, table=True):
 
 class HypothesisRecord(SQLModel, table=True):
     """Represent hypothesis record data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         hypothesis_id: Field or variant describing hypothesis id evidence or state.
@@ -355,10 +367,11 @@ class HypothesisRecord(SQLModel, table=True):
         label: Field or variant describing label evidence or state.
         confidence_score: Field or variant describing confidence score evidence or state.
         confidence_ordinal: Field or variant describing confidence ordinal evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_hypotheses"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -377,7 +390,7 @@ class HypothesisRecord(SQLModel, table=True):
 
 class PlatformDecisionRecord(SQLModel, table=True):
     """Represent platform decision record data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         decision_id: Field or variant describing decision id evidence or state.
@@ -387,10 +400,11 @@ class PlatformDecisionRecord(SQLModel, table=True):
         evidence_event_id: Field or variant describing evidence event id evidence or state.
         confidence_score: Field or variant describing confidence score evidence or state.
         confidence_label: Field or variant describing confidence label evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_platform_decisions"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -415,7 +429,7 @@ class PlatformDecisionRecord(SQLModel, table=True):
 
 class PolicyPackRecord(SQLModel, table=True):
     """Represent policy pack record data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         pack_id: Field or variant describing pack id evidence or state.
@@ -424,10 +438,11 @@ class PolicyPackRecord(SQLModel, table=True):
         yaml_content: Field or variant describing yaml content evidence or state.
         active: Field or variant describing active evidence or state.
         created_at: Field or variant describing created at evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_policy_packs"
 
     id: int | None = Field(default=None, primary_key=True)
@@ -441,7 +456,7 @@ class PolicyPackRecord(SQLModel, table=True):
 
 class AuditLogRecord(SQLModel, table=True):
     """Represent audit log record data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         log_id: Field or variant describing log id evidence or state.
@@ -451,10 +466,11 @@ class AuditLogRecord(SQLModel, table=True):
         actor: Field or variant describing actor evidence or state.
         resource_type: Field or variant describing resource type evidence or state.
         resource_id: Field or variant describing resource id evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     __tablename__ = "trisk_audit_logs"
 
     id: int | None = Field(default=None, primary_key=True)

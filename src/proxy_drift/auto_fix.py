@@ -325,7 +325,8 @@ def run_auto_fix_proxy(
     prefer_result: dict[str, Any] | None = None
     after_dead = read_proxy_drift_status(run=subprocess_run)
     localhost_enabled = (
-        int(after_dead.get("proxy_enable") or 0) == 1 and after_dead.get("localhost_port") is not None
+        int(after_dead.get("proxy_enable") or 0) == 1
+        and after_dead.get("localhost_port") is not None
     )
     broken = bool(after_dead.get("is_broken_localhost_proxy"))
     # Broken path clears with prefer-direct confirm; healthy active needs prefer_direct flag.
@@ -362,9 +363,7 @@ def run_auto_fix_proxy(
         int(final.get("proxy_enable") or 0) == 1 and final.get("localhost_port") is not None
     )
     final_broken = bool(final.get("is_broken_localhost_proxy"))
-    prefer_blocked = bool(
-        prefer_result and prefer_result.get("action_taken") == "blocked"
-    )
+    prefer_blocked = bool(prefer_result and prefer_result.get("action_taken") == "blocked")
     if final.get("is_dead_localhost_proxy"):
         outcome = "would_remediate" if dry_run else "still_dead"
     elif final_broken and prefer_blocked:

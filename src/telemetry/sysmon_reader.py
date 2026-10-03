@@ -43,13 +43,13 @@ class SysmonEvent:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -154,13 +154,13 @@ def parse_sysmon_xml(xml_text: str) -> SysmonEvent | None:
 
 def parse_sysmon_xml_batch(xml_documents: Iterable[str]) -> list[SysmonEvent]:
     """Parse sysmon xml batch.
-    
+
     Args:
         xml_documents: The xml documents value supplied by the caller.
-    
+
     Returns:
         The list[SysmonEvent] result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -179,7 +179,9 @@ def _format_ps_datetime(dt: datetime) -> str:
     return local.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def _powershell_query_xml(start_utc: datetime, end_utc: datetime, event_ids: tuple[int, ...]) -> str:
+def _powershell_query_xml(
+    start_utc: datetime, end_utc: datetime, event_ids: tuple[int, ...]
+) -> str:
     ids = ",".join(str(i) for i in event_ids)
     start_s = _format_ps_datetime(start_utc)
     end_s = _format_ps_datetime(end_utc)

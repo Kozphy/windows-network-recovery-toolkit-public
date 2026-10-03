@@ -13,7 +13,9 @@ if TYPE_CHECKING:
 _SECURITY_TOOLS = frozenset(
     {"fiddler.exe", "charles.exe", "mitmproxy.exe", "burpsuite.exe", "proxifier.exe"}
 )
-_DEV_KEYWORDS = frozenset({"npm", "vite", "next", "webpack", "pnpm", "yarn", "npx", "dev-server", "devserver"})
+_DEV_KEYWORDS = frozenset(
+    {"npm", "vite", "next", "webpack", "pnpm", "yarn", "npx", "dev-server", "devserver"}
+)
 _OBFUSCATION = (
     "-enc",
     "-encodedcommand",
@@ -25,19 +27,24 @@ _OBFUSCATION = (
     "windowstyle hidden",
     "-w hidden",
 )
-_SUSPICIOUS_PATHS = ("\\temp\\", "\\downloads\\", "\\appdata\\roaming\\", "\\appdata\\local\\temp\\")
+_SUSPICIOUS_PATHS = (
+    "\\temp\\",
+    "\\downloads\\",
+    "\\appdata\\roaming\\",
+    "\\appdata\\local\\temp\\",
+)
 _BROWSER_NAMES = frozenset({"chrome.exe", "msedge.exe", "firefox.exe", "brave.exe"})
 
 
 def basename(path: str | None) -> str:
     """Basename.
-    
+
     Args:
         path: Filesystem path used by the operation.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -48,13 +55,13 @@ def basename(path: str | None) -> str:
 
 def path_low(path: str | None) -> str:
     """Path low.
-    
+
     Args:
         path: Filesystem path used by the operation.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -63,13 +70,13 @@ def path_low(path: str | None) -> str:
 
 def is_localhost_proxy(proxy: str | None) -> bool:
     """Is localhost proxy.
-    
+
     Args:
         proxy: The proxy value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -81,13 +88,13 @@ def is_localhost_proxy(proxy: str | None) -> bool:
 
 def is_external_proxy(proxy: str | None) -> bool:
     """Is external proxy.
-    
+
     Args:
         proxy: The proxy value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -96,13 +103,13 @@ def is_external_proxy(proxy: str | None) -> bool:
 
 def is_unsigned(signature_status: str | None) -> bool:
     """Is unsigned.
-    
+
     Args:
         signature_status: The signature status value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -118,13 +125,13 @@ def is_unsigned(signature_status: str | None) -> bool:
 
 def obfuscated_command(cmd: str | None) -> bool:
     """Obfuscated command.
-    
+
     Args:
         cmd: The cmd value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -138,17 +145,21 @@ def obfuscated_command(cmd: str | None) -> bool:
 
 def suspicious_launch_path(inp: ProcessClassificationInput) -> bool:
     """Suspicious launch path.
-    
+
     Args:
         inp: The inp value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
-    paths = (path_low(inp.image_path), path_low(inp.parent_image_path), path_low(inp.working_directory))
+    paths = (
+        path_low(inp.image_path),
+        path_low(inp.parent_image_path),
+        path_low(inp.working_directory),
+    )
     if basename(inp.parent_image_path) != "powershell.exe":
         return False
     if basename(inp.image_path) != "node.exe":
@@ -158,14 +169,14 @@ def suspicious_launch_path(inp: ProcessClassificationInput) -> bool:
 
 def cursor_context(inp: ProcessClassificationInput, allowlist: ProxyAllowlist) -> bool:
     """Cursor context.
-    
+
     Args:
         inp: The inp value supplied by the caller.
         allowlist: The allowlist value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -193,21 +204,23 @@ def cursor_context(inp: ProcessClassificationInput, allowlist: ProxyAllowlist) -
 
 def vscode_context(inp: ProcessClassificationInput, allowlist: ProxyAllowlist) -> bool:
     """Vscode context.
-    
+
     Args:
         inp: The inp value supplied by the caller.
         allowlist: The allowlist value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
     if basename(inp.parent_image_path) == "code.exe":
         return True
     parent_path = path_low(inp.parent_image_path)
-    if parent_path and ("\\microsoft vs code\\" in parent_path or parent_path.endswith("\\code.exe")):
+    if parent_path and (
+        "\\microsoft vs code\\" in parent_path or parent_path.endswith("\\code.exe")
+    ):
         return True
     cmd_blob = f"{inp.parent_command_line or ''} {inp.command_line or ''}".lower()
     if "vscode" in cmd_blob or "visual studio code" in cmd_blob:
@@ -225,13 +238,13 @@ def vscode_context(inp: ProcessClassificationInput, allowlist: ProxyAllowlist) -
 
 def dev_proxy_context(inp: ProcessClassificationInput) -> bool:
     """Dev proxy context.
-    
+
     Args:
         inp: The inp value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -244,13 +257,13 @@ def dev_proxy_context(inp: ProcessClassificationInput) -> bool:
 
 def autoconfig_changed(inp: ProcessClassificationInput) -> bool:
     """Autoconfig changed.
-    
+
     Args:
         inp: The inp value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -260,13 +273,13 @@ def autoconfig_changed(inp: ProcessClassificationInput) -> bool:
 
 def nvidia_python_false_positive(inp: ProcessClassificationInput) -> bool:
     """Nvidia python false positive.
-    
+
     Args:
         inp: The inp value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -278,13 +291,13 @@ def nvidia_python_false_positive(inp: ProcessClassificationInput) -> bool:
 
 def system_writer(inp: ProcessClassificationInput) -> bool:
     """System writer.
-    
+
     Args:
         inp: The inp value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

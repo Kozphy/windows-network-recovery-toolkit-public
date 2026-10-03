@@ -19,7 +19,9 @@ def _cmdline_proxy_terms(cmdline: str | None) -> bool:
     if not cmdline:
         return False
     low = cmdline.lower()
-    return any(t in low for t in ("proxy", "tunnel", "socks", "mitm", "mcp", "dev-server", "devserver"))
+    return any(
+        t in low for t in ("proxy", "tunnel", "socks", "mitm", "mcp", "dev-server", "devserver")
+    )
 
 
 def compute_attribution_level(
@@ -41,7 +43,8 @@ def compute_attribution_level(
     ]
 
     proven_sysmon = any(
-        ev.source == "sysmon_event_13" and (ev.confidence_score or 0) >= 0.85 for ev in sysmon_events
+        ev.source == "sysmon_event_13" and (ev.confidence_score or 0) >= 0.85
+        for ev in sysmon_events
     )
     proven_procmon = any(
         ev.source == "procmon_csv" and (ev.confidence_score or 0) >= 0.85 for ev in procmon_events

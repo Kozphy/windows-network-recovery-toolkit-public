@@ -72,7 +72,9 @@ def build_signal_map(data: MultievidenceInput) -> dict[str, bool]:
             signals["browser_https_fail"] = not net.browser_https_ok
         if net.direct_path_ok is not None:
             signals["direct_path_ok"] = net.direct_path_ok
-            signals["proof_path_contrast"] = net.direct_path_ok and signals.get("browser_https_fail", False)
+            signals["proof_path_contrast"] = net.direct_path_ok and signals.get(
+                "browser_https_fail", False
+            )
         if net.proxied_path_ok is not None and net.proxied_path_ok is False:
             signals["proxy_bypass_succeeded"] = signals.get("browser_https_fail", False)
         if net.tls_cert_mismatch is not None:
@@ -195,13 +197,21 @@ def _supporting_for_scenario(
     signals: dict[str, bool],
     all_refs: list[EvidenceRef],
 ) -> list[EvidenceRef]:
-    wanted = set(scenario.required_signals) | set(scenario.proof_signals) | set(scenario.supporting_signal_hints)
+    wanted = (
+        set(scenario.required_signals)
+        | set(scenario.proof_signals)
+        | set(scenario.supporting_signal_hints)
+    )
     out: list[EvidenceRef] = []
     for ref in all_refs:
         sig_key = ref.signal.lower()
         if sig_key in wanted or any(s in sig_key for s in wanted):
             out.append(ref)
-        elif ref.signal == "listener_found" and "listener_absent" in wanted and ref.observed_value == "False":
+        elif (
+            ref.signal == "listener_found"
+            and "listener_absent" in wanted
+            and ref.observed_value == "False"
+        ):
             out.append(ref)
         elif ref.signal == "proxy_enable" and "proxy_enabled" in wanted:
             out.append(ref)
@@ -305,7 +315,10 @@ def evaluate_hypotheses(data: MultievidenceInput) -> HypothesisEngineResult:
 
     primary_alts = [a.title for a in alternatives[:4]]
     primary = primary.model_copy(
-        update={"alternative_explanations": primary_alts or ["Insufficient competing scenarios matched."]}
+        update={
+            "alternative_explanations": primary_alts
+            or ["Insufficient competing scenarios matched."]
+        }
     )
     for i, alt in enumerate(alternatives):
         other_titles = [primary.title] + [a.title for j, a in enumerate(alternatives) if j != i]
@@ -315,11 +328,16 @@ def evaluate_hypotheses(data: MultievidenceInput) -> HypothesisEngineResult:
         incident_id=data.incident_id,
         primary=primary,
         alternatives=alternatives[:4],
-        metadata={"signal_map": {k: v for k, v in signals.items() if v}, "candidate_count": len(candidates)},
+        metadata={
+            "signal_map": {k: v for k, v in signals.items() if v},
+            "candidate_count": len(candidates),
+        },
     )
 
 
-def multievidence_from_fixture(payload: dict[str, Any], *, incident_id: str | None = None) -> MultievidenceInput:
+def multievidence_from_fixture(
+    payload: dict[str, Any], *, incident_id: str | None = None
+) -> MultievidenceInput:
     """Build MultievidenceInput from CS1-style fixture JSON."""
     iid = incident_id or payload.get("case_id") or f"inc-{uuid.uuid4().hex[:12]}"
     state = payload.get("proxy_state") or {}
@@ -338,7 +356,9 @@ def multievidence_from_fixture(payload: dict[str, Any], *, incident_id: str | No
         registry = registry.model_copy(
             update={
                 "writer_confirmed": True,
-                "writer_process": (writer.get("snapshot") or {}).get("listener", {}).get("process_name"),
+                "writer_process": (writer.get("snapshot") or {})
+                .get("listener", {})
+                .get("process_name"),
                 "writer_telemetry": list(writer.get("telemetry_sources") or []),
                 "tier": "PROVEN_REGISTRY_WRITER",
             }
@@ -362,8 +382,12 @@ def multievidence_from_fixture(payload: dict[str, Any], *, incident_id: str | No
     network = NetworkEvidence(
         evidence_id="ev-network",
         tier="OBSERVED_ONLY",
-        direct_path_ok=True if classification.get("primary_classification") == "DEAD_PROXY_CONFIG" else None,
-        browser_https_ok=False if classification.get("primary_classification") == "DEAD_PROXY_CONFIG" else None,
+        direct_path_ok=True
+        if classification.get("primary_classification") == "DEAD_PROXY_CONFIG"
+        else None,
+        browser_https_ok=False
+        if classification.get("primary_classification") == "DEAD_PROXY_CONFIG"
+        else None,
     )
 
     timeline = None
@@ -374,8 +398,13 @@ def multievidence_from_fixture(payload: dict[str, Any], *, incident_id: str | No
     proof = payload.get("proof") or {}
     if proof.get("proof_attempts"):
         for attempt in proof["proof_attempts"]:
-            if attempt.get("name") == "wininet_winhttp_comparison" and attempt.get("status") == "supported":
-                network = network.model_copy(update={"tier": "PROVEN_NETWORK_IMPACT", "direct_path_ok": True})
+            if (
+                attempt.get("name") == "wininet_winhttp_comparison"
+                and attempt.get("status") == "supported"
+            ):
+                network = network.model_copy(
+                    update={"tier": "PROVEN_NETWORK_IMPACT", "direct_path_ok": True}
+                )
 
     return MultievidenceInput(
         incident_id=iid,

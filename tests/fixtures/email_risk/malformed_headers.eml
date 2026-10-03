@@ -1,0 +1,7 @@
+From: <<<not an address>>>
+Reply-To: =?utf-8?B?!!!invalid?=
+Subject: =?bogus-charset?Q?hello?=
+Authentication-Results: mx.example.test; spf=weird; dkim=
+Content-Type: text/plain; charset="x-unknown-charset"
+
+Hello, this is a test body with broken headers.

@@ -1,0 +1,15 @@
+{
+  "description": "Synthetic vendor invoice fraud: display name claims a known vendor, sender and Reply-To are on unrelated domains, overdue invoice with new bank details.",
+  "org_context": {
+    "organization_domains": ["example-corp.test"],
+    "vendors": [{"name": "Northwind Logistics", "domains": ["northwind-logistics.test"]}]
+  },
+  "email": {
+    "from": "\"Northwind Logistics Accounts\" <accounts@nwl-billing.test>",
+    "reply_to": ["northwind.ar@payments-desk.test"],
+    "to": ["ap@example-corp.test"],
+    "subject": "Overdue invoice NWL-7781",
+    "message_id": "<synthetic-eval-vendor-0011@nwl-billing.test>",
+    "body_text": "Hello,\nInvoice NWL-7781 is now overdue.\nPlease note we have new bank account details for all remittances.\nKindly pay the invoice to the updated account today and reply to confirm.\n\nNorthwind Logistics Accounts Receivable"
+  }
+}

@@ -24,7 +24,9 @@ def _now() -> str:
     return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def preview_install_startup_observability(*, guardian_interval: int = 60, boot_duration: int = 180, boot_interval: int = 2) -> dict[str, Any]:
+def preview_install_startup_observability(
+    *, guardian_interval: int = 60, boot_duration: int = 180, boot_interval: int = 2
+) -> dict[str, Any]:
     """Build the combined startup observability install preview.
 
     Args:
@@ -46,7 +48,9 @@ def preview_install_startup_observability(*, guardian_interval: int = 60, boot_d
         "confirmation_required": CONFIRM_INSTALL,
         "components": {
             "guardian": preview_install_guardian_task(interval=guardian_interval),
-            "boot_trace": preview_install_boot_trace_task(duration=boot_duration, interval=boot_interval),
+            "boot_trace": preview_install_boot_trace_task(
+                duration=boot_duration, interval=boot_interval
+            ),
         },
         "limitations": [
             "Install preview does not create scheduled tasks or Startup hooks.",
@@ -93,17 +97,30 @@ def install_startup_observability(
         preview["action_taken"] = "blocked"
         preview["reason"] = f"Confirmation required: {CONFIRM_INSTALL}"
         return preview
-    guardian = install_guardian_task(interval=guardian_interval, confirm="INSTALL_GUARDIAN_TASK", dry_run=False)
-    boot_trace = install_boot_trace_task(duration=boot_duration, interval=boot_interval, confirm="INSTALL_BOOT_TRACE_TASK", dry_run=False)
+    guardian = install_guardian_task(
+        interval=guardian_interval, confirm="INSTALL_GUARDIAN_TASK", dry_run=False
+    )
+    boot_trace = install_boot_trace_task(
+        duration=boot_duration,
+        interval=boot_interval,
+        confirm="INSTALL_BOOT_TRACE_TASK",
+        dry_run=False,
+    )
     action_taken = "installed"
     if guardian.get("action_taken") == "failed" or boot_trace.get("action_taken") == "failed":
-        action_taken = "partial" if any(c.get("action_taken") == "installed" for c in (guardian, boot_trace)) else "failed"
+        action_taken = (
+            "partial"
+            if any(c.get("action_taken") == "installed" for c in (guardian, boot_trace))
+            else "failed"
+        )
     return {
         "schema_version": "startup_observability.v1",
         "timestamp_utc": _now(),
         "components": {"guardian": guardian, "boot_trace": boot_trace},
         "action_taken": action_taken,
-        "reason": "Startup observability configured." if action_taken == "installed" else "One or more components failed.",
+        "reason": "Startup observability configured."
+        if action_taken == "installed"
+        else "One or more components failed.",
     }
 
 
@@ -138,8 +155,10 @@ def uninstall_startup_observability(*, confirm: str = "", dry_run: bool = True) 
     guardian = uninstall_guardian_task(confirm="UNINSTALL_GUARDIAN_TASK", dry_run=False)
     boot_trace = uninstall_boot_trace_task(confirm="UNINSTALL_BOOT_TRACE_TASK", dry_run=False)
     payload["components"] = {"guardian": guardian, "boot_trace": boot_trace}
-    payload["action_taken"] = "uninstalled" if all(
-        c.get("action_taken") != "failed" for c in (guardian, boot_trace)
-    ) else "partial"
+    payload["action_taken"] = (
+        "uninstalled"
+        if all(c.get("action_taken") != "failed" for c in (guardian, boot_trace))
+        else "partial"
+    )
     payload["reason"] = "Startup observability artifacts removed."
     return payload

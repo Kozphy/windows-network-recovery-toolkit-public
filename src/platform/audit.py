@@ -17,7 +17,7 @@ DEFAULT_AUDIT_PATH = Path("logs/platform_decision_audit.jsonl")
 
 class AuditRecord(BaseModel):
     """Represent audit record data used by the toolkit.
-    
+
     Attributes:
         timestamp_utc: Field or variant describing timestamp utc evidence or state.
         domain: Field or variant describing domain evidence or state.
@@ -27,10 +27,11 @@ class AuditRecord(BaseModel):
         output_hash: Field or variant describing output hash evidence or state.
         policy_status: Field or variant describing policy status evidence or state.
         explanation: Field or variant describing explanation evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     timestamp_utc: str = Field(default_factory=utc_now_iso)
     domain: str
     event_id: str
@@ -43,17 +44,17 @@ class AuditRecord(BaseModel):
 
 def append_audit(record: AuditRecord, *, path: Path | None = None) -> AuditRecord:
     """Append audit.
-    
+
     Args:
         record: Evidence or domain record being processed.
         path: Filesystem path used by the operation.
-    
+
     Returns:
         The AuditRecord result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -67,17 +68,17 @@ def append_audit(record: AuditRecord, *, path: Path | None = None) -> AuditRecor
 
 def read_audit_tail(*, limit: int = 50, path: Path | None = None) -> list[AuditRecord]:
     """Read audit tail.
-    
+
     Args:
         limit: The limit value supplied by the caller.
         path: Filesystem path used by the operation.
-    
+
     Returns:
         The list[AuditRecord] result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -104,7 +105,7 @@ def audit_pipeline_step(
     path: Path | None = None,
 ) -> AuditRecord:
     """Audit pipeline step.
-    
+
     Args:
         domain: The domain value supplied by the caller.
         event_id: The event id value supplied by the caller.
@@ -115,13 +116,13 @@ def audit_pipeline_step(
         explanation: The explanation value supplied by the caller.
         timestamp_utc: The timestamp utc value supplied by the caller.
         path: Filesystem path used by the operation.
-    
+
     Returns:
         The AuditRecord result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """

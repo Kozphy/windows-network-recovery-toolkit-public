@@ -318,5 +318,7 @@ def load_proxy_guard_policy(path: Path) -> ProxyGuardPolicy:
         allow_when_attribution_empty=allow_empty,
         trusted_exe_paths=tuple(str(x) for x in trusted),
         allowed_autoconfig_url_substrings=tuple(str(x) for x in ac_subs),
-        observe_only_when_unknown_attribution=bool(blob.get("observe_only_when_unknown_attribution", False)),
+        observe_only_when_unknown_attribution=bool(
+            blob.get("observe_only_when_unknown_attribution", False)
+        ),
     )

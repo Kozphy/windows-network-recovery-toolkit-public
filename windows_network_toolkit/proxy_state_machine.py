@@ -124,7 +124,9 @@ FORBIDDEN_CLASSIFICATIONS_WHEN_AFTER_SERVER_EMPTY: frozenset[str] = frozenset(
 )
 
 
-TRUSTED_DEV_TOOLS = frozenset({"node.exe", "node", "cursor.exe", "cursor", "code.exe", "vscode.exe"})
+TRUSTED_DEV_TOOLS = frozenset(
+    {"node.exe", "node", "cursor.exe", "cursor", "code.exe", "vscode.exe"}
+)
 
 STANDARD_ATTRIBUTION_LIMITATIONS = [
     "Likely process / correlation only",
@@ -275,7 +277,9 @@ def normalize_proxy_state(raw: dict[str, Any] | None) -> ProxyWininetState:
         except (TypeError, ValueError):
             auto_detect = bool(auto_det)
 
-    override_raw = raw.get("proxy_override", raw.get("ProxyOverride", raw.get("wininet_proxy_override")))
+    override_raw = raw.get(
+        "proxy_override", raw.get("ProxyOverride", raw.get("wininet_proxy_override"))
+    )
     override = str(override_raw).strip() if override_raw not in (None, "") else None
 
     winhttp = raw.get("winhttp_direct_access")
@@ -405,9 +409,7 @@ def classify_transition(
     before_localhost = before.proxy_mode == ProxyMode.LOCALHOST_PROXY.value
     after_remote = after.proxy_mode == ProxyMode.REMOTE_PROXY.value
     localhost_to_remote = (
-        before_localhost
-        and after_remote
-        and not _server_empty(after.proxy_server)
+        before_localhost and after_remote and not _server_empty(after.proxy_server)
     )
 
     mismatch = winhttp_mismatch
@@ -526,7 +528,9 @@ def _confidence_for_transition(transition: TransitionClass, *, writer_proof: boo
     return base.get(transition, 0.55)
 
 
-def _proof_tier_for_transition(transition: TransitionClass, *, writer_proof: bool = False, listener: bool = False) -> str:
+def _proof_tier_for_transition(
+    transition: TransitionClass, *, writer_proof: bool = False, listener: bool = False
+) -> str:
     if writer_proof:
         return "T3"
     if listener and transition in (
@@ -650,11 +654,19 @@ def _map_primary_classification(
         return PrimaryClassification.PROXY_DISABLED_OR_REMOVED
     if transition == TransitionClass.PROXY_SERVER_REMOVED_PARTIAL and before_localhost:
         return PrimaryClassification.LOCALHOST_PROXY_REMOVED
-    if transition in (
-        TransitionClass.PROXY_SERVER_REMOVED,
-        TransitionClass.PROXY_SERVER_REMOVED_PARTIAL,
-    ) and server_removed:
-        return PrimaryClassification.PROXY_REMOVED if not before_localhost else PrimaryClassification.LOCALHOST_PROXY_REMOVED
+    if (
+        transition
+        in (
+            TransitionClass.PROXY_SERVER_REMOVED,
+            TransitionClass.PROXY_SERVER_REMOVED_PARTIAL,
+        )
+        and server_removed
+    ):
+        return (
+            PrimaryClassification.PROXY_REMOVED
+            if not before_localhost
+            else PrimaryClassification.LOCALHOST_PROXY_REMOVED
+        )
     if transition == TransitionClass.PROXY_DISABLED:
         return PrimaryClassification.PROXY_DISABLED_OR_REMOVED
     return PrimaryClassification.INSUFFICIENT_DATA
@@ -737,9 +749,7 @@ def validate_classification_safety(
     if _server_empty(after_proxy_server):
         for forbidden in FORBIDDEN_CLASSIFICATIONS_WHEN_AFTER_SERVER_EMPTY:
             if forbidden in (primary_classification, transition_class):
-                violations.append(
-                    f"after_proxy_server is empty but classification is {forbidden}"
-                )
+                violations.append(f"after_proxy_server is empty but classification is {forbidden}")
     return violations
 
 
@@ -793,16 +803,24 @@ def build_explainable_classification(
             f"Observed ProxyEnable transition: {int(before.proxy_enable)} -> {int(after.proxy_enable)}"
         )
     if primary == PrimaryClassification.LOCALHOST_PROXY_REMOVED:
-        why.append("Evidence indicates localhost proxy server removal, not remote proxy configuration.")
+        why.append(
+            "Evidence indicates localhost proxy server removal, not remote proxy configuration."
+        )
     if primary == PrimaryClassification.REVERTER_SUSPECTED:
-        why.append("Repeated enable/disable pattern observed — correlation only without registry writer proof.")
+        why.append(
+            "Repeated enable/disable pattern observed — correlation only without registry writer proof."
+        )
 
     limitations = _limitations_for_transition(transition)
     next_checks: list[str] = []
     if "REGISTRY_WRITER_PROOF_UNAVAILABLE" in secondary:
-        next_checks.append("Collect Sysmon Event ID 13, Security 4657, or Procmon registry write trace.")
+        next_checks.append(
+            "Collect Sysmon Event ID 13, Security 4657, or Procmon registry write trace."
+        )
     if "LISTENER_MISSING" in secondary:
-        next_checks.append("Identify process bound to configured localhost port or confirm stale proxy config.")
+        next_checks.append(
+            "Identify process bound to configured localhost port or confirm stale proxy config."
+        )
     if primary in (
         PrimaryClassification.REMOTE_PROXY_CONFIGURED,
         PrimaryClassification.PROXY_SERVER_CHANGED_TO_REMOTE,
@@ -814,7 +832,9 @@ def build_explainable_classification(
         blocked.append("Malware accusation blocked because registry writer proof is missing.")
         blocked.append("Process name treated as correlation only — not registry writer proof.")
     if _server_empty(after.proxy_server):
-        blocked.append("Remote proxy configured inference blocked because after_proxy_server is empty.")
+        blocked.append(
+            "Remote proxy configured inference blocked because after_proxy_server is empty."
+        )
 
     return {
         "primary_classification": primary.value,
@@ -1063,7 +1083,9 @@ def coalesce_proxy_events(
         return []
 
     window_sec = max(0.2, min(coalesce_window_ms / 1000.0, 5.0))
-    sorted_events = sorted(events, key=lambda e: _parse_ts(str(e.get("timestamp_utc") or "")) or 0.0)
+    sorted_events = sorted(
+        events, key=lambda e: _parse_ts(str(e.get("timestamp_utc") or "")) or 0.0
+    )
 
     batches: list[list[dict[str, Any]]] = []
     current: list[dict[str, Any]] = []
@@ -1223,7 +1245,9 @@ class CoalescingBuffer:
             self._pending.append(event)
             return flushed
 
-        flushed.extend(coalesce_proxy_events(self._pending, coalesce_window_ms=self.coalesce_window_ms))
+        flushed.extend(
+            coalesce_proxy_events(self._pending, coalesce_window_ms=self.coalesce_window_ms)
+        )
         self._pending = [event]
         self._first_ts = ts
         return flushed

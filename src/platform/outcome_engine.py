@@ -11,7 +11,7 @@ from src.platform.models import DecisionOption, DecisionOutcome
 @dataclass
 class OutcomeMetrics:
     """Represent outcome metrics data used by the toolkit.
-    
+
     Attributes:
         decision_accuracy: Field or variant describing decision accuracy evidence or state.
         success_rate: Field or variant describing success rate evidence or state.
@@ -21,10 +21,11 @@ class OutcomeMetrics:
         success_rate_by_domain: Field or variant describing success rate by domain evidence or state.
         failure_rate_by_decision_type: Field or variant describing failure rate by decision type evidence or state.
         total_outcomes: Field or variant describing total outcomes evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     decision_accuracy: float
     success_rate: float
     average_confidence: float
@@ -46,7 +47,7 @@ def record_outcome(
     outcome_id: str | None = None,
 ) -> DecisionOutcome:
     """Record outcome.
-    
+
     Args:
         decision: The decision value supplied by the caller.
         success: The success value supplied by the caller.
@@ -55,10 +56,10 @@ def record_outcome(
         time_to_resolution_seconds: The time to resolution seconds value supplied by the caller.
         lessons_learned: The lessons learned value supplied by the caller.
         outcome_id: The outcome id value supplied by the caller.
-    
+
     Returns:
         The DecisionOutcome result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -80,15 +81,15 @@ def compute_metrics(
     domain_by_decision: dict[str, str] | None = None,
 ) -> OutcomeMetrics:
     """Compute metrics.
-    
+
     Args:
         outcomes: The outcomes value supplied by the caller.
         decisions_by_id: The decisions by id value supplied by the caller.
         domain_by_decision: The domain by decision value supplied by the caller.
-    
+
     Returns:
         The OutcomeMetrics result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -127,13 +128,13 @@ def compute_metrics(
 
 def metrics_to_dict(m: OutcomeMetrics) -> dict[str, Any]:
     """Metrics to dict.
-    
+
     Args:
         m: The m value supplied by the caller.
-    
+
     Returns:
         The dict[str, Any] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

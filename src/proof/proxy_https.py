@@ -167,7 +167,9 @@ def _curl_https_probe(
         argv.insert(insert_at + 1, proxy_url)
         insert_at += 2
     argv.extend([base_url])
-    code, out = _run_cmd(argv, subprocess_run=subprocess_run, timeout=timeout + _CURL_DEADLINE_EXTRA)
+    code, out = _run_cmd(
+        argv, subprocess_run=subprocess_run, timeout=timeout + _CURL_DEADLINE_EXTRA
+    )
     return code, out, argv
 
 
@@ -191,13 +193,13 @@ class LocalhostProxyHttpsProof(ProofCheck):
     @property
     def proof_id(self) -> str:
         """Proof id.
-        
+
         Args:
             None.
-        
+
         Returns:
             The str result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -206,13 +208,13 @@ class LocalhostProxyHttpsProof(ProofCheck):
     @property
     def hypothesis_description(self) -> str:
         """Hypothesis description.
-        
+
         Args:
             None.
-        
+
         Returns:
             The str result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -229,7 +231,7 @@ class LocalhostProxyHttpsProof(ProofCheck):
         **_kwargs: Any,
     ) -> ProofResult:
         """Execute.
-        
+
         Args:
             test_url: The test url value supplied by the caller.
             subprocess_run: The subprocess run value supplied by the caller.
@@ -237,10 +239,10 @@ class LocalhostProxyHttpsProof(ProofCheck):
             net_timeout: The net timeout value supplied by the caller.
             curl_timeout: The curl timeout value supplied by the caller.
             **_kwargs: The kwargs value supplied by the caller.
-        
+
         Returns:
             The ProofResult result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -275,7 +277,9 @@ def run_localhost_proxy_https_proof(
     reg_enabled = reg.proxy_enable == 1
 
     wininet_active_localhost = bool(reg_enabled and parsed.is_localhost_proxy)
-    proxy_url_eff, curl_scheme = _curl_proxy_url(parsed) if wininet_active_localhost else (None, "wininet_inactive")
+    proxy_url_eff, curl_scheme = (
+        _curl_proxy_url(parsed) if wininet_active_localhost else (None, "wininet_inactive")
+    )
     if not wininet_active_localhost:
         proxy_url_eff = None
 
@@ -361,7 +365,11 @@ def run_localhost_proxy_https_proof(
         )
 
     nc, ns_out = _run_cmd(["netstat", "-an"], subprocess_run=subprocess_run, timeout=net_timeout)
-    listen_ok = None if nc != 0 or proof_listen_port is None else _listening_on_port_windows(ns_out, proof_listen_port)
+    listen_ok = (
+        None
+        if nc != 0 or proof_listen_port is None
+        else _listening_on_port_windows(ns_out, proof_listen_port)
+    )
 
     evidence["netstat_listen"] = {
         "exit_code": nc,
@@ -424,7 +432,12 @@ def run_localhost_proxy_https_proof(
             observations=tuple(obs),
             evidence=evidence | {"curl_version_probe_excerpt": curl_v_out[:400]},
         )
-    add("curl_available", "Verify curl is available", "pass", curl_v_out.splitlines()[0][:200] if curl_v_out else "ok")
+    add(
+        "curl_available",
+        "Verify curl is available",
+        "pass",
+        curl_v_out.splitlines()[0][:200] if curl_v_out else "ok",
+    )
 
     code_with, out_with, argv_with = _curl_https_probe(
         test_url,
@@ -470,9 +483,7 @@ def run_localhost_proxy_https_proof(
 
     if not ok_with and ok_no:
         status = ProofStatus.CONFIRMED
-        summary = (
-            "CONFIRMED: HTTPS fails via explicit localhost proxy path but succeeds via `--noproxy` bypass."
-        )
+        summary = "CONFIRMED: HTTPS fails via explicit localhost proxy path but succeeds via `--noproxy` bypass."
     elif ok_with and ok_no:
         status = ProofStatus.REJECTED
         summary = (

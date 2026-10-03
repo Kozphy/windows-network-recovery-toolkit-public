@@ -64,7 +64,7 @@ def _paginate(items: list[Any], page: int, page_size: int) -> PaginatedResponse[
 
 class DecisionIntelligenceStore(ABC):
     """Represent decision intelligence store data used by the toolkit.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
@@ -72,13 +72,13 @@ class DecisionIntelligenceStore(ABC):
     @abstractmethod
     def backend_name(self) -> str:
         """Backend name.
-        
+
         Args:
             None.
-        
+
         Returns:
             The str result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -87,13 +87,13 @@ class DecisionIntelligenceStore(ABC):
     @abstractmethod
     def counts(self) -> dict[str, int]:
         """Counts.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, int] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -102,13 +102,13 @@ class DecisionIntelligenceStore(ABC):
     @abstractmethod
     def create_event(self, row: EventCreate) -> EventRecord:
         """Create event.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The EventRecord result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -119,15 +119,15 @@ class DecisionIntelligenceStore(ABC):
         self, filters: EventFilters, page: int, page_size: int
     ) -> PaginatedResponse[EventRecord]:
         """List events.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[EventRecord] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -136,13 +136,13 @@ class DecisionIntelligenceStore(ABC):
     @abstractmethod
     def create_evidence(self, row: EvidenceCreate) -> EvidenceRecord:
         """Create evidence.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The EvidenceRecord result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -153,15 +153,15 @@ class DecisionIntelligenceStore(ABC):
         self, filters: EvidenceFilters, page: int, page_size: int
     ) -> PaginatedResponse[EvidenceRecord]:
         """List evidence.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[EvidenceRecord] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -170,16 +170,16 @@ class DecisionIntelligenceStore(ABC):
     @abstractmethod
     def create_decision(self, row: DecisionCreate) -> DecisionRecord:
         """Create decision.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The DecisionRecord result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -190,18 +190,18 @@ class DecisionIntelligenceStore(ABC):
         self, filters: DecisionFilters, page: int, page_size: int
     ) -> PaginatedResponse[DecisionRecord]:
         """List decisions.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[DecisionRecord] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -210,13 +210,13 @@ class DecisionIntelligenceStore(ABC):
     @abstractmethod
     def create_outcome(self, row: OutcomeCreate) -> OutcomeRecord:
         """Create outcome.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The OutcomeRecord result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -227,15 +227,15 @@ class DecisionIntelligenceStore(ABC):
         self, filters: OutcomeFilters, page: int, page_size: int
     ) -> PaginatedResponse[OutcomeRecord]:
         """List outcomes.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[OutcomeRecord] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -244,13 +244,13 @@ class DecisionIntelligenceStore(ABC):
     @abstractmethod
     def list_all_outcomes(self) -> list[OutcomeRecord]:
         """List all outcomes.
-        
+
         Args:
             None.
-        
+
         Returns:
             The list[OutcomeRecord] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -262,13 +262,13 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def __init__(self, root: Path | None = None) -> None:
         """Initialize the object with caller supplied state.
-        
+
         Args:
             root: Repository root used to resolve fixtures, reports, or local state.
-        
+
         Returns:
             None.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """
@@ -282,13 +282,13 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def backend_name(self) -> str:
         """Backend name.
-        
+
         Args:
             None.
-        
+
         Returns:
             The str result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -310,13 +310,13 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def counts(self) -> dict[str, int]:
         """Counts.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, int] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -329,13 +329,13 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def create_event(self, row: EventCreate) -> EventRecord:
         """Create event.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The EventRecord result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -347,15 +347,15 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
         self, filters: EventFilters, page: int, page_size: int
     ) -> PaginatedResponse[EventRecord]:
         """List events.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[EventRecord] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -366,13 +366,13 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def create_evidence(self, row: EvidenceCreate) -> EvidenceRecord:
         """Create evidence.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The EvidenceRecord result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -384,15 +384,15 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
         self, filters: EvidenceFilters, page: int, page_size: int
     ) -> PaginatedResponse[EvidenceRecord]:
         """List evidence.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[EvidenceRecord] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -403,16 +403,16 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def create_decision(self, row: DecisionCreate) -> DecisionRecord:
         """Create decision.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The DecisionRecord result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -424,18 +424,18 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
         self, filters: DecisionFilters, page: int, page_size: int
     ) -> PaginatedResponse[DecisionRecord]:
         """List decisions.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[DecisionRecord] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -446,13 +446,13 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def create_outcome(self, row: OutcomeCreate) -> OutcomeRecord:
         """Create outcome.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The OutcomeRecord result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -464,15 +464,15 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
         self, filters: OutcomeFilters, page: int, page_size: int
     ) -> PaginatedResponse[OutcomeRecord]:
         """List outcomes.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[OutcomeRecord] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -483,13 +483,13 @@ class JsonlDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def list_all_outcomes(self) -> list[OutcomeRecord]:
         """List all outcomes.
-        
+
         Args:
             None.
-        
+
         Returns:
             The list[OutcomeRecord] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -501,13 +501,13 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def __init__(self, url: str | None = None) -> None:
         """Initialize the object with caller supplied state.
-        
+
         Args:
             url: The url value supplied by the caller.
-        
+
         Returns:
             None.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -522,13 +522,13 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def backend_name(self) -> str:
         """Backend name.
-        
+
         Args:
             None.
-        
+
         Returns:
             The str result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -536,13 +536,13 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def counts(self) -> dict[str, int]:
         """Counts.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, int] result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """
@@ -561,13 +561,13 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def create_event(self, row: EventCreate) -> EventRecord:
         """Create event.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The EventRecord result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """
@@ -600,15 +600,15 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
         self, filters: EventFilters, page: int, page_size: int
     ) -> PaginatedResponse[EventRecord]:
         """List events.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[EventRecord] result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """
@@ -667,13 +667,13 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
 
     def create_evidence(self, row: EvidenceCreate) -> EvidenceRecord:
         """Create evidence.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The EvidenceRecord result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """
@@ -711,15 +711,15 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
         self, filters: EvidenceFilters, page: int, page_size: int
     ) -> PaginatedResponse[EvidenceRecord]:
         """List evidence.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[EvidenceRecord] result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """
@@ -767,21 +767,25 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
             for r in rows
         ]
         return PaginatedResponse(
-            items=items, page=page, page_size=page_size, total=total, has_more=offset + len(items) < total
+            items=items,
+            page=page,
+            page_size=page_size,
+            total=total,
+            has_more=offset + len(items) < total,
         )
 
     def create_decision(self, row: DecisionCreate) -> DecisionRecord:
         """Create decision.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The DecisionRecord result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -819,18 +823,18 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
         self, filters: DecisionFilters, page: int, page_size: int
     ) -> PaginatedResponse[DecisionRecord]:
         """List decisions.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[DecisionRecord] result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -881,18 +885,22 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
             for r in rows
         ]
         return PaginatedResponse(
-            items=items, page=page, page_size=page_size, total=total, has_more=offset + len(items) < total
+            items=items,
+            page=page,
+            page_size=page_size,
+            total=total,
+            has_more=offset + len(items) < total,
         )
 
     def create_outcome(self, row: OutcomeCreate) -> OutcomeRecord:
         """Create outcome.
-        
+
         Args:
             row: The row value supplied by the caller.
-        
+
         Returns:
             The OutcomeRecord result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """
@@ -930,15 +938,15 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
         self, filters: OutcomeFilters, page: int, page_size: int
     ) -> PaginatedResponse[OutcomeRecord]:
         """List outcomes.
-        
+
         Args:
             filters: The filters value supplied by the caller.
             page: The page value supplied by the caller.
             page_size: The page size value supplied by the caller.
-        
+
         Returns:
             The PaginatedResponse[OutcomeRecord] result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """
@@ -983,18 +991,22 @@ class PostgresDecisionIntelligenceStore(DecisionIntelligenceStore):
             for r in rows
         ]
         return PaginatedResponse(
-            items=items, page=page, page_size=page_size, total=total, has_more=offset + len(items) < total
+            items=items,
+            page=page,
+            page_size=page_size,
+            total=total,
+            has_more=offset + len(items) < total,
         )
 
     def list_all_outcomes(self) -> list[OutcomeRecord]:
         """List all outcomes.
-        
+
         Args:
             None.
-        
+
         Returns:
             The list[OutcomeRecord] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -1090,7 +1102,12 @@ def init_schema_if_postgres() -> bool:
     """
     if not is_postgres_configured():
         return False
-    schema_path = Path(__file__).resolve().parents[2] / "platform_core" / "db" / "decision_intelligence_schema.sql"
+    schema_path = (
+        Path(__file__).resolve().parents[2]
+        / "platform_core"
+        / "db"
+        / "decision_intelligence_schema.sql"
+    )
     if not schema_path.is_file():
         return False
     try:

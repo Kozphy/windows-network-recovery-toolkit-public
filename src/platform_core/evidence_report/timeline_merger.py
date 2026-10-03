@@ -70,7 +70,9 @@ def merge_evidence_timeline(
                     after_state=f"{w.get('process_name')} pid={w.get('pid')} details_match={w.get('details_match')}",
                     evidence_refs=[proxy_writer.get("attribution_id", "")],
                     confidence_level="high" if w.get("details_match") else "medium",
-                    limitations=["Registry write event — verify Details field matches expected value."],
+                    limitations=[
+                        "Registry write event — verify Details field matches expected value."
+                    ],
                 )
             )
 

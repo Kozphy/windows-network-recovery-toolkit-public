@@ -202,7 +202,9 @@ def _test_proxy_owner(
         evidence.append(f"ProxyServer: {state.get('wininet_proxy_server')}")
     proc = (owner or {}).get("process") if isinstance((owner or {}).get("process"), dict) else None
     if proc and proc.get("name"):
-        evidence.append(f"{proc.get('name')} was listening on port {(owner or {}).get('localhost_port')}")
+        evidence.append(
+            f"{proc.get('name')} was listening on port {(owner or {}).get('localhost_port')}"
+        )
         result = ControlTestOutcome.PARTIAL.value
         risk = "HIGH"
         rec = "Enable Sysmon Event ID 13 or collect Procmon registry trace."
@@ -322,7 +324,9 @@ def _test_safe_remediation_policy() -> EndpointControlTestResult:
 
 def _test_wininet_winhttp_alignment(state: dict[str, Any]) -> EndpointControlTestResult:
     control_id = "WININET_WINHTTP_ALIGNMENT"
-    objective = "WinINET and WinHTTP proxy configuration should align for predictable browser behavior."
+    objective = (
+        "WinINET and WinHTTP proxy configuration should align for predictable browser behavior."
+    )
     enabled = bool(state.get("wininet_proxy_enabled"))
     winhttp_direct = bool(state.get("winhttp_direct_access", True))
     if not enabled:
@@ -432,9 +436,15 @@ def map_control_tests_from_incident(
     if not isinstance(incident, IncidentRecord):
         raise TypeError("incident must be IncidentRecord")
 
-    state_ev = next((e for e in reversed(events) if getattr(e, "evidence_type", None) == "proxy_state"), None)
-    listener_ev = next((e for e in reversed(events) if getattr(e, "evidence_type", None) == "listener_state"), None)
-    probe_ev = next((e for e in reversed(events) if getattr(e, "evidence_type", None) == "probe_result"), None)
+    state_ev = next(
+        (e for e in reversed(events) if getattr(e, "evidence_type", None) == "proxy_state"), None
+    )
+    listener_ev = next(
+        (e for e in reversed(events) if getattr(e, "evidence_type", None) == "listener_state"), None
+    )
+    probe_ev = next(
+        (e for e in reversed(events) if getattr(e, "evidence_type", None) == "probe_result"), None
+    )
 
     proxy_state = (state_ev.raw_snapshot if state_ev else {}) or {}
     if state_ev and isinstance(state_ev, EvidenceEvent):
@@ -446,16 +456,23 @@ def map_control_tests_from_incident(
             "health": probe_ev.normalized_fields,
             "evidence": [probe_ev.evidence_summary],
             "limitations": probe_ev.limitations,
-            "wininet": {"parsed_proxy_server": {"is_localhost_proxy": bool(proxy_state.get("localhost_port"))}},
+            "wininet": {
+                "parsed_proxy_server": {
+                    "is_localhost_proxy": bool(proxy_state.get("localhost_port"))
+                }
+            },
         }
 
     owner = listener_ev.raw_snapshot if listener_ev else None
     reverter = {
-        "status": incident.incident_class if incident.incident_class in (
+        "status": incident.incident_class
+        if incident.incident_class
+        in (
             "REVERTER_SUSPECTED",
             "PROXY_FLAPPING",
             "STALE_PROXY_AFTER_PROCESS_EXIT",
-        ) else "NONE",
+        )
+        else "NONE",
         "evidence": incident.supporting_evidence,
         "limitations": incident.limitations,
     }
@@ -479,12 +496,26 @@ def map_control_tests_from_incident(
             if incident.incident_class == "DEAD_PROXY_CONFIG":
                 result = ControlTestOutcome.FAIL.value
                 risk = "HIGH"
-            elif incident.incident_class in ("BOTH_DIRECT_AND_PROXY_WORK", "LOCAL_PROXY_ACTIVE", "PROXY_ONLY_WORKS"):
+            elif incident.incident_class in (
+                "BOTH_DIRECT_AND_PROXY_WORK",
+                "LOCAL_PROXY_ACTIVE",
+                "PROXY_ONLY_WORKS",
+            ):
                 result = ControlTestOutcome.PASS.value
         elif test.control_id == "WININET_PROXY_OWNER_VERIFICATION":
-            if incident.incident_class in ("LOCAL_PROXY_ACTIVE", "UNKNOWN_LOCAL_PROXY", "BOTH_DIRECT_AND_PROXY_WORK"):
-                has_writer = any(getattr(e, "evidence_tier", "") == "T4_WRITER_PROOF" for e in events)
-                result = ControlTestOutcome.PASS.value if has_writer else ControlTestOutcome.PARTIAL.value
+            if incident.incident_class in (
+                "LOCAL_PROXY_ACTIVE",
+                "UNKNOWN_LOCAL_PROXY",
+                "BOTH_DIRECT_AND_PROXY_WORK",
+            ):
+                has_writer = any(
+                    getattr(e, "evidence_tier", "") == "T4_WRITER_PROOF" for e in events
+                )
+                result = (
+                    ControlTestOutcome.PASS.value
+                    if has_writer
+                    else ControlTestOutcome.PARTIAL.value
+                )
                 risk = "HIGH" if result == ControlTestOutcome.PARTIAL.value else "LOW"
         elif test.control_id == "DIRECT_VS_PROXY_PATH_COMPARISON":
             if probe_ev is None:

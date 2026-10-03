@@ -56,7 +56,8 @@ def classify_listener(
             return (
                 ListenerClassification.POSSIBLE_MITM_RISK,
                 f"ProxyServer points to non-localhost endpoint: {proxy.wininet_proxy_server}.",
-                limitations + ["External proxy may be legitimate VPN or corporate gateway — verify policy."],
+                limitations
+                + ["External proxy may be legitimate VPN or corporate gateway — verify policy."],
             )
 
     port = proxy.localhost_port

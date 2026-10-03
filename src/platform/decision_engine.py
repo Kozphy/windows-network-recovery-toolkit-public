@@ -19,7 +19,7 @@ POLICY_PENALTIES = {
 @dataclass
 class RankedDecision:
     """Represent ranked decision data used by the toolkit.
-    
+
     Attributes:
         decision: Field or variant describing decision evidence or state.
         benefit: Field or variant describing benefit evidence or state.
@@ -29,10 +29,11 @@ class RankedDecision:
         policy_penalty: Field or variant describing policy penalty evidence or state.
         final_score: Field or variant describing final score evidence or state.
         explanation: Field or variant describing explanation evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     decision: DecisionOption
     benefit: float
     risk: float
@@ -45,17 +46,17 @@ class RankedDecision:
 
 def score_decision(decision: DecisionOption, *, hypothesis_confidence: float) -> RankedDecision:
     """Score decision.
-    
+
     Args:
         decision: The decision value supplied by the caller.
         hypothesis_confidence: The hypothesis confidence value supplied by the caller.
-    
+
     Returns:
         The RankedDecision result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -68,7 +69,11 @@ def score_decision(decision: DecisionOption, *, hypothesis_confidence: float) ->
         f"+ bonus={bonus:.2f} - penalty={penalty:.2f} => {final:.2f}"
     )
     scored = decision.model_copy(
-        update={"confidence": hypothesis_confidence, "final_score": final, "explanation": explanation}
+        update={
+            "confidence": hypothesis_confidence,
+            "final_score": final,
+            "explanation": explanation,
+        }
     )
     return RankedDecision(
         decision=scored,
@@ -89,19 +94,19 @@ def rank_decisions(
     candidates: list[DecisionOption],
 ) -> list[RankedDecision]:
     """Rank decisions.
-    
+
     Args:
         event: Evidence or domain record being processed.
         ranked_hypotheses: The ranked hypotheses value supplied by the caller.
         evidence: The evidence value supplied by the caller.
         candidates: The candidates value supplied by the caller.
-    
+
     Returns:
         The list[RankedDecision] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """

@@ -83,15 +83,23 @@ def _run_classification_job_inner(event_id: str) -> dict[str, Any]:
             return {"event_id": event_id, "quarantined": True}
 
         incident = incidents[0]
-        controls = [c for c in (payload.get("control_tests") or []) if c.get("incident_id") == incident.get("incident_id")]
+        controls = [
+            c
+            for c in (payload.get("control_tests") or [])
+            if c.get("incident_id") == incident.get("incident_id")
+        ]
         if not controls:
             controls = payload.get("control_tests") or []
 
-        policy = (payload.get("policy_decisions") or [{}])[0] if payload.get("policy_decisions") else {
-            "action": "OBSERVE",
-            "outcome": "PREVIEW_ONLY",
-            "dry_run": True,
-        }
+        policy = (
+            (payload.get("policy_decisions") or [{}])[0]
+            if payload.get("policy_decisions")
+            else {
+                "action": "OBSERVE",
+                "outcome": "PREVIEW_ONLY",
+                "dry_run": True,
+            }
+        )
 
         stored = store_incident_bundle(
             session,
@@ -178,5 +186,7 @@ def _run_classification_job_inner(event_id: str) -> dict[str, Any]:
         except Exception:
             pass
 
-        _log.info("job_lifecycle event=succeeded event_id=%s incident_id=%s", event_id, stored.incident_id)
+        _log.info(
+            "job_lifecycle event=succeeded event_id=%s incident_id=%s", event_id, stored.incident_id
+        )
         return {"event_id": event_id, "incident_id": stored.incident_id, "status": status}

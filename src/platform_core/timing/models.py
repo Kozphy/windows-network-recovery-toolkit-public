@@ -25,6 +25,7 @@ class Urgency(StrEnum):
     Side effects:
         None.
     """
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -50,6 +51,7 @@ class TimingDecision(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     READY = "READY"
     ESCALATE_NOW = "ESCALATE_NOW"
     MONITOR_UNTIL = "MONITOR_UNTIL"
@@ -75,6 +77,7 @@ class TimingReasonCode(StrEnum):
     Side effects:
         None.
     """
+
     WITHIN_SLA = "WITHIN_SLA"
     SLA_BREACHED = "SLA_BREACHED"
     EVIDENCE_VALID = "EVIDENCE_VALID"
@@ -104,6 +107,7 @@ class TimingContext(BaseModel):
     Side effects:
         None.
     """
+
     model_config = ConfigDict(frozen=True)
 
     schema_version: str = SCHEMA_TIMING

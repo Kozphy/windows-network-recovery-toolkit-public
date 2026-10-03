@@ -111,7 +111,7 @@ def run_dashboard(config: DashboardConfig | None = None, **kwargs: Any) -> None:
         raise SystemExit(
             "nicegui is required for the dashboard. Install with: "
             'pip install "nicegui" "psutil" '
-            "or: pip install -e \".[dashboard]\""
+            'or: pip install -e ".[dashboard]"'
         ) from exc
 
     runtime = create_runtime(cfg)

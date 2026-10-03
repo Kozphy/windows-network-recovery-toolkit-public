@@ -1,0 +1,11 @@
+{
+  "description": "Adversarial: Cyrillic homoglyph executive title in the display name ('\u0421\u0415\u041e' = Cyrillic Es/Ie/O) with a wire request; body contains no executive self-claim.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"\u0421\u0415\u041e\" <office.desk.2026@gmail.com>",
+    "to": ["ap@example-corp.test"],
+    "subject": "Payment",
+    "message_id": "<synthetic-adv-homoglyph-0205@mail.gmail.com>",
+    "body_text": "Please process a wire transfer to our new partner today.\nKeep this confidential until I announce it."
+  }
+}

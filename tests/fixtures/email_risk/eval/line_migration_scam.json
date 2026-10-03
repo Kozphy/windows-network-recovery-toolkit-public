@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic LINE migration scam (no executive claim): external sender pushes the conversation to LINE to arrange a transfer.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Project Coordinator\" <coordinator.asia@gmail.com>",
+    "to": ["sales@example-corp.test"],
+    "subject": "Order follow-up",
+    "message_id": "<synthetic-eval-line-0015@mail.gmail.com>",
+    "body_text": "Thank you for your quote.\nPlease add me on LINE so we can finish the details there, email is too slow.\nOnce we talk on LINE I will arrange the transfer of the deposit.\n"
+  }
+}

@@ -50,7 +50,7 @@ _DEFAULT_PIPELINE_FIXTURE = _REPO / "tests" / "fixtures" / "analytics_pipeline_f
 
 class EvidenceIngestRequest(BaseModel):
     """Represent evidence ingest request data used by the toolkit.
-    
+
     Attributes:
         endpoint_id: Field or variant describing endpoint id evidence or state.
         source_event_id: Field or variant describing source event id evidence or state.
@@ -60,10 +60,11 @@ class EvidenceIngestRequest(BaseModel):
         normalized_fields: Field or variant describing normalized fields evidence or state.
         evidence_tier: Field or variant describing evidence tier evidence or state.
         limitations: Field or variant describing limitations evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     endpoint_id: str = Field(min_length=1, max_length=128)
     source_event_id: str | None = Field(default=None, max_length=128)
     evidence_type: str = Field(min_length=1, max_length=64)
@@ -83,16 +84,17 @@ class EvidenceIngestRequest(BaseModel):
 
 class ReviewRequest(BaseModel):
     """Represent review request data used by the toolkit.
-    
+
     Attributes:
         action: Field or variant describing action evidence or state.
         reason: Field or variant describing reason evidence or state.
         evidence_id: Field or variant describing evidence id evidence or state.
         policy_decision_id: Field or variant describing policy decision id evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     action: str
     reason: str = Field(min_length=1)
     evidence_id: str = ""
@@ -110,14 +112,14 @@ def ingest_evidence(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the POST request for ingest evidence.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -149,7 +151,9 @@ def ingest_evidence(
 
         if created:
             inc("evidence_events_ingested_total")
-        job = get_queue_backend().enqueue_classification_job(event_id=event_id, idempotency_key=c_hash)
+        job = get_queue_backend().enqueue_classification_job(
+            event_id=event_id, idempotency_key=c_hash
+        )
 
         from src.platform_core.events import TriskEventType, emit_trisk_event
 
@@ -193,14 +197,14 @@ def get_evidence_by_id(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for get evidence by id.
-    
+
     Args:
         event_id: The event id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -219,15 +223,15 @@ def list_incidents_v1(
     offset: int = Query(default=0, ge=0),
 ) -> dict[str, Any]:
     """Handle the GET request for list incidents v1.
-    
+
     Args:
         principal: The principal value supplied by the caller.
         limit: The limit value supplied by the caller.
         offset: The offset value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -249,14 +253,14 @@ def get_incident_v1(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for get incident v1.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -285,15 +289,15 @@ def post_review(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the POST request for post review.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -342,13 +346,13 @@ def list_controls_v1(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for list controls v1.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -361,13 +365,13 @@ def list_risks_v1(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for list risks v1.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -393,17 +397,17 @@ def audit_verify_v1(
     path: str | None = Query(default=None),
 ) -> dict[str, Any]:
     """Handle the GET request for audit verify v1.
-    
+
     Args:
         principal: The principal value supplied by the caller.
         path: Filesystem path used by the operation.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -438,13 +442,13 @@ def executive_report_v1(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for executive report v1.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -483,16 +487,16 @@ def list_domain_events(
     aggregate_id: str | None = Query(default=None),
 ) -> dict[str, Any]:
     """Handle the GET request for list domain events.
-    
+
     Args:
         principal: The principal value supplied by the caller.
         limit: The limit value supplied by the caller.
         offset: The offset value supplied by the caller.
         aggregate_id: The aggregate id value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -515,14 +519,14 @@ def evidence_timeline(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for evidence timeline.
-    
+
     Args:
         event_id: The event id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """

@@ -72,7 +72,15 @@ def render_eval_markdown(report: EvalReport) -> str:
             f"{result.policy_decision.gate.value} | {labels} |"
         )
 
-    lines.extend(["", "## Failure taxonomy distribution", "", "| Label | Count | Description |", "|-------|-------|-------------|"])
+    lines.extend(
+        [
+            "",
+            "## Failure taxonomy distribution",
+            "",
+            "| Label | Count | Description |",
+            "|-------|-------|-------------|",
+        ]
+    )
 
     all_labels = sorted(report.taxonomy_distribution.keys())
     if not all_labels:

@@ -10,13 +10,13 @@ from .models import PostEventReview
 
 def default_reviews_path(repo_root: Path | None = None) -> Path:
     """Default reviews path.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -32,13 +32,13 @@ def default_reviews_path(repo_root: Path | None = None) -> Path:
 
 def load_reviews(path: Path | None = None) -> list[PostEventReview]:
     """Load reviews.
-    
+
     Args:
         path: Filesystem path used by the operation.
-    
+
     Returns:
         The list[PostEventReview] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -54,14 +54,14 @@ def load_reviews(path: Path | None = None) -> list[PostEventReview]:
 
 def get_review(event_id: str, path: Path | None = None) -> PostEventReview:
     """Get review.
-    
+
     Args:
         event_id: The event id value supplied by the caller.
         path: Filesystem path used by the operation.
-    
+
     Returns:
         The PostEventReview result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

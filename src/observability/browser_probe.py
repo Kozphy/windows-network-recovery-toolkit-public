@@ -12,8 +12,4 @@ def browser_path_stress_signal(features: FeatureVector) -> bool:
     """
     if features.proxy_enabled:
         return False
-    return (
-        features.tcp_443_ok
-        and features.nslookup_ok
-        and not features.browser_http_ok
-    )
+    return features.tcp_443_ok and features.nslookup_ok and not features.browser_http_ok

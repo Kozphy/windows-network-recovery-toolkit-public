@@ -14,15 +14,15 @@ _SAFE_LABEL = re.compile(r"[^a-zA-Z0-9_:-]")
 
 def sanitize_label(value: object, *, default: str = "unknown", max_len: int = 64) -> str:
     """Sanitize label.
-    
+
     Args:
         value: The value value supplied by the caller.
         default: The default value supplied by the caller.
         max_len: The max len value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -42,13 +42,13 @@ def hostname_label(endpoint_id: str | None = None, hostname_hint: str | None = N
 
 def confidence_label(score: float) -> str:
     """Confidence label.
-    
+
     Args:
         score: The score value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -63,16 +63,16 @@ def confidence_label(score: float) -> str:
 
 def policy_label(outcome: str) -> str:
     """Policy label.
-    
+
     Args:
         outcome: The outcome value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -107,16 +107,16 @@ def record_proxy_change(
     confidence: float,
 ) -> None:
     """Record proxy change.
-    
+
     Args:
         endpoint_id: The endpoint id value supplied by the caller.
         policy_outcome: The policy outcome value supplied by the caller.
         hypothesis: The hypothesis value supplied by the caller.
         confidence: The confidence value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -139,16 +139,16 @@ def record_hypothesis_generated(
     policy_outcome: str = "PREVIEW",
 ) -> None:
     """Record hypothesis generated.
-    
+
     Args:
         endpoint_id: The endpoint id value supplied by the caller.
         hypothesis: The hypothesis value supplied by the caller.
         confidence: The confidence value supplied by the caller.
         policy_outcome: The policy outcome value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -171,16 +171,16 @@ def record_hypothesis_confirmed(
     policy_outcome: str = "PREVIEW",
 ) -> None:
     """Record hypothesis confirmed.
-    
+
     Args:
         endpoint_id: The endpoint id value supplied by the caller.
         hypothesis: The hypothesis value supplied by the caller.
         confidence: The confidence value supplied by the caller.
         policy_outcome: The policy outcome value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -203,19 +203,19 @@ def record_policy_decision(
     confidence: float,
 ) -> None:
     """Record policy decision.
-    
+
     Args:
         endpoint_id: The endpoint id value supplied by the caller.
         policy_outcome: The policy outcome value supplied by the caller.
         hypothesis: The hypothesis value supplied by the caller.
         confidence: The confidence value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -243,17 +243,17 @@ def record_proof_result(
     proof_status: str,
 ) -> None:
     """Record proof result.
-    
+
     Args:
         endpoint_id: The endpoint id value supplied by the caller.
         hypothesis: The hypothesis value supplied by the caller.
         confidence: The confidence value supplied by the caller.
         policy_outcome: The policy outcome value supplied by the caller.
         proof_status: The proof status value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -338,7 +338,10 @@ def _signals_proxy_change(correlation: dict[str, Any]) -> bool:
             if val in (True, 1, "1", "true") or (isinstance(val, str) and val.strip()):
                 return True
     for ev in correlation.get("events") or []:
-        if isinstance(ev, dict) and "proxy" in str(ev.get("name") or ev.get("event_type") or "").lower():
+        if (
+            isinstance(ev, dict)
+            and "proxy" in str(ev.get("name") or ev.get("event_type") or "").lower()
+        ):
             return True
     return False
 

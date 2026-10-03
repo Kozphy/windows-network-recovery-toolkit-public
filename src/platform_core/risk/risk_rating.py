@@ -30,6 +30,7 @@ class RiskRating(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     rating_id: str
     inherent_level: str
     residual_level: str
@@ -45,7 +46,9 @@ _HIGH_CLASSIFICATIONS = {"POSSIBLE_MITM_RISK", "SUSPICIOUS_PROXY", "REVERTER_SUS
 _MEDIUM_CLASSIFICATIONS = {"DEAD_PROXY_CONFIG", "UNKNOWN_LOCAL_PROXY", "WININET_WINHTTP_MISMATCH"}
 
 
-def rate_risk(findings: list[Finding], tests: list[ControlTest], fixture: dict[str, Any]) -> RiskRating:
+def rate_risk(
+    findings: list[Finding], tests: list[ControlTest], fixture: dict[str, Any]
+) -> RiskRating:
     """Return rate risk.
 
     Args:

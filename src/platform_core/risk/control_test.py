@@ -51,6 +51,7 @@ class ControlTestResult(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     PASS = "PASS"
     FAIL = "FAIL"
     WARNING = "WARNING"
@@ -77,6 +78,7 @@ class ControlTest(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     test_id: str
     control_id: str
     control_name: str

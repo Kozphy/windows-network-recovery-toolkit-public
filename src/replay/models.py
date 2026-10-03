@@ -9,7 +9,7 @@ from typing import Any
 
 class ProxyTimelineEventType(StrEnum):
     """Represent proxy timeline event type data used by the toolkit.
-    
+
     Attributes:
         PROCESS_CREATED: Field or variant describing p r o c e s s c r e a t e d evidence or state.
         REGISTRY_VALUE_SET: Field or variant describing r e g i s t r y v a l u e s e t evidence or state.
@@ -19,10 +19,11 @@ class ProxyTimelineEventType(StrEnum):
         CLASSIFICATION_ASSIGNED: Field or variant describing c l a s s i f i c a t i o n a s s i g n e d evidence or state.
         POLICY_DECISION_CREATED: Field or variant describing p o l i c y d e c i s i o n c r e a t e d evidence or state.
         REMEDIATION_PREVIEWED: Field or variant describing r e m e d i a t i o n p r e v i e w e d evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     PROCESS_CREATED = "PROCESS_CREATED"
     REGISTRY_VALUE_SET = "REGISTRY_VALUE_SET"
     PROXY_STATE_CHANGED = "PROXY_STATE_CHANGED"
@@ -54,7 +55,7 @@ _KIND_ORDER: dict[str, int] = {
 @dataclass
 class ProxyTimelineEvent:
     """Represent proxy timeline event data used by the toolkit.
-    
+
     Attributes:
         timestamp_utc: Field or variant describing timestamp utc evidence or state.
         event_type: Field or variant describing event type evidence or state.
@@ -64,10 +65,11 @@ class ProxyTimelineEvent:
         process_guid: Field or variant describing process guid evidence or state.
         process_id: Field or variant describing process id evidence or state.
         confidence: Field or variant describing confidence evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     timestamp_utc: str
     event_type: ProxyTimelineEventType
     source: str
@@ -81,27 +83,31 @@ class ProxyTimelineEvent:
 
     def sort_key(self) -> tuple[str, int, str]:
         """Sort key.
-        
+
         Args:
             None.
-        
+
         Returns:
             The tuple[str, int, str] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
-        return (self.timestamp_utc or "", _KIND_ORDER.get(self.event_type.value, 99), self.event_type.value)
+        return (
+            self.timestamp_utc or "",
+            _KIND_ORDER.get(self.event_type.value, 99),
+            self.event_type.value,
+        )
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

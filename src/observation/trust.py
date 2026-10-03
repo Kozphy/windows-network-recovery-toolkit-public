@@ -22,13 +22,13 @@ class SignalConflict:
 
     def to_dict(self) -> dict[str, str]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, str] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -48,13 +48,13 @@ class TrustAssessment:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -88,7 +88,9 @@ def assess_trust(
         "dns_cli_nslookup_like": 0.72,
         "tcp443_connect": 0.78,
         "https_curl_app_stack": 0.64,
-        "hkcu_proxy_registry": 0.90 if reg.proxy_server is not None or reg.proxy_enable is not None else 0.50,
+        "hkcu_proxy_registry": 0.90
+        if reg.proxy_server is not None or reg.proxy_enable is not None
+        else 0.50,
         "localhost_listen_inventory": 0.80,
     }
 
@@ -150,10 +152,7 @@ def assess_trust(
     curl_unavail = proof_result is not None and "curl unavailable" in proof_result.summary.lower()
 
     degraded = (
-        agg < _TRUST_FLOOR_AGGREGATE
-        or len(conflicts) >= 2
-        or proof_degraded_infra
-        or curl_unavail
+        agg < _TRUST_FLOOR_AGGREGATE or len(conflicts) >= 2 or proof_degraded_infra or curl_unavail
     )
 
     return TrustAssessment(

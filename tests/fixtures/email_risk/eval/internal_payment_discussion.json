@@ -1,0 +1,12 @@
+{
+  "description": "Synthetic benign internal payment discussion: finance colleagues on the organization domain discuss paying a known invoice through the normal approval flow (hard negative for payment signals).",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Mei Chang\" <mei.chang@example-corp.test>",
+    "to": ["ap@example-corp.test"],
+    "subject": "Re: Contoso invoice INV-2290",
+    "message_id": "<synthetic-eval-intpay-0023@example-corp.test>",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=example-corp.test; dkim=pass header.d=example-corp.test; dmarc=pass header.from=example-corp.test",
+    "body_text": "Hi team,\nThe Contoso invoice INV-2290 was approved in the ERP this morning.\nPlease pay the invoice in Friday's regular payment batch using the vendor master data on file.\nThanks,\nMei"
+  }
+}

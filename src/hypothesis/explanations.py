@@ -37,7 +37,9 @@ def primary_explanation_paragraph(snap: LiveNetworkSnapshot, top: LiveHypothesis
                 "Automated curl HTTPS and TCP 443 probes succeeded, which makes a full Internet outage unlikely.",
             )
     elif top.hypothesis == "dns_resolution_issue":
-        bits.append("Symptoms align with DNS resolution impairment while IP reachability may still succeed.")
+        bits.append(
+            "Symptoms align with DNS resolution impairment while IP reachability may still succeed."
+        )
     else:
         bits.append("Review evidence bullets and negative evidence alongside raw snapshot JSON.")
 

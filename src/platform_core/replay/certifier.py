@@ -29,6 +29,7 @@ class CertificationResult:
     Side effects:
         None.
     """
+
     certified: bool
     certification_hash: str
     tier: str
@@ -68,7 +69,7 @@ def certify_case(
     if destructive_ok and r1.bundle.tier != "FINAL_CAUSATION":
         errors.append("destructive unlocked without FINAL_CAUSATION")
 
-  # Correlation-only must not unlock destructive
+    # Correlation-only must not unlock destructive
     corr_only = proof.has_listener_correlation_only and not proof.has_registry_writer_telemetry
     if corr_only and destructive_ok:
         errors.append("correlation-only unlocked destructive remediation")

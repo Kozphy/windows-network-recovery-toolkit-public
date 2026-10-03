@@ -33,6 +33,7 @@ class CoordinationStatus(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     READY = "READY"
     NEEDS_OWNER = "NEEDS_OWNER"
     NEEDS_APPROVAL = "NEEDS_APPROVAL"

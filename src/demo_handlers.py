@@ -30,14 +30,14 @@ def _fixture(name: str, repo: Path) -> Path:
 
 def run_demo_scenario(name: str, *, repo_root: Path | None = None) -> dict[str, Any]:
     """Run demo scenario.
-    
+
     Args:
         name: The name value supplied by the caller.
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The dict[str, Any] result produced by the operation.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -80,13 +80,13 @@ def run_demo_scenario(name: str, *, repo_root: Path | None = None) -> dict[str, 
 
 def render_markdown(report: dict[str, Any]) -> str:
     """Render markdown.
-    
+
     Args:
         report: The report value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -117,19 +117,21 @@ def render_markdown(report: dict[str, Any]) -> str:
         ]
     )
     lines.extend(f"- {x}" for x in report.get("recommended_next_steps") or [])
-    lines.append("\n_Observation ≠ proof · Correlation ≠ causation · PREVIEW ≠ execute approval._\n")
+    lines.append(
+        "\n_Observation ≠ proof · Correlation ≠ causation · PREVIEW ≠ execute approval._\n"
+    )
     return "\n".join(lines)
 
 
 def cmd_demo_scenario(args: argparse.Namespace) -> int:
     """Run the demo scenario command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -144,10 +146,16 @@ def cmd_demo_scenario(args: argparse.Namespace) -> int:
         print(json.dumps(report, indent=2))
     else:
         print(render_markdown(report), end="")
-    if report.get("expected_evidence_level") and report["evidence_level"] != report["expected_evidence_level"]:
+    if (
+        report.get("expected_evidence_level")
+        and report["evidence_level"] != report["expected_evidence_level"]
+    ):
         print("evidence mismatch", file=sys.stderr)
         return 1
-    if report.get("expected_policy") and (report.get("policy") or {}).get("decision") != report["expected_policy"]:
+    if (
+        report.get("expected_policy")
+        and (report.get("policy") or {}).get("decision") != report["expected_policy"]
+    ):
         print("policy mismatch", file=sys.stderr)
         return 1
     return 0

@@ -10,13 +10,13 @@ from backend.queue.protocol import QueueBackend
 
 def get_queue_backend() -> QueueBackend:
     """Get queue backend.
-    
+
     Args:
         None.
-    
+
     Returns:
         The QueueBackend result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

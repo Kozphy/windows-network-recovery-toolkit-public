@@ -30,13 +30,13 @@ def _emit(payload: object, *, as_json: bool) -> None:
 
 def cmd_calendar(args: argparse.Namespace) -> int:
     """Run the calendar command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -50,13 +50,13 @@ def cmd_calendar(args: argparse.Namespace) -> int:
 
 def cmd_score(args: argparse.Namespace) -> int:
     """Run the score command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -81,13 +81,13 @@ def cmd_score(args: argparse.Namespace) -> int:
 
 def cmd_thesis(args: argparse.Namespace) -> int:
     """Run the thesis command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -117,13 +117,13 @@ def cmd_thesis(args: argparse.Namespace) -> int:
 
 def cmd_review(args: argparse.Namespace) -> int:
     """Run the review command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -147,13 +147,13 @@ def cmd_review(args: argparse.Namespace) -> int:
 
 def cmd_replay(args: argparse.Namespace) -> int:
     """Run the replay command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -166,7 +166,10 @@ def cmd_replay(args: argparse.Namespace) -> int:
         command="replay",
         event_id="*",
         input_payload={"calendar": str(cal), "reviews": str(rev)},
-        output_payload={"scores_digest": payload["scores_digest"], "event_count": payload["event_count"]},
+        output_payload={
+            "scores_digest": payload["scores_digest"],
+            "event_count": payload["event_count"],
+        },
         policy_status=ResearchPolicyStatus.ALLOW_RESEARCH,
         explanation="Deterministic replay digest over calendar fixtures",
         repo_root=root,
@@ -184,13 +187,13 @@ def _add_shared_flags(parser: argparse.ArgumentParser) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     """Build parser.
-    
+
     Args:
         None.
-    
+
     Returns:
         The argparse.ArgumentParser result produced by the operation.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -206,7 +209,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_score = sub.add_parser("score", help="Score volatility/direction for an event")
     _add_shared_flags(p_score)
     p_score.add_argument("--event-id", required=True)
-    p_score.add_argument("--execute", action="store_true", help="Simulate execution request (always blocked)")
+    p_score.add_argument(
+        "--execute", action="store_true", help="Simulate execution request (always blocked)"
+    )
     p_thesis = sub.add_parser("thesis", help="Generate research thesis + evidence tree")
     _add_shared_flags(p_thesis)
     p_thesis.add_argument("--event-id", required=True)
@@ -222,13 +227,13 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     """Run the module command-line entry point.
-    
+
     Args:
         argv: Optional command-line argument vector supplied by the caller.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """

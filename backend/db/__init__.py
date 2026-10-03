@@ -14,13 +14,13 @@ _engine_url: str | None = None
 
 def get_database_url() -> str:
     """Get database url.
-    
+
     Args:
         None.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -44,13 +44,13 @@ def reset_engine() -> None:
 
 def get_engine():
     """Get engine.
-    
+
     Args:
         None.
-    
+
     Returns:
         The computed result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -65,13 +65,13 @@ def get_engine():
 
 def init_trisk_schema() -> None:
     """Init trisk schema.
-    
+
     Args:
         None.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -83,13 +83,13 @@ def init_trisk_schema() -> None:
 @contextmanager
 def session_scope() -> Generator[Session, None, None]:
     """Session scope.
-    
+
     Args:
         None.
-    
+
     Returns:
         The Generator[Session, None, None] result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -106,13 +106,13 @@ def session_scope() -> Generator[Session, None, None]:
 
 def get_session() -> Generator[Session, None, None]:
     """Get session.
-    
+
     Args:
         None.
-    
+
     Returns:
         The Generator[Session, None, None] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

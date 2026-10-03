@@ -163,9 +163,7 @@ def infer_canonical_transitions(
         to_state = rule["to_state"]
         if current != from_state:
             continue
-        event_ids = (
-            _event_ids_for_types(set(trigger_events), events) if trigger_events else []
-        )
+        event_ids = _event_ids_for_types(set(trigger_events), events) if trigger_events else []
         canonical.append(
             CanonicalStateTransition(
                 from_state=from_state,

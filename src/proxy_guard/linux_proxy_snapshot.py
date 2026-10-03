@@ -58,13 +58,13 @@ class LinuxProxySnapshot:
 
     def proxy_configured(self) -> bool:
         """Proxy configured.
-        
+
         Args:
             None.
-        
+
         Returns:
             The bool result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -83,13 +83,13 @@ class LinuxProxySnapshot:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

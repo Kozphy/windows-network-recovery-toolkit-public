@@ -43,7 +43,10 @@ class ProxyFailureBlock:
 
 
 def _empty_rollback() -> dict[str, Any]:
-    return {"type": "wininet_hkcu_snapshot", "notes": "Capture snapshot before changes; use proxy-rollback."}
+    return {
+        "type": "wininet_hkcu_snapshot",
+        "notes": "Capture snapshot before changes; use proxy-rollback.",
+    }
 
 
 def build_proxy_failure_blocks(
@@ -84,7 +87,10 @@ def build_proxy_failure_blocks(
                     "proxy_server_raw": raw,
                     "proxy_mode": mode,
                 },
-                attribution={"method": "registry_and_parser", "notes": "ProxyServer string did not parse cleanly."},
+                attribution={
+                    "method": "registry_and_parser",
+                    "notes": "ProxyServer string did not parse cleanly.",
+                },
                 likely_causes=(
                     "Corrupt or partial ProxyServer value",
                     "Legacy or third-party tool wrote an invalid string",
@@ -156,7 +162,10 @@ def build_proxy_failure_blocks(
                     "proxy_server_raw": raw,
                 },
                 attribution={"method": "registry_snapshot_only"},
-                likely_causes=("Enterprise PAC or explicit corporate proxy", "User-configured upstream proxy"),
+                likely_causes=(
+                    "Enterprise PAC or explicit corporate proxy",
+                    "User-configured upstream proxy",
+                ),
                 recommended_action="Validate policy intent; snapshot before manual changes.",
                 risk_level="medium",
                 safety_boundary="Do not exfiltrate proxy URLs beyond local audits.",

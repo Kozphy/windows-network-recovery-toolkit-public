@@ -65,13 +65,13 @@ def _optional_attribution(proxy_server: str | None, run: Any) -> dict[str, Any]:
 
 def cmd_network_state_snapshot_save(args: Namespace) -> int:
     """Run the network state snapshot save command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -84,20 +84,22 @@ def cmd_network_state_snapshot_save(args: Namespace) -> int:
         return 2
     snap = capture_proxy_snapshot(run=subprocess.run)
     row = append_snapshot(repo, name=name, snapshot=snap)
-    emit_network_state_event(repo, "snapshot_saved", {"name": name, "risk_summary": row.get("risk_summary")})
+    emit_network_state_event(
+        repo, "snapshot_saved", {"name": name, "risk_summary": row.get("risk_summary")}
+    )
     print(json.dumps(row, indent=2, ensure_ascii=False))
     return 0
 
 
 def cmd_network_state_snapshot_list(args: Namespace) -> int:
     """Run the network state snapshot list command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -108,13 +110,13 @@ def cmd_network_state_snapshot_list(args: Namespace) -> int:
 
 def cmd_network_state_snapshot_show(args: Namespace) -> int:
     """Run the network state snapshot show command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -130,13 +132,13 @@ def cmd_network_state_snapshot_show(args: Namespace) -> int:
 
 def cmd_network_state_snapshot_set_default(args: Namespace) -> int:
     """Run the network state snapshot set default command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -189,13 +191,13 @@ def _run_diff(
 
 def cmd_network_state_diff(args: Namespace) -> int:
     """Run the network state diff command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -233,13 +235,13 @@ def cmd_network_state_diff(args: Namespace) -> int:
 
 def cmd_network_state_report(args: Namespace) -> int:
     """Run the network state report command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -263,7 +265,9 @@ def cmd_network_state_report(args: Namespace) -> int:
         rep.get("recommended_next_action") or "",
     ]
     txt.write_text("\n".join(lines), encoding="utf-8")
-    emit_network_state_event(repo, "report_generated", {"since": since, "paths": [str(txt), str(js)]})
+    emit_network_state_event(
+        repo, "report_generated", {"since": since, "paths": [str(txt), str(js)]}
+    )
     if getattr(args, "json_out", False):
         print(json.dumps(rep, indent=2))
     else:
@@ -274,13 +278,13 @@ def cmd_network_state_report(args: Namespace) -> int:
 
 def cmd_network_state_evidence_import(args: Namespace) -> int:
     """Run the network state evidence import command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -302,13 +306,13 @@ def cmd_network_state_evidence_import(args: Namespace) -> int:
 
 def cmd_network_state_restore(args: Namespace) -> int:
     """Run the network state restore command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -323,12 +327,19 @@ def cmd_network_state_restore(args: Namespace) -> int:
     phrase = str(getattr(args, "confirm_phrase", "") or "").strip()
     force_dry = bool(getattr(args, "dry_run", False))
     live = phrase == RESTORE_CONFIRM and not force_dry
-    preview = execute_known_good_proxy_restore(tgt, dry_run=True, restore_winhttp=True, run=subprocess.run)
-    append_restore_audit(repo, phase="restore_pre_change", name=name, dry_run=not live, preview_or_result=preview)
+    preview = execute_known_good_proxy_restore(
+        tgt, dry_run=True, restore_winhttp=True, run=subprocess.run
+    )
+    append_restore_audit(
+        repo, phase="restore_pre_change", name=name, dry_run=not live, preview_or_result=preview
+    )
 
     if not live:
         emit_network_state_event(repo, "rollback_previewed", {"profile": name})
-        print("Dry-run / preview — no mutations. Provide --confirm RESTORE_NETWORK_STATE to apply.", file=sys.stderr)
+        print(
+            "Dry-run / preview — no mutations. Provide --confirm RESTORE_NETWORK_STATE to apply.",
+            file=sys.stderr,
+        )
 
     result = execute_known_good_proxy_restore(
         tgt,
@@ -336,7 +347,9 @@ def cmd_network_state_restore(args: Namespace) -> int:
         restore_winhttp=True,
         run=subprocess.run,
     )
-    append_restore_audit(repo, phase="restore_post_change", name=name, dry_run=not live, preview_or_result=result)
+    append_restore_audit(
+        repo, phase="restore_post_change", name=name, dry_run=not live, preview_or_result=result
+    )
 
     print(json.dumps(result, indent=2, default=str))
 

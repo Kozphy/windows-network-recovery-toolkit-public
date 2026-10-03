@@ -9,7 +9,7 @@ from typing import Any
 @dataclass
 class EvidenceNode:
     """Represent evidence node data used by the toolkit.
-    
+
     Attributes:
         id: Field or variant describing id evidence or state.
         parent_id: Field or variant describing parent id evidence or state.
@@ -19,10 +19,11 @@ class EvidenceNode:
         timestamp_utc: Field or variant describing timestamp utc evidence or state.
         source: Field or variant describing source evidence or state.
         confidence: Field or variant describing confidence evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     id: str
     parent_id: str | None
     node_type: str
@@ -37,13 +38,13 @@ class EvidenceNode:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

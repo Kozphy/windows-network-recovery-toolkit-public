@@ -62,13 +62,13 @@ class RegistryWriteEvidence:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -92,14 +92,20 @@ class RegistryWriteEvidence:
 
 
 def _proof_level_for_event(event: SysmonEvent) -> ProofLevel:
-    if event.event_id == 13 and event.target_object and is_proxy_registry_target(event.target_object):
+    if (
+        event.event_id == 13
+        and event.target_object
+        and is_proxy_registry_target(event.target_object)
+    ):
         return "PROVEN"
     if event.event_id in (12, 13):
         return "CORRELATED"
     return "OBSERVED"
 
 
-def _normalize_sysmon_event(event: SysmonEvent, *, source: str = "sysmon") -> RegistryWriteEvidence | None:
+def _normalize_sysmon_event(
+    event: SysmonEvent, *, source: str = "sysmon"
+) -> RegistryWriteEvidence | None:
     if event.event_id not in (12, 13):
         return None
     target = event.target_object or ""
@@ -130,7 +136,9 @@ def _normalize_sysmon_event(event: SysmonEvent, *, source: str = "sysmon") -> Re
     )
 
 
-def events_from_evtx_path(path: Path, *, run: Callable[..., Any] | None = None) -> list[SysmonEvent]:
+def events_from_evtx_path(
+    path: Path, *, run: Callable[..., Any] | None = None
+) -> list[SysmonEvent]:
     """Load Sysmon events from an exported ``.evtx`` file via ``wevtutil`` (Windows only)."""
     if not path.is_file() or path.suffix.lower() != ".evtx":
         return []
@@ -197,7 +205,9 @@ def events_from_fixture_path(path: Path) -> list[SysmonEvent]:
                     out.append(ev)
         return out
     if "<Event" in text:
-        return parse_sysmon_xml_batch([text] if "<Event" in text and text.count("<Event") == 1 else text.split("</Event>"))
+        return parse_sysmon_xml_batch(
+            [text] if "<Event" in text and text.count("<Event") == 1 else text.split("</Event>")
+        )
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
     xml_chunks = [ln for ln in lines if ln.startswith("<")]
     if xml_chunks:

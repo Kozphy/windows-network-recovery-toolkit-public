@@ -1,0 +1,14 @@
+{
+  "description": "Synthetic legitimate invoice notice from a known vendor's real domain; no banking change.",
+  "org_context": {
+    "organization_domains": ["example-corp.test"],
+    "vendors": [{"name": "Contoso Supplies", "domains": ["contoso-supplies.test"]}]
+  },
+  "email": {
+    "from": "\"Contoso Supplies Billing\" <billing@contoso-supplies.test>",
+    "to": ["ap@example-corp.test"],
+    "subject": "Your September invoice INV-2291 is available",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=contoso-supplies.test; dkim=pass header.d=contoso-supplies.test; dmarc=pass header.from=contoso-supplies.test",
+    "body_text": "Hello,\n\nYour invoice INV-2291 for September is now available.\nPlease log in to the supplier portal to view and pay it by the due date.\nhttps://portal.contoso-supplies.test/invoices/INV-2291\n\nThank you for your business,\nContoso Supplies Billing"
+  }
+}

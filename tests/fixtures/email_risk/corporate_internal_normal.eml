@@ -1,0 +1,23 @@
+Return-Path: <jane.doe@example-corp.test>
+Authentication-Results: mx.example-corp.test;
+	spf=pass smtp.mailfrom=example-corp.test;
+	dkim=pass header.d=example-corp.test;
+	dmarc=pass header.from=example-corp.test
+From: "Jane Doe" <jane.doe@example-corp.test>
+To: leadership@example-corp.test
+Subject: Q3 planning deck
+Message-ID: <synthetic-normal-0010@example-corp.test>
+Date: Wed, 23 Sep 2026 14:00:00 +0800
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Hi team,
+
+Please review the Q3 planning deck before Thursday's meeting.
+Let me know if you have questions.
+
+Best regards,
+Jane Doe
+Chief Executive Officer
+Example Corp
+This email is confidential and intended only for the named recipient.

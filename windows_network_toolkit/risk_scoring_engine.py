@@ -260,12 +260,22 @@ def score_risk(inputs: RiskScoringInput) -> RiskScoringResult:
     impact = impact_key if impact_key in _IMPACT_SCORE else "medium"
 
     limitations = list(GOVERNANCE_LIMITATIONS)
-    if proof_key in (ProofLevel.T0_OBSERVATION.value, ProofLevel.T1_CORRELATION.value, ProofLevel.UNKNOWN.value):
-        limitations.append("Proof tier is observation or correlation — escalate only with additional validation.")
+    if proof_key in (
+        ProofLevel.T0_OBSERVATION.value,
+        ProofLevel.T1_CORRELATION.value,
+        ProofLevel.UNKNOWN.value,
+    ):
+        limitations.append(
+            "Proof tier is observation or correlation — escalate only with additional validation."
+        )
     if inputs.control_test_result == ControlAggregate.NOT_TESTED.value:
-        limitations.append("One or more controls were NOT_TESTED; residual risk may be understated.")
+        limitations.append(
+            "One or more controls were NOT_TESTED; residual risk may be understated."
+        )
     if inputs.recurrence_count >= 3:
-        limitations.append("Recurrence pattern observed — review change management and writer attribution.")
+        limitations.append(
+            "Recurrence pattern observed — review change management and writer attribution."
+        )
 
     human_review = risk_level == "HIGH" or inputs.control_test_result == ControlAggregate.FAIL.value
 
@@ -352,12 +362,20 @@ def score_risk_from_incident(
     if not related_controls and control_tests:
         related_controls = control_tests
 
-    control_agg = aggregate_control_result([str(c.get("test_result", "")) for c in related_controls])
+    control_agg = aggregate_control_result(
+        [str(c.get("test_result", "")) for c in related_controls]
+    )
 
     tier = proof_level
     if tier is None:
-        tiers = [str(c.get("evidence_tier", "")) for c in related_controls if c.get("evidence_tier")]
-        tier = max(tiers, default=ProofLevel.T1_CORRELATION.value) if tiers else ProofLevel.T1_CORRELATION.value
+        tiers = [
+            str(c.get("evidence_tier", "")) for c in related_controls if c.get("evidence_tier")
+        ]
+        tier = (
+            max(tiers, default=ProofLevel.T1_CORRELATION.value)
+            if tiers
+            else ProofLevel.T1_CORRELATION.value
+        )
 
     biz = business_impact
     if biz is None:

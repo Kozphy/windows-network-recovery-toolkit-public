@@ -159,7 +159,11 @@ def score_root_causes(features: FeatureVector) -> DecisionResult:
             features.time_wait_count / max(_CONNECTION_TW_SPIKE, 1),
             features.established_count / max(_CONNECTION_EST_SPIKE, 1),
         )
-        bump("isp_router_issue", _clamp(0.35 + 0.25 * ratio), "High TIME_WAIT / ESTABLISHED counts observed.")
+        bump(
+            "isp_router_issue",
+            _clamp(0.35 + 0.25 * ratio),
+            "High TIME_WAIT / ESTABLISHED counts observed.",
+        )
 
     # Adapter / link
     if not features.adapter_connected:
@@ -194,10 +198,18 @@ def score_root_causes(features: FeatureVector) -> DecisionResult:
     if features.ping_ip_ok and not features.nslookup_ok:
         bump("dns_issue", 0.78, "IP reachability succeeds while nslookup google.com fails.")
         if features.ping_domain_ok:
-            bump("dns_issue", 0.08, "Ping to a hostname succeeded alongside nslookup failure — intermittent resolver behavior.")
+            bump(
+                "dns_issue",
+                0.08,
+                "Ping to a hostname succeeded alongside nslookup failure — intermittent resolver behavior.",
+            )
 
     elif not features.ping_domain_ok and features.ping_ip_ok:
-        bump("dns_issue", 0.55, "Ping to hostname failed while ping to numeric IP succeeded — name resolution degraded.")
+        bump(
+            "dns_issue",
+            0.55,
+            "Ping to hostname failed while ping to numeric IP succeeded — name resolution degraded.",
+        )
 
     if features.dns_servers_detected == 0 and features.adapter_connected:
         bump(
@@ -214,7 +226,11 @@ def score_root_causes(features: FeatureVector) -> DecisionResult:
             "Proxy signals are active and HTTPS probing via curl failed — consistent with proxy misrouting.",
         )
     elif features.proxy_enabled:
-        bump("proxy_issue", 0.32, "Proxy configuration detected while application-layer HTTPS probe succeeded.")
+        bump(
+            "proxy_issue",
+            0.32,
+            "Proxy configuration detected while application-layer HTTPS probe succeeded.",
+        )
 
     # Firewall / filtering path (conservative — never triggers automatic resets)
     if features.firewall_path_suspected:
@@ -269,7 +285,11 @@ def score_root_causes(features: FeatureVector) -> DecisionResult:
     scored: dict[RootCauseKey, CauseScore] = {}
     for cause in ALL_CAUSES:
         notes = tuple(evidence[cause])
-        scored[cause] = CauseScore(cause=cause, confidence=_clamp(deltas[cause]), evidence=notes or ("Baseline prior only.",))
+        scored[cause] = CauseScore(
+            cause=cause,
+            confidence=_clamp(deltas[cause]),
+            evidence=notes or ("Baseline prior only.",),
+        )
 
     return DecisionResult(scores_by_cause=scored)
 

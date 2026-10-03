@@ -11,17 +11,17 @@ def evaluate_research_policy(
     request_execution: bool = False,
 ) -> ResearchPolicyStatus:
     """Evaluate research policy.
-    
+
     Args:
         event: Evidence or domain record being processed.
         request_execution: The request execution value supplied by the caller.
-    
+
     Returns:
         The ResearchPolicyStatus result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -36,17 +36,17 @@ def evaluate_research_policy(
 
 def apply_policy_to_score(score: SignalScore, status: ResearchPolicyStatus) -> SignalScore:
     """Apply policy to score.
-    
+
     Args:
         score: The score value supplied by the caller.
         status: The status value supplied by the caller.
-    
+
     Returns:
         The SignalScore result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """

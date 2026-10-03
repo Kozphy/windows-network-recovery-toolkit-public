@@ -115,7 +115,7 @@ def diff_wininet_states(
     localhost_after = bool(parsed_after.get("is_localhost_proxy"))
     port_after = parsed_after.get("localhost_port")
 
-    pac_before = (str(before.get("auto_config_url") or "").strip() == "")
+    pac_before = str(before.get("auto_config_url") or "").strip() == ""
     pac_after_nonempty = str(after.get("auto_config_url") or "").strip() != ""
 
     allowed_ports_raw = pol.get("allowed_proxy_ports") or []
@@ -164,7 +164,9 @@ def diff_wininet_states(
         and after.get("proxy_server") is not None
         and (not enabled_before or "ProxyServer" in changed_fields)
     )
-    allowed_names = {str(x).lower() for x in (pol.get("allowed_process_names") or []) if isinstance(x, str)}
+    allowed_names = {
+        str(x).lower() for x in (pol.get("allowed_process_names") or []) if isinstance(x, str)
+    }
     if remote_added:
         rs = str(after.get("proxy_server") or "").strip().lower()
         allow_hit = rs and allowed_names and any(name in rs for name in allowed_names)

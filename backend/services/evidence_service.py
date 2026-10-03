@@ -1,4 +1,35 @@
-"""Evidence Service — tenant-scoped observation and evidence ingest."""
+"""Record observations and deduplicated evidence for one tenant.
+
+Module responsibility:
+    Persist the distinction between raw observations and normalized evidence,
+    attach evidence to endpoints, and preserve limitations for later
+    classification and audit review.
+
+System placement:
+    Called by backend ingestion routes before classification and policy
+    evaluation. Repository helpers provide stable event IDs and content hashes.
+
+Key invariants:
+    Tenant context scopes all reads and writes. Observations remain explicitly
+    non-proof. Evidence ingestion is replay-friendly: stable source metadata,
+    content hashing, and tenant identity allow repository upsert behavior to
+    suppress duplicates without cross-tenant matches. Legacy rows with a null
+    ``tenant_id`` are excluded from tenant-scoped reads.
+
+Side effects:
+    Creates or updates database rows and may link an observation to an evidence
+    event. Timestamps are stored as UTC strings in the existing schema.
+
+Failure modes:
+    Database errors propagate. Missing observation links do not fail evidence
+    ingestion; the evidence row remains available for review.
+
+Audit Notes:
+    Review ``evidence_tier``, ``limitations``, ``source_event_id``, and
+    ``content_hash`` before treating an event as proof. Re-ingest the same
+    source snapshot to verify deduplication rather than creating a second
+    independent observation.
+"""
 
 from __future__ import annotations
 
@@ -15,23 +46,17 @@ from windows_network_toolkit.evidence_schema import STANDARD_LIMITATIONS, make_e
 
 
 class EvidenceService:
-    """Represent evidence service data used by the toolkit.
-    
-    Limitations:
-        Represents recorded observations or configured policy data; it is not a standalone proof of causality.
-    """
+    """Tenant-scoped observation and evidence persistence service."""
+
     def __init__(self, session: Session, ctx: TenantContext) -> None:
-        """Initialize the object with caller supplied state.
-        
+        """Bind the service to one SQLModel session and tenant context.
+
         Args:
-            session: Database session used to read or persist records.
-            ctx: The ctx value supplied by the caller.
-        
-        Returns:
-            None.
-        
+            session: Active database session owned by the caller.
+            ctx: Tenant and actor identity used for scoped reads/writes.
+
         Side effects:
-            None beyond deterministic computation and calls to supplied collaborators.
+            Ensures the tenant row exists before later operations run.
         """
         self._session = session
         self._ctx = ctx
@@ -46,20 +71,17 @@ class EvidenceService:
         correlation_id: str = "",
         limitations: list[str] | None = None,
     ) -> ObservationRecord:
-        """Record observation.
-        
+        """Persist a raw observation with an explicit non-proof limitation.
+
         Args:
-            endpoint_id: The endpoint id value supplied by the caller.
-            signal_type: The signal type value supplied by the caller.
-            raw_observation: The raw observation value supplied by the caller.
-            correlation_id: The correlation id value supplied by the caller.
-            limitations: The limitations value supplied by the caller.
-        
+            endpoint_id: Endpoint associated with the observation.
+            signal_type: Stable signal category.
+            raw_observation: JSON-compatible source snapshot.
+            correlation_id: Optional workflow correlation identifier.
+            limitations: Reviewer-facing evidence limitations.
+
         Returns:
-            The ObservationRecord result produced by the operation.
-        
-        Side effects:
-            May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
+            The flushed observation record.
         """
         obs_id = f"obs-{uuid.uuid4().hex[:12]}"
         row = ObservationRecord(
@@ -69,8 +91,7 @@ class EvidenceService:
             signal_type=signal_type,
             raw_observation=raw_observation,
             correlation_id=correlation_id or obs_id,
-            limitations=limitations
-            or ["Observation is not proof — symptom or snapshot only."],
+            limitations=limitations or ["Observation is not proof — symptom or snapshot only."],
         )
         self._session.add(row)
         self._session.flush()
@@ -88,23 +109,26 @@ class EvidenceService:
         limitations: list[str] | None = None,
         observation_id: str | None = None,
     ) -> tuple[EvidenceEvent, bool]:
-        """Ingest evidence.
-        
+        """Upsert normalized evidence and optionally link its observation.
+
         Args:
-            endpoint_id: The endpoint id value supplied by the caller.
-            evidence_type: The evidence type value supplied by the caller.
-            raw_snapshot: The raw snapshot value supplied by the caller.
-            source_event_id: The source event id value supplied by the caller.
-            evidence_tier: The evidence tier value supplied by the caller.
-            normalized_fields: The normalized fields value supplied by the caller.
-            limitations: The limitations value supplied by the caller.
-            observation_id: The observation id value supplied by the caller.
-        
+            endpoint_id: Endpoint that produced the evidence.
+            evidence_type: Stable evidence category.
+            raw_snapshot: Source payload retained for audit review.
+            source_event_id: Upstream event identifier used for stable identity.
+            evidence_tier: Ordinal proof/evidence tier.
+            normalized_fields: Derived fields used by classifiers.
+            limitations: Constraints preserved with the evidence.
+            observation_id: Optional tenant-scoped observation to link.
+
         Returns:
-            The tuple[EvidenceEvent, bool] result produced by the operation.
-        
+            A tuple of the evidence row and a boolean indicating whether a new
+            row was created.
+
         Side effects:
-            May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
+            Ensures the endpoint exists, upserts evidence, optionally updates
+            one observation link, and flushes the session. The caller controls
+            transaction commit.
         """
         ensure_endpoint(self._session, endpoint_id, hostname=endpoint_id)
         ts = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -125,9 +149,8 @@ class EvidenceService:
             evidence_tier=evidence_tier,
             limitations=lims,
             c_hash=c_hash,
+            tenant_id=self._ctx.tenant_id,
         )
-        row.tenant_id = self._ctx.tenant_id
-        self._session.add(row)
         if observation_id:
             obs = self._session.exec(
                 select(ObservationRecord).where(
@@ -142,36 +165,20 @@ class EvidenceService:
         return row, created
 
     def get_evidence(self, event_id: str) -> EvidenceEvent | None:
-        """Get evidence.
-        
-        Args:
-            event_id: The event id value supplied by the caller.
-        
-        Returns:
-            The EvidenceEvent | None result produced by the operation.
-        
-        Side effects:
-            None beyond deterministic computation and calls to supplied collaborators.
-        """
-        row = self._session.exec(
-            select(EvidenceEvent).where(EvidenceEvent.event_id == event_id)
+        """Return one evidence event only when it belongs to the active tenant."""
+        return self._session.exec(
+            select(EvidenceEvent).where(
+                EvidenceEvent.event_id == event_id,
+                EvidenceEvent.tenant_id == self._ctx.tenant_id,
+            )
         ).first()
-        if row and row.tenant_id and row.tenant_id != self._ctx.tenant_id:
-            return None
-        return row
 
     def list_evidence(self, *, limit: int = 50) -> list[EvidenceEvent]:
-        """List evidence.
-        
-        Args:
-            limit: The limit value supplied by the caller.
-        
-        Returns:
-            The list[EvidenceEvent] result produced by the operation.
-        
-        Side effects:
-            None beyond deterministic computation and calls to supplied collaborators.
-        """
-        q = select(EvidenceEvent).order_by(EvidenceEvent.created_at.desc()).limit(limit)
-        rows = list(self._session.exec(q).all())
-        return [r for r in rows if not r.tenant_id or r.tenant_id == self._ctx.tenant_id]
+        """Return the newest evidence rows owned by the active tenant."""
+        q = (
+            select(EvidenceEvent)
+            .where(EvidenceEvent.tenant_id == self._ctx.tenant_id)
+            .order_by(EvidenceEvent.created_at.desc())
+            .limit(limit)
+        )
+        return list(self._session.exec(q).all())

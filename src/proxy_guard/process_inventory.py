@@ -138,9 +138,9 @@ def capture_process_inventory(
 
     ps_expr = (
         '& { $ErrorActionPreference="SilentlyContinue"; '
-        'Get-CimInstance Win32_Process | Select-Object -First 520 '
-        'ProcessId,ParentProcessId,Name,ExecutablePath,CommandLine,CreationDate '
-        '| ConvertTo-Json -Depth 8 -Compress }'
+        "Get-CimInstance Win32_Process | Select-Object -First 520 "
+        "ProcessId,ParentProcessId,Name,ExecutablePath,CommandLine,CreationDate "
+        "| ConvertTo-Json -Depth 8 -Compress }"
     )
 
     raw_rows = _run_powershell_json(ps_expr, run=run)
@@ -226,7 +226,9 @@ def capture_process_inventory(
     }
 
 
-def collect_recent_process_inventory(*, limit: int = 30, run: Callable[..., Any] = subprocess.run) -> list[ProxyActor]:
+def collect_recent_process_inventory(
+    *, limit: int = 30, run: Callable[..., Any] = subprocess.run
+) -> list[ProxyActor]:
     """Return newest ``Win32_Process`` rows mapped to :class:`~src.proxy_guard.attribution_model.ProxyActor`.
 
     Rows sort by WMI ``CreationDate`` descending server-side via PowerShell ``Sort-Object`` (best-effort).
@@ -239,7 +241,7 @@ def collect_recent_process_inventory(*, limit: int = 30, run: Callable[..., Any]
         '& { $ErrorActionPreference="SilentlyContinue"; '
         "Get-CimInstance Win32_Process | Sort-Object {[datetime]$_.CreationDate} -Descending "
         f"| Select-Object -First {cap} "
-        'ProcessId,ParentProcessId,Name,ExecutablePath,CommandLine,CreationDate '
+        "ProcessId,ParentProcessId,Name,ExecutablePath,CommandLine,CreationDate "
         "| ConvertTo-Json -Depth 8 -Compress }"
     )
 
@@ -258,7 +260,9 @@ def collect_recent_process_inventory(*, limit: int = 30, run: Callable[..., Any]
             continue
         try:
             pid_raw = row.get("ProcessId") if "ProcessId" in row else row.get("pid")
-            pp_raw = row.get("ParentProcessId") if "ParentProcessId" in row else row.get("parent_pid")
+            pp_raw = (
+                row.get("ParentProcessId") if "ParentProcessId" in row else row.get("parent_pid")
+            )
             pid: int | None = None
             if isinstance(pid_raw, int):
                 pid = pid_raw

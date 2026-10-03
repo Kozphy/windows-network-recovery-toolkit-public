@@ -354,8 +354,7 @@ def _incident_rows_from_audit(
                 "recommended_action": str(
                     (primary_row.get("policy_decision") or {}).get("action")
                     if isinstance(primary_row.get("policy_decision"), dict)
-                    else primary_row.get("recommended_action")
-                    or "Continue read-only investigation"
+                    else primary_row.get("recommended_action") or "Continue read-only investigation"
                 ),
                 "execution_authority": exec_auth,
                 "human_review_required": human_review,
@@ -391,7 +390,9 @@ def _incident_rows_from_audit(
                         "observed_at": ts.strftime("%Y-%m-%dT%H:%M:%SZ"),
                         "classification": cls,
                         "policy_decision": pol,
-                        "execution_authority": _execution_authority(pol, dry_run=bool(row.get("dry_run", True))),
+                        "execution_authority": _execution_authority(
+                            pol, dry_run=bool(row.get("dry_run", True))
+                        ),
                         "dry_run": bool(row.get("dry_run", True)),
                         "remediation_preview_generated": True,
                         "human_review_required": human_review,
@@ -417,7 +418,8 @@ def _control_test_rows(incidents: list[dict[str, Any]]) -> list[dict[str, Any]]:
             if ctrl_id == "CTRL-EPR-001" and cls == "DEAD_PROXY_CONFIG":
                 result = "PASS"
             elif ctrl_id == "CTRL-EPR-002" and (
-                cls == "WININET_WINHTTP_MISMATCH" or "WININET_WINHTTP_MISMATCH" in inc["secondary_signals"]
+                cls == "WININET_WINHTTP_MISMATCH"
+                or "WININET_WINHTTP_MISMATCH" in inc["secondary_signals"]
             ):
                 result = "PASS"
             elif ctrl_id == "CTRL-EPR-003" and cls == "LOCAL_PROXY_ACTIVE":
@@ -454,18 +456,162 @@ def portfolio_sample_tables() -> dict[str, list[dict[str, Any]]]:
     """Deterministic portfolio sample spanning all incident classes."""
     base = datetime(2026, 6, 10, 8, 0, 0, tzinfo=UTC)
     specs = [
-        ("INC-101", "EP-FIN-001", "DEAD_PROXY_CONFIG", "WININET_WINHTTP_MISMATCH|DEAD_LOCALHOST_PORT", "T2_RUNTIME_CORROBORATION", "MEDIUM", 4, 2, "PREVIEW_ONLY", True, True),
-        ("INC-102", "EP-FIN-002", "WININET_WINHTTP_MISMATCH", "LOCALHOST_PROXY", "T2_RUNTIME_CORROBORATION", "MEDIUM", 4, 2, "PREVIEW_ONLY", True, False),
-        ("INC-103", "EP-DEV-001", "LOCAL_PROXY_ACTIVE", "LOCALHOST_PROXY", "T2_RUNTIME_CORROBORATION", "LOW", 3, 1, "PREVIEW_ONLY", False, False),
-        ("INC-104", "EP-OPS-003", "UNKNOWN_LOCAL_PROXY", "SUSPICIOUS_LISTENER", "T1_LOCAL_CONFIG_EVIDENCE", "HIGH", 2, 3, "HUMAN_REVIEW", True, True),
-        ("INC-105", "EP-GOV-001", "PAC_CONFIGURED", "PAC_URL_PRESENT", "T1_LOCAL_CONFIG_EVIDENCE", "MEDIUM", 3, 2, "HUMAN_REVIEW", True, False),
-        ("INC-106", "EP-SEC-002", "POSSIBLE_MITM_RISK", "TLS_PATH_DIVERGENCE", "T2_RUNTIME_CORROBORATION", "HIGH", 3, 4, "PREVIEW_ONLY", True, True),
-        ("INC-107", "EP-OPS-004", "REVERTER_SUSPECTED", "REPEATED_PROXY_REAPPEARANCE", "T1_LOCAL_CONFIG_EVIDENCE", "HIGH", 3, 3, "HUMAN_REVIEW", True, True),
-        ("INC-108", "EP-HR-001", "ERROR_INSUFFICIENT_DATA", "", "T0_OBSERVATION_ONLY", "LOW", 1, 1, "BLOCK", False, False),
-        ("INC-109", "EP-FIN-003", "DEAD_PROXY_CONFIG", "DEAD_LOCALHOST_PORT", "T1_LOCAL_CONFIG_EVIDENCE", "MEDIUM", 3, 2, "PREVIEW_ONLY", True, False),
-        ("INC-110", "EP-DEV-002", "LOCAL_PROXY_ACTIVE", "KNOWN_DEV_TOOL", "T3_BEHAVIORAL_REPRODUCTION", "LOW", 4, 1, "ALLOW", False, False),
-        ("INC-111", "EP-SEC-003", "POSSIBLE_MITM_RISK", "CERTIFICATE_MISMATCH", "T2_RUNTIME_CORROBORATION", "HIGH", 3, 4, "HUMAN_REVIEW", True, True),
-        ("INC-112", "EP-GOV-002", "PAC_CONFIGURED", "PAC_MISROUTE", "T2_RUNTIME_CORROBORATION", "MEDIUM", 4, 2, "PREVIEW_ONLY", True, False),
+        (
+            "INC-101",
+            "EP-FIN-001",
+            "DEAD_PROXY_CONFIG",
+            "WININET_WINHTTP_MISMATCH|DEAD_LOCALHOST_PORT",
+            "T2_RUNTIME_CORROBORATION",
+            "MEDIUM",
+            4,
+            2,
+            "PREVIEW_ONLY",
+            True,
+            True,
+        ),
+        (
+            "INC-102",
+            "EP-FIN-002",
+            "WININET_WINHTTP_MISMATCH",
+            "LOCALHOST_PROXY",
+            "T2_RUNTIME_CORROBORATION",
+            "MEDIUM",
+            4,
+            2,
+            "PREVIEW_ONLY",
+            True,
+            False,
+        ),
+        (
+            "INC-103",
+            "EP-DEV-001",
+            "LOCAL_PROXY_ACTIVE",
+            "LOCALHOST_PROXY",
+            "T2_RUNTIME_CORROBORATION",
+            "LOW",
+            3,
+            1,
+            "PREVIEW_ONLY",
+            False,
+            False,
+        ),
+        (
+            "INC-104",
+            "EP-OPS-003",
+            "UNKNOWN_LOCAL_PROXY",
+            "SUSPICIOUS_LISTENER",
+            "T1_LOCAL_CONFIG_EVIDENCE",
+            "HIGH",
+            2,
+            3,
+            "HUMAN_REVIEW",
+            True,
+            True,
+        ),
+        (
+            "INC-105",
+            "EP-GOV-001",
+            "PAC_CONFIGURED",
+            "PAC_URL_PRESENT",
+            "T1_LOCAL_CONFIG_EVIDENCE",
+            "MEDIUM",
+            3,
+            2,
+            "HUMAN_REVIEW",
+            True,
+            False,
+        ),
+        (
+            "INC-106",
+            "EP-SEC-002",
+            "POSSIBLE_MITM_RISK",
+            "TLS_PATH_DIVERGENCE",
+            "T2_RUNTIME_CORROBORATION",
+            "HIGH",
+            3,
+            4,
+            "PREVIEW_ONLY",
+            True,
+            True,
+        ),
+        (
+            "INC-107",
+            "EP-OPS-004",
+            "REVERTER_SUSPECTED",
+            "REPEATED_PROXY_REAPPEARANCE",
+            "T1_LOCAL_CONFIG_EVIDENCE",
+            "HIGH",
+            3,
+            3,
+            "HUMAN_REVIEW",
+            True,
+            True,
+        ),
+        (
+            "INC-108",
+            "EP-HR-001",
+            "ERROR_INSUFFICIENT_DATA",
+            "",
+            "T0_OBSERVATION_ONLY",
+            "LOW",
+            1,
+            1,
+            "BLOCK",
+            False,
+            False,
+        ),
+        (
+            "INC-109",
+            "EP-FIN-003",
+            "DEAD_PROXY_CONFIG",
+            "DEAD_LOCALHOST_PORT",
+            "T1_LOCAL_CONFIG_EVIDENCE",
+            "MEDIUM",
+            3,
+            2,
+            "PREVIEW_ONLY",
+            True,
+            False,
+        ),
+        (
+            "INC-110",
+            "EP-DEV-002",
+            "LOCAL_PROXY_ACTIVE",
+            "KNOWN_DEV_TOOL",
+            "T3_BEHAVIORAL_REPRODUCTION",
+            "LOW",
+            4,
+            1,
+            "ALLOW",
+            False,
+            False,
+        ),
+        (
+            "INC-111",
+            "EP-SEC-003",
+            "POSSIBLE_MITM_RISK",
+            "CERTIFICATE_MISMATCH",
+            "T2_RUNTIME_CORROBORATION",
+            "HIGH",
+            3,
+            4,
+            "HUMAN_REVIEW",
+            True,
+            True,
+        ),
+        (
+            "INC-112",
+            "EP-GOV-002",
+            "PAC_CONFIGURED",
+            "PAC_MISROUTE",
+            "T2_RUNTIME_CORROBORATION",
+            "MEDIUM",
+            4,
+            2,
+            "PREVIEW_ONLY",
+            True,
+            False,
+        ),
     ]
     incidents: list[dict[str, Any]] = []
     risk_decisions: list[dict[str, Any]] = []
@@ -520,7 +666,9 @@ def portfolio_sample_tables() -> dict[str, list[dict[str, Any]]]:
                 "proof_tier": proof_tier,
                 "risk_rating": risk,
                 "confidence_ordinal": conf,
-                "recommended_action": "Preview remediation" if preview_gen else "Collect additional evidence",
+                "recommended_action": "Preview remediation"
+                if preview_gen
+                else "Collect additional evidence",
                 "execution_authority": "human_confirmed" if policy == "ALLOW" else exec_auth,
                 "human_review_required": human,
                 "evidence_hash": f"sha256-sample-{inc_id.lower()}",
@@ -547,7 +695,9 @@ def portfolio_sample_tables() -> dict[str, list[dict[str, Any]]]:
                     "preview_id": f"PREV-{inc_id}-001",
                     "incident_id": inc_id,
                     "endpoint_id": ep_id,
-                    "observed_at": (observed + timedelta(minutes=15)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "observed_at": (observed + timedelta(minutes=15)).strftime(
+                        "%Y-%m-%dT%H:%M:%SZ"
+                    ),
                     "classification": cls,
                     "policy_decision": policy,
                     "execution_authority": exec_auth,
@@ -583,7 +733,9 @@ def export_powerbi_from_audit(
 
     if not records and not include_portfolio_seed:
         tables = portfolio_sample_tables()
-        limitations.append("No audit records found; portfolio sample tables written for demonstration.")
+        limitations.append(
+            "No audit records found; portfolio sample tables written for demonstration."
+        )
     elif include_portfolio_seed or len(records) < 3:
         tables = portfolio_sample_tables()
         if records:
@@ -630,7 +782,10 @@ def write_powerbi_csvs(tables: dict[str, list[dict[str, Any]]], out_dir: Path) -
         "incidents.csv": (_INCIDENTS_COLUMNS, tables.get("incidents", [])),
         "control_tests.csv": (_CONTROL_TESTS_COLUMNS, tables.get("control_tests", [])),
         "audit_events.csv": (_AUDIT_EVENTS_COLUMNS, tables.get("audit_events", [])),
-        "remediation_previews.csv": (_REMEDIATION_PREVIEWS_COLUMNS, tables.get("remediation_previews", [])),
+        "remediation_previews.csv": (
+            _REMEDIATION_PREVIEWS_COLUMNS,
+            tables.get("remediation_previews", []),
+        ),
         "risk_decisions.csv": (_RISK_DECISIONS_COLUMNS, tables.get("risk_decisions", [])),
         "date_dim.csv": (_DATE_DIM_COLUMNS, tables.get("date_dim", build_date_dim())),
     }

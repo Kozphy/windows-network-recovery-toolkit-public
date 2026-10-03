@@ -24,7 +24,7 @@ router = APIRouter(prefix="/platform/decision", tags=["platform-decision"])
 
 class OutcomeIn(BaseModel):
     """Represent outcome in data used by the toolkit.
-    
+
     Attributes:
         decision_id: Field or variant describing decision id evidence or state.
         success: Field or variant describing success evidence or state.
@@ -32,10 +32,11 @@ class OutcomeIn(BaseModel):
         cost_score: Field or variant describing cost score evidence or state.
         time_to_resolution_seconds: Field or variant describing time to resolution seconds evidence or state.
         lessons_learned: Field or variant describing lessons learned evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     decision_id: str
     success: bool = True
     observed_result: str = ""
@@ -50,14 +51,14 @@ def list_mdp_events(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for list mdp events.
-    
+
     Args:
         domain: The domain value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -76,14 +77,14 @@ def get_evidence(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for get evidence.
-    
+
     Args:
         event_id: The event id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -96,7 +97,9 @@ def get_evidence(
     return {
         "event_id": event_id,
         "confidence_score": result.evidence_result.confidence_score,
-        "ranked_hypotheses": [h.model_dump(mode="json") for h in result.evidence_result.ranked_hypotheses],
+        "ranked_hypotheses": [
+            h.model_dump(mode="json") for h in result.evidence_result.ranked_hypotheses
+        ],
         "evidence_tree": [e.model_dump(mode="json") for e in result.evidence],
         "explanation": result.evidence_result.explanation,
     }
@@ -108,17 +111,17 @@ def get_decisions(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for get decisions.
-    
+
     Args:
         event_id: The event id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -131,7 +134,9 @@ def get_decisions(
     return {
         "event_id": event_id,
         "fingerprint": result.fingerprint,
-        "top_decision": result.top_decision.model_dump(mode="json") if result.top_decision else None,
+        "top_decision": result.top_decision.model_dump(mode="json")
+        if result.top_decision
+        else None,
         "ranked_decisions": [
             {"decision": r.decision.model_dump(mode="json"), "final_score": r.final_score}
             for r in result.ranked_decisions
@@ -145,14 +150,14 @@ def post_outcome(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for post outcome.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -175,14 +180,14 @@ def post_replay(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for post replay.
-    
+
     Args:
         domain: The domain value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -206,13 +211,13 @@ def get_mdp_metrics(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for get mdp metrics.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """

@@ -33,13 +33,13 @@ def _emit(payload: Any, *, fmt: str) -> None:
 
 def clear_platform_cache() -> None:
     """Clear platform cache.
-    
+
     Args:
         None.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -57,13 +57,13 @@ def _get_or_run_pipeline(event_id: str, *, audit_path: Path | None) -> Any:
 
 def cmd_platform_events(args: argparse.Namespace) -> int:
     """Run the platform events command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -85,13 +85,13 @@ def cmd_platform_events(args: argparse.Namespace) -> int:
 
 def cmd_platform_evidence(args: argparse.Namespace) -> int:
     """Run the platform evidence command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -113,7 +113,9 @@ def cmd_platform_evidence(args: argparse.Namespace) -> int:
         {
             "event_id": args.event_id,
             "confidence_score": result.evidence_result.confidence_score,
-            "ranked_hypotheses": [h.model_dump(mode="json") for h in result.evidence_result.ranked_hypotheses],
+            "ranked_hypotheses": [
+                h.model_dump(mode="json") for h in result.evidence_result.ranked_hypotheses
+            ],
             "evidence_tree": tree,
             "explanation": result.evidence_result.explanation,
         },
@@ -124,13 +126,13 @@ def cmd_platform_evidence(args: argparse.Namespace) -> int:
 
 def cmd_platform_decide(args: argparse.Namespace) -> int:
     """Run the platform decide command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -140,7 +142,11 @@ def cmd_platform_decide(args: argparse.Namespace) -> int:
         print(str(exc), file=sys.stderr)
         return 1
     ranked = [
-        {"decision": r.decision.model_dump(mode="json"), "final_score": r.final_score, "explanation": r.explanation}
+        {
+            "decision": r.decision.model_dump(mode="json"),
+            "final_score": r.final_score,
+            "explanation": r.explanation,
+        }
         for r in result.ranked_decisions
     ]
     top = result.top_decision
@@ -176,13 +182,13 @@ def _load_outcomes() -> list[DecisionOutcome]:
 
 def cmd_platform_outcome(args: argparse.Namespace) -> int:
     """Run the platform outcome command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -204,13 +210,13 @@ def cmd_platform_outcome(args: argparse.Namespace) -> int:
 
 def cmd_platform_replay(args: argparse.Namespace) -> int:
     """Run the platform replay command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -220,7 +226,10 @@ def cmd_platform_replay(args: argparse.Namespace) -> int:
         adapter = get_adapter(domain)
         fixture = getattr(args, "platform_fixture", None)
         names = [fixture] if fixture else adapter.list_fixtures()
-        results = [run_pipeline(adapter, fixture_name=n, audit_path=audit_path, command="replay") for n in names]
+        results = [
+            run_pipeline(adapter, fixture_name=n, audit_path=audit_path, command="replay")
+            for n in names
+        ]
     else:
         results = replay_all(audit_path=audit_path)
     _emit(
@@ -236,13 +245,13 @@ def cmd_platform_replay(args: argparse.Namespace) -> int:
 
 def cmd_platform_metrics(args: argparse.Namespace) -> int:
     """Run the platform metrics command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """

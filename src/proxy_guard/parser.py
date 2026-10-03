@@ -151,12 +151,7 @@ def parse_proxy_server(raw: str | None) -> ParsedProxy:
                 https_localhost_port=None,
             )
 
-        primary_port = (
-            localhost_port
-            or https_lp
-            or http_lp
-            or socks_port
-        )
+        primary_port = localhost_port or https_lp or http_lp or socks_port
         mode = _mode_from_parts(
             raw=raw,
             is_missing=False,

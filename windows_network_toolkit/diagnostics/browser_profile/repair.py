@@ -6,7 +6,7 @@ Module responsibility:
 
 System placement:
     Called by ``runner.run_repair_preview`` and ``runner.run_browser_diff``.
-    Apply path lives in ``runner.run_repair_apply`` (currently gated stub only).
+    Apply path lives in ``runner.run_repair_apply`` (confirmation-gated site-scoped mutations).
 
 Key invariants:
     * ``build_repair_preview`` always sets ``dry_run=True``.

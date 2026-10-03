@@ -184,5 +184,3 @@ def list_profile_summaries(repo_root: Path) -> list[dict[str, Any]]:
 def resolve_named_snapshot(repo_root: Path, name: str) -> ProxySnapshot | None:
     """Hydrate typed snapshot for ``proxy-guard --known-good`` precedence lookups."""
     return snapshot_from_record(get_latest_named(repo_root, name))
-
-

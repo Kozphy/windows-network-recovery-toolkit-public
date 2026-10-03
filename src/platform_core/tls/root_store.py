@@ -61,7 +61,7 @@ def audit_root_store(
         "Get-ChildItem $s -ErrorAction SilentlyContinue | ForEach-Object {"
         "$subj=$_.Subject;$iss=$_.Issuer;$thumb=$_.Thumbprint;"
         "$nb=$_.NotBefore.ToString('o');$na=$_.NotAfter.ToString('o');"
-        "Write-Output \"$subj|$iss|$thumb|$na|$s|$nb\""
+        'Write-Output "$subj|$iss|$thumb|$na|$s|$nb"'
         "}}"
     )
     try:
@@ -89,7 +89,9 @@ def audit_root_store(
         if suspicious:
             reason = "Issuer or subject matches suspicious proxy/MITM keyword heuristics."
         try:
-            nb_dt = datetime.fromisoformat(not_before.replace("Z", "+00:00")) if not_before else None
+            nb_dt = (
+                datetime.fromisoformat(not_before.replace("Z", "+00:00")) if not_before else None
+            )
             if nb_dt and (cutoff - nb_dt).days <= recently_added_days:
                 suspicious = True
                 reason = reason or f"Root CA added within last {recently_added_days} days."

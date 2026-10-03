@@ -19,13 +19,13 @@ from src.telemetry.registry_targets import proxy_registry_value_name
 
 def incident_id_for_row(row: dict[str, Any]) -> str:
     """Incident id for row.
-    
+
     Args:
         row: The row value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -37,13 +37,13 @@ def incident_id_for_row(row: dict[str, Any]) -> str:
 
 def load_latest_proxy_transition(repo_root: Path) -> dict[str, Any] | None:
     """Load latest proxy transition.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The dict[str, Any] | None result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -76,17 +76,17 @@ def analyze_incident_from_row(
     recompute_causation: bool = False,
 ) -> dict[str, Any]:
     """Analyze incident from row.
-    
+
     Args:
         row: The row value supplied by the caller.
         repo_root: Repository root used to resolve fixtures, reports, or local state.
         window_seconds: The window seconds value supplied by the caller.
         run: Callable used to execute the external command or probe.
         recompute_causation: The recompute causation value supplied by the caller.
-    
+
     Returns:
         The dict[str, Any] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -164,7 +164,9 @@ def analyze_fixture(fixture: dict[str, Any], *, repo_root: Path | None = None) -
     if fixture.get("causation"):
         row = {**row, "causation": fixture["causation"]}
     root = repo_root or Path.cwd()
-    bundle = analyze_incident_from_row(row, repo_root=root, recompute_causation=not bool(fixture.get("causation")))
+    bundle = analyze_incident_from_row(
+        row, repo_root=root, recompute_causation=not bool(fixture.get("causation"))
+    )
     bundle["incident_id"] = str(fixture.get("incident_id") or bundle["incident_id"])
     if fixture.get("classification"):
         bundle["classification"] = fixture["classification"]
@@ -181,23 +183,26 @@ def build_incident_timeline(
     run: Any = None,
 ) -> list[ProxyTimelineEvent]:
     """Build incident timeline.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
         since_minutes: The since minutes value supplied by the caller.
         window_seconds: The window seconds value supplied by the caller.
         run: Callable used to execute the external command or probe.
-    
+
     Returns:
         The list[ProxyTimelineEvent] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
     from src.proxy_guard.proxy_transitions import load_recent_proxy_transitions
 
     rows = load_recent_proxy_transitions(repo_root, since_seconds=since_minutes * 60, limit=100)
-    bundles = [analyze_incident_from_row(row, repo_root=repo_root, window_seconds=window_seconds, run=run) for row in rows]
+    bundles = [
+        analyze_incident_from_row(row, repo_root=repo_root, window_seconds=window_seconds, run=run)
+        for row in rows
+    ]
     return build_proxy_timeline(
         transition_rows=rows,
         causation_results=[b["causation"] for b in bundles],

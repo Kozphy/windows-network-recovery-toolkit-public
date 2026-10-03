@@ -26,6 +26,7 @@ class ScenarioTemplate:
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     hypothesis_id: str
     incident_type: str
     title: str
@@ -132,7 +133,10 @@ SCENARIOS: tuple[ScenarioTemplate, ...] = (
         required_signals=("vpn_active", "browser_https_fail"),
         missing_if_absent=("vpn_route_table", "proxy_state_under_vpn"),
         limitations=("VPN presence is observation — not proof of misconfiguration.",),
-        recommended_actions=("Review VPN split-tunnel policy", "Compare proxy state with VPN up/down"),
+        recommended_actions=(
+            "Review VPN split-tunnel policy",
+            "Compare proxy state with VPN up/down",
+        ),
         base_rank="low",
     ),
     ScenarioTemplate(

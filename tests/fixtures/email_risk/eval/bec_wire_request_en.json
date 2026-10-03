@@ -1,0 +1,15 @@
+{
+  "description": "Synthetic BEC payment request: configured executive name from a consumer mailbox requests an urgent wire to a new supplier; no channel move.",
+  "org_context": {
+    "organization_domains": ["example-corp.test"],
+    "executive_names": ["Grace Huang"]
+  },
+  "email": {
+    "from": "\"Grace Huang\" <grace.huang.exec@outlook.com>",
+    "to": ["ap@example-corp.test"],
+    "subject": "Supplier payment today",
+    "message_id": "<synthetic-eval-bec-0010@outlook.com>",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=outlook.com; dkim=pass header.d=outlook.com; dmarc=pass header.from=outlook.com",
+    "body_text": "I need you to process a wire transfer to a new supplier today.\nThe amount is USD 48,500; I will send the payment details in my next email.\nPlease handle this urgently and keep it between us until the deal is announced."
+  }
+}

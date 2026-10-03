@@ -48,7 +48,9 @@ def _rank_hypotheses(
 
     proxy_enabled = signals.wininet_proxy_enable == 1
     loopback = bool(signals.localhost_listener_ports) or (
-        proxy_enabled and signals.wininet_proxy_server and "127." in (signals.wininet_proxy_server or "")
+        proxy_enabled
+        and signals.wininet_proxy_server
+        and "127." in (signals.wininet_proxy_server or "")
     )
 
     fw_for: list[str] = []
@@ -62,7 +64,9 @@ def _rank_hypotheses(
     rows.append(
         RankedHypothesis(
             hypothesis_id="firewall_filtering_interaction",
-            confidence="high" if recovery_firewall_reset_helped else ("medium" if fw_for else "low"),
+            confidence="high"
+            if recovery_firewall_reset_helped
+            else ("medium" if fw_for else "low"),
             evidence_for=tuple(fw_for),
             evidence_against=tuple(fw_against),
             limitations=(
@@ -89,7 +93,9 @@ def _rank_hypotheses(
 
     cache_for: list[str] = []
     if signals.chatgpt_process_detected and signals.chatgpt_https_ok is False:
-        cache_for.append("App running but HTTPS probe to ChatGPT endpoints failed — may be session/cache.")
+        cache_for.append(
+            "App running but HTTPS probe to ChatGPT endpoints failed — may be session/cache."
+        )
     rows.append(
         RankedHypothesis(
             hypothesis_id="app_cache_or_session_issue",
@@ -108,7 +114,9 @@ def _rank_hypotheses(
     rows.append(
         RankedHypothesis(
             hypothesis_id="proxy_or_localhost_proxy_interaction",
-            confidence="high" if loopback and signals.chatgpt_https_ok is False else ("medium" if loopback else "low"),
+            confidence="high"
+            if loopback and signals.chatgpt_https_ok is False
+            else ("medium" if loopback else "low"),
             evidence_for=tuple(px_for),
             evidence_against=(),
             limitations=(
@@ -158,7 +166,9 @@ def analyze_chatgpt_app_firewall(
     if _browser_healthy_app_degraded(signals):
         events.append(DESKTOP_APP_PATH_DEGRADED_EVENT)
 
-    hypotheses = _rank_hypotheses(signals, recovery_firewall_reset_helped=recovery_firewall_reset_helped)
+    hypotheses = _rank_hypotheses(
+        signals, recovery_firewall_reset_helped=recovery_firewall_reset_helped
+    )
 
     if recovery_firewall_reset_helped is True:
         verification_status = "supported_by_recovery_evidence"

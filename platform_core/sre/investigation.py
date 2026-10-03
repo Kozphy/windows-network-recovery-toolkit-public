@@ -31,7 +31,7 @@ def run_investigation(
     - Each stage isolated in failure domain bulkhead
     - All outputs appended to canonical domain event log
     - Decision persisted with aligned event_ids for replay
-  """
+    """
     agg = IncidentAggregate(incident_id)
     proj = agg.projection
     ep = endpoint_id or proj.endpoint_id or "local"
@@ -92,10 +92,13 @@ def run_investigation(
         policy_outcome=record.policy_outcome,
     )
 
-    has_proof = any(
-        str(line).lower().find("no proof") < 0 and "proof" in str(line).lower()
-        for line in record.limitations
-    ) or "ROOT_CAUSE_IDENTIFIED" in record.state_path
+    has_proof = (
+        any(
+            str(line).lower().find("no proof") < 0 and "proof" in str(line).lower()
+            for line in record.limitations
+        )
+        or "ROOT_CAUSE_IDENTIFIED" in record.state_path
+    )
 
     rca = build_rca_report(incident_id, decision=record)
     if has_proof or record.accepted_hypothesis:

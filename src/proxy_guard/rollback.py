@@ -298,7 +298,9 @@ def execute_low_risk_proxy_rollback(
         wininet_audit = []
         skipped = True
     else:
-        mutations, _ = build_user_proxy_disable_mutations(clear_proxy_server_value=clear_proxy_server_value)
+        mutations, _ = build_user_proxy_disable_mutations(
+            clear_proxy_server_value=clear_proxy_server_value
+        )
         reg_results = apply_mutations(mutations, dry_run=dry_run)
         wininet_audit = reg_results_to_audit(reg_results)
 
@@ -337,7 +339,9 @@ def _run_external_argv_audit(
     }
 
 
-def _git_restore_row(full_key: str, value: str | None, *, dry_run: bool, run: Callable[..., Any]) -> dict[str, Any]:
+def _git_restore_row(
+    full_key: str, value: str | None, *, dry_run: bool, run: Callable[..., Any]
+) -> dict[str, Any]:
     if value is None or str(value).strip() == "":
         argv = ["git", "config", "--global", "--unset-all", full_key]
     else:
@@ -353,7 +357,9 @@ def _git_row_ok(row: dict[str, Any]) -> bool:
     return c == 0
 
 
-def _npm_restore_row(key: str, value: str | None, *, dry_run: bool, run: Callable[..., Any]) -> dict[str, Any]:
+def _npm_restore_row(
+    key: str, value: str | None, *, dry_run: bool, run: Callable[..., Any]
+) -> dict[str, Any]:
     stripped = "" if value is None else str(value).strip()
     if stripped == "" or stripped.lower() in ("null", "undefined"):
         argv = ["npm", "config", "delete", key, "--global"]
@@ -362,11 +368,24 @@ def _npm_restore_row(key: str, value: str | None, *, dry_run: bool, run: Callabl
     return _run_external_argv_audit(argv, dry_run=dry_run, run=run, timeout=120.0)
 
 
-def _hkcu_env_restore_row(name: str, value: str | None, *, dry_run: bool, run: Callable[..., Any]) -> dict[str, Any]:
+def _hkcu_env_restore_row(
+    name: str, value: str | None, *, dry_run: bool, run: Callable[..., Any]
+) -> dict[str, Any]:
     if value is None or str(value).strip() == "":
         argv = ["reg", "delete", _HKCU_ENVIRONMENT_KEY, "/v", name, "/f"]
     else:
-        argv = ["reg", "add", _HKCU_ENVIRONMENT_KEY, "/v", name, "/t", "REG_SZ", "/d", str(value).strip(), "/f"]
+        argv = [
+            "reg",
+            "add",
+            _HKCU_ENVIRONMENT_KEY,
+            "/v",
+            name,
+            "/t",
+            "REG_SZ",
+            "/d",
+            str(value).strip(),
+            "/f",
+        ]
     return _run_external_argv_audit(argv, dry_run=dry_run, run=run, timeout=30.0)
 
 

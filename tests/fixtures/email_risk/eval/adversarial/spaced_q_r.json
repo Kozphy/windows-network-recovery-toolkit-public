@@ -1,0 +1,11 @@
+{
+  "description": "Adversarial: 'Q R' spaced spelling for a WhatsApp group QR hand-over plus payment from a claimed CFO.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"CFO\" <cfo.finance.desk@gmail.com>",
+    "to": ["ap@example-corp.test"],
+    "subject": "Group",
+    "message_id": "<synthetic-adv-qr-0204@mail.gmail.com>",
+    "body_text": "Please create a WhatsApp group today and send me the Q R code for it.\nI will share the payment details in the group."
+  }
+}

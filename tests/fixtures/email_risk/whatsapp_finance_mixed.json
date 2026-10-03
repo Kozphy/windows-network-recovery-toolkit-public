@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic mixed Chinese/English finance-team impersonation moving to WhatsApp before a wire transfer.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Finance Department\" <finance.dept.corp@gmail.com>",
+    "to": ["buyer@example-corp.test"],
+    "subject": "Supplier payment",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=gmail.com; dkim=pass header.d=gmail.com; dmarc=pass header.from=gmail.com",
+    "body_text": "Hi，請加我 WhatsApp +886 912 345 678 so we can continue there.\nPlease arrange a wire transfer to our new supplier. 緊急。"
+  }
+}

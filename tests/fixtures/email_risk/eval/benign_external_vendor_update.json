@@ -1,0 +1,15 @@
+{
+  "description": "Synthetic benign external sender: known vendor on its real domain announces holiday shipping schedule; authentication passes.",
+  "org_context": {
+    "organization_domains": ["example-corp.test"],
+    "vendors": [{"name": "Northwind Logistics", "domains": ["northwind-logistics.test"]}]
+  },
+  "email": {
+    "from": "\"Northwind Logistics\" <updates@northwind-logistics.test>",
+    "to": ["purchasing@example-corp.test"],
+    "subject": "Holiday shipping schedule",
+    "message_id": "<synthetic-eval-extvendor-0022@northwind-logistics.test>",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=northwind-logistics.test; dkim=pass header.d=northwind-logistics.test; dmarc=pass header.from=northwind-logistics.test",
+    "body_text": "Dear customer,\nOur warehouses will be closed on 10 October for the national holiday.\nOrders placed after 7 October will ship on 13 October.\nSee the full schedule at https://www.northwind-logistics.test/holiday-2026\n\nNorthwind Logistics Customer Service"
+  }
+}

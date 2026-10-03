@@ -60,13 +60,13 @@ class InvestigationRisk:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -150,7 +150,9 @@ def classify_investigation_risk(
             category="EXTERNAL_PROXY",
             risk_level="CRITICAL",
             confidence=0.8,
-            evidence=(f"ProxyServer points to non-localhost destination: {parsed.get('proxy_server')!r}.",),
+            evidence=(
+                f"ProxyServer points to non-localhost destination: {parsed.get('proxy_server')!r}.",
+            ),
             limitations=limitations,
             recommended_policy_action="EXPORT_EVIDENCE",
             recommended_next_step="Export Sysmon/Procmon proof and review external proxy destination before changes.",
@@ -161,7 +163,9 @@ def classify_investigation_risk(
     if enabled:
         evidence.append("WinINET proxy is enabled.")
     if is_localhost and port:
-        evidence.append(f"ProxyServer points to localhost port {port} (sensitive localhost proxy posture).")
+        evidence.append(
+            f"ProxyServer points to localhost port {port} (sensitive localhost proxy posture)."
+        )
 
     sticky = False
     if before_snapshot is not None:
@@ -169,7 +173,9 @@ def classify_investigation_risk(
         prev_server = before_snapshot.get("proxy_server")
         if prev_enable == 0 and enabled:
             sticky = True
-            evidence.append("ProxyEnable flipped from disabled to enabled since last known-good snapshot.")
+            evidence.append(
+                "ProxyEnable flipped from disabled to enabled since last known-good snapshot."
+            )
         if prev_server and parsed.get("proxy_server") and prev_server != parsed.get("proxy_server"):
             evidence.append("ProxyServer changed since last known-good snapshot.")
 
@@ -207,7 +213,9 @@ def classify_investigation_risk(
         confidence = 0.7
         policy = "OBSERVE_ONLY"
         evidence.append("Process matched config/proxy_allowlist.yaml (event still logged).")
-        next_step = "Monitor with proxy-watch; export Sysmon/Procmon if registry writer proof is required."
+        next_step = (
+            "Monitor with proxy-watch; export Sysmon/Procmon if registry writer proof is required."
+        )
         posture = "trusted-tool localhost proxy posture"
 
     elif proc_name in _SECURITY_TOOL_NAMES:
@@ -217,7 +225,11 @@ def classify_investigation_risk(
         policy = "OBSERVE_ONLY"
         next_step = "Confirm intentional security tooling before disabling proxy."
 
-    elif proc_name in _DEV_PROCESS_NAMES or parent_name in {"powershell.exe", "pwsh.exe", "cmd.exe"}:
+    elif proc_name in _DEV_PROCESS_NAMES or parent_name in {
+        "powershell.exe",
+        "pwsh.exe",
+        "cmd.exe",
+    }:
         category = "SENSITIVE_LOCALHOST_PROXY"
         risk_level = "MEDIUM" if listener_match else "MEDIUM"
         confidence = 0.65 if listener_match else 0.5
@@ -254,7 +266,9 @@ def classify_investigation_risk(
         category = "POSSIBLE_MITM_RISK"
         risk_level = "CRITICAL"
         confidence = 0.85
-        evidence.append("Event-level registry write proof present (review source and authorization).")
+        evidence.append(
+            "Event-level registry write proof present (review source and authorization)."
+        )
         posture = "proven registry writer on proxy keys"
 
     return InvestigationRisk(

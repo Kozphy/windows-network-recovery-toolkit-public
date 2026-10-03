@@ -4,16 +4,48 @@ from __future__ import annotations
 
 import re
 from datetime import UTC, datetime
-from urllib.parse import urlparse
+from urllib.parse import parse_qsl, urlparse
 
 from .models import WebsiteRiskEvidence, WebsiteRiskLevel
+from .urls import NormalizedUrl, is_ip_literal, is_url_shortener, normalize_host, site_label
 
 _PUNYCODE = re.compile(r"xn--", re.I)
 _HOMOGRAPH = re.compile(r"[^\x00-\x7F]")
+BRAND_NAMES: tuple[str, ...] = ("paypal", "microsoft", "apple", "google", "amazon", "netflix")
 _BRAND_TERMS = re.compile(
-    r"(paypal|microsoft|apple|google|amazon|netflix|bank|login|sign.?in|verify.?account)",
+    r"(" + "|".join(BRAND_NAMES) + r"|bank|login|sign.?in|verify.?account)",
     re.I,
 )
+# Brand-operated registrable domains whose names differ from the bare brand
+# (``microsoftonline.com``) or contain it as a hyphenated token.
+BRAND_OWNED_DOMAINS = frozenset(
+    {
+        "paypal.com",
+        "paypal.me",
+        "microsoft.com",
+        "microsoftonline.com",
+        "live.com",
+        "office.com",
+        "office365.com",
+        "outlook.com",
+        "apple.com",
+        "icloud.com",
+        "google.com",
+        "google-analytics.com",
+        "googleusercontent.com",
+        "gmail.com",
+        "youtube.com",
+        "amazon.com",
+        "amazonaws.com",
+        "netflix.com",
+    }
+)
+_REDIRECT_PARAM = re.compile(
+    r"^(?:url|u|r|redirect|redirect_?ur[il]|redir|next|target|dest|destination|goto|go|"
+    r"continue|return|return_?to|return_?url|returnurl|to|link|out|q)$",
+    re.I,
+)
+_EMBEDDED_URL = re.compile(r"^(?:https?:)?//([^/?#\s]+)", re.I)
 _PAYMENT_FORM = re.compile(
     r"(password|card.?number|cvv|ssn|routing.?number|account.?number)",
     re.I,
@@ -167,3 +199,95 @@ def score_local_heuristics(
     else:
         level = WebsiteRiskLevel.LOW
     return min(score, 1.0), evidence, level
+
+
+def _is_brand_owned(host: str) -> bool:
+    return any(host == d or host.endswith("." + d) for d in BRAND_OWNED_DOMAINS)
+
+
+def _brand_in_host(host: str) -> str | None:
+    """Return a brand name used as a whole host token on a non-brand domain."""
+    if _is_brand_owned(host):
+        return None
+    tokens = set(re.split(r"[.\-]", host))
+    label = site_label(host)
+    for brand in BRAND_NAMES:
+        if brand in tokens and label != brand:
+            return brand
+    return None
+
+
+def _redirect_target(query: str) -> tuple[str, str] | None:
+    """Return ``(param, embedded_host)`` for a redirect-style parameter holding a URL."""
+    for key, value in parse_qsl(query, keep_blank_values=False):
+        if not _REDIRECT_PARAM.match(key):
+            continue
+        match = _EMBEDDED_URL.match(value.strip())
+        if match:
+            return key, normalize_host(match.group(1).rsplit("@", 1)[-1].split(":", 1)[0])
+    return None
+
+
+def score_url_string_heuristics(url: NormalizedUrl) -> tuple[float, list[WebsiteRiskEvidence]]:
+    """Score properties visible in the URL string itself (never fetched).
+
+    Complements ``score_local_heuristics`` (punycode/homograph, suspicious TLD,
+    redirect chain, page content) for callers that must not contact the
+    target: link shorteners, redirect parameters, brand names in unrelated
+    hosts, user-info tricks, and raw IP hosts.
+
+    Side effects:
+        None. Shortened links are flagged, not resolved.
+    """
+    evidence: list[WebsiteRiskEvidence] = []
+    host = url.host
+
+    if url.has_userinfo:
+        evidence.append(
+            WebsiteRiskEvidence(
+                signal="userinfo_in_url",
+                observed="userinfo_present",
+                weight=0.3,
+                detail=f"Text before '@' disguises the real host ({host}).",
+            )
+        )
+    if is_ip_literal(host):
+        evidence.append(
+            WebsiteRiskEvidence(
+                signal="ip_literal_host",
+                observed=host,
+                weight=0.2,
+                detail="Link points to a raw IP address instead of a domain name.",
+            )
+        )
+    if is_url_shortener(host):
+        evidence.append(
+            WebsiteRiskEvidence(
+                signal="url_shortener",
+                observed=host,
+                weight=0.15,
+                detail="Link shortener hides the destination; it was not resolved.",
+            )
+        )
+    redirect = _redirect_target(url.query)
+    if redirect and not _is_brand_owned(host):
+        param, target = redirect
+        evidence.append(
+            WebsiteRiskEvidence(
+                signal="open_redirect_parameter",
+                observed=target,
+                weight=0.15,
+                detail=f"Query parameter '{param}' forwards to another host ({target}).",
+            )
+        )
+    brand = None if is_ip_literal(host) else _brand_in_host(host)
+    if brand:
+        evidence.append(
+            WebsiteRiskEvidence(
+                signal="brand_impersonation_keywords",
+                observed=f"url_host:{brand}",
+                weight=0.2,
+                detail=f"Brand name '{brand}' appears in a host not operated by that brand.",
+            )
+        )
+    return min(1.0, sum(e.weight for e in evidence)), evidence

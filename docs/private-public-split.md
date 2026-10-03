@@ -40,12 +40,28 @@ python tools/export_public_mirror.py --out .public_mirror_export --run-checks
 
 The exporter:
 
-1. Copies `include_paths` from the manifest
-2. Deletes `exclude_globs` matches
-3. Rewrites `README.md`, `pyproject.toml`, `AGENTS.md` from [`config/public_mirror/`](../config/public_mirror/)
-4. Ensures [`backend/public_app.py`](../backend/public_app.py) is present (fixture/read-only FastAPI app)
+1. Empties `--out` (default behaviour; `--no-clean` skips this) while keeping any
+   `.git` directory, so a public-repo checkout can be re-exported in place and
+   files removed from the allowlist also disappear from the public tree
+2. Copies `include_paths` from the manifest
+3. Deletes `exclude_globs` matches
+4. Rewrites `README.md`, `pyproject.toml`, `AGENTS.md` from [`config/public_mirror/`](../config/public_mirror/)
+5. Writes `.public_mirror.json` edition metadata
+6. Ensures [`backend/public_app.py`](../backend/public_app.py) is present (fixture/read-only FastAPI app)
 
-Hygiene before any publish:
+With `--run-checks` it then runs the manifest `required_checks` inside the export
+and exits non-zero on the first failure:
+
+1. `public_release_audit --include-untracked` — scans **every** exported file,
+   before any test writes artifacts. (`--tracked-only` would scan nothing here:
+   the export has no tracked files of its own.) High-risk findings fail the gate;
+   medium findings such as synthetic fixture emails or RFC1918 demo IPs are
+   reported for review.
+2. Policy safety, DNS-edge/IPv6, and backend API contract pytest slices. These
+   write `.audit/` and `.pytest_tmp/` into the export; both are gitignored there,
+   so `git add -A` does not publish them.
+
+Hygiene in the private repo before exporting:
 
 ```powershell
 python tools/public_release_audit.py --tracked-only
@@ -94,9 +110,26 @@ Enable GitHub Actions using the copied [`.github/workflows/public-mirror-ci.yml`
 ## Subsequent syncs
 
 1. Land changes in **private** first.
-2. Re-run `python tools/export_public_mirror.py --out <public-checkout-or-export> --run-checks`.
-3. Commit and push on the **public** remote only after audit is clean.
+2. Re-export into the public checkout (its `.git` is preserved; everything else is rebuilt):
+
+   ```powershell
+   python tools/export_public_mirror.py --out .public_mirror_export --run-checks
+   ```
+
+3. Review and push on the **public** remote only after the checks pass:
+
+   ```powershell
+   cd .public_mirror_export
+   git status
+   git add -A
+   git commit -m "Sync public mirror from private monorepo."
+   git push
+   ```
+
 4. Prefer **cherry-picking** public community fixes into private after review — never reverse-sync secrets or private-only modules from public PRs without review.
+
+`.public_mirror_export/` is gitignored in the private repo, so the nested public
+checkout is never committed here. Never push the private repo to the public remote.
 
 ## Safety invariants (both editions)
 

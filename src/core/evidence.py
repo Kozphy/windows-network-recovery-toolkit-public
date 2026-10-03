@@ -6,6 +6,8 @@ import warnings
 
 from src.platform.models import EvidenceItem
 
-warnings.warn("src.core.evidence is deprecated; use src.platform.models", DeprecationWarning, stacklevel=2)
+warnings.warn(
+    "src.core.evidence is deprecated; use src.platform.models", DeprecationWarning, stacklevel=2
+)
 
 __all__ = ["EvidenceItem"]

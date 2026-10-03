@@ -183,13 +183,14 @@ def api_proxy_events(
 
 class DisablePreview(BaseModel):
     """Represent disable preview data used by the toolkit.
-    
+
     Attributes:
         clear_server: Field or variant describing clear server evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     clear_server: bool = False
 
 
@@ -208,17 +209,18 @@ def api_proxy_disable_preview(
 
 class DisableConfirm(BaseModel):
     """Represent disable confirm data used by the toolkit.
-    
+
     Attributes:
         dry_run: Field or variant describing dry run evidence or state.
         confirmation: Field or variant describing confirmation evidence or state.
         confirm: Field or variant describing confirm evidence or state.
         confirmation_text: Field or variant describing confirmation text evidence or state.
         clear_server: Field or variant describing clear server evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     dry_run: bool = True
     confirmation: str = ""
     confirm: bool | None = Field(
@@ -276,15 +278,16 @@ def api_reports_latest_live(_user: AuthUser = Depends(get_current_user)) -> dict
 
 class RestoreLkgRequest(BaseModel):
     """Represent restore lkg request data used by the toolkit.
-    
+
     Attributes:
         dry_run: Field or variant describing dry run evidence or state.
         confirmation: Field or variant describing confirmation evidence or state.
         snapshot_name: Field or variant describing snapshot name evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     dry_run: bool = True
     confirmation: str = ""
     snapshot_name: str = ""
@@ -336,14 +339,15 @@ def api_proxy_config_check(_user: AuthUser = Depends(get_current_user)) -> dict[
 
 class RegistryWriterProofRequest(BaseModel):
     """Represent registry writer proof request data used by the toolkit.
-    
+
     Attributes:
         since_seconds: Field or variant describing since seconds evidence or state.
         procmon_csv: Field or variant describing procmon csv evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     since_seconds: int = 120
     procmon_csv: str | None = None
 

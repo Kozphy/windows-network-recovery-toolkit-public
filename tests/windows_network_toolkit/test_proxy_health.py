@@ -27,7 +27,10 @@ def test_parse_localhost_variants() -> None:
     p3 = parse_proxy_server("http=127.0.0.1:62285;https=127.0.0.1:62285")
     assert p3.is_localhost_proxy and p3.http_localhost_port == 62285
 
-    assert parse_proxy_server("not-a-proxy").is_malformed or not parse_proxy_server("not-a-proxy").is_localhost_proxy
+    assert (
+        parse_proxy_server("not-a-proxy").is_malformed
+        or not parse_proxy_server("not-a-proxy").is_localhost_proxy
+    )
     assert parse_proxy_server("http://pac.example/proxy.pac").proxy_mode != "manual_localhost"
 
 

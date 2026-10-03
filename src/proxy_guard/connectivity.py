@@ -40,6 +40,7 @@ class CommandProbeResult:
         stderr: Captured command standard error.
         permission_limited: True when probe failed due to permissions.
     """
+
     name: str
     ok: bool
     returncode: int
@@ -49,13 +50,13 @@ class CommandProbeResult:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -76,6 +77,7 @@ class ConnectivitySnapshot:
     Includes command probe outputs plus WinINET fields used to correlate regressions
     with proxy toggle transitions.
     """
+
     tcp_443_google: CommandProbeResult
     https_google: CommandProbeResult
     https_microsoft: CommandProbeResult
@@ -85,13 +87,13 @@ class ConnectivitySnapshot:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -108,6 +110,7 @@ class ConnectivitySnapshot:
 @dataclass(frozen=True)
 class ConnectivityValidation:
     """Pre/post connectivity comparison result consumed by decision synthesis."""
+
     pre_change: ConnectivitySnapshot | None
     post_change: ConnectivitySnapshot
     regression_detected: bool
@@ -116,13 +119,13 @@ class ConnectivityValidation:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -178,7 +181,9 @@ def _probe(
     out = proc.stdout or ""
     err = proc.stderr or ""
     ok = int(proc.returncode) == 0
-    return CommandProbeResult(name=name, ok=ok, returncode=int(proc.returncode), stdout=out, stderr=err)
+    return CommandProbeResult(
+        name=name, ok=ok, returncode=int(proc.returncode), stdout=out, stderr=err
+    )
 
 
 def capture_connectivity_snapshot(
@@ -306,4 +311,3 @@ def compare_connectivity(
         regression_type="none",
         summary="No connectivity regression detected across pre/post change checks.",
     )
-

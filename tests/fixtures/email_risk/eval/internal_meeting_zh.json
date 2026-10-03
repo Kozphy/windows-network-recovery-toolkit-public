@@ -1,0 +1,12 @@
+{
+  "description": "Synthetic benign internal message (Traditional Chinese): meeting logistics between colleagues on the organization domain; authentication passes.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"陳怡君\" <yijun.chen@example-corp.test>",
+    "to": ["team@example-corp.test"],
+    "subject": "週四專案會議",
+    "message_id": "<synthetic-eval-internal-zh-0001@example-corp.test>",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=example-corp.test; dkim=pass header.d=example-corp.test; dmarc=pass header.from=example-corp.test",
+    "body_text": "大家好，\n週四下午兩點的專案會議改到 3 樓會議室。\n請先看過附件的時程表，有問題會議上討論。\n\n謝謝\n怡君"
+  }
+}

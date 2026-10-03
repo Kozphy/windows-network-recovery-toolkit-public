@@ -54,11 +54,7 @@ $listJson | Write-Output
 
 def _looks_like_proxy_registry(fields: dict[str, Any]) -> bool:
     tgt = str(fields.get("Target") or "")
-    blob = (
-        tgt
-        + " "
-        + str(fields.get("Details") or "").lower()
-    ).lower()
+    blob = (tgt + " " + str(fields.get("Details") or "").lower()).lower()
     return "internet settings" in tgt.lower() or "internet settings" in blob
 
 

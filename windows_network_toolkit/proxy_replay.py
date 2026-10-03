@@ -101,14 +101,21 @@ def replay_proxy_events(
         if "transition_class" in item and "before_state" in item:
             classified.append(item)
             continue
-        before, after, raw_sub = merge_coalesced_states([item]) if item.get("coalesced") else (
-            item.get("before") or item.get("before_state") or {},
-            item.get("after") or item.get("after_state") or {},
-            [],
+        before, after, raw_sub = (
+            merge_coalesced_states([item])
+            if item.get("coalesced")
+            else (
+                item.get("before") or item.get("before_state") or {},
+                item.get("after") or item.get("after_state") or {},
+                [],
+            )
         )
         if item.get("coalesced") and item.get("raw_sub_events"):
             before, after, raw_sub = merge_coalesced_states(
-                [{"before": s.get("before"), "after": s.get("after"), **s} for s in item["raw_sub_events"]]
+                [
+                    {"before": s.get("before"), "after": s.get("after"), **s}
+                    for s in item["raw_sub_events"]
+                ]
             )
         evidence = build_proxy_evidence_event(
             before_raw=before,

@@ -79,14 +79,20 @@ def build_rca_report(
         for node in (graph.get("nodes") or [])[:8]:
             if isinstance(node, dict):
                 supporting.append(
-                    {"kind": node.get("kind"), "label": node.get("label"), "strength": node.get("strength")}
+                    {
+                        "kind": node.get("kind"),
+                        "label": node.get("label"),
+                        "strength": node.get("strength"),
+                    }
                 )
         for step in decision.state_path or []:
             causal_chain.append(f"Platform state: {step}")
 
     actions: list[str] = []
     if tier in ("observation", "correlated"):
-        actions.append("Collect proof-tier telemetry (Sysmon registry writer, Procmon) before remediation.")
+        actions.append(
+            "Collect proof-tier telemetry (Sysmon registry writer, Procmon) before remediation."
+        )
     if "LOCAL_PROXY_ENABLED" in proj.state_path:
         actions.append("Identify listener process and parent chain; verify against allowlist.")
     if decision and decision.policy_outcome == "PREVIEW":

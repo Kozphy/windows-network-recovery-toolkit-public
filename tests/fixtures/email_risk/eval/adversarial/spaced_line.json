@@ -1,0 +1,11 @@
+{
+  "description": "Adversarial: 'L I N E' spaced spelling in an executive + group-QR + payment chain.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"CEO\" <ceo.private.desk@gmail.com>",
+    "to": ["staff@example-corp.test"],
+    "subject": "Now",
+    "message_id": "<synthetic-adv-spaced-0201@mail.gmail.com>",
+    "body_text": "Please set up a L I N E group right now.\nThen send me the group QR code.\nI will send payment instructions there."
+  }
+}

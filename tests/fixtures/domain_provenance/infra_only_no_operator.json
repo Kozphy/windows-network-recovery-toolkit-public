@@ -1,0 +1,22 @@
+{
+  "target": "cdn-only.example",
+  "dns": {
+    "a": ["203.0.113.10"]
+  },
+  "rdap": {
+    "error": "not_available"
+  },
+  "ip_geo": [
+    {
+      "ip": "203.0.113.10",
+      "country": "US"
+    }
+  ],
+  "asn": {
+    "country": "US",
+    "org": "EXAMPLE-CDN"
+  },
+  "notes": [
+    "No operator-facing country signals; infrastructure alone must not invent operator country."
+  ]
+}

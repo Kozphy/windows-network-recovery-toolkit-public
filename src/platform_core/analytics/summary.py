@@ -97,7 +97,11 @@ def _evidence_tier_of(row: dict[str, Any]) -> str | None:
     if value is None:
         proof = row.get("proof") or row.get("proof_status")
         if isinstance(proof, dict):
-            status = (proof.get("conclusion") or {}).get("status") if isinstance(proof.get("conclusion"), dict) else proof.get("conclusion_status")
+            status = (
+                (proof.get("conclusion") or {}).get("status")
+                if isinstance(proof.get("conclusion"), dict)
+                else proof.get("conclusion_status")
+            )
             if status == "supported":
                 return "proof"
             if status in ("weakened", "inconclusive"):
@@ -155,7 +159,9 @@ def _is_remediation_preview(row: dict[str, Any]) -> bool:
 
 
 def _is_destructive_blocked(row: dict[str, Any]) -> bool:
-    action = str(row.get("action") or row.get("blocked_action") or row.get("proposed_action") or "").upper()
+    action = str(
+        row.get("action") or row.get("blocked_action") or row.get("proposed_action") or ""
+    ).upper()
     decision = str(row.get("decision") or _nested_get(row, "outcome") or "").lower()
     if decision == "blocked":
         return True
@@ -175,14 +181,18 @@ def _verify_audit_files(files: list[Path]) -> dict[str, Any]:
             continue
         if "current_hash" in records[0]:
             ok, msg = verify_chain(records)
-            per_file.append({"file": path.name, "verified": ok, "message": msg, "records": len(records)})
+            per_file.append(
+                {"file": path.name, "verified": ok, "message": msg, "records": len(records)}
+            )
         else:
-            per_file.append({
-                "file": path.name,
-                "verified": None,
-                "message": "no hash chain fields",
-                "records": len(records),
-            })
+            per_file.append(
+                {
+                    "file": path.name,
+                    "verified": None,
+                    "message": "no hash chain fields",
+                    "records": len(records),
+                }
+            )
     verified_count = sum(1 for item in per_file if item["verified"] is True)
     failed_count = sum(1 for item in per_file if item["verified"] is False)
     return {
@@ -227,13 +237,17 @@ def build_analytics_summary(
     remediation_preview_count = sum(1 for row in records if _is_remediation_preview(row))
     destructive_blocked_count = sum(1 for row in records if _is_destructive_blocked(row))
 
-    audit_integrity = _verify_audit_files(files) if files else {
-        "files_checked": 0,
-        "hash_chain_valid_count": 0,
-        "hash_chain_invalid_count": 0,
-        "hash_chain_not_applicable_count": 0,
-        "per_file": [],
-    }
+    audit_integrity = (
+        _verify_audit_files(files)
+        if files
+        else {
+            "files_checked": 0,
+            "hash_chain_valid_count": 0,
+            "hash_chain_invalid_count": 0,
+            "hash_chain_not_applicable_count": 0,
+            "per_file": [],
+        }
+    )
 
     if not records:
         limitations.append("No audit records available; counts are zero.")
@@ -349,7 +363,9 @@ def format_analytics_markdown(payload: dict[str, Any]) -> str:
 
     lines.extend(["", "## Remediation Preview Summary", ""])
     lines.append(f"- Preview events: **{counts.get('remediation_preview_count', 0)}**")
-    lines.append(f"- Blocked destructive actions: **{counts.get('destructive_action_blocked_count', 0)}**")
+    lines.append(
+        f"- Blocked destructive actions: **{counts.get('destructive_action_blocked_count', 0)}**"
+    )
 
     lines.extend(["", "## Audit Integrity", ""])
     lines.append(f"- Files checked: **{integrity.get('files_checked', 0)}**")

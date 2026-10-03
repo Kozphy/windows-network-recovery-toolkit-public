@@ -47,6 +47,7 @@ class DecisionDomainAdapter(ABC):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     @property
     @abstractmethod
     def domain(self) -> DecisionDomain:
@@ -150,6 +151,7 @@ class ITOperationsAdapter(DecisionDomainAdapter):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     @property
     def domain(self) -> DecisionDomain:
         """Return domain.
@@ -201,9 +203,7 @@ class ITOperationsAdapter(DecisionDomainAdapter):
             ),
         ]
 
-    def to_recommendation(
-        self, top, all_scored, evidence, shared
-    ) -> DomainRecommendation:
+    def to_recommendation(self, top, all_scored, evidence, shared) -> DomainRecommendation:
         """Return to recommendation.
 
         Args:
@@ -258,6 +258,7 @@ class SecurityAdapter(DecisionDomainAdapter):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     @property
     def domain(self) -> DecisionDomain:
         """Return domain.
@@ -360,6 +361,7 @@ class RiskAdapter(DecisionDomainAdapter):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     @property
     def domain(self) -> DecisionDomain:
         """Return domain.
@@ -465,6 +467,7 @@ class BusinessAdapter(DecisionDomainAdapter):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     @property
     def domain(self) -> DecisionDomain:
         """Return domain.
@@ -565,6 +568,7 @@ class ComplianceAdapter(DecisionDomainAdapter):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     @property
     def domain(self) -> DecisionDomain:
         """Return domain.

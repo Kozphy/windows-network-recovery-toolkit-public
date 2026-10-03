@@ -25,16 +25,17 @@ router = APIRouter(prefix="/v2/sre", tags=["platform-sre"])
 
 class OpenIncidentRequest(BaseModel):
     """Represent open incident request data used by the toolkit.
-    
+
     Attributes:
         endpoint_id: Field or variant describing endpoint id evidence or state.
         title: Field or variant describing title evidence or state.
         severity: Field or variant describing severity evidence or state.
         trigger_event_ids: Field or variant describing trigger event ids evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     endpoint_id: str
     title: str
     severity: str = "medium"
@@ -43,17 +44,18 @@ class OpenIncidentRequest(BaseModel):
 
 class InvestigateRequest(BaseModel):
     """Represent investigate request data used by the toolkit.
-    
+
     Attributes:
         observations: Field or variant describing observations evidence or state.
         endpoint_id: Field or variant describing endpoint id evidence or state.
         context: Field or variant describing context evidence or state.
         requested_action: Field or variant describing requested action evidence or state.
         explicit_confirmation: Field or variant describing explicit confirmation evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     observations: list[dict[str, Any]]
     endpoint_id: str | None = None
     context: dict[str, Any] = Field(default_factory=dict)
@@ -63,29 +65,31 @@ class InvestigateRequest(BaseModel):
 
 class ResolveIncidentRequest(BaseModel):
     """Represent resolve incident request data used by the toolkit.
-    
+
     Attributes:
         resolution: Field or variant describing resolution evidence or state.
         actor: Field or variant describing actor evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     resolution: str
     actor: str = "operator"
 
 
 class MitigationRequest(BaseModel):
     """Represent mitigation request data used by the toolkit.
-    
+
     Attributes:
         action: Field or variant describing action evidence or state.
         outcome: Field or variant describing outcome evidence or state.
         actor: Field or variant describing actor evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     action: str
     outcome: str
     actor: str = "operator"
@@ -94,13 +98,13 @@ class MitigationRequest(BaseModel):
 @router.get("/health")
 def sre_health() -> dict[str, Any]:
     """Handle the GET request for sre health.
-    
+
     Args:
         None.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -131,13 +135,13 @@ def sre_mttr_metrics(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for sre mttr metrics.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -155,14 +159,14 @@ def open_incident(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for open incident.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -176,7 +180,11 @@ def open_incident(
         )
         prom_inc("platform_sre_incident_opened_total")
         proj = agg.projection
-        return {"incident_id": agg.incident_id, "phase": proj.phase.value, "detected_at": proj.detected_at}
+        return {
+            "incident_id": agg.incident_id,
+            "phase": proj.phase.value,
+            "detected_at": proj.detected_at,
+        }
 
 
 @router.get("/incidents")
@@ -184,13 +192,13 @@ def list_incidents(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for list incidents.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -208,14 +216,14 @@ def get_incident(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for get incident.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -233,15 +241,15 @@ def investigate_incident(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for investigate incident.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -268,14 +276,14 @@ def incident_timeline(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for incident timeline.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -290,14 +298,14 @@ def incident_rca(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for incident rca.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -316,15 +324,15 @@ def resolve_incident(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for resolve incident.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -344,15 +352,15 @@ def mitigate_incident(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for mitigate incident.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -370,14 +378,14 @@ def create_postmortem(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for create postmortem.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """

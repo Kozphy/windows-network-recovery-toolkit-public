@@ -189,7 +189,11 @@ def uninstall_guardian_task(
     payload["stdout"] = (proc.stdout or "").strip()
     payload["stderr"] = (proc.stderr or "").strip()
     payload["startup_hook_removed"] = hook_removed
-    if proc.returncode == 0 or hook_removed or "cannot find the file specified" in (proc.stderr or "").lower():
+    if (
+        proc.returncode == 0
+        or hook_removed
+        or "cannot find the file specified" in (proc.stderr or "").lower()
+    ):
         payload["action_taken"] = "uninstalled"
         payload["reason"] = "Startup observability artifacts removed."
     else:

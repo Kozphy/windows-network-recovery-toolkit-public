@@ -181,7 +181,11 @@ def build_service_config(
     """
     file_blob = load_optional_json_config(config_file)
     probe_blob = file_blob.get("probe") if isinstance(file_blob.get("probe"), dict) else {}
-    rb_blob = file_blob.get("rollback_limits") if isinstance(file_blob.get("rollback_limits"), dict) else {}
+    rb_blob = (
+        file_blob.get("rollback_limits")
+        if isinstance(file_blob.get("rollback_limits"), dict)
+        else {}
+    )
 
     base_timeout = float(probe_blob.get("timeout_seconds", 15.0))
     base_attempts = int(probe_blob.get("max_attempts", 3))
@@ -270,6 +274,8 @@ def legacy_control_kwargs_to_config(
     )
 
 
-def merge_config_overrides(base: ProxyGuardServiceConfig, **overrides: Any) -> ProxyGuardServiceConfig:
+def merge_config_overrides(
+    base: ProxyGuardServiceConfig, **overrides: Any
+) -> ProxyGuardServiceConfig:
     """Return a copy with dataclass fields replaced (tests)."""
     return replace(base, **overrides)

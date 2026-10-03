@@ -12,13 +12,13 @@ _LOGGER = logging.getLogger("decision_intelligence")
 
 def configure_structured_logging(level: int = logging.INFO) -> None:
     """Configure structured logging.
-    
+
     Args:
         level: The level value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

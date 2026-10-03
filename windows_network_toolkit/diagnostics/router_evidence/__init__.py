@@ -14,6 +14,6 @@ Side effects:
     * None at import time beyond submodule loading.
 """
 
-from .runner import run_router_correlation, run_router_import, load_router_jsonl
+from .runner import load_router_jsonl, run_router_correlation, run_router_import
 
 __all__ = ["run_router_import", "run_router_correlation", "load_router_jsonl"]

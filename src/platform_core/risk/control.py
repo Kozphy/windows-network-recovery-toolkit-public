@@ -24,6 +24,7 @@ class ControlObjective(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     control_id: str
     name: str
     control_type: str

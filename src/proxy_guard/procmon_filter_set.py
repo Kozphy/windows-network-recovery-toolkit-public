@@ -31,9 +31,7 @@ from typing import Any
 FILTER_SET_ID = "wininet_proxy_regsetvalue_v1"
 FILTER_SET_VERSION = 1
 
-INTERNET_SETTINGS_PATH = (
-    r"HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
-)
+INTERNET_SETTINGS_PATH = r"HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 
 PROXY_VALUE_NAMES: tuple[str, ...] = (
     "ProxyEnable",
@@ -66,13 +64,13 @@ class ProcmonFilterRule:
 
     def to_dict(self) -> dict[str, str]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, str] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

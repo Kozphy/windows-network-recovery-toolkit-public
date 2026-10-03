@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic beneficiary-account (payroll) change: employee name from a consumer mailbox asks HR to change salary bank details before the payroll run.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Kevin Wu\" <kevin.wu.personal88@yahoo.com>",
+    "to": ["hr@example-corp.test"],
+    "subject": "Payroll update",
+    "message_id": "<synthetic-eval-payroll-0012@yahoo.com>",
+    "body_text": "Hi HR,\nI recently switched banks. Please change my bank account details for payroll to the new account below before this month's payroll run.\nBank: Example Savings, Account 1234509876\nThanks,\nKevin"
+  }
+}

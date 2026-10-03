@@ -33,7 +33,9 @@ def run_platform_decision(
         normalize_raw_observation(obs, endpoint_id=endpoint_id) for obs in observations
     ]
     transitions, state_path = transition_platform_state(events, endpoint_id=endpoint_id)
-    graph = build_evidence_graph(events, transitions, process_snapshot=(context or {}).get("process_snapshot"))
+    graph = build_evidence_graph(
+        events, transitions, process_snapshot=(context or {}).get("process_snapshot")
+    )
     ranking = rank_hypotheses(events, context=context)
     accepted = ranking[0] if ranking else None
     has_proof = any(e.evidence_tier == "TIER_3_CAUSAL_PROOF" for e in events)
@@ -85,7 +87,9 @@ def persist_decision(
             pass
     from platform_core import storage
 
-    storage.append_jsonl(storage.platform_data_dir() / "platform_decisions.jsonl", record.model_dump(mode="json"))
+    storage.append_jsonl(
+        storage.platform_data_dir() / "platform_decisions.jsonl", record.model_dump(mode="json")
+    )
     try:
         from platform_core.db.postgres import append_decision_pg
 

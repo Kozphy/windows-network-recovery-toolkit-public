@@ -29,6 +29,7 @@ class Finding(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     finding_id: str
     title: str
     classification: str
@@ -76,7 +77,9 @@ def findings_from_fixture(fixture: dict[str, Any], tests: list[ControlTest]) -> 
     evidence_tier = "observation"
     if proof_status == "supported":
         evidence_tier = "proof"
-    elif any(t.result == ControlTestResult.PASS and t.test_id == "CT_WRITER_ATTRIBUTION" for t in tests):
+    elif any(
+        t.result == ControlTestResult.PASS and t.test_id == "CT_WRITER_ATTRIBUTION" for t in tests
+    ):
         evidence_tier = "correlation"
 
     findings: list[Finding] = [
@@ -92,7 +95,8 @@ def findings_from_fixture(fixture: dict[str, Any], tests: list[ControlTest]) -> 
                 "classification_evidence": classification.get("evidence", []),
             },
             limitations=list(classification.get("limitations") or []),
-            requires_validation=primary in {"UNKNOWN_LOCAL_PROXY", "POSSIBLE_MITM_RISK", "SUSPICIOUS_PROXY"},
+            requires_validation=primary
+            in {"UNKNOWN_LOCAL_PROXY", "POSSIBLE_MITM_RISK", "SUSPICIOUS_PROXY"},
         )
     ]
 
@@ -106,7 +110,9 @@ def findings_from_fixture(fixture: dict[str, Any], tests: list[ControlTest]) -> 
                 confidence=confidence,
                 summary="Browser stack proxy differs from WinHTTP direct configuration.",
                 evidence={"secondary_signals": secondary},
-                limitations=["Mismatch indicates configuration drift, not proven malicious intent."],
+                limitations=[
+                    "Mismatch indicates configuration drift, not proven malicious intent."
+                ],
             )
         )
 

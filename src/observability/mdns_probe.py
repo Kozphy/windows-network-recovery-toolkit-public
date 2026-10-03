@@ -77,7 +77,7 @@ def probe_mdns(
                 if b"_services._dns-sd._udp" in data or b".local" in data:
                     snippet = data[:120].decode("utf-8", errors="replace")
                     services.append({"source_ip": src_ip, "snippet": snippet[:80]})
-            except socket.timeout:
+            except TimeoutError:
                 break
     finally:
         sock.close()

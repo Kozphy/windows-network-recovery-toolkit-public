@@ -71,7 +71,11 @@ def build_dashboard(runtime: DashboardRuntime) -> None:
                         {"name": "process", "label": "Process", "field": "process"},
                         {"name": "old", "label": "Old value", "field": "old"},
                         {"name": "new", "label": "New value", "field": "new"},
-                        {"name": "classification", "label": "Classification", "field": "classification"},
+                        {
+                            "name": "classification",
+                            "label": "Classification",
+                            "field": "classification",
+                        },
                         {"name": "proof_tier", "label": "Proof tier", "field": "proof_tier"},
                         {"name": "severity", "label": "Severity", "field": "severity"},
                     ],
@@ -95,7 +99,11 @@ def build_dashboard(runtime: DashboardRuntime) -> None:
                         {"name": "executable", "label": "Executable", "field": "executable"},
                         {"name": "command_line", "label": "Command line", "field": "command_line"},
                         {"name": "username", "label": "Username", "field": "username"},
-                        {"name": "tcp_endpoints", "label": "TCP endpoints", "field": "tcp_endpoints"},
+                        {
+                            "name": "tcp_endpoints",
+                            "label": "TCP endpoints",
+                            "field": "tcp_endpoints",
+                        },
                     ],
                     rows=[],
                     row_key="pid",
@@ -153,7 +161,9 @@ def build_dashboard(runtime: DashboardRuntime) -> None:
                         "time": e.timestamp,
                         "source": e.source,
                         "event": e.event_type,
-                        "process": e.data.get("process_name") or e.data.get("listener_process_name") or "",
+                        "process": e.data.get("process_name")
+                        or e.data.get("listener_process_name")
+                        or "",
                         "old": old.get("proxy_server") if old else "",
                         "new": new.get("proxy_server") if new else e.summary[:80],
                         "classification": e.classification or "",
@@ -253,7 +263,11 @@ def _card(ui: Any, title: str, value: str) -> None:
 def _incident_markdown(event: Any, overview: dict[str, Any]) -> str:
     data = event.data or {}
     actions = data.get("recommended_next_actions") or []
-    action = actions[0] if actions else "Continue observation; use policy-gated remediation CLIs separately."
+    action = (
+        actions[0]
+        if actions
+        else "Continue observation; use policy-gated remediation CLIs separately."
+    )
     return f"""
 ### Incident `{event.incident_id or event.event_id}`
 
@@ -262,11 +276,11 @@ def _incident_markdown(event: Any, overview: dict[str, Any]) -> str:
 - Source: `{event.source}` / `{event.event_type}`
 
 **State transition**
-- Old: `{data.get('old')}`
-- New: `{data.get('new')}`
+- Old: `{data.get("old")}`
+- New: `{data.get("new")}`
 
 **Listener verification**
-- `{data.get('listener') or overview.get('local_listener')}`
+- `{data.get("listener") or overview.get("local_listener")}`
 
 **Classification / proof**
 - Classification: `{event.classification}`
@@ -274,7 +288,7 @@ def _incident_markdown(event: Any, overview: dict[str, Any]) -> str:
 - Confidence: `{event.confidence}` (ordinal, not calibrated probability)
 
 **Limitations**
-{chr(10).join('- ' + lim for lim in (event.limitations or [])[:6])}
+{chr(10).join("- " + lim for lim in (event.limitations or [])[:6])}
 
 **Recommended next diagnostic action**
 - {action}

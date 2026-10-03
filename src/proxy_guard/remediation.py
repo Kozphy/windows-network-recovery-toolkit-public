@@ -67,7 +67,13 @@ _ALLOWLIST: dict[str, AllowlistedRemediationAction] = {
         description="Restore targeted HKCU WinINET proxy fields from a last-known-good snapshot.",
         risk_level="medium",
         required_confirmation=RESTORE_WININET_PROXY_FROM_LKG_PHRASE,
-        allowed_registry_fields=("ProxyEnable", "ProxyServer", "AutoConfigURL", "ProxyOverride", "AutoDetect"),
+        allowed_registry_fields=(
+            "ProxyEnable",
+            "ProxyServer",
+            "AutoConfigURL",
+            "ProxyOverride",
+            "AutoDetect",
+        ),
         reversible=True,
     ),
     "stop_proxy_listener": AllowlistedRemediationAction(

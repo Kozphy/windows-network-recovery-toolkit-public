@@ -56,13 +56,13 @@ class StopListenerTarget:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -93,16 +93,16 @@ class StopListenerResult:
 
     def to_audit_row(self, *, event_kind: str) -> dict[str, Any]:
         """To audit row.
-        
+
         Args:
             event_kind: The event kind value supplied by the caller.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -154,7 +154,9 @@ def resolve_stop_listener_target(
         parsed = parse_proxy_server(reg.proxy_server)
         resolved_port = parsed.localhost_port
         if resolved_port is None:
-            notes.append("No localhost proxy port parsed from HKCU ProxyServer; pass --port explicitly.")
+            notes.append(
+                "No localhost proxy port parsed from HKCU ProxyServer; pass --port explicitly."
+            )
 
     if resolved_port is None:
         return None, tuple(notes)
@@ -301,7 +303,8 @@ def run_stop_listener_workflow(
                     target=target,
                     before=before,
                     after=None,
-                    planned_argv=parent_planned_argv or (build_taskkill_argv(target.pid) if target else tuple()),
+                    planned_argv=parent_planned_argv
+                    or (build_taskkill_argv(target.pid) if target else tuple()),
                     taskkill_result=None,
                     notes=all_notes,
                 )

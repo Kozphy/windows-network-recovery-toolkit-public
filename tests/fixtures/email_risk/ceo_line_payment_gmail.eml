@@ -1,0 +1,23 @@
+Return-Path: <random-company-ceo@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com [209.85.220.41])
+	by mx.example-corp.test with ESMTPS id x1 for <staff@example-corp.test>;
+	Mon, 21 Sep 2026 09:12:03 +0800
+Authentication-Results: mx.example-corp.test;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com;
+	dmarc=pass header.from=gmail.com
+From: "CEO" <random-company-ceo@gmail.com>
+To: staff@example-corp.test
+Subject: Urgent
+Message-ID: <synthetic-bec-0001@mail.gmail.com>
+Date: Mon, 21 Sep 2026 09:12:00 +0800
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Please create a LINE group immediately.
+
+After creating the group, send me the QR code.
+
+Keep this confidential and do not contact finance yet.
+
+I will send you payment instructions afterward.

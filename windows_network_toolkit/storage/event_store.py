@@ -95,7 +95,9 @@ class EvidenceEventStore:
                     append_audit_dict(event.to_dict(), log_name=self.audit_log_name)
             return event
 
-    def recent(self, *, include_cleared: bool = False, limit: int | None = None) -> list[EvidenceEvent]:
+    def recent(
+        self, *, include_cleared: bool = False, limit: int | None = None
+    ) -> list[EvidenceEvent]:
         """Return chronological events for the UI, optionally excluding cleared ids.
 
         Args:
@@ -153,7 +155,9 @@ class EvidenceEventStore:
                 e
                 for e in rows
                 if needle
-                in str(e.data.get("process_name") or e.data.get("listener_process_name") or "").lower()
+                in str(
+                    e.data.get("process_name") or e.data.get("listener_process_name") or ""
+                ).lower()
             ]
         if limit is not None:
             rows = rows[-max(1, limit) :]

@@ -534,9 +534,7 @@ def run_reasoning(
     signals = normalize_signals(observations)
     events = detect_endpoint_events(observations)
     transitions = infer_browser_proxy_transitions(events, signals)
-    canonical_transitions = infer_canonical_transitions(
-        transitions, events=events, signals=signals
-    )
+    canonical_transitions = infer_canonical_transitions(transitions, events=events, signals=signals)
     canonical_path = canonical_state_path(canonical_transitions)
     ranking = rank_hypotheses(transitions=transitions, signals=signals, proof_result=proof)
     accepted = ranking[0]["hypothesis"] if ranking else "unknown"

@@ -21,6 +21,7 @@ class ReputationPlugin(Protocol):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     name: str
 
     def is_configured(self) -> bool:
@@ -69,6 +70,7 @@ class VirusTotalPlugin:
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     name = "virustotal"
 
     def is_configured(self) -> bool:
@@ -127,6 +129,7 @@ class GoogleSafeBrowsingPlugin:
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     name = "google_safe_browsing"
 
     def is_configured(self) -> bool:
@@ -184,6 +187,7 @@ class URLHausPlugin:
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     name = "urlhaus"
 
     def is_configured(self) -> bool:
@@ -234,6 +238,7 @@ class PhishTankPlugin:
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     name = "phishtank"
 
     def is_configured(self) -> bool:

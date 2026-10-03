@@ -28,17 +28,18 @@ router = APIRouter(prefix="/v2", tags=["platform-v2"])
 
 class DecisionRunRequest(BaseModel):
     """Represent decision run request data used by the toolkit.
-    
+
     Attributes:
         endpoint_id: Field or variant describing endpoint id evidence or state.
         observations: Field or variant describing observations evidence or state.
         requested_action: Field or variant describing requested action evidence or state.
         explicit_confirmation: Field or variant describing explicit confirmation evidence or state.
         context: Field or variant describing context evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     endpoint_id: str = "local"
     observations: list[dict[str, Any]]
     requested_action: str | None = None
@@ -48,14 +49,15 @@ class DecisionRunRequest(BaseModel):
 
 class EventIngestRequest(BaseModel):
     """Represent event ingest request data used by the toolkit.
-    
+
     Attributes:
         endpoint_id: Field or variant describing endpoint id evidence or state.
         events: Field or variant describing events evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     endpoint_id: str = "local"
     events: list[dict[str, Any]]
 
@@ -63,13 +65,13 @@ class EventIngestRequest(BaseModel):
 @router.get("/health")
 def v2_health() -> dict[str, Any]:
     """Handle the GET request for v2 health.
-    
+
     Args:
         None.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -91,14 +93,14 @@ def ingest_events(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for ingest events.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -154,17 +156,17 @@ def replay_decision_route(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for replay decision route.
-    
+
     Args:
         run_id: The run id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -184,21 +186,23 @@ def list_events(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for list events.
-    
+
     Args:
         limit: The limit value supplied by the caller.
         endpoint_id: The endpoint id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
     assert_can_read_metrics(principal)
     pipe = EventPipeline()
-    items = [e.model_dump(mode="json") for e in pipe.iter_events(endpoint_id=endpoint_id, limit=limit)]
+    items = [
+        e.model_dump(mode="json") for e in pipe.iter_events(endpoint_id=endpoint_id, limit=limit)
+    ]
     return {"items": items, "count": len(items)}
 
 
@@ -207,16 +211,16 @@ def policy_summary(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for policy summary.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -243,17 +247,17 @@ def verify_audit(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for verify audit.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """

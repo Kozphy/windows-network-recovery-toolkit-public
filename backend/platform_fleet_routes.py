@@ -26,30 +26,32 @@ _replay = ReplayCoordinator()
 
 class IngestBatchRequest(BaseModel):
     """Represent ingest batch request data used by the toolkit.
-    
+
     Attributes:
         tenant_id: Field or variant describing tenant id evidence or state.
         events: Field or variant describing events evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     tenant_id: str
     events: list[FleetEventEnvelope]
 
 
 class ReplayJobRequest(BaseModel):
     """Represent replay job request data used by the toolkit.
-    
+
     Attributes:
         tenant_id: Field or variant describing tenant id evidence or state.
         incident_id: Field or variant describing incident id evidence or state.
         time_start_utc: Field or variant describing time start utc evidence or state.
         time_end_utc: Field or variant describing time end utc evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     tenant_id: str
     incident_id: str
     time_start_utc: str
@@ -73,13 +75,13 @@ def _demo_to_tenant_principal(demo: DemoPrincipal, tenant_id: str) -> TenantPrin
 @router.get("/health")
 def fleet_health() -> dict[str, Any]:
     """Handle the GET request for fleet health.
-    
+
     Args:
         None.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -138,14 +140,14 @@ def enqueue_replay(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for enqueue replay.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -176,15 +178,15 @@ def get_replay_job(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for get replay job.
-    
+
     Args:
         job_id: The job id value supplied by the caller.
         tenant_id: The tenant id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """

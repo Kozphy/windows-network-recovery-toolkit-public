@@ -62,6 +62,7 @@ class NormalizedEvent(BaseModel):
     Side effects:
         None.
     """
+
     event_id: str
     schema_version: str = SCHEMA_VERSION
     timestamp_utc: str
@@ -94,6 +95,7 @@ class EvidenceItem(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     evidence_id: str
     event_id: str
     schema_version: str = SCHEMA_VERSION
@@ -126,6 +128,7 @@ class EvidenceBundle(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     bundle_id: str
     incident_id: str
     schema_version: str = SCHEMA_VERSION
@@ -157,6 +160,7 @@ class Hypothesis(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     hypothesis_id: str
     event_id: str
     schema_version: str = SCHEMA_VERSION
@@ -187,6 +191,7 @@ class Decision(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     decision_id: str
     incident_id: str
     trace_id: str = ""
@@ -222,6 +227,7 @@ class PolicyEvaluation(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     evaluation_id: str
     decision_id: str
     schema_version: str = SCHEMA_VERSION
@@ -252,6 +258,7 @@ class PolicyOutcome(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     outcome: PolicyOutcomeName
     dry_run: bool = True
     allowed_actions: list[str] = Field(default_factory=list)
@@ -274,6 +281,7 @@ class OperatorAction(BaseModel):
     Side effects:
         None.
     """
+
     action_id: str
     decision_id: str
     schema_version: str = SCHEMA_VERSION
@@ -304,6 +312,7 @@ class IncidentOutcome(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     outcome_id: str
     decision_id: str
     incident_id: str
@@ -340,6 +349,7 @@ class AuditRecord(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     audit_id: str
     schema_version: str = AUDIT_SCHEMA_VERSION
     timestamp_utc: str
@@ -352,6 +362,13 @@ class AuditRecord(BaseModel):
     previous_hash: str = ""
     current_hash: str = ""
     signature_status: Literal["unsigned", "hash_chained", "signed"] = "hash_chained"
+    # Domain event envelope fields (wnrt.domain_event.v1) — optional for legacy rows.
+    event_id: str = ""
+    event_type: str = ""
+    source: str = ""
+    tenant_id: str = ""
+    correlation_id: str = ""
+    custody: dict[str, Any] = Field(default_factory=dict)
 
 
 class ReplayCase(BaseModel):
@@ -369,6 +386,7 @@ class ReplayCase(BaseModel):
     Side effects:
         None.
     """
+
     case_id: str
     schema_version: str = SCHEMA_VERSION
     fixture_path: str = ""
@@ -392,6 +410,7 @@ class LearningRecord(BaseModel):
     Side effects:
         None.
     """
+
     record_id: str
     decision_id: str
     schema_version: str = SCHEMA_VERSION
@@ -415,6 +434,7 @@ class DestructiveAction(StrEnum):
     Side effects:
         None.
     """
+
     REGISTRY_MODIFICATION = "registry_modification"
     KILL_PROCESS = "kill_process"
     DISABLE_PROXY = "disable_proxy"

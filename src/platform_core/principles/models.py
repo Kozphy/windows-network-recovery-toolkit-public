@@ -125,6 +125,7 @@ class PrincipleCheck(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     principle_id: str
     title: str
     passed: bool
@@ -149,6 +150,7 @@ class PrincipleComplianceResult(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     compliant: bool
     checks: list[PrincipleCheck] = Field(default_factory=list)
     blocked_overclaims: list[str] = Field(default_factory=list)

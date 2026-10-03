@@ -43,6 +43,7 @@ class EvidenceSource(StrEnum):
 
     Side effects:
         None."""
+
     HOST_LEVEL_OBSERVATION = "HOST_LEVEL_OBSERVATION"
     ROUTER_LEVEL_EVIDENCE = "ROUTER_LEVEL_EVIDENCE"
     PACKET_CAPTURE_EVIDENCE = "PACKET_CAPTURE_EVIDENCE"
@@ -66,6 +67,7 @@ class LanClassification(StrEnum):
 
     Audit Notes:
         These labels are observational triage signals, not accusations or proof of compromise."""
+
     NORMAL_DISCOVERY = "NORMAL_DISCOVERY"
     NEW_DEVICE_OBSERVED = "NEW_DEVICE_OBSERVED"
     FREQUENT_DISCOVERY = "FREQUENT_DISCOVERY"
@@ -89,6 +91,7 @@ class LanProtocol(StrEnum):
 
     Side effects:
         None."""
+
     MDNS = "MDNS"
     SSDP = "SSDP"
     UPNP = "UPNP"

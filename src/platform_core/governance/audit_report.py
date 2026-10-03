@@ -88,7 +88,9 @@ def _top_risk_themes(kpis: dict[str, Any], limit: int = 5) -> list[dict[str, Any
     return themes
 
 
-def _high_risk_unresolved(kpis: dict[str, Any], records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def _high_risk_unresolved(
+    kpis: dict[str, Any], records: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
     high_count = int(kpis.get("high_residual_risk_count") or 0)
     unresolved = int(kpis.get("unresolved_incident_count") or 0)
     items: list[dict[str, Any]] = []
@@ -110,7 +112,9 @@ def _high_risk_unresolved(kpis: dict[str, Any], records: list[dict[str, Any]]) -
         )
     for row in records:
         cls = _classification_of(row) or ""
-        if cls in ("POSSIBLE_MITM_RISK", "REVERTER_SUSPECTED") and str(row.get("status", "")).lower() not in (
+        if cls in ("POSSIBLE_MITM_RISK", "REVERTER_SUSPECTED") and str(
+            row.get("status", "")
+        ).lower() not in (
             "resolved",
             "closed",
         ):
@@ -125,7 +129,14 @@ def _high_risk_unresolved(kpis: dict[str, Any], records: list[dict[str, Any]]) -
 
 
 def _control_test_summary(control_tests: list[Any]) -> dict[str, Any]:
-    counts: dict[str, int] = {"PASS": 0, "FAIL": 0, "PARTIAL": 0, "NOT_TESTED": 0, "EXCEPTION": 0, "INSUFFICIENT_EVIDENCE": 0}
+    counts: dict[str, int] = {
+        "PASS": 0,
+        "FAIL": 0,
+        "PARTIAL": 0,
+        "NOT_TESTED": 0,
+        "EXCEPTION": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+    }
     for test in control_tests:
         raw = test.result if hasattr(test, "result") else test.get("result")
         key = str(raw)
@@ -319,7 +330,9 @@ def _format_markdown(payload: dict[str, Any], kpi_payload: dict[str, Any]) -> st
         lines.append(f"- **{test['control_id']}** ({test['result']}): {test['control_objective']}")
     lines.extend(["", "## Business Impact Estimate (Ordinal)", ""])
     bi = payload.get("business_impact_estimate") or {}
-    lines.append(f"- Total business impact score: **{bi.get('total_business_impact_score')}** (ordinal, not probability)")
+    lines.append(
+        f"- Total business impact score: **{bi.get('total_business_impact_score')}** (ordinal, not probability)"
+    )
     lines.append(f"- Downtime minutes (estimate): {bi.get('downtime_minutes')}")
     lines.append(f"- Affected users (estimate): {bi.get('affected_users')}")
     forum = payload.get("business_impact_forum_mapping") or {}

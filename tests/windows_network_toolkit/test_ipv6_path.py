@@ -187,10 +187,13 @@ def test_restore_dry_run_warns_when_ipv6_still_blackholed() -> None:
         "ipv4_probe": {"ok": True},
         "ipv6_probe": {"ok": False},
     }
-    with patch(
-        "windows_network_toolkit.ipv6_path.diagnose_ipv6_path",
-        return_value=fake_diag,
-    ), patch("windows_network_toolkit.ipv6_path.platform.system", return_value="Windows"):
+    with (
+        patch(
+            "windows_network_toolkit.ipv6_path.diagnose_ipv6_path",
+            return_value=fake_diag,
+        ),
+        patch("windows_network_toolkit.ipv6_path.platform.system", return_value="Windows"),
+    ):
         preview = run_restore_ipv6_preference(
             dry_run=True,
             confirm="",

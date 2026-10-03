@@ -1,0 +1,32 @@
+From: "Example Events" <tickets@example-events.test>
+To: attendee@example-corp.test
+Subject: Your ticket for Example Conf 2026
+Message-ID: <synthetic-qr-c-0001@example-events.test>
+Date: Fri, 25 Sep 2026 09:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/related; boundary="==SYNTHETIC-QR-C-REL=="
+
+--==SYNTHETIC-QR-C-REL==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<html><body>
+<p>Thanks for registering for Example Conf 2026.</p>
+<p>Your ticket QR code is below. Show it at the entrance on the day of the event.</p>
+<p><img src="cid:ticket-qr@example-events.test" alt="ticket"></p>
+</body></html>
+
+--==SYNTHETIC-QR-C-REL==
+Content-Type: image/png; name="ticket.png"
+Content-Disposition: inline; filename="ticket.png"
+Content-ID: <ticket-qr@example-events.test>
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAAN4AAADeAQAAAAB6HIMaAAABNElEQVR42u1YwQ0DIQyLygCMxOoZ
+iQGQUuxw9D7ttz4JdELo8rEixzZYfF/DTvEUdYuG1bDViN6i41hm8WU/1j+KQDuBJcjSW375UxQt
+cVr1YW2wvbPV4miTEqP6I9COeU4aiKMlb+eIAaGp8zY1YY9Y0daES8xSFm5/RHkLnANM8AjH3pWn
+jPJVARVo0V4XZoKDAxSHCXvuQ1gTSAOnL1gQMCxYF23jiDXyNnLQtDXBYRAwMtBAm7fJWJpakBLa
+qWZpwnIxF9fbctdbbeeNDwEuve0mnBPajrj4mHK19TaypQxj0rw1CtcytYxkBKycwZbnkgPKaXzn
+22xpYQBTv/NecTGh6t/LSAAX5+2+86adDYqY+nuCGafMeZ10cd6ypbg1rCcmbU3IDKavCefp8hSf
+VnwDpFkvhGWULXkAAAAASUVORK5CYII=
+--==SYNTHETIC-QR-C-REL==--

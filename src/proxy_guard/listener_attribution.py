@@ -73,7 +73,9 @@ def attribute_localhost_proxy_listener(
     if first:
         pid = first.get("pid")
         cand = ProxyActor(
-            pid=int(pid) if isinstance(pid, int) else (int(pid) if isinstance(pid, str) and pid.isdigit() else None),
+            pid=int(pid)
+            if isinstance(pid, int)
+            else (int(pid) if isinstance(pid, str) and pid.isdigit() else None),
             process_name=str(first.get("process_name") or "").strip() or None,
             image_path=(
                 str(first.get("executable_path") or "").strip() or None
@@ -90,7 +92,8 @@ def attribute_localhost_proxy_listener(
                 if isinstance(first.get("parent_pid"), int)
                 else (
                     int(first["parent_pid"])
-                    if isinstance(first.get("parent_pid"), str) and str(first["parent_pid"]).isdigit()
+                    if isinstance(first.get("parent_pid"), str)
+                    and str(first["parent_pid"]).isdigit()
                     else None
                 )
             ),

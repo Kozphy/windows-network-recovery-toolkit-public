@@ -90,14 +90,14 @@ _LOGGER = "proxy_guard.guard"
 
 def resolved_repo_root(explicit: Path | None, jsonl_path: Path) -> Path:
     """Resolved repo root.
-    
+
     Args:
         explicit: The explicit value supplied by the caller.
         jsonl_path: Filesystem path used by the operation.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -141,13 +141,13 @@ def _safe_listen_attribution(
 
 def winhttp_explicit(lkg: ProxySnapshot | None) -> bool:
     """Winhttp explicit.
-    
+
     Args:
         lkg: The lkg value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -174,9 +174,7 @@ def run_proxy_guard_guard_loop(cfg: ProxyGuardServiceConfig) -> None:
     confirm_required = cfg.cli_rollback and not cfg.auto_rollback
     phrase_ok = cfg.rollback_confirm_phrase.strip() == "RESTORE_PROXY"
     live_rollback_gate = bool(
-        effective_rollback
-        and not cfg.dry_run_rollback
-        and (not confirm_required or phrase_ok),
+        effective_rollback and not cfg.dry_run_rollback and (not confirm_required or phrase_ok),
     )
 
     limiter = RollbackLimiter(cfg.rollback_limits)
@@ -355,7 +353,9 @@ def run_proxy_guard_guard_loop(cfg: ProxyGuardServiceConfig) -> None:
             snapshot=curr_snap_guard,
             timeout_seconds=cfg.probe.timeout_seconds,
         )
-        validation = compare_connectivity(pre_change=prior_connectivity, post_change=post_connectivity)
+        validation = compare_connectivity(
+            pre_change=prior_connectivity, post_change=post_connectivity
+        )
         final_decision = finalize_decision(
             policy_decision=gd,
             connectivity_validation=validation,
@@ -431,7 +431,9 @@ def run_proxy_guard_guard_loop(cfg: ProxyGuardServiceConfig) -> None:
                     restored_field_names = wininet_argv_restored_fields(wininet_rows)
                 if live_rollback_gate and not rb_exec.get("skipped"):
                     limiter.record_rollback()
-                snap_after, probe_after = read_proxy_registry_with_retries(run=cfg.run, settings=cfg.probe)
+                snap_after, probe_after = read_proxy_registry_with_retries(
+                    run=cfg.run, settings=cfg.probe
+                )
                 if probe_after:
                     emit_structured_log(
                         logger=_LOGGER,
@@ -472,15 +474,21 @@ def run_proxy_guard_guard_loop(cfg: ProxyGuardServiceConfig) -> None:
         if suppressed_reason is not None:
             rb_res = RollbackResult(status="skipped_suppressed", detail=suppressed_reason)
         elif gd.decision == "observe":
-            rb_res = RollbackResult(status="skipped_observe", detail="no_registry_core_change_policy_branch")
+            rb_res = RollbackResult(
+                status="skipped_observe", detail="no_registry_core_change_policy_branch"
+            )
         elif gd.decision != "blocked":
             rb_res = RollbackResult(status="skipped_not_blocked", detail=gd.reason)
         elif not gd.rollback_allowed:
             rb_res = RollbackResult(status="skipped_roll_back_disallowed", detail=gd.reason)
         elif not effective_rollback:
-            rb_res = RollbackResult(status="skipped_auto_rollback_disabled", detail="rollback_flags_disabled")
+            rb_res = RollbackResult(
+                status="skipped_auto_rollback_disabled", detail="rollback_flags_disabled"
+            )
         elif rb_exec is None:
-            rb_res = RollbackResult(status="error", detail="rollback_executor_not_invoked_internal_error")
+            rb_res = RollbackResult(
+                status="error", detail="rollback_executor_not_invoked_internal_error"
+            )
         elif rb_exec.get("skipped"):
             reason = str(rb_exec.get("reason") or "")
             if reason == "skipped_no_lkg":

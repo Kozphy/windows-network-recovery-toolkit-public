@@ -18,11 +18,12 @@ from src.platform.domains._evidence import FixtureEvidenceAdapter
 
 class MarketAdapter(FixtureEvidenceAdapter):
     """Represent market adapter data used by the toolkit.
-    
+
     Attributes:
         domain_name: Field or variant describing domain name evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     domain_name = "market"

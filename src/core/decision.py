@@ -6,6 +6,8 @@ import warnings
 
 from src.platform.models import ActionType, DecisionOption, Hypothesis
 
-warnings.warn("src.core.decision is deprecated; use src.platform.models", DeprecationWarning, stacklevel=2)
+warnings.warn(
+    "src.core.decision is deprecated; use src.platform.models", DeprecationWarning, stacklevel=2
+)
 
 __all__ = ["ActionType", "DecisionOption", "Hypothesis"]

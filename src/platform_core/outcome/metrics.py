@@ -42,8 +42,12 @@ def compute_metrics(*, baseline_mttr_seconds: float = 3600.0) -> dict[str, Any]:
     successful = [o for o in outcomes if o.was_successful is True]
     false_pos = [o for o in outcomes if o.was_false_positive is True]
     blocked = [o for o in outcomes if o.was_blocked_by_policy]
-    ttls = [o.time_to_resolution_seconds for o in outcomes if o.time_to_resolution_seconds is not None]
-    approvals = [o for o in outcomes if o.operator_action and "approve" in o.operator_action.lower()]
+    ttls = [
+        o.time_to_resolution_seconds for o in outcomes if o.time_to_resolution_seconds is not None
+    ]
+    approvals = [
+        o for o in outcomes if o.operator_action and "approve" in o.operator_action.lower()
+    ]
     rollbacks = [o for o in outcomes if "rollback" in (o.actual_outcome or "").lower()]
 
     n = len(outcomes)

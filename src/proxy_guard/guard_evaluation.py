@@ -230,7 +230,9 @@ def evaluate_proxy_transition(
         verified_event = attribution.mode == "verified_eventlog"
         listener_ok = port_listen is True
         if listener_ok or trusted_path or verified_event or pd_name.allowed:
-            rule = pd_name.matched_rule or ("localhost_listener_present" if listener_ok else "trusted_override")
+            rule = pd_name.matched_rule or (
+                "localhost_listener_present" if listener_ok else "trusted_override"
+            )
             return ProxyGuardPolicyDecision(
                 decision="allowed",
                 reason="localhost_loopback_policy_allow",

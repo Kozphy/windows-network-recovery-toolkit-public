@@ -45,13 +45,13 @@ _METRIC_HELP: dict[str, str] = {
 
 def inc_event() -> None:
     """Inc event.
-    
+
     Args:
         None.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -61,16 +61,16 @@ def inc_event() -> None:
 
 def inc_decision() -> None:
     """Inc decision.
-    
+
     Args:
         None.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -80,16 +80,16 @@ def inc_decision() -> None:
 
 def inc_decision_failure() -> None:
     """Inc decision failure.
-    
+
     Args:
         None.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -99,16 +99,16 @@ def inc_decision_failure() -> None:
 
 def set_decision_accuracy(value: float) -> None:
     """Set decision accuracy.
-    
+
     Args:
         value: The value value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -118,13 +118,13 @@ def set_decision_accuracy(value: float) -> None:
 
 def record_latency(seconds: float) -> None:
     """Record latency.
-    
+
     Args:
         seconds: The seconds value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -139,13 +139,13 @@ def record_latency(seconds: float) -> None:
 @contextmanager
 def observe_handler_latency() -> Iterator[None]:
     """Observe handler latency.
-    
+
     Args:
         None.
-    
+
     Returns:
         The Iterator[None] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -158,13 +158,13 @@ def observe_handler_latency() -> Iterator[None]:
 
 def refresh_accuracy_from_learning(accuracy: float) -> None:
     """Refresh accuracy from learning.
-    
+
     Args:
         accuracy: The accuracy value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -173,13 +173,13 @@ def refresh_accuracy_from_learning(accuracy: float) -> None:
 
 def render_prometheus_lines() -> str:
     """Render prometheus lines.
-    
+
     Args:
         None.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -200,13 +200,13 @@ def render_prometheus_lines() -> str:
 
 def reset_for_tests() -> None:
     """Reset for tests.
-    
+
     Args:
         None.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

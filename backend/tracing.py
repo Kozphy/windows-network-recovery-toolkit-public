@@ -46,13 +46,13 @@ def span(name: str, **attributes: Any) -> Iterator[None]:
 
 def get_trace_id() -> str | None:
     """Get trace id.
-    
+
     Args:
         None.
-    
+
     Returns:
         The str | None result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

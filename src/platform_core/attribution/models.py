@@ -28,6 +28,7 @@ class ListenerClassification(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     NO_PROXY = "NO_PROXY"
     KNOWN_DEV_PROXY = "KNOWN_DEV_PROXY"
     KNOWN_SECURITY_TOOL = "KNOWN_SECURITY_TOOL"
@@ -54,6 +55,7 @@ class ProcessAttribution(BaseModel):
     Side effects:
         None.
     """
+
     pid: int | None = None
     parent_pid: int | None = None
     executable_path: str = ""
@@ -80,6 +82,7 @@ class ProxyStateSnapshot(BaseModel):
     Side effects:
         None.
     """
+
     wininet_proxy_enable: int = 0
     wininet_proxy_server: str = ""
     wininet_proxy_override: str = ""

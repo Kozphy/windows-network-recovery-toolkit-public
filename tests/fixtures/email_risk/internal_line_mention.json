@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic internal email that mentions LINE and WhatsApp as products/channels without asking to move the conversation.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Project Office\" <pmo@example-corp.test>",
+    "to": ["engineering@example-corp.test"],
+    "subject": "LINE integration kickoff",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=example-corp.test; dkim=pass header.d=example-corp.test; dmarc=pass header.from=example-corp.test",
+    "body_text": "Reminder: the LINE integration project kickoff is on Tuesday.\nPlease review the LINE API spec before the meeting.\nOur customer support team uses LINE and WhatsApp for customer inquiries.\nLINE 官方帳號的串接進度也會一起討論。"
+  }
+}

@@ -15,15 +15,15 @@ def render_causation_text(
     observed_proxy_state: dict[str, Any] | None = None,
 ) -> str:
     """Render causation text.
-    
+
     Args:
         result: The result value supplied by the caller.
         transition_summary: The transition summary value supplied by the caller.
         observed_proxy_state: The observed proxy state value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -119,14 +119,14 @@ def render_causation_json(
     extra: dict[str, Any] | None = None,
 ) -> str:
     """Render causation json.
-    
+
     Args:
         result: The result value supplied by the caller.
         extra: The extra value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """

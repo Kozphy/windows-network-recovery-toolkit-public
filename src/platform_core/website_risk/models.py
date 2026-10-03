@@ -24,6 +24,7 @@ class WebsiteRiskLevel(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     LOW = "LOW"
     MEDIUM = "MEDIUM"
     HIGH = "HIGH"
@@ -46,6 +47,7 @@ class WebsiteRiskEvidence(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     signal: str
     observed: str
     weight: float = 0.0
@@ -72,6 +74,7 @@ class WebsiteRiskResult(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     assessment_id: str
     timestamp_utc: str
     url: str

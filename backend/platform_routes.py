@@ -181,7 +181,7 @@ get_demo_principal = get_platform_principal
 
 class HealthResponse(BaseModel):
     """Represent health response data used by the toolkit.
-    
+
     Attributes:
         status: Field or variant describing status evidence or state.
         backend_version: Field or variant describing backend version evidence or state.
@@ -191,10 +191,11 @@ class HealthResponse(BaseModel):
         audit_store_status: Field or variant describing audit store status evidence or state.
         policy_mode: Field or variant describing policy mode evidence or state.
         local_first_mode: Field or variant describing local first mode evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     status: str = "ok"
     backend_version: str = BACKEND_VERSION
     platform_mode: str = "local_jsonl"
@@ -240,16 +241,17 @@ def platform_ready() -> dict[str, Any]:
 
 class HeartbeatIn(BaseModel):
     """Represent heartbeat in data used by the toolkit.
-    
+
     Attributes:
         endpoint_id: Field or variant describing endpoint id evidence or state.
         os_family: Field or variant describing os family evidence or state.
         os_version: Field or variant describing os version evidence or state.
         agent_version: Field or variant describing agent version evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     endpoint_id: str
     os_family: str = ""
     os_version: str = ""
@@ -441,16 +443,17 @@ def get_failure_event(event_id: str) -> dict[str, Any]:
 
 class PreviewIn(BaseModel):
     """Represent preview in data used by the toolkit.
-    
+
     Attributes:
         endpoint_id: Field or variant describing endpoint id evidence or state.
         failure_event_id: Field or variant describing failure event id evidence or state.
         requested_action: Field or variant describing requested action evidence or state.
         surface: Field or variant describing surface evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     endpoint_id: str
     failure_event_id: str
     requested_action: str
@@ -554,16 +557,17 @@ def remediation_preview(
 
 class ExecuteIn(BaseModel):
     """Represent execute in data used by the toolkit.
-    
+
     Attributes:
         preview_id: Field or variant describing preview id evidence or state.
         confirmation_phrase: Field or variant describing confirmation phrase evidence or state.
         dry_run: Field or variant describing dry run evidence or state.
         actor: Field or variant describing actor evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     preview_id: str
     confirmation_phrase: str = ""
     dry_run: bool = True
@@ -1054,14 +1058,14 @@ def get_incident_route(
     principal: DemoPrincipal = Depends(get_demo_principal),
 ) -> dict[str, Any]:
     """Handle the GET request for get incident route.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -1076,13 +1080,14 @@ def get_incident_route(
 
 class IncidentTransitionIn(BaseModel):
     """Represent incident transition in data used by the toolkit.
-    
+
     Attributes:
         note: Field or variant describing note evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     note: str = ""
 
 
@@ -1093,15 +1098,15 @@ def ack_incident(
     principal: DemoPrincipal = Depends(get_demo_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for ack incident.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -1119,15 +1124,15 @@ def resolve_incident(
     principal: DemoPrincipal = Depends(get_demo_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for resolve incident.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -1145,15 +1150,15 @@ def false_positive_incident(
     principal: DemoPrincipal = Depends(get_demo_principal),
 ) -> dict[str, Any]:
     """Handle the POST request for false positive incident.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -1354,16 +1359,17 @@ def agent_next_step(
 
 class CorrelationRunRequest(BaseModel):
     """Represent correlation run request data used by the toolkit.
-    
+
     Attributes:
         endpoint_id: Field or variant describing endpoint id evidence or state.
         requested_action: Field or variant describing requested action evidence or state.
         signals: Field or variant describing signals evidence or state.
         use_probe: Field or variant describing use probe evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     endpoint_id: str = "local"
     requested_action: str = "inspect_proxy"
     signals: list[dict[str, Any]] | None = None
@@ -1408,7 +1414,12 @@ def correlation_run(
         PlatformAuditEvent(
             endpoint_id=body.endpoint_id,
             event_kind="correlation_run",
-            observations=[{"correlation_id": result.get("correlation_id"), "dry_run_only": result.get("dry_run_only")}],
+            observations=[
+                {
+                    "correlation_id": result.get("correlation_id"),
+                    "dry_run_only": result.get("dry_run_only"),
+                }
+            ],
             summary=f"Correlation run ({body.requested_action}) — policy {outcome}",
             hypothesis=[str(result.get("accepted_hypothesis") or "")],
             confidence=float(result.get("confidence_score") or 0.0),
@@ -1424,17 +1435,18 @@ def correlation_run(
 
 class ReasoningRunRequest(BaseModel):
     """Represent reasoning run request data used by the toolkit.
-    
+
     Attributes:
         endpoint_id: Field or variant describing endpoint id evidence or state.
         requested_action: Field or variant describing requested action evidence or state.
         observations: Field or variant describing observations evidence or state.
         proof_result: Field or variant describing proof result evidence or state.
         explicit_confirmation: Field or variant describing explicit confirmation evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     endpoint_id: str = "local"
     requested_action: str = "inspect_proxy"
     observations: list[dict[str, Any]]
@@ -1475,7 +1487,9 @@ def reasoning_run(
             observations=[{"run_id": run.id, "canonical_state_path": run.canonical_state_path}],
             summary=f"Reasoning run — {run.accepted_hypothesis} — policy {outcome}",
             hypothesis=[run.accepted_hypothesis],
-            confidence=float(run.hypothesis_ranking[0]["confidence"]) if run.hypothesis_ranking else 0.0,
+            confidence=float(run.hypothesis_ranking[0]["confidence"])
+            if run.hypothesis_ranking
+            else 0.0,
             evidence_level=run.evidence_tree.root.evidence_level,
             policy_decision=outcome,
             actor=principal.operator_id,
@@ -1521,7 +1535,9 @@ def events_recent(
     norm_items, parse_errors = read_events(path, limit=safe_limit)
     failure_path = _path("failure_events.jsonl")
     failure_rows = list(iter_jsonl(failure_path))[-safe_limit:]
-    failure_rows.sort(key=lambda r: str(r.get("last_seen_at") or r.get("timestamp") or ""), reverse=True)
+    failure_rows.sort(
+        key=lambda r: str(r.get("last_seen_at") or r.get("timestamp") or ""), reverse=True
+    )
     merged: list[dict[str, Any]] = []
     for row in norm_items:
         merged.append({"stream": "normalized", **row})

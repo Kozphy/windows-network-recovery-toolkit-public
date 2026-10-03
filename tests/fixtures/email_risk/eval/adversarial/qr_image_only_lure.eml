@@ -1,0 +1,29 @@
+From: "Documents" <scan@office-scanner-mail.test>
+To: staff@example-corp.test
+Subject: Scanned document
+Message-ID: <synthetic-adv-qr-image-only-0213@office-scanner-mail.test>
+Date: Fri, 25 Sep 2026 09:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="==SYNTHETIC-QR-IMAGE-ONLY=="
+
+--==SYNTHETIC-QR-IMAGE-ONLY==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+See attached.
+
+--==SYNTHETIC-QR-IMAGE-ONLY==
+Content-Type: image/png; name="scan-0925.png"
+Content-Disposition: attachment; filename="scan-0925.png"
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2AQAAAADNaUdlAAABkklEQVR42u1ZSW7EMAwTqgf4Sf56
+npQHGFBF0k5vcy3YxjACjHXRQlHLRH08K175K//j8sCZVVfe+K6IvPGULf+Kz+e35dC/9SxqjnvP
+toWGlI3+dzt87m/7fxwrrPQnhBCIxo+j/g/mY5SZ/nQ7kBOzwbOG0sEG/+IfhuC5TvyjI9hQ8/nD
+ryb4DyEnkLx5XsrG/2D+hn3rHyBPvC+n+gWdxZyNor4KgY3/my3FmYAQkMMbPvwzhf88LNrmgEVt
+8leVNwikuaT8beP/1vZw5pX8ye9l5P/c3TTNYS0z4k+kKmFD2tyNdPr0D2x7wKLsIva7Ef+L/EM5
+SyypBSqj+rWHR0UhhCUf/DNhwf+BWLQJqMI2/APN6XZpflLYbP4tXpH/Mcenfx5niin5v7zmX1LQ
+ngJ2RfCZX/b8xeIl8slTlI3mX84vANKzjiiv/QPmFzbSoRIWZvsrrt2SnU8wEGW2f8Palss3FYLL
+bP/GzaewpCz2wv8aIlJQ6NmoW+3f0MIFQ3ClZkkr/n//33nl/0/+DTSIE50VGUHqAAAAAElFTkSu
+QmCC
+--==SYNTHETIC-QR-IMAGE-ONLY==--

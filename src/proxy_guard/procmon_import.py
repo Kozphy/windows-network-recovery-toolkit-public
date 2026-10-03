@@ -62,7 +62,13 @@ def load_procmon_proxy_events(
             c_result = col("result")
             c_detail = col("detail", "detail data")
 
-            proxy_tail = ("proxyenable", "proxyserver", "autoconfigurl", "autodetect", "proxyoverride")
+            proxy_tail = (
+                "proxyenable",
+                "proxyserver",
+                "autoconfigurl",
+                "autodetect",
+                "proxyoverride",
+            )
 
             for row in reader:
                 op_cell = str(row.get(c_op or "") or "").lower()
@@ -82,7 +88,12 @@ def load_procmon_proxy_events(
                 skip_time = False
                 if since_seconds is not None and time_s:
                     parsed_ts: float | None = None
-                    for fmt in ("%Y-%m-%d %H:%M:%S.%f", "%m/%d/%Y %I:%M:%S %p", "%H:%M:%S.%f", "%H:%M:%S"):
+                    for fmt in (
+                        "%Y-%m-%d %H:%M:%S.%f",
+                        "%m/%d/%Y %I:%M:%S %p",
+                        "%H:%M:%S.%f",
+                        "%H:%M:%S",
+                    ):
                         try:
                             dt = datetime.strptime(time_s[:26], fmt)  # type: ignore[arg-type]
                             parsed_ts = dt.replace(tzinfo=UTC).timestamp()
@@ -111,9 +122,7 @@ def load_procmon_proxy_events(
                     "detail_snippet": str(row.get(c_detail or "") or "")[:1024],
                 }
 
-                proximity = (
-                    float(since_seconds) if since_seconds is not None else 120.0
-                )
+                proximity = float(since_seconds) if since_seconds is not None else 120.0
                 conf = 0.88 if proximity <= 120 else 0.62
 
                 hits.append(

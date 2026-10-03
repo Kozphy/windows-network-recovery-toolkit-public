@@ -156,7 +156,12 @@ def check_observation_not_proof(
             violations.append(
                 "Remediation requested without structured proof envelope (observation-only path)."
             )
-        if policy and policy.allowed and not policy.dry_run and (proof is None or not proof.has_structured_proof):
+        if (
+            policy
+            and policy.allowed
+            and not policy.dry_run
+            and (proof is None or not proof.has_structured_proof)
+        ):
             violations.append("Policy ALLOW would execute from observations alone.")
 
     if observations and (proof is None or not proof.has_structured_proof) and remediation_requested:
@@ -237,13 +242,21 @@ def check_correlation_not_causation(
 
     if attribution and not attribution.listener_found:
         if "malicious writer" in combined or "malware writer" in combined:
-            violations.append("Dead localhost port cannot imply malicious writer without telemetry.")
+            violations.append(
+                "Dead localhost port cannot imply malicious writer without telemetry."
+            )
 
     if risk and risk.primary_classification == "DEAD_PROXY_CONFIG":
         if "malicious" in combined and not (attribution and attribution.has_writer_telemetry):
-            violations.append("DEAD_PROXY_CONFIG must not be narrated as malicious without writer proof.")
+            violations.append(
+                "DEAD_PROXY_CONFIG must not be narrated as malicious without writer proof."
+            )
 
-    if attribution and not attribution.has_writer_telemetry and attribution.registry_writer_confirmed:
+    if (
+        attribution
+        and not attribution.has_writer_telemetry
+        and attribution.registry_writer_confirmed
+    ):
         violations.append("registry_writer_confirmed=true without telemetry source.")
 
     return PrincipleCheck(
@@ -387,12 +400,26 @@ def check_classification_not_accusation(
     cfg = load_principles_config()["principles"]["classification_not_accusation"]
     violations: list[str] = []
     combined = " ".join(
-        filter(None, [narrative_text, risk.narrative if risk else "", risk.primary_classification if risk else ""])
+        filter(
+            None,
+            [
+                narrative_text,
+                risk.narrative if risk else "",
+                risk.primary_classification if risk else "",
+            ],
+        )
     ).lower()
     classification = (risk.primary_classification if risk else "") or ""
 
-    accusatory_terms = ("malware confirmed", "confirmed compromise", "attacker", "compromised endpoint")
-    if classification == "SUSPICIOUS_PROXY" and any(t in combined for t in ("prove malware", "proved malware", "malware confirmed")):
+    accusatory_terms = (
+        "malware confirmed",
+        "confirmed compromise",
+        "attacker",
+        "compromised endpoint",
+    )
+    if classification == "SUSPICIOUS_PROXY" and any(
+        t in combined for t in ("prove malware", "proved malware", "malware confirmed")
+    ):
         violations.append("SUSPICIOUS_PROXY must not be narrated as malware proof.")
     if classification == "POSSIBLE_MITM_RISK" and any(
         t in combined for t in ("confirmed mitm", "confirms mitm", "prove mitm", "proven mitm")
@@ -401,7 +428,9 @@ def check_classification_not_accusation(
     if classification in ("UNKNOWN_LOCAL_PROXY", "DEAD_PROXY_CONFIG") and any(
         t in combined for t in accusatory_terms
     ):
-        violations.append(f"{classification} reliability finding must not be narrated as accusation.")
+        violations.append(
+            f"{classification} reliability finding must not be narrated as accusation."
+        )
 
     return PrincipleCheck(
         principle_id=cfg["id"],
@@ -440,13 +469,20 @@ def check_recommendation_not_execution(
     violations: list[str] = []
     blob = narrative_text.lower()
 
-    if "safe to execute automatically" in blob and "not " not in blob[: blob.find("safe to execute automatically")]:
+    if (
+        "safe to execute automatically" in blob
+        and "not " not in blob[: blob.find("safe to execute automatically")]
+    ):
         violations.append("Autonomous execution language is prohibited.")
 
     if remediation_requested and policy:
         if policy.allowed and not policy.dry_run and not policy.requires_confirmation:
             violations.append("Remediation execution without typed confirmation is prohibited.")
-        if policy.outcome.upper() == "ALLOW" and not policy.dry_run and not policy.confirmation_token:
+        if (
+            policy.outcome.upper() == "ALLOW"
+            and not policy.dry_run
+            and not policy.confirmation_token
+        ):
             violations.append("ALLOW outcome must not bypass typed confirmation.")
 
     return PrincipleCheck(

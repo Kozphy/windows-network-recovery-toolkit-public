@@ -59,7 +59,9 @@ def compute_incident_mttr_metrics(*, store: DomainEventStore | None = None) -> M
             investigations += 1
 
         # MTTD: detected → acknowledged (or investigation if no ack)
-        mttd = _delta_seconds(proj.detected_at, proj.acknowledged_at or proj.investigation_started_at)
+        mttd = _delta_seconds(
+            proj.detected_at, proj.acknowledged_at or proj.investigation_started_at
+        )
         if mttd is not None:
             mttd_list.append(mttd)
 
@@ -81,9 +83,15 @@ def compute_incident_mttr_metrics(*, store: DomainEventStore | None = None) -> M
     return MTTRMetrics(
         incident_count=total,
         resolved_count=resolved,
-        mean_time_to_detect_seconds=round(sum(mttd_list) / len(mttd_list), 2) if mttd_list else None,
-        mean_time_to_identify_seconds=round(sum(mtti_list) / len(mtti_list), 2) if mtti_list else None,
-        mean_time_to_recover_seconds=round(sum(mttr_list) / len(mttr_list), 2) if mttr_list else None,
+        mean_time_to_detect_seconds=round(sum(mttd_list) / len(mttd_list), 2)
+        if mttd_list
+        else None,
+        mean_time_to_identify_seconds=round(sum(mtti_list) / len(mtti_list), 2)
+        if mtti_list
+        else None,
+        mean_time_to_recover_seconds=round(sum(mttr_list) / len(mttr_list), 2)
+        if mttr_list
+        else None,
         p50_mttr_seconds=_percentile(mttr_list, 50),
         p95_mttr_seconds=_percentile(mttr_list, 95),
         false_positive_rate=round(fp_rate, 4) if fp_rate is not None else None,

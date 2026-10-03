@@ -21,6 +21,14 @@ from src.platform_core.governance.chain_of_custody import verify_chain
 
 
 def _now() -> str:
+    """Return the current UTC timestamp in audit tip-anchor format.
+
+    Returns:
+        An ISO-8601 UTC timestamp ending in ``Z``.
+
+    Side effects:
+        None beyond reading the system clock.
+    """
     return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
@@ -30,23 +38,19 @@ def build_tip_anchor(
     record_count: int,
     audit_path: Path,
 ) -> dict[str, Any]:
-    """Build tip anchor.
+    """Build the non-WORM tip-anchor payload for an audit chain.
 
     Args:
-        tip_hash: tip hash supplied by the caller.
-        record_count: record count supplied by the caller.
-        audit_path: audit path supplied by the caller.
+        tip_hash: Latest ``current_hash`` observed by the writer.
+        record_count: Number of JSONL records represented by the tip.
+        audit_path: Audit JSONL path recorded for later verification.
 
     Returns:
-        The computed `dict[str, Any]` value.
+        A tip-anchor dictionary with schema version, timestamps, and explicit
+        custody limitations.
 
     Side effects:
-        May read or write local platform records depending on inputs.
-
-    Audit Notes:
-        Decision intent is limited to evidence-backed classification or
-        routing for the supplied inputs; callers should preserve source
-        evidence, policy context, and limitations with the result.
+        None.
     """
     return {
         "schema_version": TIP_ANCHOR_SCHEMA,
@@ -68,7 +72,22 @@ def write_tip_anchor(
     audit_path: Path,
     tip_path: Path | None = None,
 ) -> tuple[bool, str | None, Path]:
-    """Write tip anchor JSON. Soft-fail: returns ``(False, error, path)`` on OSError."""
+    """Write tip-anchor JSON beside an audit chain.
+
+    Args:
+        tip_hash: Latest ``current_hash`` to record.
+        record_count: Number of audit records represented by the tip.
+        audit_path: Audit JSONL path associated with the tip.
+        tip_path: Optional explicit tip destination; defaults to the sibling tip.
+
+    Returns:
+        ``(True, None, path)`` on success, or ``(False, error, path)`` on
+        filesystem failure. Soft-fails without raising ``OSError``.
+
+    Side effects:
+        Creates parent directories and overwrites the tip-anchor file when
+        possible.
+    """
     target = tip_path or tip_path_for(audit_path)
     payload = build_tip_anchor(
         tip_hash=tip_hash,
@@ -86,21 +105,17 @@ def write_tip_anchor(
 
 
 def load_tip_anchor(tip_path: Path) -> dict[str, Any] | None:
-    """Load tip anchor.
+    """Load a tip-anchor file for verification.
 
     Args:
-        tip_path: tip path supplied by the caller.
+        tip_path: Path to the tip-anchor JSON file.
 
     Returns:
-        The computed `dict[str, Any] | None` value.
+        The decoded dictionary payload, or ``None`` when the file is missing
+        or not a JSON object.
 
     Side effects:
-        Reads data from the requested source.
-
-    Audit Notes:
-        Decision intent is limited to evidence-backed classification or
-        routing for the supplied inputs; callers should preserve source
-        evidence, policy context, and limitations with the result.
+        Reads one filesystem path.
     """
     if not tip_path.is_file():
         return None
@@ -112,21 +127,17 @@ def load_tip_anchor(tip_path: Path) -> dict[str, Any] | None:
 
 
 def read_audit_records(audit_path: Path) -> list[dict[str, Any]]:
-    """Read audit records.
+    """Read dictionary-shaped JSONL rows for investigative tip checks.
 
     Args:
-        audit_path: audit path supplied by the caller.
+        audit_path: Audit JSONL path.
 
     Returns:
-        The computed `list[dict[str, Any]]` value.
+        Object-shaped rows only. Malformed and non-object lines are skipped
+        because authoritative verification uses a stricter reader.
 
     Side effects:
-        Records data in the configured store or telemetry sink.
-
-    Audit Notes:
-        Decision intent is limited to evidence-backed classification or
-        routing for the supplied inputs; callers should preserve source
-        evidence, policy context, and limitations with the result.
+        Reads one filesystem path.
     """
     if not audit_path.is_file():
         return []
@@ -144,18 +155,70 @@ def read_audit_records(audit_path: Path) -> list[dict[str, Any]]:
     return records
 
 
+def _read_audit_records_for_verification(
+    audit_path: Path,
+) -> tuple[list[dict[str, Any]], bool]:
+    """Read audit rows and report malformed non-empty JSONL lines.
+
+    Args:
+        audit_path: Audit JSONL path.
+
+    Returns:
+        A tuple of ``(records, malformed)``. Invalid UTF-8, undecodable JSON,
+        and non-object rows set ``malformed`` to ``True``.
+
+    Side effects:
+        Reads one filesystem path.
+    """
+    if not audit_path.is_file():
+        return [], False
+    records: list[dict[str, Any]] = []
+    malformed = False
+    try:
+        lines = audit_path.read_text(encoding="utf-8").splitlines()
+    except UnicodeDecodeError:
+        return [], True
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            malformed = True
+            continue
+        if isinstance(row, dict):
+            records.append(row)
+        else:
+            malformed = True
+    return records, malformed
+
+
 def verify_audit_with_tip(
     audit_path: Path,
     *,
     tip_path: Path | None = None,
     require_tip: bool = False,
 ) -> dict[str, Any]:
-    """Verify hash chain and optional tip anchor match.
+    """Verify hash-chain consistency and optional tip-anchor match.
 
-    Returns a structured result suitable for CLI JSON. Does not prove observations.
+    Args:
+        audit_path: Audit JSONL path to verify.
+        tip_path: Optional tip-anchor path; defaults to the sibling tip file.
+        require_tip: When ``True``, missing or mismatched tips fail verification.
+
+    Returns:
+        A structured CLI-ready result describing chain status, tip presence,
+        tip match, and explicit custody limitations. Does not prove that the
+        recorded observations are true.
+
+    Side effects:
+        Reads the audit JSONL and tip-anchor files.
     """
-    records = read_audit_records(audit_path)
+    records, malformed = _read_audit_records_for_verification(audit_path)
     chain_ok, chain_msg = verify_chain(records) if records else (True, "empty_chain")
+    if malformed:
+        chain_ok, chain_msg = False, "malformed_audit_row"
     actual_tip = str(records[-1].get("current_hash") or "genesis") if records else "genesis"
     tip_file = tip_path or tip_path_for(audit_path)
     tip = load_tip_anchor(tip_file)

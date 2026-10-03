@@ -60,6 +60,9 @@ def verify_chain(records: list[dict[str, Any]]) -> tuple[bool, str]:
     """
     prev = "genesis"
     for idx, rec in enumerate(records):
+        stored_prev = str(rec.get("previous_hash") or "")
+        if stored_prev != prev:
+            return False, f"previous_hash mismatch at index {idx}"
         body = audit_hash_body(rec)
         expected = chain_hash(prev, body)
         current = str(rec.get("current_hash", ""))

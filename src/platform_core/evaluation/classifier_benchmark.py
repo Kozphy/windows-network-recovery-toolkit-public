@@ -176,7 +176,9 @@ def _limitations_covered(incident_limitations: list[str], required: list[str]) -
 
 
 def _policy_rank(value: str) -> int:
-    return _POLICY_RANK.get(value.lower(), _POLICY_RANK.get(_normalize_policy_token(value).lower(), 2))
+    return _POLICY_RANK.get(
+        value.lower(), _POLICY_RANK.get(_normalize_policy_token(value).lower(), 2)
+    )
 
 
 def load_benchmark_cases(path: Path, *, repo_root: Path | None = None) -> list[BenchmarkCase]:
@@ -249,7 +251,10 @@ def run_classifier_benchmark(
             "UNKNOWN_LOCAL_PROXY",
         }:
             exp_risk = "HIGH"
-        elif case.expected_primary_classification in {"LOCAL_PROXY_ACTIVE", "BOTH_DIRECT_AND_PROXY_WORK"}:
+        elif case.expected_primary_classification in {
+            "LOCAL_PROXY_ACTIVE",
+            "BOTH_DIRECT_AND_PROXY_WORK",
+        }:
             exp_risk = "MEDIUM"
 
         false_escalation = False

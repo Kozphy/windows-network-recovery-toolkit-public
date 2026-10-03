@@ -240,7 +240,11 @@ def run_ensure_proxy_health(
     try:
         from src.platform_core.audit.custody import append_custody_event
 
-        event = "prefer_direct_applied" if prefer_direct and outcome == "healthy" and not dry_run else "ensure_proxy_health"
+        event = (
+            "prefer_direct_applied"
+            if prefer_direct and outcome == "healthy" and not dry_run
+            else "ensure_proxy_health"
+        )
         if prefer_direct and outcome == "needs_prefer_direct_confirm":
             event = "prefer_direct_blocked"
         append_custody_event(
@@ -248,12 +252,17 @@ def run_ensure_proxy_health(
             actor="ensure_proxy_health",
             subsystem="ensure_proxy_health",
             dry_run=dry_run,
-            confirmation_supplied=bool(prefer_direct and confirm == CONFIRM_PREFER_DIRECT and not dry_run),
+            confirmation_supplied=bool(
+                prefer_direct and confirm == CONFIRM_PREFER_DIRECT and not dry_run
+            ),
             before=before if isinstance(before, dict) else None,
             after=final if isinstance(final, dict) else None,
             outcome=outcome,
             limitations=list(result["limitations"]),
-            extra={"prefer_direct": prefer_direct, "observability_installed": result["observability_installed"]},
+            extra={
+                "prefer_direct": prefer_direct,
+                "observability_installed": result["observability_installed"],
+            },
             soft_fail=True,
         )
     except Exception:

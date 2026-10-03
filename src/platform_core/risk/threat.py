@@ -24,6 +24,7 @@ class ThreatScenario(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     threat_id: str
     name: str
     failure_mode: str

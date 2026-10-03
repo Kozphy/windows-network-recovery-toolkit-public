@@ -40,7 +40,7 @@ Engineering Notes:
 from __future__ import annotations
 
 import os
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 from sqlmodel import Session, col, func, select
@@ -51,6 +51,10 @@ from backend.trisk_metrics import inc, set_gauge
 OUTBOX_DISPATCH_ENV = "TRISK_OUTBOX_DISPATCH_ENABLED"
 DEFAULT_SWEEP_LIMIT = 50
 DEFAULT_MAX_ATTEMPTS = 20
+DEFAULT_RETRY_BASE_SECONDS = 5.0
+DEFAULT_RETRY_MAX_SECONDS = 300.0
+OUTBOX_RETRY_BASE_ENV = "TRISK_OUTBOX_RETRY_BASE_SECONDS"
+OUTBOX_RETRY_MAX_ENV = "TRISK_OUTBOX_RETRY_MAX_SECONDS"
 
 METRIC_PENDING = "classification_outbox_pending"
 METRIC_DISPATCH_ATTEMPTS = "classification_outbox_dispatch_attempts_total"
@@ -62,6 +66,39 @@ METRIC_SWEEP_RUNS = "classification_outbox_sweep_runs_total"
 
 def _utc_now() -> datetime:
     return datetime.now(UTC)
+
+
+def _bounded_env_seconds(name: str, default: float) -> float:
+    """Read a positive retry interval and clamp it to one hour."""
+    raw = (os.getenv(name) or str(default)).strip()
+    try:
+        value = float(raw)
+    except ValueError:
+        return default
+    return max(0.1, min(value, 3600.0))
+
+
+def retry_backoff_seconds(attempts: int) -> float:
+    """Return capped exponential delay after a failed dispatch attempt."""
+    if attempts <= 0:
+        return 0.0
+    base = _bounded_env_seconds(OUTBOX_RETRY_BASE_ENV, DEFAULT_RETRY_BASE_SECONDS)
+    maximum = _bounded_env_seconds(OUTBOX_RETRY_MAX_ENV, DEFAULT_RETRY_MAX_SECONDS)
+    maximum = max(base, maximum)
+    return min(base * (2 ** min(attempts - 1, 30)), maximum)
+
+
+def outbox_retry_due(row: ClassificationOutbox, *, now: datetime | None = None) -> bool:
+    """Return whether a pending row has waited through its retry backoff."""
+    if row.attempts <= 0:
+        return True
+    updated = row.updated_at
+    if updated.tzinfo is None:
+        updated = updated.replace(tzinfo=UTC)
+    current = now or _utc_now()
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=UTC)
+    return current >= updated + timedelta(seconds=retry_backoff_seconds(row.attempts))
 
 
 def outbox_dispatch_enabled() -> bool:
@@ -290,6 +327,7 @@ def sweep_pending_classification_outbox(
     limit: int = DEFAULT_SWEEP_LIMIT,
     max_attempts: int = DEFAULT_MAX_ATTEMPTS,
     force: bool = False,
+    respect_backoff: bool = False,
 ) -> dict[str, Any]:
     """Retry pending outbox rows up to ``limit`` (oldest first).
 
@@ -301,10 +339,14 @@ def sweep_pending_classification_outbox(
         limit: Max rows to consider this pass (clamped 1–500).
         max_attempts: Skip pending rows at or above this attempt count.
         force: Forwarded to dispatch to override the dispatch feature flag.
+        respect_backoff: Defer recently failed rows until their capped exponential
+            retry delay elapses. The daemon enables this; explicit admin sweeps do
+            not, so operators can recover immediately after repairing the queue.
 
     Returns:
-        Summary dict: ``swept``, ``dispatched``, ``failed``, ``skipped_max_attempts``,
-        ``pending_remaining``, per-row ``items``, and ``limitations``.
+        Summary dict: ``swept``, ``dispatched``, ``failed``, ``deferred_backoff``,
+        ``skipped_max_attempts``, ``pending_remaining``, per-row ``items``, and
+        ``limitations``.
 
     Side effects:
         Increments sweep-run metric; may enqueue jobs and commit outbox rows.
@@ -330,6 +372,7 @@ def sweep_pending_classification_outbox(
             "swept": 0,
             "dispatched": 0,
             "failed": 0,
+            "deferred_backoff": 0,
             "skipped_max_attempts": 0,
             "pending_remaining": pending,
             "items": [],
@@ -350,7 +393,9 @@ def sweep_pending_classification_outbox(
     items: list[dict[str, Any]] = []
     dispatched = 0
     failed = 0
+    deferred_backoff = 0
     skipped_max = 0
+    now = _utc_now()
 
     for row in rows:
         if row.attempts >= cap:
@@ -361,6 +406,17 @@ def sweep_pending_classification_outbox(
                     "result": "skipped_max_attempts",
                     "attempts": row.attempts,
                     "last_error": row.last_error,
+                }
+            )
+            continue
+        if respect_backoff and not outbox_retry_due(row, now=now):
+            deferred_backoff += 1
+            items.append(
+                {
+                    "event_id": row.event_id,
+                    "result": "deferred_backoff",
+                    "attempts": row.attempts,
+                    "retry_after_seconds": retry_backoff_seconds(row.attempts),
                 }
             )
             continue
@@ -397,11 +453,12 @@ def sweep_pending_classification_outbox(
         "swept": len(rows),
         "dispatched": dispatched,
         "failed": failed,
+        "deferred_backoff": deferred_backoff,
         "skipped_max_attempts": skipped_max,
         "pending_remaining": pending_remaining,
         "items": items,
         "limitations": [
-            "Sweep is operator-triggered; it is not a continuous background worker in this slice.",
+            "Automatic retries are process-local and require the sweeper feature flag.",
             "Classification success is separate from outbox dispatch success.",
         ],
     }

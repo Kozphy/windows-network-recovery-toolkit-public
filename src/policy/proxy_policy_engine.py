@@ -16,7 +16,12 @@ from .models import (
     ProxyPolicyUserConfig,
 )
 
-_BLOCKED = ["kill_process", "reset_firewall", "disable_adapter", "registry_mutation_without_confirmation"]
+_BLOCKED = [
+    "kill_process",
+    "reset_firewall",
+    "disable_adapter",
+    "registry_mutation_without_confirmation",
+]
 _SAFE_OBSERVE = ["observe", "log", "export_report", "proxy_timeline", "proxy_forensics"]
 
 
@@ -102,10 +107,15 @@ def evaluate_proxy_policy_input(inp: ProxyPolicyInput) -> ProxyPolicyDecision:
     level = str(inp.causation_level or "UNKNOWN")
     fields = {str(f) for f in inp.changed_fields}
 
-    if level in ("CORRELATION_ONLY", "UNKNOWN") or label == ProcessClassificationKind.CORRELATION_ONLY.value:
+    if (
+        level in ("CORRELATION_ONLY", "UNKNOWN")
+        or label == ProcessClassificationKind.CORRELATION_ONLY.value
+    ):
         return _base_decision(
             PolicyDecisionKind.CORRELATION_ONLY_ALERT,
-            PolicySeverity.MEDIUM if str(inp.risk_level or "").lower() != "high" else PolicySeverity.HIGH,
+            PolicySeverity.MEDIUM
+            if str(inp.risk_level or "").lower() != "high"
+            else PolicySeverity.HIGH,
             reason="correlation_only_no_registry_writer_proof",
             explanation=[
                 "Registry writer proof unavailable.",
@@ -138,7 +148,11 @@ def evaluate_proxy_policy_input(inp: ProxyPolicyInput) -> ProxyPolicyDecision:
 
     if _external_proxy(inp.proxy_after):
         sev = PolicySeverity.HIGH
-        dec = PolicyDecisionKind.BLOCK_RECOMMENDED if str(inp.risk_level or "").lower() == "high" else PolicyDecisionKind.ALERT
+        dec = (
+            PolicyDecisionKind.BLOCK_RECOMMENDED
+            if str(inp.risk_level or "").lower() == "high"
+            else PolicyDecisionKind.ALERT
+        )
         return _base_decision(
             dec,
             sev,
@@ -156,12 +170,17 @@ def evaluate_proxy_policy_input(inp: ProxyPolicyInput) -> ProxyPolicyDecision:
             requires_confirmation=True,
         )
 
-    if label in (ProcessClassificationKind.UNKNOWN_LOCAL_PROXY.value, ProcessClassificationKind.REGISTRY_WRITER_CONFIRMED.value):
+    if label in (
+        ProcessClassificationKind.UNKNOWN_LOCAL_PROXY.value,
+        ProcessClassificationKind.REGISTRY_WRITER_CONFIRMED.value,
+    ):
         return _base_decision(
             PolicyDecisionKind.ALERT,
             PolicySeverity.HIGH,
             reason=f"classification_{label.lower()}",
-            explanation=[f"Classification {label} — alert; preview disable only with confirmation."],
+            explanation=[
+                f"Classification {label} — alert; preview disable only with confirmation."
+            ],
             requires_confirmation=True,
             allowed=["observe", "preview_disable", "export_report", "proxy_forensics"],
         )
@@ -178,7 +197,11 @@ def evaluate_proxy_policy_input(inp: ProxyPolicyInput) -> ProxyPolicyDecision:
         )
 
     if label == ProcessClassificationKind.KNOWN_VSCODE_EXTENSION.value:
-        dec = PolicyDecisionKind(cfg.vscode_action) if cfg.vscode_action in PolicyDecisionKind._value2member_map_ else PolicyDecisionKind.OBSERVE
+        dec = (
+            PolicyDecisionKind(cfg.vscode_action)
+            if cfg.vscode_action in PolicyDecisionKind._value2member_map_
+            else PolicyDecisionKind.OBSERVE
+        )
         return _base_decision(
             dec,
             PolicySeverity.LOW,
@@ -240,7 +263,10 @@ def evaluate_proxy_policy(
     """Backward-compatible wrapper around :func:`evaluate_proxy_policy_input`."""
     _ = risk_score
     if isinstance(classification, str):
-        cr: ProcessClassificationResult | dict[str, Any] = {"classification": classification, "label": classification}
+        cr: ProcessClassificationResult | dict[str, Any] = {
+            "classification": classification,
+            "label": classification,
+        }
     else:
         cr = classification
     inp = ProxyPolicyInput(

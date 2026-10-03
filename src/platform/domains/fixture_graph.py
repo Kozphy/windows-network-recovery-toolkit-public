@@ -12,14 +12,14 @@ def _blob(adapter: DomainAdapter, event: NormalizedEvent) -> dict:
 
 def load_hypotheses(adapter: DomainAdapter, event: NormalizedEvent) -> list[Hypothesis]:
     """Load hypotheses.
-    
+
     Args:
         adapter: The adapter value supplied by the caller.
         event: Evidence or domain record being processed.
-    
+
     Returns:
         The list[Hypothesis] result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -34,17 +34,17 @@ def load_hypotheses(adapter: DomainAdapter, event: NormalizedEvent) -> list[Hypo
 
 def load_decisions(adapter: DomainAdapter, event: NormalizedEvent) -> list[DecisionOption]:
     """Load decisions.
-    
+
     Args:
         adapter: The adapter value supplied by the caller.
         event: Evidence or domain record being processed.
-    
+
     Returns:
         The list[DecisionOption] result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """

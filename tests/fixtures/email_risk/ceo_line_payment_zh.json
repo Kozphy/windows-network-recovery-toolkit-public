@@ -1,0 +1,15 @@
+{
+  "description": "Synthetic Traditional Chinese executive impersonation: free-mail chairman asks for a LINE group QR code, secrecy, and upcoming remittance details.",
+  "org_context": {
+    "organization_domains": ["example-corp.test"],
+    "organization_names": ["範例科技"]
+  },
+  "email": {
+    "from": "\"董事長 王大明\" <wang.chairman.tw@gmail.com>",
+    "to": ["staff@example-corp.test"],
+    "subject": "急件",
+    "message_id": "<synthetic-bec-zh-0001@mail.gmail.com>",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=gmail.com; dkim=pass header.d=gmail.com; dmarc=pass header.from=gmail.com",
+    "body_text": "我是董事長，現在在開會不方便講電話。\n請馬上建立LINE群組，建好後把群組 QR Code 傳給我。\n這件事請保密，不要告訴其他人，也不要打電話確認。\n稍後會給你匯款資訊，今天之內要處理完。"
+  }
+}

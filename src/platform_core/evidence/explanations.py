@@ -27,6 +27,7 @@ class DecisionExplanation:
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     preferred_hypothesis: str
     why_selected: str
     missing_proof: list[str]
@@ -78,7 +79,10 @@ def build_explanation(
     if tier_rank(evidence_tier) < tier_rank("CORRELATED"):
         unjustified.append("Attributing failure to a specific process")
 
-    why = reasoning or f"Incident type {incident_type} ranked with ordinal confidence {confidence:.2f}."
+    why = (
+        reasoning
+        or f"Incident type {incident_type} ranked with ordinal confidence {confidence:.2f}."
+    )
     if conflicts:
         why += f" {len(conflicts)} signal conflict(s) limit stronger claims."
 

@@ -46,16 +46,17 @@ def _session() -> Session:
 
 class ObservationRequest(BaseModel):
     """Represent observation request data used by the toolkit.
-    
+
     Attributes:
         endpoint_id: Field or variant describing endpoint id evidence or state.
         signal_type: Field or variant describing signal type evidence or state.
         raw_observation: Field or variant describing raw observation evidence or state.
         correlation_id: Field or variant describing correlation id evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     endpoint_id: str = Field(min_length=1, max_length=128)
     signal_type: str = Field(min_length=1, max_length=64)
     raw_observation: dict[str, Any] = Field(default_factory=dict)
@@ -64,7 +65,7 @@ class ObservationRequest(BaseModel):
 
 class EvidenceIngestRequest(BaseModel):
     """Represent evidence ingest request data used by the toolkit.
-    
+
     Attributes:
         endpoint_id: Field or variant describing endpoint id evidence or state.
         evidence_type: Field or variant describing evidence type evidence or state.
@@ -72,10 +73,11 @@ class EvidenceIngestRequest(BaseModel):
         source_event_id: Field or variant describing source event id evidence or state.
         evidence_tier: Field or variant describing evidence tier evidence or state.
         observation_id: Field or variant describing observation id evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     endpoint_id: str = Field(min_length=1, max_length=128)
     evidence_type: str = Field(min_length=1, max_length=64)
     raw_snapshot: dict[str, Any] = Field(default_factory=dict)
@@ -86,17 +88,18 @@ class EvidenceIngestRequest(BaseModel):
 
 class PipelineRequest(BaseModel):
     """Represent pipeline request data used by the toolkit.
-    
+
     Attributes:
         endpoint_id: Field or variant describing endpoint id evidence or state.
         signal_type: Field or variant describing signal type evidence or state.
         raw_observation: Field or variant describing raw observation evidence or state.
         evidence_type: Field or variant describing evidence type evidence or state.
         requested_action: Field or variant describing requested action evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     endpoint_id: str = Field(min_length=1, max_length=128)
     signal_type: str = Field(default="proxy_state", max_length=64)
     raw_observation: dict[str, Any] = Field(default_factory=dict)
@@ -106,16 +109,17 @@ class PipelineRequest(BaseModel):
 
 class PolicyEvaluateRequest(BaseModel):
     """Represent policy evaluate request data used by the toolkit.
-    
+
     Attributes:
         classification: Field or variant describing classification evidence or state.
         confidence_score: Field or variant describing confidence score evidence or state.
         evidence_tier: Field or variant describing evidence tier evidence or state.
         requested_action: Field or variant describing requested action evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     classification: str = Field(min_length=1, max_length=64)
     confidence_score: float = Field(default=0.5, ge=0.0, le=1.0)
     evidence_tier: str = "T1_STATE_EVIDENCE"
@@ -124,15 +128,16 @@ class PolicyEvaluateRequest(BaseModel):
 
 class PolicyPackRequest(BaseModel):
     """Represent policy pack request data used by the toolkit.
-    
+
     Attributes:
         yaml_content: Field or variant describing yaml content evidence or state.
         version: Field or variant describing version evidence or state.
         activate: Field or variant describing activate evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     yaml_content: str = Field(min_length=10)
     version: str = "1.0.0"
     activate: bool = True
@@ -140,15 +145,18 @@ class PolicyPackRequest(BaseModel):
 
 class HumanApprovalRequest(BaseModel):
     """Represent human approval request data used by the toolkit.
-    
+
     Attributes:
         action: Field or variant describing action evidence or state.
         reason: Field or variant describing reason evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
-    action: str = Field(description="accept_classification | reject_remediation | request_more_evidence")
+
+    action: str = Field(
+        description="accept_classification | reject_remediation | request_more_evidence"
+    )
     reason: str = Field(min_length=3)
 
 
@@ -171,20 +179,21 @@ def enterprise_health() -> dict[str, Any]:
 
 # --- Evidence Service ---
 
+
 @router.post("/observations", tags=["evidence-service"])
 def create_observation(
     body: ObservationRequest,
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the POST request for create observation.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -207,14 +216,14 @@ def ingest_evidence(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the POST request for ingest evidence.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -239,14 +248,14 @@ def get_evidence(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for get evidence.
-    
+
     Args:
         event_id: The event id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -261,23 +270,24 @@ def get_evidence(
 
 # --- Classification Service ---
 
+
 @router.post("/classify", tags=["classification-service"])
 def classify_fixture(
     fixture: dict[str, Any],
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the POST request for classify fixture.
-    
+
     Args:
         fixture: The fixture value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -289,23 +299,24 @@ def classify_fixture(
 
 # --- Policy Service ---
 
+
 @router.post("/policy/evaluate", tags=["policy-service"])
 def evaluate_policy(
     body: PolicyEvaluateRequest,
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the POST request for evaluate policy.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -326,17 +337,17 @@ def register_policy_pack(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the POST request for register policy pack.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -357,16 +368,16 @@ def get_active_policy(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for get active policy.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -377,6 +388,7 @@ def get_active_policy(
 
 
 # --- Decision Pipeline ---
+
 
 @router.post("/pipeline/run", tags=["decision-pipeline"])
 def run_pipeline(
@@ -418,17 +430,17 @@ def get_decision(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for get decision.
-    
+
     Args:
         decision_id: The decision id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -445,6 +457,7 @@ def get_decision(
 
 # --- Human Approval ---
 
+
 @router.post("/reviews/{review_id}/approve", tags=["human-approval"])
 def human_approval(
     review_id: str,
@@ -452,15 +465,15 @@ def human_approval(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the POST request for human approval.
-    
+
     Args:
         review_id: The review id value supplied by the caller.
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -489,7 +502,9 @@ def human_approval(
             )
         ).first()
         if decision:
-            decision.human_approval_status = "approved" if new_status == "ACCEPTED" else new_status.lower()
+            decision.human_approval_status = (
+                "approved" if new_status == "ACCEPTED" else new_status.lower()
+            )
             decision.actor = principal.actor_id
             session.add(decision)
 
@@ -510,14 +525,14 @@ def list_pending_reviews(
     limit: int = Query(default=50, ge=1, le=200),
 ) -> dict[str, Any]:
     """Handle the GET request for list pending reviews.
-    
+
     Args:
         principal: The principal value supplied by the caller.
         limit: The limit value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -535,6 +550,7 @@ def list_pending_reviews(
 
 # --- Audit Service ---
 
+
 @router.get("/audit/logs", tags=["audit-service"])
 def list_audit_logs(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
@@ -542,18 +558,18 @@ def list_audit_logs(
     correlation_id: str | None = None,
 ) -> dict[str, Any]:
     """Handle the GET request for list audit logs.
-    
+
     Args:
         principal: The principal value supplied by the caller.
         limit: The limit value supplied by the caller.
         correlation_id: The correlation id value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -569,16 +585,16 @@ def verify_audit_chain(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for verify audit chain.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -590,18 +606,19 @@ def verify_audit_chain(
 
 # --- Reporting Service ---
 
+
 @router.get("/reports/governance", tags=["reporting-service"])
 def governance_report(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for governance report.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -616,13 +633,13 @@ def executive_report(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for executive report.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -637,16 +654,16 @@ def decision_dashboard(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the GET request for decision dashboard.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """

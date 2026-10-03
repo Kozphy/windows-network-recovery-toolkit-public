@@ -24,13 +24,12 @@ def _dead_classification() -> ClassificationResult:
 def test_proxy_disable_default_dry_run() -> None:
     from unittest.mock import patch
 
-    with patch("windows_network_toolkit.proxy_remediation.platform.system", return_value="Windows"), patch(
-        "windows_network_toolkit.proxy_remediation.read_proxy_registry"
-    ) as mock_reg, patch(
-        "windows_network_toolkit.proxy_remediation.collect_proxy_state_model"
-    ) as mock_state, patch(
-        "windows_network_toolkit.proxy_remediation.decide"
-    ) as mock_decide:
+    with (
+        patch("windows_network_toolkit.proxy_remediation.platform.system", return_value="Windows"),
+        patch("windows_network_toolkit.proxy_remediation.read_proxy_registry") as mock_reg,
+        patch("windows_network_toolkit.proxy_remediation.collect_proxy_state_model") as mock_state,
+        patch("windows_network_toolkit.proxy_remediation.decide") as mock_decide,
+    ):
         from src.core.models import ProxyRegistrySnapshot
 
         mock_reg.return_value = ProxyRegistrySnapshot(

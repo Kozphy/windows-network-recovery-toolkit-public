@@ -12,13 +12,13 @@ router = APIRouter(prefix="/api/proxy", tags=["evidence-tree"])
 @router.get("/incidents/{incident_id}/evidence-tree")
 def get_evidence_tree(incident_id: str) -> dict:
     """Handle the GET request for get evidence tree.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """

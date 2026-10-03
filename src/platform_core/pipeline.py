@@ -31,6 +31,7 @@ class PipelineResult:
     Side effects:
         None.
     """
+
     bundle: EvidenceBundle
     hypothesis: Hypothesis
     decision: Any
@@ -52,7 +53,9 @@ def _load_signals(jsonl_path: Path | None, signals: dict[str, Any] | None) -> di
                 if "signal" in row:
                     out[str(row["signal"])] = row.get("observed_value", row.get("value"))
                 else:
-                    out.update({k: v for k, v in row.items() if k not in {"timestamp", "timestamp_utc"}})
+                    out.update(
+                        {k: v for k, v in row.items() if k not in {"timestamp", "timestamp_utc"}}
+                    )
     return out
 
 

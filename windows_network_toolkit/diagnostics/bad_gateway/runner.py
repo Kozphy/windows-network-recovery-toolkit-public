@@ -57,7 +57,8 @@ def _signals_from_probes(probes: dict[str, Any]) -> dict[str, Any]:
         "wininet_proxy_enabled": int(wininet.get("proxy_enable") or 0) == 1,
         "proxy_server_localhost": "127.0.0.1" in str(wininet.get("proxy_server") or ""),
         "listener_on_proxy_port": local.get("detected"),
-        "path_validated": http_dir.get("status_code") == 200 and http_sys.get("status_code") in {502, 504},
+        "path_validated": http_dir.get("status_code") == 200
+        and http_sys.get("status_code") in {502, 504},
     }
 
 
@@ -115,7 +116,9 @@ def run_bad_gateway_diagnose(
         recommended_action=action,
         requires_human_review=cause in {"LOCAL_PROXY_MISCONFIG", "LOCAL_LOOPBACK_PROXY"},
     )
-    policy = evaluate_policy(decision=decision, bundle=bundle, requested_action=action, dry_run=dry_run)
+    policy = evaluate_policy(
+        decision=decision, bundle=bundle, requested_action=action, dry_run=dry_run
+    )
 
     audit_id = str(uuid.uuid4())
     append_audit(

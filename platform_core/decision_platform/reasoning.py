@@ -82,7 +82,9 @@ def run_shared_reasoning(
     if not candidate_specs:
         raise ValueError("at least one candidate decision spec is required")
 
-    engine_result = run_decision_engine(_to_engine_evidence(evidence), _to_engine_candidates(candidate_specs))
+    engine_result = run_decision_engine(
+        _to_engine_evidence(evidence), _to_engine_candidates(candidate_specs)
+    )
     summary = engine_summary(engine_result)
     rec = engine_result.recommendation
     decision = Decision(

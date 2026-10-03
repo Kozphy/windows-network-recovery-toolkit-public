@@ -42,7 +42,9 @@ def _now() -> str:
     return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _should_exclude_dir(path: Path, *, profile_scan: bool = False, is_scan_root: bool = False) -> bool:
+def _should_exclude_dir(
+    path: Path, *, profile_scan: bool = False, is_scan_root: bool = False
+) -> bool:
     parts = {segment.lower() for segment in str(path).replace("\\", "/").split("/")}
     if parts & _ALWAYS_EXCLUDE_DIR_NAMES:
         return True

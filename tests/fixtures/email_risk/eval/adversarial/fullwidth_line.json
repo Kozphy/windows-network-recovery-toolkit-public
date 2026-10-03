@@ -1,0 +1,11 @@
+{
+  "description": "Adversarial: full-width 'ＬＩＮＥ' and full-width 'ＱＲ' in a Traditional Chinese executive request with payment.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"董事長\" <chairman.office.88@gmail.com>",
+    "to": ["staff@example-corp.test"],
+    "subject": "急件",
+    "message_id": "<synthetic-adv-fullwidth-0203@mail.gmail.com>",
+    "body_text": "請立刻建立ＬＩＮＥ群組，把群組ＱＲ碼傳給我。\n這件事請保密，不要告訴其他人。\n之後我會給你匯款資訊。"
+  }
+}

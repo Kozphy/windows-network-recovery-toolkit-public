@@ -103,7 +103,10 @@ def build_hypotheses(
                     hypothesis_id="localhost_proxy_no_listener",
                     title="Loopback proxy configured without matching listener",
                     confidence="high",
-                    evidence_for=("ProxyServer references loopback", "no listener on configured port"),
+                    evidence_for=(
+                        "ProxyServer references loopback",
+                        "no listener on configured port",
+                    ),
                     evidence_against=(),
                     limitations=lim,
                 ),

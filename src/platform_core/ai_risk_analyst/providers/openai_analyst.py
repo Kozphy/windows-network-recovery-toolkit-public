@@ -21,6 +21,7 @@ class OpenAIAnalyst(AnalystProvider):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     name = "openai"
 
     def __init__(self, *, model: str = "gpt-4o-mini", api_key: str | None = None) -> None:
@@ -80,7 +81,10 @@ class OpenAIAnalyst(AnalystProvider):
             rec = self._fallback.analyze(bundle)
             return rec.model_copy(
                 update={
-                    "governance_notes": [*rec.governance_notes, "httpx unavailable; rule-based fallback."],
+                    "governance_notes": [
+                        *rec.governance_notes,
+                        "httpx unavailable; rule-based fallback.",
+                    ],
                 }
             )
 
@@ -133,7 +137,9 @@ class OpenAIAnalyst(AnalystProvider):
             f"alternative_explanations. Evidence: {json.dumps(payload, ensure_ascii=False)}"
         )
 
-    def _parse_response(self, data: dict[str, Any], bundle: AnalystEvidenceBundle) -> AIRecommendation:
+    def _parse_response(
+        self, data: dict[str, Any], bundle: AnalystEvidenceBundle
+    ) -> AIRecommendation:
         base = self._fallback.analyze(bundle)
         return base.model_copy(
             update={

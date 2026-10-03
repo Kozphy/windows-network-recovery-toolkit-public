@@ -25,6 +25,7 @@ class Asset(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     asset_id: str
     name: str
     asset_type: str

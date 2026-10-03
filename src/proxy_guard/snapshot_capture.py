@@ -76,8 +76,12 @@ def capture_proxy_snapshot(
 
     git_http = git_https = npm_p = npm_h = None
     if not skip_optional_cli:
-        git_http = _run_text(["git", "config", "--global", "--get", "http.proxy"], run=run, timeout=8.0)
-        git_https = _run_text(["git", "config", "--global", "--get", "https.proxy"], run=run, timeout=8.0)
+        git_http = _run_text(
+            ["git", "config", "--global", "--get", "http.proxy"], run=run, timeout=8.0
+        )
+        git_https = _run_text(
+            ["git", "config", "--global", "--get", "https.proxy"], run=run, timeout=8.0
+        )
         npm_p_raw = _run_text(["npm", "config", "get", "proxy"], run=run, timeout=12.0)
         npm_h_raw = _run_text(["npm", "config", "get", "https-proxy"], run=run, timeout=12.0)
         npm_p = None if npm_p_raw in (None, "null", "undefined") else npm_p_raw

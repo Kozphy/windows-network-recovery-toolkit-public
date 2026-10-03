@@ -23,6 +23,7 @@ class MitmRiskLevel(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     LOW = "LOW"
     MEDIUM = "MEDIUM"
     HIGH = "HIGH"
@@ -44,6 +45,7 @@ class TlsCertificateSnapshot(BaseModel):
     Side effects:
         None.
     """
+
     path: str  # direct | proxied
     subject: str = ""
     issuer: str = ""
@@ -72,6 +74,7 @@ class RootCaObservation(BaseModel):
     Side effects:
         None.
     """
+
     subject: str = ""
     issuer: str = ""
     thumbprint: str = ""
@@ -102,6 +105,7 @@ class TlsProofResult(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     proof_id: str
     timestamp_utc: str
     target_url: str

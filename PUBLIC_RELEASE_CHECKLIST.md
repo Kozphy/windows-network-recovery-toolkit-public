@@ -74,6 +74,20 @@ pytest -q tests/test_public_release_audit.py tests/test_export_public_mirror.py 
 
 ---
 
+## E. Two-repo mirror (private → public)
+
+- [ ] Change landed and reviewed in the **private** monorepo first
+- [ ] `python tools/export_public_mirror.py --out .public_mirror_export --run-checks` exits 0
+  (its first gate is a full-tree `public_release_audit --include-untracked` of the export)
+- [ ] Medium audit findings in the export (emails, private IPs) reviewed and confirmed synthetic
+- [ ] `git status` inside `.public_mirror_export` shows no private-only paths
+  (`backend/billing.py`, `**/openclaw/**`, `skills/`, `.audit/`, `logs/`, `reports/`, `platform_data*`, real `.env*`)
+- [ ] New top-level surfaces were added to `config/public_mirror_manifest.yaml` deliberately (allowlist, not denylist)
+- [ ] Push goes to `Kozphy/windows-network-recovery-toolkit-public` only — never push this private repo to the public remote
+- [ ] Public PR fixes are cherry-picked back into private after review (no blind reverse sync)
+
+---
+
 ## Commands before push
 
 ```powershell

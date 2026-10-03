@@ -26,7 +26,11 @@ def build_evidence_tree(
     attrib = transition_row.get("attribution") or {}
     suspect = attrib.get("primary_suspect") if isinstance(attrib, dict) else None
 
-    cls = classification.to_dict() if isinstance(classification, ProcessClassificationResult) else classification
+    cls = (
+        classification.to_dict()
+        if isinstance(classification, ProcessClassificationResult)
+        else classification
+    )
     pol = policy.to_dict() if isinstance(policy, ProxyPolicyDecision) else policy
     level = str(causation.get("causation_level") or "UNKNOWN")
 
@@ -163,13 +167,13 @@ def _action_summary(pol: dict[str, Any]) -> str:
 
 def render_evidence_tree_json(root: EvidenceNode) -> str:
     """Render evidence tree json.
-    
+
     Args:
         root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -178,14 +182,14 @@ def render_evidence_tree_json(root: EvidenceNode) -> str:
 
 def render_evidence_tree_markdown(root: EvidenceNode, *, indent: int = 0) -> str:
     """Render evidence tree markdown.
-    
+
     Args:
         root: Repository root used to resolve fixtures, reports, or local state.
         indent: The indent value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -200,14 +204,14 @@ def render_evidence_tree_markdown(root: EvidenceNode, *, indent: int = 0) -> str
 
 def render_evidence_tree_text(root: EvidenceNode, *, indent: int = 0) -> str:
     """Render evidence tree text.
-    
+
     Args:
         root: Repository root used to resolve fixtures, reports, or local state.
         indent: The indent value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """

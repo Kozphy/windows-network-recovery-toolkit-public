@@ -16,7 +16,14 @@ PolicyDecision = Literal[
 ]
 
 _DESTRUCTIVE = frozenset(
-    {"kill_process", "process_kill", "reset_firewall", "disable_adapter", "adapter_disable", "arbitrary_shell"}
+    {
+        "kill_process",
+        "process_kill",
+        "reset_firewall",
+        "disable_adapter",
+        "adapter_disable",
+        "arbitrary_shell",
+    }
 )
 
 
@@ -60,7 +67,9 @@ def evaluate_endpoint_policy(
     return _row("PREVIEW_ONLY", ["Default preview-only gate."], False, True)
 
 
-def _row(decision: PolicyDecision, reasons: list[str], execute: bool, preview: bool) -> dict[str, Any]:
+def _row(
+    decision: PolicyDecision, reasons: list[str], execute: bool, preview: bool
+) -> dict[str, Any]:
     return {
         "decision": decision,
         "execute_allowed": execute,

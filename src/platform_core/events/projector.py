@@ -46,7 +46,9 @@ def project_incident_summary(
     Side effects:
         May read or write local platform records depending on inputs.
     """
-    events = list((store or get_event_store()).iter_events(aggregate_id=incident_aggregate_id, limit=200))
+    events = list(
+        (store or get_event_store()).iter_events(aggregate_id=incident_aggregate_id, limit=200)
+    )
     classifications = [e for e in events if e.event_type.value == "RiskClassified"]
     controls = [e for e in events if e.event_type.value == "ControlTestCompleted"]
     return {
@@ -55,7 +57,11 @@ def project_incident_summary(
         "risk_events": len(classifications),
         "control_events": len(controls),
         "timeline": [
-            {"event_type": e.event_type.value, "timestamp_utc": e.timestamp_utc, "payload": e.payload}
+            {
+                "event_type": e.event_type.value,
+                "timestamp_utc": e.timestamp_utc,
+                "payload": e.payload,
+            }
             for e in events
         ],
     }

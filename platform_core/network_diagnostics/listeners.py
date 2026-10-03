@@ -99,9 +99,7 @@ def probe_listening_ports() -> dict[str, Any]:
         for row in listeners
         if row["address"] in ("127.0.0.1", "::1", "localhost", "*", "0.0.0.0", "::")
     ]
-    common_hits = sorted(
-        {row["port"] for row in listeners if row["port"] in _COMMON_PROXY_PORTS}
-    )
+    common_hits = sorted({row["port"] for row in listeners if row["port"] in _COMMON_PROXY_PORTS})
     return {
         "available": True,
         "source": source,

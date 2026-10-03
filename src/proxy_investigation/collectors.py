@@ -193,7 +193,9 @@ def collect_dev_process_correlation(*, run: Callable[..., Any] = subprocess.run)
                     actors.append(
                         ProxyActor(
                             pid=pid,
-                            parent_pid=r.get("parent_pid") if isinstance(r.get("parent_pid"), int) else None,
+                            parent_pid=r.get("parent_pid")
+                            if isinstance(r.get("parent_pid"), int)
+                            else None,
                             process_name=r.get("process_name"),
                             image_path=r.get("executable_path"),
                             command_line=r.get("command_line"),

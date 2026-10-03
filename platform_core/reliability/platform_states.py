@@ -93,7 +93,12 @@ def transition_platform_state(
             continue
         if required_any and not (required_any & observed):
             continue
-        triggers = [eid for e in events if e.signal_name in (required | required_any) for eid in [e.event_id]]
+        triggers = [
+            eid
+            for e in events
+            if e.signal_name in (required | required_any)
+            for eid in [e.event_id]
+        ]
         transitions.append(
             PlatformStateTransition(
                 endpoint_id=endpoint_id,

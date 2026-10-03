@@ -23,6 +23,7 @@ class OutcomeClassification(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     SUCCESSFUL_REMEDIATION = "SUCCESSFUL_REMEDIATION"
     PARTIAL_RECOVERY = "PARTIAL_RECOVERY"
     NO_IMPACT = "NO_IMPACT"

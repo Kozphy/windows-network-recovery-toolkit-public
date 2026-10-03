@@ -17,7 +17,9 @@ from typing import Any
 from .live_scoring import LiveHypothesisScore
 
 
-def live_recommendation_bundle(top: LiveHypothesisScore, *, primary_hypothesis: str) -> dict[str, list[dict[str, Any]]]:
+def live_recommendation_bundle(
+    top: LiveHypothesisScore, *, primary_hypothesis: str
+) -> dict[str, list[dict[str, Any]]]:
     """Map hypotheses into ``diagnose``/``repair_safe``/``guided``/``advanced`` item lists.
 
     Args:

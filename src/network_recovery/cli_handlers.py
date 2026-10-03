@@ -90,7 +90,9 @@ def cmd_diagnose_app(args: argparse.Namespace) -> int:
     audit_path = append_network_recovery_audit(repo, result)
     last_path = repo / "reports" / "last_network_recovery_diagnosis.json"
     last_path.parent.mkdir(parents=True, exist_ok=True)
-    last_path.write_text(json.dumps(result.to_audit_dict(), indent=2, ensure_ascii=False), encoding="utf-8")
+    last_path.write_text(
+        json.dumps(result.to_audit_dict(), indent=2, ensure_ascii=False), encoding="utf-8"
+    )
 
     if getattr(args, "emit_json", False):
         print(json.dumps(result.to_audit_dict(), indent=2, ensure_ascii=False))
@@ -124,7 +126,9 @@ def cmd_preview_scenario(args: argparse.Namespace) -> int:
             pass
 
     if platform.system() == "Windows":
-        result = run_scenario_diagnosis(scenario, recovery_firewall_reset_helped=recovery, dry_run=True)
+        result = run_scenario_diagnosis(
+            scenario, recovery_firewall_reset_helped=recovery, dry_run=True
+        )
     else:
         signals = SignalBundle(
             browser_https_ok=True,

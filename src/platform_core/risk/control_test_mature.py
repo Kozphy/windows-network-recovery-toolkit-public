@@ -24,6 +24,7 @@ class MatureTestResult(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     PASS = "PASS"
     FAIL = "FAIL"
     PARTIAL = "PARTIAL"
@@ -50,6 +51,7 @@ class ControlTestMatureRecord(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     control_id: str
     control_name: str
     control_objective: str
@@ -146,7 +148,11 @@ def _evaluate_scenario(key: str, fixture: dict[str, Any]) -> MatureTestResult:
         if primary != "DEAD_PROXY_CONFIG" and "DEAD_LOCALHOST_PORT" not in secondary:
             return MatureTestResult.NOT_TESTED
         if listener is False and primary == "DEAD_PROXY_CONFIG":
-            return MatureTestResult.PASS if proof_status in ("supported", "failed") else MatureTestResult.PARTIAL
+            return (
+                MatureTestResult.PASS
+                if proof_status in ("supported", "failed")
+                else MatureTestResult.PARTIAL
+            )
         return MatureTestResult.PARTIAL
 
     if key == "WININET_WINHTTP_MISMATCH":
@@ -203,7 +209,9 @@ def run_mature_control_tests(fixture: dict[str, Any]) -> list[ControlTestMatureR
                 control_name=meta["control_name"],
                 control_objective=meta["control_objective"],
                 test_procedure=meta["test_procedure"],
-                evidence_required=[e.strip() for e in meta["evidence_required"].split(",") if e.strip()],
+                evidence_required=[
+                    e.strip() for e in meta["evidence_required"].split(",") if e.strip()
+                ],
                 test_result=result,
                 residual_risk=_residual_risk(key, result),
                 limitation="Control test evaluates design effectiveness for fixture scope — not regulatory attestation.",

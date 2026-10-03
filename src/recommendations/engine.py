@@ -261,10 +261,7 @@ def build_recommendations(
             guided=(),
             advanced=(),
         )
-        if (
-            features.time_wait_count >= 5000
-            or features.established_count >= 8000
-        ):
+        if features.time_wait_count >= 5000 or features.established_count >= 8000:
             guided = (
                 _r(
                     "Check for connection exhaustion",

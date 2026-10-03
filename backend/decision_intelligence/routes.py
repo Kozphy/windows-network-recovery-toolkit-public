@@ -56,13 +56,13 @@ router = APIRouter(prefix="/decision-intelligence", tags=["decision-intelligence
 @router.get("/health")
 def di_health() -> dict[str, str]:
     """Handle the GET request for di health.
-    
+
     Args:
         None.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -82,7 +82,7 @@ def list_events(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> PaginatedResponse[EventRecord]:
     """Handle the GET request for list events.
-    
+
     Args:
         domain: The domain value supplied by the caller.
         category: The category value supplied by the caller.
@@ -92,10 +92,10 @@ def list_events(
         page: The page value supplied by the caller.
         page_size: The page size value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -115,14 +115,14 @@ def create_event(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> EventRecord:
     """Handle the POST request for create event.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -144,7 +144,7 @@ def list_evidence(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> PaginatedResponse[EvidenceRecord]:
     """Handle the GET request for list evidence.
-    
+
     Args:
         event_id: The event id value supplied by the caller.
         decision_id: The decision id value supplied by the caller.
@@ -152,10 +152,10 @@ def list_evidence(
         page: The page value supplied by the caller.
         page_size: The page size value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -173,21 +173,23 @@ def create_evidence(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> EvidenceRecord:
     """Handle the POST request for create evidence.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
     assert_can_preview(principal)
     with observe_handler_latency():
         record = get_store().create_evidence(body)
-    log_structured("create_evidence", operator=principal.operator_id, evidence_id=record.evidence_id)
+    log_structured(
+        "create_evidence", operator=principal.operator_id, evidence_id=record.evidence_id
+    )
     return record
 
 
@@ -202,7 +204,7 @@ def list_decisions(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> PaginatedResponse[DecisionRecord]:
     """Handle the GET request for list decisions.
-    
+
     Args:
         domain: The domain value supplied by the caller.
         decision_id: The decision id value supplied by the caller.
@@ -211,13 +213,13 @@ def list_decisions(
         page: The page value supplied by the caller.
         page_size: The page size value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -240,17 +242,17 @@ def create_decision(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> DecisionRecord:
     """Handle the POST request for create decision.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -258,7 +260,9 @@ def create_decision(
     with observe_handler_latency():
         record = get_store().create_decision(body)
     inc_decision()
-    log_structured("create_decision", operator=principal.operator_id, decision_id=record.decision_id)
+    log_structured(
+        "create_decision", operator=principal.operator_id, decision_id=record.decision_id
+    )
     return record
 
 
@@ -271,17 +275,17 @@ def list_outcomes(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> PaginatedResponse[OutcomeRecord]:
     """Handle the GET request for list outcomes.
-    
+
     Args:
         decision_id: The decision id value supplied by the caller.
         success: The success value supplied by the caller.
         page: The page value supplied by the caller.
         page_size: The page size value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -299,14 +303,14 @@ def create_outcome(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> OutcomeRecord:
     """Handle the POST request for create outcome.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -325,14 +329,14 @@ def replay(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> ReplayResponse:
     """Handle the POST request for replay.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -354,13 +358,13 @@ def metrics(
     principal: DemoPrincipal = Depends(get_platform_principal),
 ) -> MetricsResponse:
     """Handle the GET request for metrics.
-    
+
     Args:
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """

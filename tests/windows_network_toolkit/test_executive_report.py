@@ -5,13 +5,12 @@ from __future__ import annotations
 from pathlib import Path
 
 from windows_network_toolkit.diagnostics.lan_privacy.executive_report import (
-    build_executive_report,
     render_executive_markdown,
 )
 from windows_network_toolkit.diagnostics.lan_privacy.report import (
-    validate_report_wording,
-    render_lan_privacy_markdown,
     build_lan_privacy_report,
+    render_lan_privacy_markdown,
+    validate_report_wording,
 )
 from windows_network_toolkit.diagnostics.lan_privacy.runner import run_executive_report_pipeline
 

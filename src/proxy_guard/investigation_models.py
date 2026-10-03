@@ -33,13 +33,13 @@ class InvestigationEvidenceItem:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -73,13 +73,13 @@ class ProcessSnapshotRecord:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -113,13 +113,13 @@ class AttributionConclusion:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

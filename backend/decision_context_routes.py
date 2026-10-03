@@ -22,7 +22,7 @@ router = APIRouter(prefix="/platform", tags=["decision-context"])
 
 class StakeholderResolveIn(BaseModel):
     """Represent stakeholder resolve in data used by the toolkit.
-    
+
     Attributes:
         case_id: Field or variant describing case id evidence or state.
         classification: Field or variant describing classification evidence or state.
@@ -32,10 +32,11 @@ class StakeholderResolveIn(BaseModel):
         control_ids: Field or variant describing control ids evidence or state.
         config: Field or variant describing config evidence or state.
         evidence_summary: Field or variant describing evidence summary evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     case_id: str = Field(min_length=1)
     classification: str = ""
     policy_outcome: str = "PREVIEW_ONLY"
@@ -48,7 +49,7 @@ class StakeholderResolveIn(BaseModel):
 
 class TimingEvaluateIn(BaseModel):
     """Represent timing evaluate in data used by the toolkit.
-    
+
     Attributes:
         case_id: Field or variant describing case id evidence or state.
         detected_at_utc: Field or variant describing detected at utc evidence or state.
@@ -58,10 +59,11 @@ class TimingEvaluateIn(BaseModel):
         urgency: Field or variant describing urgency evidence or state.
         maintenance_window_required: Field or variant describing maintenance window required evidence or state.
         change_freeze_active: Field or variant describing change freeze active evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     case_id: str = Field(min_length=1)
     detected_at_utc: str
     timezone: str | None = None
@@ -75,7 +77,7 @@ class TimingEvaluateIn(BaseModel):
 
 class DecisionContextEvaluateIn(BaseModel):
     """Represent decision context evaluate in data used by the toolkit.
-    
+
     Attributes:
         case_id: Field or variant describing case id evidence or state.
         decision_id: Field or variant describing decision id evidence or state.
@@ -85,10 +87,11 @@ class DecisionContextEvaluateIn(BaseModel):
         policy_requires_approval: Field or variant describing policy requires approval evidence or state.
         proof_status: Field or variant describing proof status evidence or state.
         proof_result: Field or variant describing proof result evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     case_id: str = Field(min_length=1)
     decision_id: str = ""
     classification: str = ""
@@ -109,13 +112,13 @@ class DecisionContextEvaluateIn(BaseModel):
 @router.post("/stakeholders/resolve")
 def post_stakeholders_resolve(body: StakeholderResolveIn) -> dict[str, Any]:
     """Handle the POST request for post stakeholders resolve.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -135,13 +138,13 @@ def post_stakeholders_resolve(body: StakeholderResolveIn) -> dict[str, Any]:
 @router.post("/timing/evaluate")
 def post_timing_evaluate(body: TimingEvaluateIn) -> dict[str, Any]:
     """Handle the POST request for post timing evaluate.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -162,16 +165,16 @@ def post_timing_evaluate(body: TimingEvaluateIn) -> dict[str, Any]:
 @router.post("/decision-context/evaluate")
 def post_decision_context_evaluate(body: DecisionContextEvaluateIn) -> dict[str, Any]:
     """Handle the POST request for post decision context evaluate.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -188,7 +191,8 @@ def post_decision_context_evaluate(body: DecisionContextEvaluateIn) -> dict[str,
         timezone_name=body.timezone,
         stakeholder_config=body.stakeholder_config,
         timing_config=body.timing_config,
-        remediation_preview=body.remediation_preview or {
+        remediation_preview=body.remediation_preview
+        or {
             "dry_run": True,
             "preview_only": True,
             "message": "API evaluate is preview-only; does not execute remediation.",
@@ -205,16 +209,16 @@ def post_decision_context_evaluate(body: DecisionContextEvaluateIn) -> dict[str,
 @router.get("/decision-context/latest")
 def get_decision_context_latest(case_id: str | None = None) -> dict[str, Any]:
     """Handle the GET request for get decision context latest.
-    
+
     Args:
         case_id: The case id value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """

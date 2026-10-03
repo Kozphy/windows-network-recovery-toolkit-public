@@ -66,13 +66,13 @@ class InvestigationEvidence:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -91,7 +91,6 @@ class InvestigationEvidence:
             "confidence": self.confidence,
             "limitations": list(self.limitations),
             "lines": [
-                {"tier": line.tier, "text": line.text, "detail": line.detail}
-                for line in self.lines
+                {"tier": line.tier, "text": line.text, "detail": line.detail} for line in self.lines
             ],
         }

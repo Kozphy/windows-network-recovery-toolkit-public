@@ -1,0 +1,14 @@
+{
+  "description": "Synthetic BEC where SPF/DKIM/DMARC all pass (consumer mailbox) but a configured executive name is used from outside the organization with a channel move, wire request, and secrecy.",
+  "org_context": {
+    "organization_domains": ["example-corp.test"],
+    "executive_names": ["Alice Wang"]
+  },
+  "email": {
+    "from": "\"Alice Wang\" <alice.wang.office@gmail.com>",
+    "to": ["controller@example-corp.test"],
+    "subject": "Confidential acquisition",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=gmail.com; dkim=pass header.d=gmail.com; dmarc=pass header.from=gmail.com",
+    "body_text": "I'm in a board meeting and can't talk.\nCan you text me on WhatsApp instead of email?\nI need a wire transfer processed for an acquisition, please handle the wire transfer before 3pm.\nThis is confidential."
+  }
+}

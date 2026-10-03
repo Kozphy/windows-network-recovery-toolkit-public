@@ -1,0 +1,11 @@
+{
+  "description": "Adversarial: paraphrased channel move and payment with no lexicon keywords ('the green chat app', 'settle the amount').",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"CEO\" <ceo.private.mailbox@gmail.com>",
+    "to": ["staff@example-corp.test"],
+    "subject": "Hello",
+    "message_id": "<synthetic-adv-paraphrase-0212@mail.gmail.com>",
+    "body_text": "Let's move this to the green chat app on your phone.\nI will need you to settle an amount for a partner there.\nLet me know when you are ready."
+  }
+}

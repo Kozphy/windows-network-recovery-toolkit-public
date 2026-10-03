@@ -57,7 +57,7 @@ def inc(name: str, amount: float = 1.0, labels: dict[str, str] | None = None) ->
     key = (
         name
         if not labels
-        else f"{name}{{{','.join(f'{k}={v!r}' for k,v in sorted(labels.items()))}}}"
+        else f"{name}{{{','.join(f'{k}={v!r}' for k, v in sorted(labels.items()))}}}"
     )
     with _lock:
         _counters[key] = _counters.get(key, 0.0) + amount
@@ -71,16 +71,16 @@ def set_gauge(name: str, value: float) -> None:
 
 def inc_classification(classification: str) -> None:
     """Inc classification.
-    
+
     Args:
         classification: The classification value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -89,16 +89,16 @@ def inc_classification(classification: str) -> None:
 
 def observe_classification_latency(seconds: float) -> None:
     """Observe classification latency.
-    
+
     Args:
         seconds: The seconds value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -113,13 +113,13 @@ def observe_classification_latency(seconds: float) -> None:
 
 def render_trisk_prometheus_lines() -> list[str]:
     """Render trisk prometheus lines.
-    
+
     Args:
         None.
-    
+
     Returns:
         The list[str] result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -141,13 +141,13 @@ def render_trisk_prometheus_lines() -> list[str]:
 
 def reset_trisk_metrics() -> None:
     """Reset trisk metrics.
-    
+
     Args:
         None.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

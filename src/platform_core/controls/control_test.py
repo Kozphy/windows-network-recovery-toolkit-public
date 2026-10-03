@@ -55,6 +55,7 @@ class ControlTestOutcome(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     PASS = "PASS"
     FAIL = "FAIL"
     EXCEPTION = "EXCEPTION"
@@ -81,6 +82,7 @@ class ControlTestSpec(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     control_id: str
     control_objective: str
     required_evidence: list[str] = Field(default_factory=list)

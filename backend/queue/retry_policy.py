@@ -8,13 +8,13 @@ BACKOFF_SECONDS = (1, 5, 15)
 
 def should_retry(attempt: int) -> bool:
     """Should retry.
-    
+
     Args:
         attempt: The attempt value supplied by the caller.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -23,13 +23,13 @@ def should_retry(attempt: int) -> bool:
 
 def backoff_seconds(attempt: int) -> int:
     """Backoff seconds.
-    
+
     Args:
         attempt: The attempt value supplied by the caller.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

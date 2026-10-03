@@ -7,8 +7,19 @@ from windows_network_toolkit.audit.report_generator import generate_report
 
 def test_report_markdown_sections() -> None:
     text = generate_report(
-        timeline=[{"timestamp": "2026-06-09T10:01:00Z", "signal": "PROXY_ENABLED", "observed_value": "1", "severity": "medium"}],
-        decision={"incident_type": "WININET_PROXY_DRIFT", "confidence": 0.88, "risk_level": "medium"},
+        timeline=[
+            {
+                "timestamp": "2026-06-09T10:01:00Z",
+                "signal": "PROXY_ENABLED",
+                "observed_value": "1",
+                "severity": "medium",
+            }
+        ],
+        decision={
+            "incident_type": "WININET_PROXY_DRIFT",
+            "confidence": 0.88,
+            "risk_level": "medium",
+        },
         policy={"outcome": "ALLOW_WITH_CONFIRMATION", "dry_run": True},
         remediation={"previews": [], "rollback_plan": {}},
         fmt="markdown",

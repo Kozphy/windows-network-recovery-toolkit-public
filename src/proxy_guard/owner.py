@@ -42,7 +42,7 @@ def _full_tasklist_text(run: Callable[..., Any]) -> tuple[int, str]:
 def _cim_process_json(pid: int) -> tuple[dict[str, Any] | None, bool]:
     ps = (
         f"$e=$null; try {{"
-        f"$p=Get-CimInstance Win32_Process -Filter \"ProcessId={pid}\" -ErrorAction Stop; "
+        f'$p=Get-CimInstance Win32_Process -Filter "ProcessId={pid}" -ErrorAction Stop; '
         f"$e=[pscustomobject]@{{"
         f"CommandLine=$p.CommandLine;ParentProcessId=$p.ParentProcessId;"
         f"ExecutablePath=$p.ExecutablePath;Caption=$p.Name}}}} catch {{ $e=$null }}; "

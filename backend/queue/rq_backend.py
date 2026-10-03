@@ -15,19 +15,20 @@ _IDEMPOTENCY: dict[str, str] = {}
 
 class RQQueueBackend:
     """Represent r q queue backend data used by the toolkit.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     def __init__(self) -> None:
         """Initialize the object with caller supplied state.
-        
+
         Args:
             None.
-        
+
         Returns:
             None.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -40,17 +41,17 @@ class RQQueueBackend:
 
     def enqueue_classification_job(self, *, event_id: str, idempotency_key: str) -> JobRef:
         """Enqueue classification job.
-        
+
         Args:
             event_id: The event id value supplied by the caller.
             idempotency_key: The idempotency key value supplied by the caller.
-        
+
         Returns:
             The JobRef result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -68,13 +69,13 @@ class RQQueueBackend:
 
     def get_job_status(self, job_id: str) -> JobStatus:
         """Get job status.
-        
+
         Args:
             job_id: The job id value supplied by the caller.
-        
+
         Returns:
             The JobStatus result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -94,13 +95,13 @@ class RQQueueBackend:
 
     def cancel_job(self, job_id: str) -> bool:
         """Cancel job.
-        
+
         Args:
             job_id: The job id value supplied by the caller.
-        
+
         Returns:
             The bool result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

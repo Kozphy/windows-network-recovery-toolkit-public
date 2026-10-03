@@ -1,0 +1,11 @@
+{
+  "description": "Adversarial: code-switched Traditional Chinese / English executive chain (LINE group, QR code, payment).",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"總經理 GM\" <gm.office.tw@gmail.com>",
+    "to": ["staff@example-corp.test"],
+    "subject": "急 urgent",
+    "message_id": "<synthetic-adv-mixed-0208@mail.gmail.com>",
+    "body_text": "麻煩你 create 一個 LINE group，then send the QR code 給我。\n這件事先保密。\n我等一下會給你 payment instructions。"
+  }
+}

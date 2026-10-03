@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic simulation of a legitimate internal mailbox being misused: authentication passes and the sender is internal, so identity signals do not fire, but channel migration and gift-card payment requests still do.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Kevin Liu\" <kevin.liu@example-corp.test>",
+    "to": ["team@example-corp.test"],
+    "subject": "Need help",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=example-corp.test; dkim=pass header.d=example-corp.test; dmarc=pass header.from=example-corp.test",
+    "body_text": "Please add me on LINE, my phone is not working for calls.\nI need you to buy 10 Google Play gift cards immediately and send me the codes there."
+  }
+}

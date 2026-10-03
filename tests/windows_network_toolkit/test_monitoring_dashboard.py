@@ -68,7 +68,9 @@ def test_listener_present_and_missing() -> None:
         },
     )
     assert present.listener_present and present.listener_pid == 42
-    missing = check_local_proxy_listener(60505, inject={"listener_present": False, "listener_port": 60505})
+    missing = check_local_proxy_listener(
+        60505, inject={"listener_present": False, "listener_port": 60505}
+    )
     assert not missing.listener_present
 
 
@@ -111,9 +113,13 @@ def test_state_change_detection_and_unchanged_suppression(tmp_path: Path) -> Non
         return collect_dashboard_proxy_state(inject=raw)
 
     def listener(port):
-        return check_local_proxy_listener(port, inject={"listener_present": False, "listener_port": port})
+        return check_local_proxy_listener(
+            port, inject={"listener_present": False, "listener_port": port}
+        )
 
-    watcher = ProxyWatcher(store, interval_seconds=0.2, collect_state=collect, check_listener=listener)
+    watcher = ProxyWatcher(
+        store, interval_seconds=0.2, collect_state=collect, check_listener=listener
+    )
     e1 = watcher.poll_once()
     e2 = watcher.poll_once()
     e3 = watcher.poll_once()

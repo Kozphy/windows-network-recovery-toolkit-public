@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic Google-login phishing: 'unusual sign-in' lure from a non-Google domain, link host contains the brand token.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Google Accounts\" <security-alert@accounts-notice.test>",
+    "to": ["staff@example-corp.test"],
+    "subject": "Security alert: unusual sign-in attempt",
+    "message_id": "<synthetic-eval-google-0007@accounts-notice.test>",
+    "body_text": "We detected an unusual sign-in to your Google Account from a new device.\nIf this wasn't you, sign in now to confirm your account or it will be locked within 12 hours.\nhttps://google-account-recovery.test/signin?continue=mail\n\nThe Google Accounts team"
+  }
+}

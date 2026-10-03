@@ -192,7 +192,13 @@ def run_dead_proxy_guardian_once(
     path: dict[str, Any] = {}
     proxy_probe_ok: bool | None = None
     direct_probe_ok: bool | None = None
-    need_path = (clear_broken or hold_direct) and enabled and parsed.is_localhost_proxy and port and listener
+    need_path = (
+        (clear_broken or hold_direct)
+        and enabled
+        and parsed.is_localhost_proxy
+        and port
+        and listener
+    )
     if need_path and clear_broken:
         broken, path = _assess_broken(
             enabled=enabled,

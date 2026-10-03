@@ -138,41 +138,44 @@ def _audit(
 
 class OrganizationCreate(BaseModel):
     """Represent organization create data used by the toolkit.
-    
+
     Attributes:
         display_name: Field or variant describing display name evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     display_name: str = Field(min_length=1, max_length=256)
 
 
 class EnrollmentTokenCreate(BaseModel):
     """Represent enrollment token create data used by the toolkit.
-    
+
     Attributes:
         ttl_minutes: Field or variant describing ttl minutes evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     ttl_minutes: int = Field(default=30, ge=1, le=1440)
 
 
 class AgentEnrollRequest(BaseModel):
     """Represent agent enroll request data used by the toolkit.
-    
+
     Attributes:
         enrollment_token: Field or variant describing enrollment token evidence or state.
         hostname: Field or variant describing hostname evidence or state.
         agent_version: Field or variant describing agent version evidence or state.
         os_name: Field or variant describing os name evidence or state.
         os_version: Field or variant describing os version evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     enrollment_token: str = Field(min_length=20, max_length=512)
     hostname: str = Field(min_length=1, max_length=256)
     agent_version: str = Field(default="unknown", max_length=64)
@@ -182,17 +185,18 @@ class AgentEnrollRequest(BaseModel):
 
 class HeartbeatRequest(BaseModel):
     """Represent heartbeat request data used by the toolkit.
-    
+
     Attributes:
         heartbeat_id: Field or variant describing heartbeat id evidence or state.
         agent_version: Field or variant describing agent version evidence or state.
         os_name: Field or variant describing os name evidence or state.
         os_version: Field or variant describing os version evidence or state.
         observed_at: Field or variant describing observed at evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     heartbeat_id: str | None = Field(default=None, max_length=64)
     agent_version: str = Field(default="unknown", max_length=64)
     os_name: str = Field(default="Windows", max_length=128)
@@ -296,14 +300,14 @@ def revoke_enrollment_token(
     principal: Annotated[V1Principal, Depends(get_v1_principal)],
 ) -> dict[str, Any]:
     """Handle the POST request for revoke enrollment token.
-    
+
     Args:
         token_id: The token id value supplied by the caller.
         principal: The principal value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """

@@ -1,0 +1,25 @@
+Return-Path: <bounce@mailer-xyz.test>
+Received: from unknown (HELO mailer-xyz.test) (198.51.100.23)
+	by mx.example-corp.test; Tue, 22 Sep 2026 10:01:00 +0800
+Authentication-Results: mx.example-corp.test;
+	spf=fail smtp.mailfrom=mailer-xyz.test;
+	dkim=none;
+	dmarc=fail header.from=example-corp.test
+Authentication-Results: forged.example; spf=pass dkim=pass dmarc=pass
+From: "Accounts Payable" <ap@example-corp.test>
+Reply-To: ap.example.corp@outlook.com
+To: finance-team@example-corp.test
+Subject: Updated remittance for invoice INV-7781
+Message-ID: <synthetic-spoof-0002@mailer-xyz.test>
+Date: Tue, 22 Sep 2026 10:00:55 +0800
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Hello,
+
+Please process the attached invoice payment today.
+Our bank account details have changed; use the new account below.
+Account: 123456789012
+
+Regards,
+Accounts Payable

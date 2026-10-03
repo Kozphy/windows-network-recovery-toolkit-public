@@ -4,7 +4,8 @@
 Module responsibility:
     Copy allowlisted paths from ``config/public_mirror_manifest.yaml``, apply
     exclude globs, rewrite public README/pyproject/AGENTS, and optionally run
-    audit + focused pytest checks.
+    audit + focused pytest checks. Inside a git checkout only git-tracked files
+    are copied, so untracked local drafts never reach the public mirror.
 
 System placement:
     Private-repo operator tool. Does not push to GitHub by itself — prints
@@ -65,7 +66,7 @@ def _load_manifest(path: Path) -> dict[str, Any]:
             import yaml  # type: ignore[import-untyped]
         except ImportError as exc:  # pragma: no cover
             raise ValueError(
-                "PyYAML is required to load .yaml manifests. " "Install with: pip install PyYAML"
+                "PyYAML is required to load .yaml manifests. Install with: pip install PyYAML"
             ) from exc
         data = yaml.safe_load(text)
     if not isinstance(data, dict):
@@ -98,6 +99,49 @@ def _copy_path(src: Path, dest: Path) -> None:
         shutil.copy2(src, dest)
 
 
+def _git_ls_files(repo_root: Path, *extra: str) -> set[str]:
+    """Run ``git ls-files -z`` and return posix repo-relative paths.
+
+    Raises:
+        RuntimeError: When git is unavailable or the command fails — exporting
+            without the tracked list could publish local files.
+    """
+    try:
+        completed = subprocess.run(
+            ["git", "ls-files", "-z", *extra],
+            cwd=str(repo_root),
+            capture_output=True,
+            check=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise RuntimeError(f"git ls-files failed in {repo_root}: {exc}") from exc
+    return {p for p in completed.stdout.decode("utf-8").split("\0") if p}
+
+
+def _under(path: str, rel: str) -> bool:
+    root = rel.rstrip("/")
+    return path == root or path.startswith(root + "/")
+
+
+def _clean_export_dir(out_dir: Path) -> None:
+    """Empty ``out_dir`` while keeping a public-repo ``.git`` checkout intact.
+
+    Args:
+        out_dir: Export directory, possibly a clone of the public mirror repo.
+
+    Side effects:
+        Deletes every top-level entry except ``.git`` so files removed from the
+        private allowlist also disappear from the next public commit.
+    """
+    for child in out_dir.iterdir():
+        if child.name == ".git":
+            continue
+        if child.is_dir() and not child.is_symlink():
+            shutil.rmtree(child)
+        else:
+            child.unlink()
+
+
 def _remove_excluded(export_root: Path, patterns: list[str]) -> list[str]:
     removed: list[str] = []
     # Walk files deepest-first so directories can be cleaned afterward.
@@ -106,6 +150,8 @@ def _remove_excluded(export_root: Path, patterns: list[str]) -> list[str]:
         if path == export_root:
             continue
         rel = _posix_rel(path, export_root)
+        if rel == ".git" or rel.startswith(".git/"):
+            continue
         if _is_excluded(rel, patterns):
             if path.is_dir():
                 shutil.rmtree(path, ignore_errors=True)
@@ -151,7 +197,8 @@ def export_mirror(
         repo_root: Private monorepo root.
         manifest_path: Path to public_mirror_manifest.yaml.
         out_dir: Destination directory.
-        clean: When true, delete out_dir before copy.
+        clean: When true, empty out_dir before copy, preserving any ``.git``
+            so a public-repo checkout can be re-exported in place.
 
     Returns:
         Summary dict with copied/removed/rewritten counts.
@@ -161,19 +208,28 @@ def export_mirror(
     exclude_globs = list(manifest.get("exclude_globs") or [])
     rewrites = dict(manifest.get("rewrite_files") or {})
 
-    if clean and out_dir.exists():
-        shutil.rmtree(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+    if clean:
+        _clean_export_dir(out_dir)
 
+    in_git = (repo_root / ".git").exists()
+    tracked = _git_ls_files(repo_root) if in_git else set()
+    untracked = _git_ls_files(repo_root, "--others", "--exclude-standard") if in_git else set()
     copied: list[str] = []
     missing: list[str] = []
+    skipped_untracked: list[str] = []
     for rel in include_paths:
         src = repo_root / rel
         if not src.exists():
             missing.append(rel)
             continue
-        dest = out_dir / rel
-        _copy_path(src, dest)
+        if in_git:
+            for path in sorted(p for p in tracked if _under(p, rel)):
+                if (repo_root / path).is_file():
+                    _copy_path(repo_root / path, out_dir / path)
+            skipped_untracked.extend(sorted(p for p in untracked if _under(p, rel)))
+        else:
+            _copy_path(src, out_dir / rel)
         copied.append(rel.rstrip("/"))
 
     removed = _remove_excluded(out_dir, exclude_globs)
@@ -188,6 +244,7 @@ def export_mirror(
         "out_dir": str(out_dir),
         "copied": copied,
         "missing_includes": missing,
+        "skipped_untracked": skipped_untracked,
         "removed_count": len(removed),
         "rewrites": list(rewrites.keys()),
         "public_repo_name": manifest.get("public_repo_name"),
@@ -235,9 +292,12 @@ git commit -m "Initial public mirror export from private monorepo."
 git remote add origin git@github.com:Kozphy/{repo}.git
 git push -u origin {branch}
 
-# Subsequent syncs (from private monorepo root):
+# Subsequent syncs (from private monorepo root; .git in the export is preserved):
 python tools/export_public_mirror.py --out "{out}" --run-checks
-# then commit/push inside the export clone (or rsync into a checkout of the public repo).
+cd "{out}"
+git add -A
+git commit -m "Sync public mirror from private monorepo."
+git push
 
 Never force-push secrets. Prefer cherry-picking public fixes back into private.
 """
@@ -283,7 +343,7 @@ def main(argv: list[str] | None = None) -> int:
             out_dir=args.out.resolve(),
             clean=not args.no_clean,
         )
-    except (OSError, ValueError, FileNotFoundError) as exc:
+    except (OSError, ValueError, RuntimeError) as exc:
         print(f"Export failed: {exc}", file=sys.stderr)
         return 2
 

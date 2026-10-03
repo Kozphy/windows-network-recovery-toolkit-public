@@ -7,14 +7,14 @@ from .models import EventEvidence, EvidenceTree, MarketEvent, SignalScore
 
 def build_evidence_tree(event: MarketEvent, score: SignalScore) -> EvidenceTree:
     """Build evidence tree.
-    
+
     Args:
         event: Evidence or domain record being processed.
         score: The score value supplied by the caller.
-    
+
     Returns:
         The EvidenceTree result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """

@@ -11,13 +11,13 @@ FIXTURES_DIR = Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "pro
 
 def list_fixture_paths(directory: Path | None = None) -> list[Path]:
     """List fixture paths.
-    
+
     Args:
         directory: The directory value supplied by the caller.
-    
+
     Returns:
         The list[Path] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -29,13 +29,13 @@ def list_fixture_paths(directory: Path | None = None) -> list[Path]:
 
 def load_fixture(path: Path | str) -> dict[str, Any]:
     """Load fixture.
-    
+
     Args:
         path: Filesystem path used by the operation.
-    
+
     Returns:
         The dict[str, Any] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -49,13 +49,13 @@ def load_fixture(path: Path | str) -> dict[str, Any]:
 
 def load_all_fixtures(directory: Path | None = None) -> list[dict[str, Any]]:
     """Load all fixtures.
-    
+
     Args:
         directory: The directory value supplied by the caller.
-    
+
     Returns:
         The list[dict[str, Any]] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

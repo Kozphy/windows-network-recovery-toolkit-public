@@ -1,0 +1,140 @@
+{
+  "schema_version": "wnt.domain_provenance.v1",
+  "assessment_id": "00000000-0000-4000-8000-000000000001",
+  "timestamp_utc": "2026-09-14T00:00:00Z",
+  "target_raw": "example.tw",
+  "target_normalized": "example.tw",
+  "mode": "fixture",
+  "operator_country": "TW",
+  "confidence": 0.917,
+  "confidence_band": "high",
+  "score": {
+    "operator_country": "TW",
+    "confidence": 0.917,
+    "confidence_band": "high",
+    "support_by_country": {
+      "TW": 1.1
+    },
+    "infrastructure_countries": [
+      "US"
+    ],
+    "mismatches": [
+      {
+        "operator_country": "TW",
+        "infrastructure_countries": [
+          "US"
+        ],
+        "severity": "informational",
+        "detail": "Infrastructure geography US differs from operator-country hypothesis TW; hosting/CDN location does not determine operator country."
+      }
+    ],
+    "signals": [
+      {
+        "id": "cctld",
+        "kind": "operator",
+        "country": "TW",
+        "weight": 0.45,
+        "source": "normalize.cctld",
+        "detail": "Country-code TLD implies operator geography candidate TW.",
+        "observed": ".tw"
+      },
+      {
+        "id": "rdap_registrant_country",
+        "kind": "operator",
+        "country": "TW",
+        "weight": 0.4,
+        "source": "fixture.rdap",
+        "detail": "RDAP registrant country (operator-facing).",
+        "observed": "TW"
+      },
+      {
+        "id": "rdap_admin_country",
+        "kind": "operator",
+        "country": "TW",
+        "weight": 0.25,
+        "source": "fixture.rdap",
+        "detail": "RDAP administrative contact country (operator-facing).",
+        "observed": "TW"
+      },
+      {
+        "id": "ip_geo",
+        "kind": "infrastructure",
+        "country": "US",
+        "weight": 0.0,
+        "source": "fixture.ip_geo",
+        "detail": "Hosting/edge IP geography (infrastructure only).",
+        "observed": "18.176.226.***"
+      },
+      {
+        "id": "asn_country",
+        "kind": "infrastructure",
+        "country": "US",
+        "weight": 0.0,
+        "source": "fixture.asn",
+        "detail": "ASN/org geography (infrastructure only): AMAZON-02",
+        "observed": "AMAZON-02"
+      },
+      {
+        "id": "dns_a",
+        "kind": "context",
+        "country": "",
+        "weight": 0.0,
+        "source": "fixture.dns",
+        "detail": "Resolved A record (context; geo via ip_geo when present).",
+        "observed": "18.176.226.***"
+      }
+    ]
+  },
+  "policy": {
+    "decision": "ALLOW_WITH_HUMAN_REVIEW",
+    "human_review_required": true,
+    "attribution_enforcement_allowed": false,
+    "remediation_allowed": false,
+    "blocked_actions": [
+      "ATTRIBUTION_ENFORCEMENT",
+      "PROVENANCE_BASED_REMEDIATION",
+      "AUTO_BLOCK_BY_OPERATOR_COUNTRY",
+      "AUTO_BLOCK_BY_INFRASTRUCTURE_COUNTRY"
+    ],
+    "notes": [
+      "Provenance assessment is read-only management information.",
+      "Human review is required before any operational decision.",
+      "Operator-country hypotheses must not trigger automated enforcement.",
+      "Infrastructure mismatch is informational only.",
+      "Informational infrastructure mismatch present — do not treat hosting country as operator country.",
+      "Observation is not proof; correlation is not causation.",
+      "Dry-run is default for all state-changing commands."
+    ]
+  },
+  "limitations": [
+    "Operator-country assessment is evidence-backed correlation, not legal ownership proof.",
+    "Infrastructure (hosting/CDN/ASN) geography must not be treated as operator country.",
+    "RDAP and GeoIP sources may be incomplete, delayed, or privacy-redacted.",
+    "Classification is not accusation; provenance never authorizes remediation."
+  ],
+  "audit_appended": false,
+  "audit_error": null,
+  "redaction": {
+    "ips_redacted": true,
+    "default": true
+  },
+  "governance": {
+    "governance_model": "evidence_to_action.v1",
+    "claim_strength": "observation",
+    "confidence_type": "ordinal_not_probability",
+    "causal_language_allowed": false,
+    "classification_is_accusation": false,
+    "execution_authority": "human_required",
+    "limitations": [
+      "Observation is not proof; correlation is not causation.",
+      "Confidence is ordinal, not a statistical probability.",
+      "Classification is not accusation.",
+      "Policy permission is not a safety guarantee.",
+      "Recommendation is not execution authority.",
+      "Operator-country assessment is evidence-backed correlation, not legal ownership proof.",
+      "Infrastructure (hosting/CDN/ASN) geography must not be treated as operator country.",
+      "RDAP and GeoIP sources may be incomplete, delayed, or privacy-redacted.",
+      "Classification is not accusation; provenance never authorizes remediation."
+    ]
+  }
+}

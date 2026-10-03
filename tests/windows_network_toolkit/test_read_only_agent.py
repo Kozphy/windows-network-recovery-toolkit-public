@@ -143,9 +143,7 @@ def test_cli_agent_once_with_fixture(
     assert spool.is_file()
 
 
-def test_cli_agent_spool_status(
-    tmp_path: Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_cli_agent_spool_status(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
     spool = tmp_path / "cli-status.jsonl"
     collect_once(spool_path=spool, fixture_path=FIXTURE_BUNDLE, endpoint_id="ep-cli")
     code = main(["agent", "spool-status", "--spool", str(spool)], prog="test-toolkit")

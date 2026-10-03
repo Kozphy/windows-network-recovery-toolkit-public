@@ -40,7 +40,9 @@ def render_final_causation_markdown(report: FinalCausationReport) -> str:
     lines.append("## E. Process Tree")
     tree = report.evidence_tree.get("process_tree") or {}
     for node in tree.get("chain") or []:
-        lines.append(f"- {node.get('image') or node.get('process_name')} (pid={node.get('process_id')})")
+        lines.append(
+            f"- {node.get('image') or node.get('process_name')} (pid={node.get('process_id')})"
+        )
     if not tree.get("chain"):
         lines.append("- Process tree unavailable.")
     lines.append("")

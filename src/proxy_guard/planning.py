@@ -6,7 +6,9 @@ import json
 from typing import Any
 
 
-def normalize_registry_view(reg_dict: dict[str, Any], parsed_dict: dict[str, Any]) -> dict[str, Any]:
+def normalize_registry_view(
+    reg_dict: dict[str, Any], parsed_dict: dict[str, Any]
+) -> dict[str, Any]:
     """Merge raw HKCU fields with parser output (stable JSON compare)."""
     return {
         "proxy_enable": reg_dict.get("proxy_enable"),

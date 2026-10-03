@@ -27,6 +27,7 @@ Evidence → Classification → Control tests → Risk scoring → Human review 
 | Remediation preview | `proxy_remediation.py` | `proxy-disable` (dry-run default) |
 | IPv6 path / prefer-IPv4 | `ipv6_path.py` | `ipv6-path`, `ipv6-path-status`, `ipv6-prefer-ipv4`, `ipv6-restore-preference` |
 | DNS / Edge name resolve | `dns_edge.py` | `dns-edge-status`, `dns-edge-fix` |
+| Why broken (unified) | `why_broken.py` | `why-broken` |
 | ChatGPT app-path | `src/network_recovery/` | `diagnose --app chatgpt`, `auto-fix-chatgpt`, `make fix-chatgpt` |
 | Read-only agent | `windows_network_toolkit/agent/` | `agent once`, `agent run`, `agent health`, `agent spool-status` |
 | LAN privacy | `windows_network_toolkit/diagnostics/lan_privacy/` | `lan-inventory`, `lan-watch`, `lan-privacy-report` |
@@ -73,7 +74,7 @@ Full argparse definitions live in `windows_network_toolkit/cli.py`.
 |-------|----------|
 | Evidence | `proxy-status`, `proxy-health`, `proxy-watch`, `proxy-owner`, `diagnose`, `evidence-report` |
 | Proof | `proxy-proof`, `tls-proof`, `proxy-writer-attribution` |
-| Remediation | `proxy-disable`, `ipv6-prefer-ipv4`, `ipv6-restore-preference`, `dns-edge-fix` (dry-run default); `ipv6-path` / `ipv6-path-status` / `dns-edge-status` (read-only) |
+| Remediation | `proxy-disable`, `ipv6-prefer-ipv4`, `ipv6-restore-preference`, `dns-edge-fix` (dry-run default); `ipv6-path` / `ipv6-path-status` / `dns-edge-status` / `why-broken` (read-only) |
 | Analytics | `analytics-summary`, `analytics-export`, `powerbi-export` |
 | Governance | `risk-assess`, `control-test`, `governance-report`, `risk-kpi-summary` |
 | LAN privacy | `lan-inventory`, `lan-watch`, `lan-privacy-report`, `lan-risk-score`, `lan-control-test` |

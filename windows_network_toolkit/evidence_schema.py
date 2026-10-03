@@ -46,6 +46,7 @@ class EvidenceTier(StrEnum):
 
     Audit Notes:
         Evidence tier describes claim strength only; it does not authorize remediation."""
+
     T0_OBSERVATION = "T0_OBSERVATION"
     T1_STATE_EVIDENCE = "T1_STATE_EVIDENCE"
     T2_RUNTIME_EVIDENCE = "T2_RUNTIME_EVIDENCE"
@@ -127,7 +128,9 @@ def default_endpoint_id() -> str:
         return "local-endpoint"
 
 
-def normalize_proxy_state(raw: dict[str, Any], *, source_command: str = "proxy-status") -> EvidenceEvent:
+def normalize_proxy_state(
+    raw: dict[str, Any], *, source_command: str = "proxy-status"
+) -> EvidenceEvent:
     """Normalize a raw proxy state snapshot into an evidence event.
 
     Args:
@@ -150,7 +153,9 @@ def normalize_proxy_state(raw: dict[str, Any], *, source_command: str = "proxy-s
     normalized = {
         "wininet_proxy_enabled": enabled,
         "wininet_proxy_server": server,
-        "wininet_auto_config_url": str(raw.get("wininet_auto_config_url") or raw.get("auto_config_url") or ""),
+        "wininet_auto_config_url": str(
+            raw.get("wininet_auto_config_url") or raw.get("auto_config_url") or ""
+        ),
         "winhttp_direct_access": winhttp_direct,
         "localhost_port": raw.get("localhost_port"),
         "wininet_winhttp_mismatch": bool(enabled and winhttp_direct),
@@ -170,7 +175,9 @@ def normalize_proxy_state(raw: dict[str, Any], *, source_command: str = "proxy-s
     )
 
 
-def normalize_listener_state(raw: dict[str, Any], *, source_command: str = "proxy-owner") -> EvidenceEvent:
+def normalize_listener_state(
+    raw: dict[str, Any], *, source_command: str = "proxy-owner"
+) -> EvidenceEvent:
     """Normalize localhost listener attribution into an evidence event.
 
     Args:
@@ -216,7 +223,9 @@ def normalize_listener_state(raw: dict[str, Any], *, source_command: str = "prox
     )
 
 
-def normalize_probe_result(raw: dict[str, Any], *, source_command: str = "proxy-health") -> EvidenceEvent:
+def normalize_probe_result(
+    raw: dict[str, Any], *, source_command: str = "proxy-health"
+) -> EvidenceEvent:
     """Normalize proxy-health path probe output into an evidence event.
 
     Args:
@@ -267,7 +276,9 @@ def normalize_probe_result(raw: dict[str, Any], *, source_command: str = "proxy-
     )
 
 
-def normalize_proxy_change_event(raw: dict[str, Any], *, source_command: str = "proxy-watch") -> EvidenceEvent:
+def normalize_proxy_change_event(
+    raw: dict[str, Any], *, source_command: str = "proxy-watch"
+) -> EvidenceEvent:
     """Normalize a proxy-watch before/after change into an evidence event.
 
     Args:
@@ -341,5 +352,9 @@ def events_from_dicts(rows: list[dict[str, Any]]) -> list[EvidenceEvent]:
         None."""
     out: list[EvidenceEvent] = []
     for row in rows:
-        out.append(EvidenceEvent(**{k: v for k, v in row.items() if k in EvidenceEvent.__dataclass_fields__}))
+        out.append(
+            EvidenceEvent(
+                **{k: v for k, v in row.items() if k in EvidenceEvent.__dataclass_fields__}
+            )
+        )
     return out

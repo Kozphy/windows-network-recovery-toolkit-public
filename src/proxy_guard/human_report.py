@@ -102,7 +102,9 @@ def _recommended_steps(record: dict[str, Any]) -> list[str]:
                 f"Investigate {process_candidate_wording(str(pname))} PID {pid} — stop process tree before repeating resets."
             )
         if server and "127.0.0.1" in str(server).lower():
-            steps.append("Localhost proxy observed — close dev/desktop apps that may re-enable system proxy.")
+            steps.append(
+                "Localhost proxy observed — close dev/desktop apps that may re-enable system proxy."
+            )
         steps.append("Verify: python -m src proxy-status")
     elif ae == 0:
         steps.append("If browsing works, run soak: proxy-disable ... --soak-minutes 15")
@@ -203,7 +205,14 @@ def format_proxy_guard_change(record: dict[str, Any]) -> str:
 
     rb_status = rollback.get("status")
     if rb_status:
-        lines.extend(["", "ROLLBACK", f"  Status:       {rb_status}", f"  Detail:       {rollback.get('detail') or ''}"])
+        lines.extend(
+            [
+                "",
+                "ROLLBACK",
+                f"  Status:       {rb_status}",
+                f"  Detail:       {rollback.get('detail') or ''}",
+            ]
+        )
 
     limitations = attrib.get("limitations") or []
     if limitations:
@@ -226,10 +235,26 @@ def format_proxy_state_change_v1(record: dict[str, Any]) -> str:
 
     record = normalize_watch_record(record)
     ts = record.get("timestamp_utc") or record.get("timestamp") or "unknown"
-    old_en = record.get("old_enable") if "old_enable" in record else (record.get("before_snapshot") or {}).get("proxy_enable")
-    new_en = record.get("new_enable") if "new_enable" in record else (record.get("after_snapshot") or {}).get("proxy_enable")
-    old_srv = record.get("old_server_masked") or (record.get("before_snapshot") or {}).get("proxy_server") or "?"
-    new_srv = record.get("new_server_masked") or (record.get("after_snapshot") or {}).get("proxy_server") or "?"
+    old_en = (
+        record.get("old_enable")
+        if "old_enable" in record
+        else (record.get("before_snapshot") or {}).get("proxy_enable")
+    )
+    new_en = (
+        record.get("new_enable")
+        if "new_enable" in record
+        else (record.get("after_snapshot") or {}).get("proxy_enable")
+    )
+    old_srv = (
+        record.get("old_server_masked")
+        or (record.get("before_snapshot") or {}).get("proxy_server")
+        or "?"
+    )
+    new_srv = (
+        record.get("new_server_masked")
+        or (record.get("after_snapshot") or {}).get("proxy_server")
+        or "?"
+    )
     lines = [
         "=" * 72,
         "PROXY MONITOR - REGISTRY CHANGE (schema v1, normalized on read)",
@@ -242,7 +267,9 @@ def format_proxy_state_change_v1(record: dict[str, Any]) -> str:
     ]
     try:
         if int(new_en) == 1:
-            lines.append("Impact:         HIGH - system proxy ON; not an approval to keep proxy enabled.")
+            lines.append(
+                "Impact:         HIGH - system proxy ON; not an approval to keep proxy enabled."
+            )
         elif int(old_en) == 1 and int(new_en) == 0:
             lines.append("Impact:         Proxy disabled; watch for OFF -> ON (ACTIVE_REVERTER).")
     except (TypeError, ValueError):
@@ -254,7 +281,9 @@ def format_proxy_state_change_v1(record: dict[str, Any]) -> str:
         lines.extend(format_cpu_process_snapshot([str(p) for p in procs if p]))
 
     lines.append("")
-    lines.append("UPGRADE: python -m src proxy-guard --interval 5  (schema v2 + ListenerCorrelation)")
+    lines.append(
+        "UPGRADE: python -m src proxy-guard --interval 5  (schema v2 + ListenerCorrelation)"
+    )
     lines.append("=" * 72)
     return "\n".join(lines)
 
@@ -296,16 +325,16 @@ def format_watch_report(
     else:
         header.append(f"Showing last {len(records)} event(s)")
 
-    analysis_source = all_records_for_flip_flop if all_records_for_flip_flop is not None else records
+    analysis_source = (
+        all_records_for_flip_flop if all_records_for_flip_flop is not None else records
+    )
     incident = detect_active_reverter(analysis_source)
     if incident:
         header.append("")
         header.append(format_active_reverter_incident(incident))
 
     v1_count = sum(
-        1
-        for r in records
-        if r.get("event") == "proxy_state_change" or r.get("schema_version") == 1
+        1 for r in records if r.get("event") == "proxy_state_change" or r.get("schema_version") == 1
     )
     if v1_count == len(records) and len(records) > 0:
         header.append(

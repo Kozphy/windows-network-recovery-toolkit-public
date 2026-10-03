@@ -17,13 +17,13 @@ from src.replay.proxy_timeline import build_proxy_timeline, build_timeline_from_
 
 def repo_root() -> Path:
     """Repo root.
-    
+
     Args:
         None.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -32,13 +32,13 @@ def repo_root() -> Path:
 
 def fixture_mode() -> bool:
     """Fixture mode.
-    
+
     Args:
         None.
-    
+
     Returns:
         The bool result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -47,13 +47,13 @@ def fixture_mode() -> bool:
 
 def list_incidents(*, since_minutes: int = 1440) -> list[dict[str, Any]]:
     """List incidents.
-    
+
     Args:
         since_minutes: The since minutes value supplied by the caller.
-    
+
     Returns:
         The list[dict[str, Any]] result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -75,13 +75,13 @@ def list_incidents(*, since_minutes: int = 1440) -> list[dict[str, Any]]:
 
 def get_incident(incident_id: str) -> dict[str, Any] | None:
     """Get incident.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
-    
+
     Returns:
         The dict[str, Any] | None result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -92,7 +92,13 @@ def get_incident(incident_id: str) -> dict[str, Any] | None:
                 return bundle
         # match by fixture stem
         try:
-            fx = load_fixture(Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "proxy_incidents" / f"{incident_id}.json")
+            fx = load_fixture(
+                Path(__file__).resolve().parents[2]
+                / "tests"
+                / "fixtures"
+                / "proxy_incidents"
+                / f"{incident_id}.json"
+            )
             return analyze_fixture(fx, repo_root=repo_root())
         except (OSError, ValueError):
             return None
@@ -108,13 +114,13 @@ def get_incident(incident_id: str) -> dict[str, Any] | None:
 
 def get_timeline(incident_id: str) -> list[dict[str, Any]]:
     """Get timeline.
-    
+
     Args:
         incident_id: The incident id value supplied by the caller.
-    
+
     Returns:
         The list[dict[str, Any]] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -123,7 +129,9 @@ def get_timeline(incident_id: str) -> list[dict[str, Any]]:
         return []
     if fixture_mode():
         fx_path = None
-        for p in (Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "proxy_incidents").glob("*.json"):
+        for p in (
+            Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "proxy_incidents"
+        ).glob("*.json"):
             if p.stem == incident_id:
                 fx_path = p
                 break

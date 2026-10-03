@@ -69,6 +69,7 @@ class HumanReviewStatus(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     PENDING_REVIEW = "PENDING_REVIEW"
     ACCEPTED = "ACCEPTED"
     OVERRIDDEN = "OVERRIDDEN"
@@ -96,6 +97,7 @@ class ReviewAction(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     ACCEPT_CLASSIFICATION = "accept_classification"
     OVERRIDE_CLASSIFICATION = "override_classification"
     REQUEST_MORE_EVIDENCE = "request_more_evidence"
@@ -125,6 +127,7 @@ class HumanReviewItem(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     review_id: str
     incident_id: str
     evidence_id: str
@@ -156,6 +159,7 @@ class HumanReviewDecision(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     review_id: str
     action: ReviewAction
     reason: str

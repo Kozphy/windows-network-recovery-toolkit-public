@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic executive + LINE (no QR, no payment yet): claimed chairman from a consumer mailbox asks to continue on LINE and keep it quiet.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Chairman Office\" <chairman.office.tw@gmail.com>",
+    "to": ["finance.lead@example-corp.test"],
+    "subject": "Private matter",
+    "message_id": "<synthetic-eval-execline-0016@mail.gmail.com>",
+    "body_text": "I am in meetings all day and cannot take calls.\nPlease add me on LINE right away, I have a confidential task for you.\nKeep this between us for now."
+  }
+}

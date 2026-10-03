@@ -33,13 +33,13 @@ _ADAPTERS: dict[str, DomainAdapter] = {
 
 def get_adapter(domain: str) -> DomainAdapter:
     """Get adapter.
-    
+
     Args:
         domain: The domain value supplied by the caller.
-    
+
     Returns:
         The DomainAdapter result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -53,13 +53,13 @@ def get_adapter(domain: str) -> DomainAdapter:
 
 def all_adapters() -> list[DomainAdapter]:
     """All adapters.
-    
+
     Args:
         None.
-    
+
     Returns:
         The list[DomainAdapter] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

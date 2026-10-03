@@ -25,20 +25,22 @@ def _direction_from_score(score: int) -> DirectionBias:
 
 def build_trade_thesis(event: MarketEvent, signal: SignalScore) -> TradeThesis:
     """Build trade thesis.
-    
+
     Args:
         event: Evidence or domain record being processed.
         signal: The signal value supplied by the caller.
-    
+
     Returns:
         The TradeThesis result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
     vol = _volatility_label(signal.volatility_score)
     direction = _direction_from_score(signal.direction_score)
-    drivers = "; ".join(signal.main_drivers) if signal.main_drivers else "No dominant drivers flagged."
+    drivers = (
+        "; ".join(signal.main_drivers) if signal.main_drivers else "No dominant drivers flagged."
+    )
     summary = (
         f"For {event.event_id} ({event.category.value}), research draft suggests "
         f"{direction.value} bias with {vol.value} volatility sensitivity. "

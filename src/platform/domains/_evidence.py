@@ -24,13 +24,13 @@ class FixtureEvidenceAdapter(DomainAdapter):
 
     def build_evidence(self, event: NormalizedEvent) -> list[EvidenceItem]:
         """Build evidence.
-        
+
         Args:
             event: Evidence or domain record being processed.
-        
+
         Returns:
             The list[EvidenceItem] result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """

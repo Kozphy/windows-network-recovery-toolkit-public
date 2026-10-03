@@ -16,13 +16,13 @@ def _repo_root(arg: str | None) -> Path:
 
 def cmd_incident_review(args: argparse.Namespace) -> int:
     """Run the incident review command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -38,7 +38,9 @@ def cmd_incident_review(args: argparse.Namespace) -> int:
         return 2
     fmt = str(getattr(args, "review_format", "markdown") or "markdown").lower()
     try:
-        review = generate_incident_review(incident_id, repo_root=_repo_root(getattr(args, "repo_root", None)))
+        review = generate_incident_review(
+            incident_id, repo_root=_repo_root(getattr(args, "repo_root", None))
+        )
     except FileNotFoundError as exc:
         print(str(exc), file=sys.stderr)
         return 1
@@ -51,16 +53,16 @@ def cmd_incident_review(args: argparse.Namespace) -> int:
 
 def cmd_policy_validate(args: argparse.Namespace) -> int:
     """Run the policy validate command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -78,13 +80,13 @@ def cmd_policy_validate(args: argparse.Namespace) -> int:
 
 def cmd_fleet_simulate(args: argparse.Namespace) -> int:
     """Run the fleet simulate command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -106,13 +108,13 @@ def cmd_fleet_simulate(args: argparse.Namespace) -> int:
 
 def cmd_fleet_report(args: argparse.Namespace) -> int:
     """Run the fleet report command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """

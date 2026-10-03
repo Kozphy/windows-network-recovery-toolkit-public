@@ -5,8 +5,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
-
 from windows_network_toolkit.diagnostics.lan_privacy.classifier import classify_lan_behavior
 from windows_network_toolkit.diagnostics.lan_privacy.collectors import (
     collect_inventory,
@@ -14,7 +12,9 @@ from windows_network_toolkit.diagnostics.lan_privacy.collectors import (
 )
 from windows_network_toolkit.diagnostics.lan_privacy.models import LanClassification
 from windows_network_toolkit.diagnostics.lan_privacy.oui_lookup import lookup_vendor
-from windows_network_toolkit.diagnostics.lan_privacy.privacy_risk_score import compute_privacy_risk_score
+from windows_network_toolkit.diagnostics.lan_privacy.privacy_risk_score import (
+    compute_privacy_risk_score,
+)
 from windows_network_toolkit.diagnostics.lan_privacy.runner import (
     load_bundle,
     run_lan_risk_score_pipeline,
@@ -109,8 +109,15 @@ def test_risk_score_boundaries():
 
 
 def test_lan_watch_fixture_replay():
-    data = json.loads((LAN_EXAMPLES / "normal_home_network.jsonl").read_text(encoding="utf-8").splitlines()[0])
-    payload = run_lan_watch(duration=1, inject_sequence=[{"devices": data.get("devices", []), "observations": data.get("observations", [])}])
+    data = json.loads(
+        (LAN_EXAMPLES / "normal_home_network.jsonl").read_text(encoding="utf-8").splitlines()[0]
+    )
+    payload = run_lan_watch(
+        duration=1,
+        inject_sequence=[
+            {"devices": data.get("devices", []), "observations": data.get("observations", [])}
+        ],
+    )
     assert payload["ok"] is True
     assert payload["events"]
 
@@ -119,7 +126,15 @@ def test_inventory_fixture():
     inv = collect_inventory(
         inject={
             "subnet": "192.168.1.0/24",
-            "devices": [{"ip": "192.168.1.1", "mac": "00:1D:0F:AA:BB:01", "vendor": "TP-Link", "vendor_known": True, "flags": []}],
+            "devices": [
+                {
+                    "ip": "192.168.1.1",
+                    "mac": "00:1D:0F:AA:BB:01",
+                    "vendor": "TP-Link",
+                    "vendor_known": True,
+                    "flags": [],
+                }
+            ],
         }
     )
     assert inv["ok"]

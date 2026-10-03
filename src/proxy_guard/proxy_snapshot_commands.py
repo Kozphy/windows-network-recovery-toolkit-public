@@ -44,13 +44,13 @@ def _win_only() -> bool:
 
 def cmd_proxy_snapshot_save(args: Namespace) -> int:
     """Run the proxy snapshot save command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -68,19 +68,23 @@ def cmd_proxy_snapshot_save(args: Namespace) -> int:
     if bool(getattr(args, "as_default", False)):
         write_default_config(repo, row)
         print(f"Default written: {repo / 'config' / 'last_known_good_proxy.json'}")
-    print(json.dumps({"saved": row["name"], "saved_at": row["saved_at"], "risk_summary": risk}, indent=2))
+    print(
+        json.dumps(
+            {"saved": row["name"], "saved_at": row["saved_at"], "risk_summary": risk}, indent=2
+        )
+    )
     return 0
 
 
 def cmd_proxy_snapshot_list(args: Namespace) -> int:
     """Run the proxy snapshot list command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -94,13 +98,13 @@ def cmd_proxy_snapshot_list(args: Namespace) -> int:
 
 def cmd_proxy_snapshot_show(args: Namespace) -> int:
     """Run the proxy snapshot show command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -116,13 +120,13 @@ def cmd_proxy_snapshot_show(args: Namespace) -> int:
 
 def cmd_proxy_snapshot_diff(args: Namespace) -> int:
     """Run the proxy snapshot diff command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """
@@ -143,13 +147,13 @@ def cmd_proxy_snapshot_diff(args: Namespace) -> int:
 
 def cmd_proxy_snapshot_restore(args: Namespace) -> int:
     """Run the proxy snapshot restore command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """

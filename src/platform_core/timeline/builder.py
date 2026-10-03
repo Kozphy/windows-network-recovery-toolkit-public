@@ -142,9 +142,8 @@ class IncidentTimelineBuilder:
                 after_state=proof.outcome_rationale,
                 evidence_refs=[proof.proof_id],
                 confidence_level=proof.confidence_level,  # type: ignore[arg-type]
-                limitations=proof.limitations + [
-                    "Proof classification is path contrast, not attribution verdict."
-                ],
+                limitations=proof.limitations
+                + ["Proof classification is path contrast, not attribution verdict."],
             )
         )
 
@@ -179,7 +178,9 @@ class IncidentTimelineBuilder:
                 )
             )
 
-    def add_remediation_preview(self, preview: dict[str, Any], *, timestamp: str | None = None) -> None:
+    def add_remediation_preview(
+        self, preview: dict[str, Any], *, timestamp: str | None = None
+    ) -> None:
         """Return add remediation preview.
 
         Args:

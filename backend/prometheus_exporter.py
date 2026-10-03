@@ -48,14 +48,14 @@ _METRIC_HELP: dict[str, str] = {
 
 def inc(name: str, amount: float = 1.0) -> None:
     """Inc.
-    
+
     Args:
         name: The name value supplied by the caller.
         amount: The amount value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -65,15 +65,15 @@ def inc(name: str, amount: float = 1.0) -> None:
 
 def inc_labeled(metric: str, labels: dict[str, str], amount: float = 1.0) -> None:
     """Inc labeled.
-    
+
     Args:
         metric: The metric value supplied by the caller.
         labels: The labels value supplied by the caller.
         amount: The amount value supplied by the caller.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -89,13 +89,13 @@ def _escape_label(value: str) -> str:
 
 def render_prometheus_text(extra_gauges: dict[str, float] | None = None) -> str:
     """Render prometheus text.
-    
+
     Args:
         extra_gauges: The extra gauges value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -140,13 +140,13 @@ def render_prometheus_text(extra_gauges: dict[str, float] | None = None) -> str:
 
 def gauges_from_platform_metrics(metrics: dict[str, Any]) -> dict[str, float]:
     """Gauges from platform metrics.
-    
+
     Args:
         metrics: The metrics value supplied by the caller.
-    
+
     Returns:
         The dict[str, float] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -189,13 +189,13 @@ def gauges_from_platform_metrics(metrics: dict[str, Any]) -> dict[str, float]:
 
 def reset_metrics_for_tests() -> None:
     """Reset metrics for tests.
-    
+
     Args:
         None.
-    
+
     Returns:
         None.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """

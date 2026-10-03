@@ -88,13 +88,13 @@ class WatchSoakResult:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -234,7 +234,9 @@ def _localhost_health_for_watch(
     classification = classify_incident_from_health(
         health,
         wininet_enabled=bool(now_state.get("proxy_enable")),
-        winhttp_mismatch=bool(now_state.get("proxy_enable") and now_state.get("winhttp_direct_access")),
+        winhttp_mismatch=bool(
+            now_state.get("proxy_enable") and now_state.get("winhttp_direct_access")
+        ),
     )
     return build_proxy_health_audit_payload(
         wininet=wininet_state,
@@ -284,7 +286,9 @@ def _print_human_banner(
         msg.append(f"  Status: {health.get('proxy_status', 'INSUFFICIENT_DATA')}")
         msg.append(f"  TCP listener: {'yes' if health.get('tcp_listening') else 'no'}")
         if health.get("listener_name"):
-            msg.append(f"  Listener process: {health.get('listener_name')} PID {health.get('listener_pid')}")
+            msg.append(
+                f"  Listener process: {health.get('listener_name')} PID {health.get('listener_pid')}"
+            )
         msg.append(
             f"  Proxy HTTPS CONNECT: {'ok' if health.get('proxy_https_connect_ok') else 'failed'}"
         )
@@ -372,7 +376,11 @@ def _emit_v2_watch_events(
         pe_after = after_f.get("proxy_enable")
 
         srv_raw = after_f.get("proxy_server")
-        srv = srv_raw.strip() if isinstance(srv_raw, str) else (str(srv_raw) if srv_raw is not None else "")
+        srv = (
+            srv_raw.strip()
+            if isinstance(srv_raw, str)
+            else (str(srv_raw) if srv_raw is not None else "")
+        )
         normalized_after = {
             "ProxyEnable": pe_after,
             "ProxyServer": after_f.get("proxy_server"),
@@ -615,7 +623,9 @@ def run_proxy_watch_loop(
                 elif isinstance(port_hint, str) and port_hint.strip().isdigit():
                     port_int = int(port_hint.strip())
 
-                inventory = capture_enriched_process_snapshot(proxy_localhost_port=port_int, run=run)
+                inventory = capture_enriched_process_snapshot(
+                    proxy_localhost_port=port_int, run=run
+                )
                 attribution = attribute_proxy_change(
                     proxy_diff=diff,
                     current_state=now_state,
@@ -654,7 +664,9 @@ def run_proxy_watch_loop(
                     final_causation=final_blob,
                 )
                 _emit_v2_watch_events(repo_root, diff=diff, attribution=attribution)
-                _print_human_banner(diff=diff, attribution=attribution, decision=decision, health_audit=health_audit)
+                _print_human_banner(
+                    diff=diff, attribution=attribution, decision=decision, health_audit=health_audit
+                )
 
                 if bool(policy.get("auto_rollback")):
                     banner = (
@@ -706,7 +718,9 @@ def run_proxy_watch_loop(
         )
     elif changes_observed > 0:
         status = "CHANGED"
-        detail = f"Observed {changes_observed} WinINET drift event(s); ProxyEnable did not flip 0→1."
+        detail = (
+            f"Observed {changes_observed} WinINET drift event(s); ProxyEnable did not flip 0→1."
+        )
     else:
         status = "STABLE"
         detail = "no_wininet_drift_during_soak"

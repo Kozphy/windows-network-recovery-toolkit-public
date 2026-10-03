@@ -59,16 +59,16 @@ class StopReverterResult:
 
     def to_audit_row(self, *, event_kind: str) -> dict[str, Any]:
         """To audit row.
-        
+
         Args:
             event_kind: The event kind value supplied by the caller.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -103,8 +103,7 @@ class StopReverterResult:
         parent = (self.target.parent_name if self.target else None) or "powershell.exe"
         listener = self.target.pid if self.target else "?"
         return (
-            f"taskkill /F /PID {self.parent_pid} /T  "
-            f"(parent {parent} of listener PID {listener})"
+            f"taskkill /F /PID {self.parent_pid} /T  (parent {parent} of listener PID {listener})"
         )
 
 

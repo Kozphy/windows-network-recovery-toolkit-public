@@ -119,11 +119,15 @@ def live_network_snapshot_from_observations(blob: dict[str, Any]) -> LiveNetwork
         proxy_registry=reg,
         parsed_proxy=parsed,
         port_owners=tuple(owners),
-        localhost_listen_ports=tuple(int(x) for x in (blob.get("localhost_listen_ports") or []) if x is not None),
+        localhost_listen_ports=tuple(
+            int(x) for x in (blob.get("localhost_listen_ports") or []) if x is not None
+        ),
         interesting_processes=tuple(interesting),
         tcp_top_ports=tuple(tcp_top),
         commands_executed=tuple(cmds),
-        permission_notes=tuple(str(x) for x in (blob.get("permission_notes") or []) if x is not None),
+        permission_notes=tuple(
+            str(x) for x in (blob.get("permission_notes") or []) if x is not None
+        ),
     )
 
 
@@ -260,14 +264,18 @@ def build_replay_report(record: dict[str, Any]) -> dict[str, Any]:
     dec_aligned = False
     if isinstance(stored_decisions, list) and len(decisions_new) == len(stored_decisions):
         dec_aligned = all(
-            isinstance(s, dict) and row_sig(s) == row_sig(a) for s, a in zip(stored_decisions, decisions_new, strict=False)
+            isinstance(s, dict) and row_sig(s) == row_sig(a)
+            for s, a in zip(stored_decisions, decisions_new, strict=False)
         )
 
     verification = {
         "confidence_numeric_replay_match": len(conf_mismatches) == 0,
         "confidence_mismatched_hypotheses": conf_mismatches,
         "rank_order_match_primary_only": (
-            stored_h and isinstance(stored_h[0], dict) and ranked_new and stored_h[0].get("hypothesis") == ranked_new[0].hypothesis
+            stored_h
+            and isinstance(stored_h[0], dict)
+            and ranked_new
+            and stored_h[0].get("hypothesis") == ranked_new[0].hypothesis
         ),
         "full_rank_order_match": order_match and len(stored_h) <= len(ranked_new),
         "decisions_core_fields_match": dec_aligned,
@@ -294,7 +302,8 @@ def build_replay_report(record: dict[str, Any]) -> dict[str, Any]:
         "execution_flow_steps": steps,
         "verification": verification,
         "recomputed_hypotheses_preview": [
-            {"hypothesis": s.hypothesis, "confidence": round(s.confidence, 6)} for s in ranked_new[:5]
+            {"hypothesis": s.hypothesis, "confidence": round(s.confidence, 6)}
+            for s in ranked_new[:5]
         ],
     }
 

@@ -1,0 +1,12 @@
+{
+  "description": "Synthetic benign internal MFA enrollment instructions: IT asks staff to scan the QR code shown in the official portal with the authenticator app (hard negative for QR scan requests).",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"IT Security\" <itsec@example-corp.test>",
+    "to": ["new.hire@example-corp.test"],
+    "subject": "Set up multi-factor authentication",
+    "message_id": "<synthetic-eval-mfa-0103@example-corp.test>",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=example-corp.test; dkim=pass header.d=example-corp.test; dmarc=pass header.from=example-corp.test",
+    "body_text": "Welcome aboard.\nDuring your onboarding session, open the MFA setup page on the intranet and scan the QR code displayed there with the Authenticator app.\nThe IT desk on floor 2 can help if you get stuck.\n\nIT Security"
+  }
+}

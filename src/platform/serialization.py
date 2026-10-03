@@ -11,13 +11,13 @@ from pydantic import BaseModel
 
 def canonical_json(obj: Any) -> str:
     """Canonical json.
-    
+
     Args:
         obj: The obj value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -30,13 +30,13 @@ def canonical_json(obj: Any) -> str:
 
 def content_hash(obj: Any) -> str:
     """Content hash.
-    
+
     Args:
         obj: The obj value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

@@ -12,13 +12,13 @@ from .linux_proxy_snapshot import collect_linux_proxy_snapshot
 
 def cmd_proxy_linux_snapshot(args: Namespace) -> int:
     """Run the proxy linux snapshot command handler.
-    
+
     Args:
         args: Parsed command-line arguments supplied by argparse.
-    
+
     Returns:
         Integer process exit code or status value.
-    
+
     Side effects:
         May write to stdout or stderr and may read fixtures, local reports, or runtime state through the command implementation.
     """

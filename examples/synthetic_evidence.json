@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "evidence_source": "synthetic_demo",
+  "endpoint_id": "DEMO-ENDPOINT-001",
+  "os_family": "Windows",
+  "ipv4_present": true,
+  "ipv6_link_local_present": true,
+  "ipv6_global_present": false,
+  "ipv4_default_route_present": true,
+  "ipv6_default_route_present": false,
+  "proxy_enabled": false,
+  "classification": "IPV6_PATH_BLACKHOLE",
+  "safe_for_public_demo": true
+}

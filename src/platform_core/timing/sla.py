@@ -41,7 +41,9 @@ def sla_due_utc(detected: datetime, urgency: Urgency, *, hours: float | None = N
     return base.astimezone(UTC) + timedelta(hours=h)
 
 
-def evidence_expires_utc(detected: datetime, urgency: Urgency, *, hours: float | None = None) -> datetime:
+def evidence_expires_utc(
+    detected: datetime, urgency: Urgency, *, hours: float | None = None
+) -> datetime:
     """Return evidence expires utc.
 
     Args:

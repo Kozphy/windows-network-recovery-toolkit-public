@@ -45,7 +45,8 @@ def build_localhost_proxy_attribution(
             "listener_found": False,
             "owners": [],
             "attribution_method": "skipped_not_localhost_proxy",
-            "notes": notes + ["ProxyServer does not reference a loopback host with a resolvable port."],
+            "notes": notes
+            + ["ProxyServer does not reference a loopback host with a resolvable port."],
             "registry_context": reg.to_dict() if reg is not None else {},
         }
 

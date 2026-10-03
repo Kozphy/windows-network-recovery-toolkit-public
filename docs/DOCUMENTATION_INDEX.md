@@ -18,7 +18,9 @@ A **local-first Windows endpoint reliability toolkit** with a growing **Decision
 | Doc | Purpose |
 |-----|---------|
 | **[README.md](../README.md)** | **30-second positioning + non-claims (start here)** |
-| [production-readiness-gap.md](production-readiness-gap.md) | Honest 15-row production gap table |
+| [production-readiness-gap.md](production-readiness-gap.md) | Honest production gap table (updated with Level-1 domain event kernel) |
+| [domain-event-kernel.md](domain-event-kernel.md) | Canonical `wnrt.domain_event.v1` envelope, writer, verify demo |
+| [domain-event-inventory.md](domain-event-inventory.md) | Pre-kernel JSONL inventory and migration risks |
 | [threat-model.md](threat-model.md) | 10 abuse scenarios + test mapping |
 | [docker-demo.md](docker-demo.md) | Reviewer Docker Demo (Option C) |
 | [../real_evidence/case-001-dead-proxy/](../real_evidence/case-001-dead-proxy/) | Sanitized evidence case pack |
@@ -62,6 +64,8 @@ A **local-first Windows endpoint reliability toolkit** with a growing **Decision
 | [consulting-report.md](consulting-report.md) | Manager-facing risk assessment |
 | [demo-video-script.md](demo-video-script.md) | 3–5 minute demo script |
 | [ai_investigation_platform_architecture.md](ai_investigation_platform_architecture.md) | AI-assisted investigation platform design |
+| [architecture/supabase_fleet_schema_sketch.md](architecture/supabase_fleet_schema_sketch.md) | Minimal Supabase fleet tables (preview-only; safety-preserving) |
+| [runbooks/edge-extensions-policy.md](runbooks/edge-extensions-policy.md) | Gated Edge extension block/restore (AdGuard/UA preset) |
 | [rag_investigation_design.md](rag_investigation_design.md) | RAG retrieval system (SQLite → pgvector) |
 | [hypothesis_engine_design.md](hypothesis_engine_design.md) | Multievidence hypothesis engine |
 | [decision_intelligence_platform_design.md](decision_intelligence_platform_design.md) | Federated 5-domain DIP (IT, Security, Risk, Business, Compliance) |
@@ -77,6 +81,25 @@ python -m windows_network_toolkit diagnose --proof --fixture tests/fixtures/ener
 ```
 
 ## Core flows
+
+### Documentation conventions and audit boundaries
+
+Implementation contracts are documented at the critical-path modules rather
+than inferred from route names alone:
+
+- `backend/services/audit_service.py` — tenant-scoped database audit rows and
+  chain verification.
+- `backend/services/evidence_service.py` — observation/evidence separation,
+  stable evidence identity, limitations, and tenant filtering.
+- `src/platform_core/audit/` — canonical JSONL custody, tip anchors, and
+  verification limits.
+- `docs/code-documentation-standards.md` — language-specific style and
+  evidence-based wording rules.
+
+When investigating a report, preserve the raw snapshot, evidence tier,
+limitations, correlation ID, and relevant audit record before rerunning a
+collector. A successful hash or content check demonstrates consistency, not
+causality or truth of the underlying observation.
 
 ### 1. Windows endpoint reliability (final causation)
 
@@ -344,12 +367,17 @@ pytest -q tests/test_proxy_drift_toolkit.py --basetemp=.pytest_tmp
 | [dead-proxy-guardian.md](dead-proxy-guardian.md) | Dead localhost WinINET proxy recovery runbook |
 | [runbooks/ipv6-path-blackhole.md](runbooks/ipv6-path-blackhole.md) | IPv6 blackhole diagnose + prefer-IPv4 remediation |
 | [runbooks/dns-edge-err-name-not-resolved.md](runbooks/dns-edge-err-name-not-resolved.md) | DNS/Edge ERR_NAME_NOT_RESOLVED diagnose + fix |
+| [runbooks/why-broken.md](runbooks/why-broken.md) | Unified proxy vs DNS vs IPv6 why-broken investigate |
+| [runbooks/edge-loading-triage.md](runbooks/edge-loading-triage.md) | Edge won't load / slow: one-shot `edge-triage` with token fix ladder |
+| [runbooks/browser-blank-screen.md](runbooks/browser-blank-screen.md) | Edge blank/black UI (LinkedIn GPU/cache) diagnose + fix |
+| [domain-provenance.md](domain-provenance.md) | Domain operator vs infrastructure geography (read-only) |
+| [email_bec_detection.md](email_bec_detection.md) | Deterministic email / BEC risk detection (analysis-only, `email-risk`) |
 | [runbooks/classification-outbox-stuck.md](runbooks/classification-outbox-stuck.md) | Stuck classification outbox pending recovery |
 | [ops/slo-classification-outbox.md](ops/slo-classification-outbox.md) | Classification outbox SLO targets (non-attested) |
 | [ops/failure-drill-classification-outbox.md](ops/failure-drill-classification-outbox.md) | Outbox dispatch-disabled failure drill postmortem |
 | [yc-p0-productization-audit.md](yc-p0-productization-audit.md) | YC/P0 product control-plane audit |
 | [openclaw-coding-agent.md](openclaw-coding-agent.md) | Policy-gated OpenClaw coding agent (draft PR only) |
-| [audit-custody.md](audit-custody.md) | Level 1 hash-chained custody + tip anchor verify |
+| [audit-custody.md](audit-custody.md) | Level 1 hash-chained custody + tip; domain event dual-write |
 | [procmon_proxy_filter.md](procmon_proxy_filter.md) | Procmon RegSetValue filter set + CSV import |
 | [monitoring-dashboard.md](monitoring-dashboard.md) | Read-only NiceGUI local monitoring dashboard |
 | [cli_reference.md](cli_reference.md) | Full `python -m src` command inventory |

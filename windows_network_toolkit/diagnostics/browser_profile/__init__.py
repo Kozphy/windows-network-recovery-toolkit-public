@@ -17,7 +17,7 @@ Typical workflow:
     2. ``run_browser_profile_inspect`` — enumerate local profiles and managed policies.
     3. ``run_browser_site_state`` — cookie/SW/cache metadata for a domain.
     4. ``run_repair_preview`` — site-scoped cleanup plan (dry-run).
-    5. ``run_repair_apply`` — confirmation-gated apply stub (currently preview-only).
+    5. ``run_repair_apply`` — confirmation-gated site-scoped apply (cookies/IDB/SW/prefs).
 """
 
 from windows_network_toolkit.diagnostics.browser_profile.runner import (

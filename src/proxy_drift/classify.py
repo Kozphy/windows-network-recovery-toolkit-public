@@ -56,7 +56,9 @@ def classify_proxy_drift(
         rationale = "WinINET proxy disabled with no ProxyServer value."
     elif enabled and not parsed.is_localhost_proxy and parsed.raw:
         label = "INSUFFICIENT_EVIDENCE"
-        rationale = "Non-localhost proxy configured; corporate proxy policy may apply — do not auto-clear."
+        rationale = (
+            "Non-localhost proxy configured; corporate proxy policy may apply — do not auto-clear."
+        )
     elif (
         enabled
         and parsed.is_localhost_proxy
@@ -85,9 +87,7 @@ def classify_proxy_drift(
             rationale = "Proxy still points at localhost after listener disappeared."
         else:
             label = "STALE_LOCALHOST_PROXY"
-            rationale = (
-                "ProxyEnable=1 toward localhost but no listener — likely ERR_PROXY_CONNECTION_FAILED."
-            )
+            rationale = "ProxyEnable=1 toward localhost but no listener — likely ERR_PROXY_CONNECTION_FAILED."
     elif enabled and parsed.is_localhost_proxy and listener_found is None:
         label = "UNKNOWN_LOCAL_PROXY"
         rationale = "Localhost proxy configured; listener state unknown at probe time."

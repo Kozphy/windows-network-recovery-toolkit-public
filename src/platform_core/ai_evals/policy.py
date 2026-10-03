@@ -90,7 +90,9 @@ def evaluate_eval_policy(
             recommendation="Continue monitoring; re-run eval on model updates.",
         )
 
-    gates = [_gate_for_label(label, case) for label in failure_labels if label != FailureLabel.CORRECT]
+    gates = [
+        _gate_for_label(label, case) for label in failure_labels if label != FailureLabel.CORRECT
+    ]
     if not gates:
         gates = [EvalPolicyGate.PREVIEW]
 

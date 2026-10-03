@@ -20,7 +20,9 @@ from .models import MetricsResponse, ReplayRequest, ReplayResponse
 from .store import DecisionIntelligenceStore, get_store
 
 
-def run_replay(request: ReplayRequest, store: DecisionIntelligenceStore | None = None) -> ReplayResponse:
+def run_replay(
+    request: ReplayRequest, store: DecisionIntelligenceStore | None = None
+) -> ReplayResponse:
     """Replay fixture outcomes or stored API outcomes."""
     st = store or get_store()
     if request.fixture_path:

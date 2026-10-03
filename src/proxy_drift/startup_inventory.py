@@ -111,23 +111,23 @@ def _entry(
     }
 
 
-def _startup_folder_entries(folder: Path, source_type: str, run: Callable[..., Any]) -> list[dict[str, Any]]:
+def _startup_folder_entries(
+    folder: Path, source_type: str, run: Callable[..., Any]
+) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     if not folder.is_dir():
         return rows
     for item in sorted(folder.iterdir()):
         if item.suffix.lower() == ".lnk":
-            rows.append(
-                _entry(source_type=source_type, name=item.stem, command=str(item), run=run)
-            )
+            rows.append(_entry(source_type=source_type, name=item.stem, command=str(item), run=run))
         elif item.is_file():
-            rows.append(
-                _entry(source_type=source_type, name=item.name, command=str(item), run=run)
-            )
+            rows.append(_entry(source_type=source_type, name=item.name, command=str(item), run=run))
     return rows
 
 
-def _registry_run_entries(hive: str, subkey: str, source_type: str, run: Callable[..., Any]) -> list[dict[str, Any]]:
+def _registry_run_entries(
+    hive: str, subkey: str, source_type: str, run: Callable[..., Any]
+) -> list[dict[str, Any]]:
     if platform.system() != "Windows":
         return []
     path = f"{hive}\\{subkey}"
@@ -321,8 +321,8 @@ def format_startup_table(payload: dict[str, Any]) -> str:
     for row in payload.get("entries") or []:
         indicators = ",".join(row.get("suspicious_indicators") or []) or "-"
         lines.append(
-            f"{str(row.get('source_type','')):<22} "
-            f"{str(row.get('name',''))[:27]:<28} "
+            f"{str(row.get('source_type', '')):<22} "
+            f"{str(row.get('name', ''))[:27]:<28} "
             f"{str(row.get('exists', False)):<6} "
             f"{indicators}"
         )

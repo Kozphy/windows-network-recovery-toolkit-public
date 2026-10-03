@@ -111,7 +111,9 @@ def run_auto_fix_chatgpt(
         steps.append({"step": "proxy_status", "result": proxy_status})
     else:
         proxy_status = run_proxy_status()
-        steps.append({"step": "proxy_status", "result": proxy_status, "note": "proxy auto-fix skipped"})
+        steps.append(
+            {"step": "proxy_status", "result": proxy_status, "note": "proxy auto-fix skipped"}
+        )
 
     bad_gateway = run_bad_gateway_diagnose(chatgpt_url, dry_run=True)
     steps.append({"step": "bad_gateway_diagnose", "url": chatgpt_url, "result": bad_gateway})
@@ -124,12 +126,16 @@ def run_auto_fix_chatgpt(
     )
     last_path = repo / "reports" / "last_network_recovery_diagnosis.json"
     last_path.parent.mkdir(parents=True, exist_ok=True)
-    last_path.write_text(json.dumps(diagnosis.to_audit_dict(), indent=2, ensure_ascii=False), encoding="utf-8")
+    last_path.write_text(
+        json.dumps(diagnosis.to_audit_dict(), indent=2, ensure_ascii=False), encoding="utf-8"
+    )
     steps.append(
         {
             "step": "chatgpt_scenario_diagnose",
             "run_id": diagnosis.run_id,
-            "primary_hypothesis": diagnosis.hypotheses[0].hypothesis_id if diagnosis.hypotheses else None,
+            "primary_hypothesis": diagnosis.hypotheses[0].hypothesis_id
+            if diagnosis.hypotheses
+            else None,
             "signals": diagnosis.signals.to_dict(),
             "report_path": str(last_path),
         }

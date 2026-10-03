@@ -29,7 +29,9 @@ REPORT_DIR_NAME = "reports/proxy_investigations"
 ATTRIBUTION_LISTENER_ONLY = (
     "Listener/process correlation does not prove which process modified WinINET registry values."
 )
-MALWARE_FORBIDDEN = "Do not label activity as malware or confirmed attack without proof-tier evidence."
+MALWARE_FORBIDDEN = (
+    "Do not label activity as malware or confirmed attack without proof-tier evidence."
+)
 
 DEV_PROCESS_NAMES = frozenset(
     {

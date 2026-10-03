@@ -1,0 +1,12 @@
+{
+  "description": "Synthetic CEO-impersonation reconnaissance: consumer mailbox with executive title, short 'are you available' opener, no concrete action yet (weak-signal first-stage BEC).",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Daniel Lin CEO\" <daniel.lin.ceo.office@gmail.com>",
+    "to": ["assistant@example-corp.test"],
+    "subject": "Quick favor",
+    "message_id": "<synthetic-eval-recon-0009@mail.gmail.com>",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=gmail.com; dkim=pass header.d=gmail.com; dmarc=pass header.from=gmail.com",
+    "body_text": "Are you at your desk? I need you to handle a quick task for me.\nReply to this email when you see it.\n\nSent from my phone"
+  }
+}

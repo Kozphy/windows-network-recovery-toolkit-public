@@ -18,7 +18,12 @@ def adversarial_hints(snap: LiveNetworkSnapshot) -> tuple[str, ...]:
     if "@" in head and "://" in head:
         notes.append("ADV_PROXY_URL_CREDENTIAL_PATTERN")
 
-    if snap.parsed_proxy.is_localhost_proxy and fv.tcp_443_ok and not fv.browser_http_ok and fv.nslookup_ok:
+    if (
+        snap.parsed_proxy.is_localhost_proxy
+        and fv.tcp_443_ok
+        and not fv.browser_http_ok
+        and fv.nslookup_ok
+    ):
         notes.append("ADV_SPLIT_HTTPS_WORTH_LOCAL_PROXY_INTERCEPT_REVIEW")
 
     if fv.winhttp_proxy_enabled and not fv.proxy_enabled and fv.browser_http_ok is False:

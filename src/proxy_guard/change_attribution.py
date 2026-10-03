@@ -196,7 +196,11 @@ def attribute_proxy_change(
     pol = policy or {}
     parsed = current_state.get("parsed_proxy_server") or {}
     port = parsed.get("localhost_port")
-    port_i = int(port) if isinstance(port, int) or (isinstance(port, str) and str(port).isdigit()) else None
+    port_i = (
+        int(port)
+        if isinstance(port, int) or (isinstance(port, str) and str(port).isdigit())
+        else None
+    )
 
     lp_block = inventory.get("localhost_listener_block") or {}
     warnings = list(inventory.get("collection_warnings") or [])
@@ -231,8 +235,12 @@ def attribute_proxy_change(
             recent_window_seconds=recent_window_seconds,
         )
 
-        allow_names = [str(x).lower() for x in (pol.get("allowed_process_names") or []) if isinstance(x, str)]
-        block_names = [str(x).lower() for x in (pol.get("blocked_process_names") or []) if isinstance(x, str)]
+        allow_names = [
+            str(x).lower() for x in (pol.get("allowed_process_names") or []) if isinstance(x, str)
+        ]
+        block_names = [
+            str(x).lower() for x in (pol.get("blocked_process_names") or []) if isinstance(x, str)
+        ]
         proc_l = str(r.get("process_name") or "").lower()
         exe_l = str(r.get("executable_path") or "").lower()
         if allow_names and any(a in proc_l or a in exe_l for a in allow_names):
@@ -291,7 +299,9 @@ def attribute_proxy_change(
     aggregated_evidence.extend(scored[0][2] if scored else [])
     if proxy_diff.get("risk_level") == "high":
         aggregated_evidence.append("Diff classifier marked risk HIGH")
-    aggregated_evidence.append("Registry write attribution requires Sysmon/Procmon/EventLog correlation for proof")
+    aggregated_evidence.append(
+        "Registry write attribution requires Sysmon/Procmon/EventLog correlation for proof"
+    )
 
     limitations = warnings + [
         "Attribution is probabilistic correlation — not cryptographic proof of registry writer PID",

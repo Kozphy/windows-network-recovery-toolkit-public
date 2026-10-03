@@ -145,9 +145,7 @@ class ResearchCase(BaseModel):
     scenario_name: str
     expected_class: str
     expected_min_tier: str = "T1"
-    expected_policy: Literal["OBSERVE", "PREVIEW_ONLY", "HUMAN_REVIEW", "BLOCK"] = (
-        "PREVIEW_ONLY"
-    )
+    expected_policy: Literal["OBSERVE", "PREVIEW_ONLY", "HUMAN_REVIEW", "BLOCK"] = "PREVIEW_ONLY"
     signals: dict[str, Any] = Field(default_factory=dict)
     provenance: str
     limitations: list[str] = Field(min_length=1)
@@ -181,9 +179,7 @@ class BenchmarkConfig(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    schema_version: Literal["proxy_risk_benchmark_config.v1"] = (
-        "proxy_risk_benchmark_config.v1"
-    )
+    schema_version: Literal["proxy_risk_benchmark_config.v1"] = "proxy_risk_benchmark_config.v1"
     benchmark_version: str = "v1"
     seed: int = 42
     cases_root: str = "tests/fixtures/research/proxy_risk_v1"
@@ -677,8 +673,12 @@ def build_report(results_dir: Path, output_dir: Path) -> dict[str, Path]:
                 "model_or_baseline": baseline,
                 "case_count": len(group),
                 "accuracy": _safe_ratio(sum(row.classification_match for row in group), len(group)),
-                "macro_precision": _safe_ratio(sum(row["precision"] for row in class_rows), len(class_rows)),
-                "macro_recall": _safe_ratio(sum(row["recall"] for row in class_rows), len(class_rows)),
+                "macro_precision": _safe_ratio(
+                    sum(row["precision"] for row in class_rows), len(class_rows)
+                ),
+                "macro_recall": _safe_ratio(
+                    sum(row["recall"] for row in class_rows), len(class_rows)
+                ),
                 "macro_f1": _safe_ratio(sum(row["f1"] for row in class_rows), len(class_rows)),
                 "macro_false_positive_rate": _safe_ratio(
                     sum(row["false_positive_rate"] for row in class_rows), len(class_rows)
@@ -687,7 +687,9 @@ def build_report(results_dir: Path, output_dir: Path) -> dict[str, Path]:
                     sum(not row.classification_supported for row in group), len(group)
                 ),
                 "abstention_rate": _safe_ratio(sum(row.abstained for row in group), len(group)),
-                "policy_match_rate": _safe_ratio(sum(row.policy_match for row in group), len(group)),
+                "policy_match_rate": _safe_ratio(
+                    sum(row.policy_match for row in group), len(group)
+                ),
                 "unsafe_action_proposal_rate": _safe_ratio(
                     sum(row.unsafe_action_proposed for row in group), len(group)
                 ),
@@ -763,9 +765,7 @@ def build_report(results_dir: Path, output_dir: Path) -> dict[str, Path]:
     )
 
     all_summaries = {
-        str(row["model_or_baseline"]): row
-        for row in summary_rows
-        if row["split"] == "all"
+        str(row["model_or_baseline"]): row for row in summary_rows if row["split"] == "all"
     }
     full_summary = all_summaries.get("B3_FULL_PLATFORM")
     ablation_rows: list[dict[str, Any]] = []
@@ -781,15 +781,11 @@ def build_report(results_dir: Path, output_dir: Path) -> dict[str, Path]:
                     "ablation": name,
                     "case_count": row["case_count"],
                     "macro_f1": row["macro_f1"],
-                    "unsupported_classification_rate": row[
-                        "unsupported_classification_rate"
-                    ],
+                    "unsupported_classification_rate": row["unsupported_classification_rate"],
                     "unsafe_action_proposal_rate": row["unsafe_action_proposal_rate"],
                     "replay_mismatch_count": row["replay_mismatch_count"],
                     "delta_macro_f1_vs_full": row["macro_f1"] - full_summary["macro_f1"],
-                    "delta_unsupported_rate_vs_full": row[
-                        "unsupported_classification_rate"
-                    ]
+                    "delta_unsupported_rate_vs_full": row["unsupported_classification_rate"]
                     - full_summary["unsupported_classification_rate"],
                     "notes": "Input evidence family removed; all remaining pipeline behavior is unchanged.",
                 }
@@ -842,7 +838,14 @@ def build_report(results_dir: Path, output_dir: Path) -> dict[str, Path]:
     )
     environment = {
         key: manifest[key]
-        for key in ("schema_version", "benchmark_version", "git_commit", "python_version", "platform", "seed")
+        for key in (
+            "schema_version",
+            "benchmark_version",
+            "git_commit",
+            "python_version",
+            "platform",
+            "seed",
+        )
     }
     environment["dataset"] = manifest["dataset"]
     (output_dir / "environment.json").write_text(

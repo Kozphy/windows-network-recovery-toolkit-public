@@ -80,8 +80,12 @@ def capture_pre_change_snapshot(
         "captured_at_utc": _now_iso(),
         "source": "rollback_pre_change_snapshot",
         "proxy_registry": {
-            "ProxyEnable": proxy_enable if proxy_enable is not None else evidence.get("proxy_enable"),
-            "ProxyServer": proxy_server if proxy_server is not None else evidence.get("proxy_server"),
+            "ProxyEnable": proxy_enable
+            if proxy_enable is not None
+            else evidence.get("proxy_enable"),
+            "ProxyServer": proxy_server
+            if proxy_server is not None
+            else evidence.get("proxy_server"),
             "AutoConfigURL": evidence.get("auto_config_url"),
             "ProxyOverride": evidence.get("proxy_override"),
         },
@@ -159,7 +163,9 @@ def build_rollback_plan(
             proxy_enable=prior_proxy_enable,
             proxy_server=prior_proxy_server,
         ),
-        proposed_mutation=build_proposed_mutation_preview(action_id=action_id, endpoint_id="local", dry_run=dry_run),
+        proposed_mutation=build_proposed_mutation_preview(
+            action_id=action_id, endpoint_id="local", dry_run=dry_run
+        ),
         dry_run=dry_run,
     )
     return {
@@ -247,7 +253,9 @@ def build_rollback_preview_package(
             "expected_token": token,
             "expected_token_hint": token[:8] + "…",
             "provided": bool(confirmation_token),
-            "validated": validate_approval_token(confirmation_token, token) if confirmation_token else False,
+            "validated": validate_approval_token(confirmation_token, token)
+            if confirmation_token
+            else False,
         },
         "reversible_action_record": reversible,
         "rollback_preview": rollback_preview,

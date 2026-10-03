@@ -10,7 +10,9 @@ from ..attribution.port_owner import netstat_listen_rows, owners_for_port
 from ..observability.tcp_table import capture_netstat_ano
 
 
-def localhost_port_listen_state(port: int | None, *, run: Callable[..., Any] = subprocess.run) -> bool | None:
+def localhost_port_listen_state(
+    port: int | None, *, run: Callable[..., Any] = subprocess.run
+) -> bool | None:
     """Return ``True`` when *port* has a LISTENING row; ``False`` when query succeeded but absent.
 
     ``None`` denotes inconclusive probes (elevated tooling failures).

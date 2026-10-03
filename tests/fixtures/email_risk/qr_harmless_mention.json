@@ -1,0 +1,14 @@
+{
+  "description": "Negative (synthetic): internal facilities note that mentions QR codes without asking the reader to scan, send, or return one.",
+  "org_context": {
+    "organization_domains": ["example-corp.test"]
+  },
+  "email": {
+    "from": "\"Facilities\" <facilities@example-corp.test>",
+    "to": ["all-staff@example-corp.test"],
+    "subject": "Office move notes",
+    "message_id": "<synthetic-qr-neg-0001@example-corp.test>",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=example-corp.test; dkim=pass header.d=example-corp.test; dmarc=pass header.from=example-corp.test",
+    "body_text": "The new office opens on Monday.\nThere is a QR code at reception for visitor Wi-Fi.\nThe cafeteria menu QR code is printed on every table.\n新辦公室的 QR Code 看板放在大廳。"
+  }
+}

@@ -11,7 +11,9 @@ from .eventlog_attribution import attribution_from_windows_event_logs
 from .models import AttributionResult, ProcessIdentity
 
 
-def _try_psutil_enrich(pid: int | None) -> tuple[
+def _try_psutil_enrich(
+    pid: int | None,
+) -> tuple[
     str | None,
     str | None,
     str | None,
@@ -67,7 +69,15 @@ def _try_psutil_enrich(pid: int | None) -> tuple[
     except (PsutilError, OSError):
         limits += ("parent_process_optional_lookup_failed_or_denied",)
 
-    return str(exe_s) if exe_s else None, cmdline_str, utc, ppid_val, parent_exe_s, uname if isinstance(uname, str) else None, limits
+    return (
+        str(exe_s) if exe_s else None,
+        cmdline_str,
+        utc,
+        ppid_val,
+        parent_exe_s,
+        uname if isinstance(uname, str) else None,
+        limits,
+    )
 
 
 def _best_effort_from_owner_row(row: dict[str, Any]) -> AttributionResult:
@@ -85,7 +95,9 @@ def _best_effort_from_owner_row(row: dict[str, Any]) -> AttributionResult:
     elif isinstance(parent_pid, str) and parent_pid.isdigit():
         pid_parent = int(parent_pid)
 
-    ps_exe, ps_cmd, ps_time, ppid_extra, parent_exe_extra, username, limits = _try_psutil_enrich(pid_i)
+    ps_exe, ps_cmd, ps_time, ppid_extra, parent_exe_extra, username, limits = _try_psutil_enrich(
+        pid_i
+    )
     exe = ps_exe if ps_exe else (str(exe_known) if isinstance(exe_known, str) else None)
     cmdline = ps_cmd if ps_cmd else (str(cmd_known) if isinstance(cmd_known, str) else None)
     ppid = ppid_extra if isinstance(ppid_extra, int) else pid_parent
@@ -116,13 +128,13 @@ def _best_effort_from_owner_row(row: dict[str, Any]) -> AttributionResult:
 
 def build_best_effort_attribution_from_payload(owners_payload: dict[str, Any]) -> AttributionResult:
     """Build best effort attribution from payload.
-    
+
     Args:
         owners_payload: The owners payload value supplied by the caller.
-    
+
     Returns:
         The AttributionResult result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

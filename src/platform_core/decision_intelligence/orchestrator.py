@@ -72,7 +72,9 @@ def _map_signal_to_scoring_id(signal: str, value: str) -> str:
 
 def _inject_derived_evidence(items: list[EvidenceItem], bundle: EvidenceBundle) -> None:
     signals = {i.signal.lower(): i.observed_value for i in bundle.items}
-    if any("proxy" in k for k in signals) and not any(e.evidence_id == "missing_writer" for e in items):
+    if any("proxy" in k for k in signals) and not any(
+        e.evidence_id == "missing_writer" for e in items
+    ):
         items.append(
             EvidenceItem(
                 evidence_id="missing_writer",
@@ -94,7 +96,9 @@ def _inject_derived_evidence(items: list[EvidenceItem], bundle: EvidenceBundle) 
             )
 
 
-def build_evidence_input_from_fixture(payload: dict[str, Any], *, incident_id: str | None = None) -> FederatedEvidenceInput:
+def build_evidence_input_from_fixture(
+    payload: dict[str, Any], *, incident_id: str | None = None
+) -> FederatedEvidenceInput:
     """Build evidence input from fixture.
 
     Args:
@@ -192,7 +196,8 @@ def build_evidence_input_from_fixture(payload: dict[str, Any], *, incident_id: s
         bundle=bundle,
         classification=classification.get("primary_classification"),
         proof_status=(proof.get("conclusion") or {}).get("status"),
-        limitations=list(classification.get("limitations") or []) + list(proof.get("limitations") or []),
+        limitations=list(classification.get("limitations") or [])
+        + list(proof.get("limitations") or []),
     )
 
 

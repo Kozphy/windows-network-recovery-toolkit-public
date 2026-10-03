@@ -97,8 +97,12 @@ class NetworkStatePolicy:
         return cls(
             allowed_process_names=tup("allowed_process_names"),
             blocked_process_names=tup("blocked_process_names"),
-            allowed_proxy_hosts=tuple(str(x).lower() for x in blob.get("allowed_proxy_hosts", []) if isinstance(x, str)),
-            blocked_proxy_hosts=tuple(str(x).lower() for x in blob.get("blocked_proxy_hosts", []) if isinstance(x, str)),
+            allowed_proxy_hosts=tuple(
+                str(x).lower() for x in blob.get("allowed_proxy_hosts", []) if isinstance(x, str)
+            ),
+            blocked_proxy_hosts=tuple(
+                str(x).lower() for x in blob.get("blocked_proxy_hosts", []) if isinstance(x, str)
+            ),
             rollback_on_unknown_loopback=bool(blob.get("rollback_on_unknown_loopback", False)),
             alert_on_unknown_loopback=bool(blob.get("alert_on_unknown_loopback", True)),
         )

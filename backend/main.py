@@ -414,6 +414,7 @@ def prometheus_metrics() -> Response:
             body = body.rstrip() + "\n" + "\n".join(extra) + "\n"
     except ImportError:  # pragma: no cover
         pass
+
     try:
         from src.platform_core.operability.metrics_registry import (
             render_prometheus_text as render_operability_metrics,

@@ -11,7 +11,7 @@ from src.classification.models import ProcessClassificationResult
 
 class PolicyDecisionKind(StrEnum):
     """Represent policy decision kind data used by the toolkit.
-    
+
     Attributes:
         ALLOW: Field or variant describing a l l o w evidence or state.
         OBSERVE: Field or variant describing o b s e r v e evidence or state.
@@ -21,10 +21,11 @@ class PolicyDecisionKind(StrEnum):
         BLOCK_RECOMMENDED: Field or variant describing b l o c k r e c o m m e n d e d evidence or state.
         ESCALATE_REVIEW: Field or variant describing e s c a l a t e r e v i e w evidence or state.
         CORRELATION_ONLY_ALERT: Field or variant describing c o r r e l a t i o n o n l y a l e r t evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     ALLOW = "ALLOW"
     OBSERVE = "OBSERVE"
     ALERT = "ALERT"
@@ -37,16 +38,17 @@ class PolicyDecisionKind(StrEnum):
 
 class PolicySeverity(StrEnum):
     """Represent policy severity data used by the toolkit.
-    
+
     Attributes:
         LOW: Field or variant describing l o w evidence or state.
         MEDIUM: Field or variant describing m e d i u m evidence or state.
         HIGH: Field or variant describing h i g h evidence or state.
         CRITICAL: Field or variant describing c r i t i c a l evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     LOW = "LOW"
     MEDIUM = "MEDIUM"
     HIGH = "HIGH"
@@ -56,7 +58,7 @@ class PolicySeverity(StrEnum):
 @dataclass
 class ProxyPolicyUserConfig:
     """Represent proxy policy user config data used by the toolkit.
-    
+
     Attributes:
         allow_known_cursor: Field or variant describing allow known cursor evidence or state.
         cursor_action: Field or variant describing cursor action evidence or state.
@@ -64,10 +66,11 @@ class ProxyPolicyUserConfig:
         dev_proxy_action: Field or variant describing dev proxy action evidence or state.
         active_dev_session: Field or variant describing active dev session evidence or state.
         deny_unknown_localhost: Field or variant describing deny unknown localhost evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     allow_known_cursor: bool = True
     cursor_action: str = "OBSERVE"
     vscode_action: str = "OBSERVE"
@@ -78,30 +81,36 @@ class ProxyPolicyUserConfig:
     @classmethod
     def from_dict(cls, raw: dict[str, Any]) -> ProxyPolicyUserConfig:
         """From dict.
-        
+
         Args:
             raw: The raw value supplied by the caller.
-        
+
         Returns:
             The ProxyPolicyUserConfig result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
         return cls(
             allow_known_cursor=bool(raw.get("allow_known_cursor", True)),
             cursor_action=str(raw.get("cursor_proxy_action", raw.get("cursor_action", "OBSERVE"))),
-            vscode_action=str(raw.get("vscode_extension_action", raw.get("vscode_action", "OBSERVE"))),
-            dev_proxy_action=str(raw.get("known_dev_proxy_action", raw.get("dev_proxy_action", "OBSERVE"))),
+            vscode_action=str(
+                raw.get("vscode_extension_action", raw.get("vscode_action", "OBSERVE"))
+            ),
+            dev_proxy_action=str(
+                raw.get("known_dev_proxy_action", raw.get("dev_proxy_action", "OBSERVE"))
+            ),
             active_dev_session=bool(raw.get("active_dev_session", True)),
-            deny_unknown_localhost=bool(raw.get("deny_unknown_localhost_proxy", raw.get("deny_unknown_localhost", True))),
+            deny_unknown_localhost=bool(
+                raw.get("deny_unknown_localhost_proxy", raw.get("deny_unknown_localhost", True))
+            ),
         )
 
 
 @dataclass
 class ProxyPolicyInput:
     """Represent proxy policy input data used by the toolkit.
-    
+
     Attributes:
         causation_level: Field or variant describing causation level evidence or state.
         classification_result: Field or variant describing classification result evidence or state.
@@ -111,10 +120,11 @@ class ProxyPolicyInput:
         registry_target: Field or variant describing registry target evidence or state.
         registry_details: Field or variant describing registry details evidence or state.
         localhost_port: Field or variant describing localhost port evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     causation_level: str
     classification_result: ProcessClassificationResult | dict[str, Any]
     proxy_before: dict[str, Any]
@@ -132,7 +142,7 @@ class ProxyPolicyInput:
 @dataclass
 class ProxyPolicyDecision:
     """Represent proxy policy decision data used by the toolkit.
-    
+
     Attributes:
         decision: Field or variant describing decision evidence or state.
         severity: Field or variant describing severity evidence or state.
@@ -142,10 +152,11 @@ class ProxyPolicyDecision:
         reason: Field or variant describing reason evidence or state.
         explanation: Field or variant describing explanation evidence or state.
         next_safe_steps: Field or variant describing next safe steps evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     decision: PolicyDecisionKind
     severity: PolicySeverity
     allowed_actions: list[str] = field(default_factory=list)
@@ -158,13 +169,13 @@ class ProxyPolicyDecision:
     @property
     def action(self) -> str:
         """Action.
-        
+
         Args:
             None.
-        
+
         Returns:
             The str result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -173,27 +184,29 @@ class ProxyPolicyDecision:
     @property
     def confidence(self) -> float:
         """Confidence.
-        
+
         Args:
             None.
-        
+
         Returns:
             The float result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
-        return {"LOW": 0.5, "MEDIUM": 0.65, "HIGH": 0.82, "CRITICAL": 0.92}.get(self.severity.value, 0.6)
+        return {"LOW": 0.5, "MEDIUM": 0.65, "HIGH": 0.82, "CRITICAL": 0.92}.get(
+            self.severity.value, 0.6
+        )
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

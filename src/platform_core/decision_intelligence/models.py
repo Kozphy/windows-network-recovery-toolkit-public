@@ -30,6 +30,7 @@ class DecisionDomain(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     IT_OPERATIONS = "it_operations"
     SECURITY = "security"
     RISK = "risk"
@@ -54,6 +55,7 @@ class EvidenceTrace(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     evidence_id: str
     signal: str = ""
     tier: EvidenceTierName = "OBSERVED_ONLY"
@@ -81,6 +83,7 @@ class ScoreExplain(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     benefit: int = Field(ge=0, le=100)
     risk: int = Field(ge=0, le=100)
     confidence: float = Field(ge=0.0, le=1.0)
@@ -111,6 +114,7 @@ class DomainRecommendation(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     domain: DecisionDomain
     recommendation_id: str
     title: str
@@ -144,6 +148,7 @@ class FederatedEvidenceInput(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     incident_id: str
     bundle: EvidenceBundle
     hypothesis_primary: str | None = None
@@ -167,6 +172,7 @@ class ExplainabilityGraph(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     nodes: list[dict[str, str]] = Field(default_factory=list)
     edges: list[dict[str, str]] = Field(default_factory=list)
 
@@ -190,6 +196,7 @@ class AuditRecord(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     audit_id: str
     incident_id: str
     timestamp_utc: str
@@ -218,6 +225,7 @@ class FederatedDecisionResult(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     incident_id: str
     schema_version: str = SCHEMA_VERSION
     recommendations: list[DomainRecommendation]

@@ -248,8 +248,15 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument(
         "--reset", action="store_true", help="Delete known demo JSONL shards before appending."
     )
-    p.add_argument("--endpoints", type=int, default=None, help="Use fleet_simulation when set (e.g. 100).")
-    p.add_argument("--incidents", type=int, default=None, help="Cap incidents when using --endpoints (e.g. 20).")
+    p.add_argument(
+        "--endpoints", type=int, default=None, help="Use fleet_simulation when set (e.g. 100)."
+    )
+    p.add_argument(
+        "--incidents",
+        type=int,
+        default=None,
+        help="Cap incidents when using --endpoints (e.g. 20).",
+    )
     ns = p.parse_args(argv)
 
     root = ns.data_dir or (Path.cwd() / "platform_data_fleet_demo")

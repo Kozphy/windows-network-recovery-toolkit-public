@@ -1,0 +1,13 @@
+{
+  "description": "Scenario A (synthetic): external free-mail sender asks the reader to create a LINE group and send its QR code back. No image attached.",
+  "org_context": {
+    "organization_domains": ["example-corp.test"]
+  },
+  "email": {
+    "from": "\"Alex Chen\" <alex.chen.work@gmail.com>",
+    "to": ["staff@example-corp.test"],
+    "subject": "Quick favor",
+    "message_id": "<synthetic-qr-a-0001@mail.gmail.com>",
+    "body_text": "Hi,\nPlease create a LINE group and send the QR code to me.\nThanks,\nAlex"
+  }
+}

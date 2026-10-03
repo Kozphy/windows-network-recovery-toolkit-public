@@ -4,8 +4,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from windows_network_toolkit.diagnostics.lan_privacy.runner import load_bundle, _resolve_observations
-from windows_network_toolkit.lan_control_tests import run_lan_control_tests, CONTROL_REGISTRY
+from windows_network_toolkit.diagnostics.lan_privacy.runner import (
+    _resolve_observations,
+    load_bundle,
+)
+from windows_network_toolkit.lan_control_tests import CONTROL_REGISTRY, run_lan_control_tests
 
 
 def test_control_registry_has_eight_controls():

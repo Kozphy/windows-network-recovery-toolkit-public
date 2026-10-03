@@ -34,15 +34,16 @@ _APPROVAL_TOKENS: dict[str, str] = {}
 
 class EventIn(BaseModel):
     """Represent event in data used by the toolkit.
-    
+
     Attributes:
         signals: Field or variant describing signals evidence or state.
         fixture_path: Field or variant describing fixture path evidence or state.
         incident_id: Field or variant describing incident id evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     signals: dict[str, Any] = Field(default_factory=dict)
     fixture_path: str | None = None
     incident_id: str | None = None
@@ -50,15 +51,16 @@ class EventIn(BaseModel):
 
 class PolicyEvalIn(BaseModel):
     """Represent policy eval in data used by the toolkit.
-    
+
     Attributes:
         decision_id: Field or variant describing decision id evidence or state.
         requested_action: Field or variant describing requested action evidence or state.
         dry_run: Field or variant describing dry run evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     decision_id: str
     requested_action: str = "disable_wininet_proxy"
     dry_run: bool = True
@@ -66,21 +68,22 @@ class PolicyEvalIn(BaseModel):
 
 class ApproveIn(BaseModel):
     """Represent approve in data used by the toolkit.
-    
+
     Attributes:
         decision_id: Field or variant describing decision id evidence or state.
         approval_token: Field or variant describing approval token evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     decision_id: str
     approval_token: str
 
 
 class OutcomeIn(BaseModel):
     """Represent outcome in data used by the toolkit.
-    
+
     Attributes:
         decision_id: Field or variant describing decision id evidence or state.
         incident_id: Field or variant describing incident id evidence or state.
@@ -90,10 +93,11 @@ class OutcomeIn(BaseModel):
         actual_outcome: Field or variant describing actual outcome evidence or state.
         time_to_resolution_seconds: Field or variant describing time to resolution seconds evidence or state.
         was_successful: Field or variant describing was successful evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     decision_id: str
     incident_id: str
     recommended_action: str
@@ -110,13 +114,13 @@ class OutcomeIn(BaseModel):
 @router.get("/health")
 def v1_health() -> dict[str, Any]:
     """Handle the GET request for v1 health.
-    
+
     Args:
         None.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -126,13 +130,13 @@ def v1_health() -> dict[str, Any]:
 @router.get("/version")
 def v1_version() -> dict[str, str]:
     """Handle the GET request for v1 version.
-    
+
     Args:
         None.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -142,13 +146,13 @@ def v1_version() -> dict[str, str]:
 @router.post("/events")
 def v1_events(body: EventIn) -> dict[str, Any]:
     """Handle the POST request for v1 events.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -157,7 +161,9 @@ def v1_events(body: EventIn) -> dict[str, Any]:
         path = Path(body.fixture_path)
         if not path.is_file():
             path = _REPO / "windows_network_toolkit" / "examples" / body.fixture_path
-    result = run_decision_pipeline(signals=body.signals or None, jsonl_path=path, incident_id=body.incident_id)
+    result = run_decision_pipeline(
+        signals=body.signals or None, jsonl_path=path, incident_id=body.incident_id
+    )
     _SESSION["latest"] = result
     token = generate_approval_token()
     _APPROVAL_TOKENS[result.decision.decision_id] = token
@@ -175,16 +181,16 @@ def v1_events(body: EventIn) -> dict[str, Any]:
 @router.post("/decisions")
 def v1_decisions(body: EventIn) -> dict[str, Any]:
     """Handle the POST request for v1 decisions.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -194,16 +200,16 @@ def v1_decisions(body: EventIn) -> dict[str, Any]:
 @router.post("/policy/evaluate")
 def v1_policy_evaluate(body: PolicyEvalIn) -> dict[str, Any]:
     """Handle the POST request for v1 policy evaluate.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -224,16 +230,16 @@ def v1_policy_evaluate(body: PolicyEvalIn) -> dict[str, Any]:
 @router.post("/remediation/preview")
 def v1_remediation_preview() -> dict[str, Any]:
     """Handle the POST request for v1 remediation preview.
-    
+
     Args:
         None.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -244,16 +250,16 @@ def v1_remediation_preview() -> dict[str, Any]:
 @router.post("/remediation/approve")
 def v1_remediation_approve(body: ApproveIn) -> dict[str, Any]:
     """Handle the POST request for v1 remediation approve.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -266,35 +272,40 @@ def v1_remediation_approve(body: ApproveIn) -> dict[str, Any]:
 @router.post("/remediation/execute")
 def v1_remediation_execute(body: ApproveIn) -> dict[str, Any]:
     """Handle the POST request for v1 remediation execute.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
     resp = v1_remediation_approve(body)
     if not resp.get("approved"):
         return {**resp, "executed": False, "reason": "execution blocked without approval"}
-    return {**resp, "executed": False, "dry_run": True, "message": "Live execute blocked in safe mode"}
+    return {
+        **resp,
+        "executed": False,
+        "dry_run": True,
+        "message": "Live execute blocked in safe mode",
+    }
 
 
 @router.post("/replay/certify")
 def v1_replay_certify(body: EventIn) -> dict[str, Any]:
     """Handle the POST request for v1 replay certify.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -314,13 +325,13 @@ def v1_replay_certify(body: EventIn) -> dict[str, Any]:
 @router.post("/outcomes")
 def v1_outcomes(body: OutcomeIn) -> dict[str, Any]:
     """Handle the POST request for v1 outcomes.
-    
+
     Args:
         body: Request or domain payload supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -332,13 +343,13 @@ def v1_outcomes(body: OutcomeIn) -> dict[str, Any]:
 @router.get("/metrics")
 def v1_metrics() -> dict[str, Any]:
     """Handle the GET request for v1 metrics.
-    
+
     Args:
         None.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """
@@ -348,16 +359,16 @@ def v1_metrics() -> dict[str, Any]:
 @router.get("/audit/{decision_id}")
 def v1_audit(decision_id: str) -> dict[str, Any]:
     """Handle the GET request for v1 audit.
-    
+
     Args:
         decision_id: The decision id value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -368,13 +379,13 @@ def v1_audit(decision_id: str) -> dict[str, Any]:
 @router.get("/governance/controls")
 def v1_governance_controls(outcome: str = "PREVIEW_ONLY") -> dict[str, Any]:
     """Handle the GET request for v1 governance controls.
-    
+
     Args:
         outcome: The outcome value supplied by the caller.
-    
+
     Returns:
         Response payload serialized by FastAPI for the caller.
-    
+
     Side effects:
         Reads request parameters and delegates response construction to backend services; mutating routes may write database rows, queue state, JSONL audit entries, or in-memory state.
     """

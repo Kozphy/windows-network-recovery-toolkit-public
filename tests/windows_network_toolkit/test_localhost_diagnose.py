@@ -189,14 +189,24 @@ def test_classify_port_changed_possible_without_overclaim() -> None:
         nearby_count=2,
     )
     assert cls.code == "LOCALHOST_PORT_CHANGED_POSSIBLE"
-    assert "replacement" in " ".join(cls.limitations).lower() or "nearby" in " ".join(cls.limitations).lower()
+    assert (
+        "replacement" in " ".join(cls.limitations).lower()
+        or "nearby" in " ".join(cls.limitations).lower()
+    )
 
 
 def test_proxy_interference_and_unrelated() -> None:
     from windows_network_toolkit.diagnostics.localhost.proxy_evidence import ProxyEvidence
 
-    direct = HttpProbeResult(mode="direct", requested_url="http://127.0.0.1/", success=True, status_code=200)
-    proxy = HttpProbeResult(mode="proxy_aware", requested_url="http://127.0.0.1/", success=False, exception_category="CONNECTION_REFUSED")
+    direct = HttpProbeResult(
+        mode="direct", requested_url="http://127.0.0.1/", success=True, status_code=200
+    )
+    proxy = HttpProbeResult(
+        mode="proxy_aware",
+        requested_url="http://127.0.0.1/",
+        success=False,
+        exception_category="CONNECTION_REFUSED",
+    )
     cmp = compare_http_probes(direct, proxy)
     assert cmp["differ"] is True
     pe = ProxyEvidence(relation_to_incident="possible_proxy_interference", wininet_enabled=True)
@@ -218,7 +228,10 @@ def test_proxy_interference_and_unrelated() -> None:
         HttpProbeResult(mode="direct", requested_url="u", success=False),
         HttpProbeResult(mode="proxy_aware", requested_url="u", success=False),
     )
-    assert "both failed" in both_fail_cmp["interpretation"].lower() or "agree" in both_fail_cmp["interpretation"].lower()
+    assert (
+        "both failed" in both_fail_cmp["interpretation"].lower()
+        or "agree" in both_fail_cmp["interpretation"].lower()
+    )
 
 
 def test_policy_defaults_preview_and_blocks_firewall_proxy() -> None:
@@ -290,7 +303,9 @@ def test_process_access_denied_soft_fail() -> None:
     assert "command_line" in ev.access_denied_fields
 
 
-def test_runner_inject_no_listener_deterministic(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_runner_inject_no_listener_deterministic(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     monkeypatch.setenv("WNT_AUDIT_DIR", str(tmp_path / "audit"))
     report = run_localhost_diagnose(
         url="http://localhost:61161/ChtPopupForm",
@@ -338,7 +353,10 @@ def test_cli_localhost_diagnose_json(tmp_path: Path, monkeypatch: pytest.MonkeyP
         "resolution": {"host": "localhost", "ipv4": ["127.0.0.1"], "ipv6": ["::1"], "errors": []},
         "tcp_probes": [_refused_probe("127.0.0.1").to_dict(), _refused_probe("::1").to_dict()],
         "listeners": [],
-        "proxy_evidence": {"wininet_enabled": False, "relation_to_incident": "proxy_unrelated_to_incident"},
+        "proxy_evidence": {
+            "wininet_enabled": False,
+            "relation_to_incident": "proxy_unrelated_to_incident",
+        },
     }
     path = tmp_path / "fix.json"
     path.write_text(json.dumps(fixture), encoding="utf-8")

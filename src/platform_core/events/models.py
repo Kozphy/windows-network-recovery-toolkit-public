@@ -35,6 +35,7 @@ class TriskEventType(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     EVIDENCE_COLLECTED = "EvidenceCollected"
     INCIDENT_DETECTED = "IncidentDetected"
     RISK_CLASSIFIED = "RiskClassified"

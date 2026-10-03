@@ -1,87 +1,17 @@
 """Hash-chained audit JSONL writer with optional tip anchor refresh.
 
-Module responsibility:
-    Appends tamper-evident audit records to a canonical ``canonical_custody.jsonl``
-    file using SHA-256 hash chaining.  Each appended record links to the hash of
-    the previous record (``previous_hash``), making log-file truncation or record
-    deletion detectable.  Optionally refreshes a sibling tip-anchor file
-    (``*.tip.json``) within the same file lock window.
-
-System placement:
-    Called by every CLI command, API route, and background agent that must produce
-    a governance-traceable audit trail.  File locking (``jsonl_file_lock``)
-    serialises concurrent writers across threads or processes accessing the same
-    JSONL path.
-
-Key invariants:
-    - The module-level ``_LAST_HASH`` sentinel tracks the most recently written
-      hash within a single process; it does not replace reading the on-disk chain
-      tip for multi-process safety (``_read_chain_tip`` re-reads the file under
-      the lock).
-    - ``reset_chain_for_tests()`` is the only sanctioned mutation of ``_LAST_HASH``
-      outside of ``append_audit``; it must not be called in production paths.
-    - Records are append-only; no update or delete operation is provided.
-    - ``AUDIT_SCHEMA_VERSION`` from ``src/platform_core/__init__.py`` stamps every
-      record.
-
-Side effects:
-    - Appends one JSON line to the target JSONL file (file-locked).
-    - Optionally writes or refreshes the sibling ``{stem}.tip.json`` tip-anchor
-      file within the same lock window.
-    - Creates the parent directory tree if it does not exist.
-
-Failure modes:
-    JSON decode errors while reading the chain tip fall back to ``"genesis"``
-    rather than aborting the write, preserving append availability at the cost of
-    chain continuity.  Callers requiring strict chain integrity must run
-    ``audit verify`` after recovery.
-
-Audit Notes:
-    Each ``AuditRecord.current_hash`` is computed by
-    ``chain_hash(prev_hash, audit_hash_body(record))``.  Verification tooling
-    (``audit verify``) replays this computation against the on-disk chain; any
-    divergence indicates tampering or a partial write.
+Canonical writes go through the domain event kernel (``wnrt.domain_event.v1``).
+``append_audit`` remains the ERP-facing API and returns ``AuditRecord``.
 """
 
 from __future__ import annotations
 
-import json
-import uuid
-from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from src.platform_core import AUDIT_SCHEMA_VERSION
 from src.platform_core.audit.paths import default_canonical_path
-from src.platform_core.audit.tip_anchor import write_tip_anchor
 from src.platform_core.contracts import AuditActionType, AuditRecord
-from src.platform_core.governance.chain_of_custody import audit_hash_body, chain_hash
-from src.platform_core.io.locked_jsonl import jsonl_file_lock
-
-_LAST_HASH = "genesis"
-
-
-def _now_iso() -> str:
-    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-
-def _read_chain_tip(path: Path) -> str:
-    if not path.is_file():
-        return "genesis"
-    lines = path.read_text(encoding="utf-8").splitlines()
-    if not lines:
-        return "genesis"
-    try:
-        last = json.loads(lines[-1])
-    except json.JSONDecodeError:
-        return "genesis"
-    return str(last.get("current_hash") or "genesis")
-
-
-def _count_records(path: Path) -> int:
-    if not path.is_file():
-        return 0
-    return sum(1 for line in path.read_text(encoding="utf-8").splitlines() if line.strip())
+from src.platform_core.domain_events.writer import append_domain_event, reset_domain_chain_for_tests
 
 
 def append_audit(
@@ -95,86 +25,84 @@ def append_audit(
     path: Path | None = None,
     write_tip: bool = True,
 ) -> AuditRecord:
-    """Append one hash-chained audit record to the canonical JSONL custody file.
-
-    Acquires a file lock on *path*, reads the current chain tip, constructs an
-    ``AuditRecord`` with ``previous_hash`` set to the prior tip, computes
-    ``current_hash`` via ``chain_hash``, appends the JSON-serialised record, and
-    optionally refreshes the sibling tip-anchor file — all within a single lock
-    window.
+    """Append one hash-chained audit row via the domain event kernel.
 
     Args:
-        action_type: Discriminated action type from ``AuditActionType``
-            (e.g. ``CLASSIFY``, ``POLICY_DECISION``, ``REMEDIATION_PREVIEW``).
-        trace_id: Correlates records for a single CLI invocation or API request.
-        decision_id: Links to a ``Decision`` object produced by the decision engine.
-        incident_id: Links to an incident or evidence bundle.
-        actor: Human-readable originator label (default: ``"platform"``).
-        payload: Arbitrary structured payload dict stored alongside the record.
-        path: Override the default canonical JSONL path; defaults to
-            ``default_canonical_path()``.
-        write_tip: When ``True`` (default), refreshes the sibling
-            ``{stem}.tip.json`` tip-anchor file within the same lock window.
+        action_type: Controlled audit event type.
+        trace_id: Correlation identifier for the originating workflow.
+        decision_id: Decision identifier, when the event belongs to a decision.
+        incident_id: Incident identifier, when applicable.
+        actor: Logical actor recorded in the audit row.
+        payload: JSON-serializable event details; defaults to an empty object.
+        path: Destination JSONL path; defaults to ``WNT_AUDIT_DIR``.
+        write_tip: Refresh the sibling tip anchor after appending.
 
     Returns:
-        The fully populated ``AuditRecord`` with ``current_hash`` set.
+        The immutable ``AuditRecord`` written to disk.
 
     Side effects:
-        Appends one JSON line to *path* and optionally writes the tip-anchor file.
+        Creates parent directories, appends one JSONL row, and optionally
+        refreshes the sibling tip-anchor file. Existing rows are not rewritten.
+
+    Failure behavior:
+        Filesystem, lock, and domain-event validation errors propagate to the
+        caller. A tip-anchor write itself soft-fails inside the domain-event
+        writer and does not remove the already-appended audit row.
 
     Audit Notes:
-        Hash continuity depends on all writers using this function via
-        ``jsonl_file_lock``.  Direct file appends outside this function break the
-        verifiable chain.
+        Verify the resulting chain with ``audit verify``. A valid hash chain
+        proves internal append consistency, not the truth of its payload.
+        ``write_tip`` refreshes the sibling tip anchor under the domain-event
+        writer's lock window; it does not provide WORM custody.
     """
-    global _LAST_HASH
     target = path or default_canonical_path()
-    target.parent.mkdir(parents=True, exist_ok=True)
-
-    with jsonl_file_lock(target):
-        prev_hash = _read_chain_tip(target)
-        record = AuditRecord(
-            audit_id=str(uuid.uuid4()),
-            schema_version=AUDIT_SCHEMA_VERSION,
-            timestamp_utc=_now_iso(),
-            action_type=action_type,
-            trace_id=trace_id,
-            decision_id=decision_id,
-            incident_id=incident_id,
-            actor=actor,
-            payload=payload or {},
-            previous_hash=prev_hash,
-            current_hash="",
-            signature_status="hash_chained",
-        )
-        hash_body = audit_hash_body(record.model_dump())
-        current_hash = chain_hash(prev_hash, hash_body)
-        record = record.model_copy(update={"current_hash": current_hash})
-        with target.open("a", encoding="utf-8") as fh:
-            fh.write(record.model_dump_json() + "\n")
-        _LAST_HASH = current_hash
-        if write_tip:
-            write_tip_anchor(
-                tip_hash=current_hash,
-                record_count=_count_records(target),
-                audit_path=target,
-            )
-    return record
+    pl = dict(payload or {})
+    event_name = str(pl.get("event") or action_type)
+    source = str(pl.get("subsystem") or actor or "platform")
+    envelope = append_domain_event(
+        event_name,
+        source=source,
+        payload=pl,
+        actor=actor,
+        correlation_id=trace_id,
+        decision_id=decision_id,
+        incident_id=incident_id,
+        action_type=action_type,
+        path=target,
+        write_tip=write_tip,
+    )
+    eid = str(envelope.get("event_id") or envelope.get("audit_id") or "")
+    corr = str(envelope.get("correlation_id") or trace_id or "")
+    return AuditRecord(
+        audit_id=eid,
+        schema_version=str(envelope.get("schema_version") or ""),
+        timestamp_utc=str(envelope.get("timestamp_utc") or ""),
+        action_type=action_type,
+        trace_id=corr,
+        decision_id=str(envelope.get("decision_id") or ""),
+        incident_id=str(envelope.get("incident_id") or ""),
+        actor=str(envelope.get("actor") or actor),
+        payload=dict(envelope.get("payload") or {}),
+        previous_hash=str(envelope.get("previous_hash") or ""),
+        current_hash=str(envelope.get("current_hash") or ""),
+        signature_status=envelope.get("signature_status") or "hash_chained",  # type: ignore[arg-type]
+        event_id=eid,
+        event_type=str(envelope.get("event_type") or event_name),
+        source=str(envelope.get("source") or source),
+        tenant_id=str(envelope.get("tenant_id") or ""),
+        correlation_id=corr,
+        custody=dict(envelope.get("custody") or {}),
+    )
 
 
 def reset_chain_for_tests() -> None:
-    """Reset chain for tests.
+    """Reset in-memory domain-event chain state for deterministic tests.
 
     Returns:
         None.
 
     Side effects:
-        Updates process-local or test-scoped state.
-
-    Audit Notes:
-        Decision intent is limited to evidence-backed classification or
-        routing for the supplied inputs; callers should preserve source
-        evidence, policy context, and limitations with the result.
+        Clears the process-local domain-event chain used by the audit writer.
+        Intended for unit tests only.
     """
-    global _LAST_HASH
-    _LAST_HASH = "genesis"
+    reset_domain_chain_for_tests()

@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic gift-card scam from a consumer mailbox presenting as a director.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Director Chen\" <chen.director88@yahoo.com>",
+    "to": ["assistant@example-corp.test"],
+    "subject": "Quick favor",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=yahoo.com; dkim=pass header.d=yahoo.com; dmarc=pass header.from=yahoo.com",
+    "body_text": "Are you at your desk?\nI need you to buy 5 Apple gift cards for a client today.\nScratch the back and send me the codes.\nDon't tell anyone, it's a surprise."
+  }
+}

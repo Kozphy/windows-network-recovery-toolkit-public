@@ -48,13 +48,13 @@ class ProxyPathOperationalAssessment:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -182,16 +182,16 @@ def evidence_tier_for(
     listener_up: bool | None,
 ) -> EvidenceTier:
     """Evidence tier for.
-    
+
     Args:
         composite: The composite value supplied by the caller.
         proxied_https_ok: The proxied https ok value supplied by the caller.
         bypass_https_ok: The bypass https ok value supplied by the caller.
         listener_up: The listener up value supplied by the caller.
-    
+
     Returns:
         The EvidenceTier result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -209,15 +209,15 @@ def browser_path_healthy(
     bypass_https_ok: bool | None,
 ) -> bool | None:
     """Browser path healthy.
-    
+
     Args:
         composite: The composite value supplied by the caller.
         proxied_https_ok: The proxied https ok value supplied by the caller.
         bypass_https_ok: The bypass https ok value supplied by the caller.
-    
+
     Returns:
         The bool | None result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -226,7 +226,11 @@ def browser_path_healthy(
     if composite == "LOOPBACK_BROKEN":
         return False
     if composite == "DIRECT":
-        return True if bypass_https_ok is True else (True if bypass_https_ok is None else bypass_https_ok)
+        return (
+            True
+            if bypass_https_ok is True
+            else (True if bypass_https_ok is None else bypass_https_ok)
+        )
     if composite == "LATENT_MISCONFIG":
         return True if bypass_https_ok is not False else bypass_https_ok
     return None
@@ -239,21 +243,23 @@ def human_summary_for(
     operational: dict[str, Any],
 ) -> str:
     """Human summary for.
-    
+
     Args:
         composite: The composite value supplied by the caller.
         registry_posture: The registry posture value supplied by the caller.
         operational: The operational value supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
     pe = registry_posture.get("proxy_enable")
     if composite == "DIRECT":
-        return "WinINET proxy off (or non-loopback); browser path not forced through localhost proxy."
+        return (
+            "WinINET proxy off (or non-loopback); browser path not forced through localhost proxy."
+        )
     if composite == "LATENT_MISCONFIG":
         return (
             "ProxyServer points at loopback but ProxyEnable is off — latent misconfig; "
@@ -321,7 +327,9 @@ def assess_proxy_path_operational(
             curl_timeout=timeout_seconds,
         )
     else:
-        bypass_https_ok = _run_bypass_https(test_url=test_url, run=run, curl_timeout=timeout_seconds)
+        bypass_https_ok = _run_bypass_https(
+            test_url=test_url, run=run, curl_timeout=timeout_seconds
+        )
 
     listener_up = port_listen
     composite = classify_composite_state(

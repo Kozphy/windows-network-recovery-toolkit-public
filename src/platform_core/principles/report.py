@@ -133,7 +133,9 @@ def build_safe_remediation_controls(policy: dict[str, Any] | None = None) -> lis
     ]
     if policy:
         if policy.get("requires_confirmation"):
-            controls.append(f"Confirmation token: {policy.get('confirmation_token', 'DISABLE_WININET_PROXY')}")
+            controls.append(
+                f"Confirmation token: {policy.get('confirmation_token', 'DISABLE_WININET_PROXY')}"
+            )
         if policy.get("safety_checks"):
             controls.extend(f"Safety check: {c}" for c in policy["safety_checks"])
     return controls
@@ -183,7 +185,8 @@ def build_principle_report_sections(
         ),
         "blocked_overclaims": build_blocked_overclaims(compliance),
         "principle_compliance": principle_compliance,
-        "limitations": list(limitations or []) + [
+        "limitations": list(limitations or [])
+        + [
             "Principle compliance does not guarantee endpoint safety.",
             "Heuristic confidence is ordinal — not probability.",
         ],

@@ -14,13 +14,13 @@ from .models import ResearchPolicyStatus
 
 def canonical_json_hash(payload: Any) -> str:
     """Canonical json hash.
-    
+
     Args:
         payload: Request or domain payload supplied by the caller.
-    
+
     Returns:
         The str result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -30,16 +30,16 @@ def canonical_json_hash(payload: Any) -> str:
 
 def default_audit_path(repo_root: Path | None = None) -> Path:
     """Default audit path.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -59,7 +59,7 @@ def append_market_audit(
     audit_path: Path | None = None,
 ) -> dict[str, Any]:
     """Append market audit.
-    
+
     Args:
         command: The command value supplied by the caller.
         event_id: The event id value supplied by the caller.
@@ -69,13 +69,13 @@ def append_market_audit(
         explanation: The explanation value supplied by the caller.
         repo_root: Repository root used to resolve fixtures, reports, or local state.
         audit_path: Filesystem path used by the operation.
-    
+
     Returns:
         The dict[str, Any] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """

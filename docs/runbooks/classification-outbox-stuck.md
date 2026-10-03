@@ -44,6 +44,9 @@ evidence commit, without re-posting evidence or weakening remediation gates.
 
 1. If flag was left off after a drill, set `TRISK_OUTBOX_DISPATCH_ENABLED=true` and restart the API process if env is loaded at boot.
 2. Optionally enable continuous recovery: `TRISK_OUTBOX_SWEEPER_ENABLED=true` (default off) and restart; confirm `sweeper_thread_alive` via status.
+   Automatic retries use capped exponential backoff (`TRISK_OUTBOX_RETRY_BASE_SECONDS=5`,
+   `TRISK_OUTBOX_RETRY_MAX_SECONDS=300` by default). An explicit admin sweep bypasses
+   that delay after the queue has been repaired.
 3. Sweep pending rows (oldest first):
    ```powershell
    curl -s -X POST http://127.0.0.1:8000/v1/classification-outbox/sweep `

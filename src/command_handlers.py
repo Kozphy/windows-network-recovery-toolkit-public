@@ -444,20 +444,26 @@ def cmd_proxy_forensics(args: argparse.Namespace) -> int:
         }
         results.append(entry)
         if not emit_json:
-            print(render_causation_text(
-                causation,
-                transition_summary=summary,
-                observed_proxy_state=(row.get("diff") or {}).get("after"),
-            ))
+            print(
+                render_causation_text(
+                    causation,
+                    transition_summary=summary,
+                    observed_proxy_state=(row.get("diff") or {}).get("after"),
+                )
+            )
 
     if emit_json:
         print(json.dumps({"transitions_analyzed": len(results), "results": results}, indent=2))
     else:
-        print(f"\nAnalyzed {len(results)} proxy-watch transition(s). Read-only — no registry or process mutations.")
+        print(
+            f"\nAnalyzed {len(results)} proxy-watch transition(s). Read-only — no registry or process mutations."
+        )
     return 0
 
 
-def _load_latest_incident(repo: Path, *, window_seconds: int = 10, run: Any = None) -> dict[str, Any] | None:
+def _load_latest_incident(
+    repo: Path, *, window_seconds: int = 10, run: Any = None
+) -> dict[str, Any] | None:
     from .proxy_guard.incident_pipeline import (
         analyze_incident_from_row,
         load_latest_proxy_transition,
@@ -504,7 +510,10 @@ def cmd_proxy_policy(args: argparse.Namespace) -> int:
     emit_json = fmt == "json" or bool(getattr(args, "emit_json", False))
 
     if fixture_arg:
-        bundle = analyze_fixture(load_fixture(_Path(str(fixture_arg))), repo_root=_repo_root(getattr(args, "repo_root", None)))
+        bundle = analyze_fixture(
+            load_fixture(_Path(str(fixture_arg))),
+            repo_root=_repo_root(getattr(args, "repo_root", None)),
+        )
     elif input_arg:
         path = _Path(str(input_arg))
         row = None
@@ -517,14 +526,18 @@ def cmd_proxy_policy(args: argparse.Namespace) -> int:
                 if blob.get("event") == "proxy_change_detected":
                     row = blob
         bundle = (
-            analyze_incident_from_row(row, repo_root=_repo_root(getattr(args, "repo_root", None)), run=subprocess.run)
+            analyze_incident_from_row(
+                row, repo_root=_repo_root(getattr(args, "repo_root", None)), run=subprocess.run
+            )
             if row
             else None
         )
     else:
         if (code := exit_code_if_not_windows("proxy-policy")) is not None:
             return code
-        bundle = _load_latest_incident(_repo_root(getattr(args, "repo_root", None)), run=subprocess.run)
+        bundle = _load_latest_incident(
+            _repo_root(getattr(args, "repo_root", None)), run=subprocess.run
+        )
 
     if bundle is None:
         print("No proxy incident available.", file=sys.stderr)
@@ -540,9 +553,7 @@ def cmd_proxy_policy(args: argparse.Namespace) -> int:
         diff = (bundle.get("transition") or {}).get("diff") or {}
         after = diff.get("after") or {}
         srv = str(after.get("proxy_server") or "")
-        external = bool(srv) and not (
-            srv.startswith("127.") or srv.lower().startswith("localhost")
-        )
+        external = bool(srv) and not (srv.startswith("127.") or srv.lower().startswith("localhost"))
         gate = resolve_policy_gate(
             doc,
             classification=cls_label,
@@ -764,7 +775,9 @@ def cmd_proxy_attribution(args: argparse.Namespace) -> int:
     if getattr(args, "emit_json", False):
         print(json.dumps(payload, indent=2, ensure_ascii=False))
         return 0
-    print(f"localhost_proxy_detected={attrib.get('localhost_proxy_detected')} port={attrib.get('localhost_port')}")
+    print(
+        f"localhost_proxy_detected={attrib.get('localhost_proxy_detected')} port={attrib.get('localhost_port')}"
+    )
     if not attrib.get("localhost_proxy_detected"):
         print("No loopback proxy port to attribute.")
         for n in attrib.get("notes") or []:
@@ -801,19 +814,29 @@ def cmd_proxy_rollback(args: argparse.Namespace) -> int:
             return 2
         inner = blob.get("snapshot") if isinstance(blob.get("snapshot"), dict) else blob
         if not isinstance(inner, dict):
-            print("Snapshot JSON must contain a ProxySnapshot-compatible object or {\"snapshot\": {...}}.", file=sys.stderr)
+            print(
+                'Snapshot JSON must contain a ProxySnapshot-compatible object or {"snapshot": {...}}.',
+                file=sys.stderr,
+            )
             return 2
         target = ProxySnapshot.from_json_dict(inner)
         phrase = str(getattr(args, "rollback_file_confirm_phrase", "") or "").strip()
         dry = bool(getattr(args, "dry_run", False))
         live = phrase == ROLLBACK_PROXY_SNAPSHOT_FILE_PHRASE and not dry
 
-        preview = execute_known_good_proxy_restore(target, dry_run=True, restore_winhttp=True, run=subprocess.run)
+        preview = execute_known_good_proxy_restore(
+            target, dry_run=True, restore_winhttp=True, run=subprocess.run
+        )
         print(json.dumps(preview, indent=2, ensure_ascii=False, default=str))
         if dry or not live:
-            print("\nDry-run only. Pass exact --confirm RESTORE_PROXY_SNAPSHOT_FILE (omit --dry-run) to execute.", file=sys.stderr)
+            print(
+                "\nDry-run only. Pass exact --confirm RESTORE_PROXY_SNAPSHOT_FILE (omit --dry-run) to execute.",
+                file=sys.stderr,
+            )
             return 0
-        result = execute_known_good_proxy_restore(target, dry_run=False, restore_winhttp=True, run=subprocess.run)
+        result = execute_known_good_proxy_restore(
+            target, dry_run=False, restore_winhttp=True, run=subprocess.run
+        )
         append_jsonl_core(
             repo / "logs" / "proxy_guard_actions.jsonl",
             {
@@ -866,13 +889,17 @@ def cmd_proxy_rollback(args: argparse.Namespace) -> int:
         "timestamp": utc_now_iso(),
         "snapshot_id": snapshot_id,
         "results": [
-            {"argv": list(r.argv), "code": r.returncode, "stderr": r.stderr, "stdout": r.stdout} for r in results
+            {"argv": list(r.argv), "code": r.returncode, "stderr": r.stderr, "stdout": r.stdout}
+            for r in results
         ],
         "confirmation_method": "typed_phrase",
     }
     append_jsonl_core(repo / "logs" / "repair_audit.jsonl", audit)
     if any(c != 0 for c in codes):
-        print("Warning: some reg restores returned non-zero; see logs\\repair_audit.jsonl.", file=sys.stderr)
+        print(
+            "Warning: some reg restores returned non-zero; see logs\\repair_audit.jsonl.",
+            file=sys.stderr,
+        )
         return 1
     print("Rollback complete; appended repair_audit.jsonl row.")
     return 0
@@ -1093,7 +1120,11 @@ def cmd_procmon_filter_set(args: argparse.Namespace) -> int:
     if export_arg:
         out = Path(str(export_arg))
         written = export_procmon_filter_set(out)
-        print(json.dumps({"exported": str(written), "filter_set": procmon_filter_set_payload()}, indent=2))
+        print(
+            json.dumps(
+                {"exported": str(written), "filter_set": procmon_filter_set_payload()}, indent=2
+            )
+        )
         return 0
     if bool(getattr(args, "emit_json", False)):
         payload = procmon_filter_set_payload()
@@ -1133,12 +1164,24 @@ def _cmd_proxy_guard_jsonl_summary(args: argparse.Namespace) -> int:
         "path": str(path),
         "rows_total": len(rows),
         "rows_shown": len(tail),
-        "risk_high": sum(1 for r in tail if isinstance(r.get("diff"), dict) and str(r["diff"].get("risk_level")) == "high"),
-        "risk_medium": sum(1 for r in tail if isinstance(r.get("diff"), dict) and str(r["diff"].get("risk_level")) == "medium"),
+        "risk_high": sum(
+            1
+            for r in tail
+            if isinstance(r.get("diff"), dict) and str(r["diff"].get("risk_level")) == "high"
+        ),
+        "risk_medium": sum(
+            1
+            for r in tail
+            if isinstance(r.get("diff"), dict) and str(r["diff"].get("risk_level")) == "medium"
+        ),
     }
 
     if getattr(args, "emit_json", False):
-        print(json.dumps({"summary": summary, "recent": tail}, indent=2, ensure_ascii=False, default=str))
+        print(
+            json.dumps(
+                {"summary": summary, "recent": tail}, indent=2, ensure_ascii=False, default=str
+            )
+        )
         return 0
 
     lines = [
@@ -1242,7 +1285,9 @@ def cmd_proxy_guard(args: argparse.Namespace) -> int:
     cfg_path = Path(cfg_arg) if cfg_arg else None
     slog = getattr(args, "structured_log", None)
     structured_log_path = Path(slog) if slog else None
-    dry_combo = bool(getattr(args, "dry_run_rollback", False) or getattr(args, "proxy_guard_dry_run", False))
+    dry_combo = bool(
+        getattr(args, "dry_run_rollback", False) or getattr(args, "proxy_guard_dry_run", False)
+    )
     kg_raw = getattr(args, "known_good", None)
     known_snap = None
     if kg_raw:
@@ -1832,7 +1877,9 @@ def cmd_proxy_disable(args: argparse.Namespace) -> int:
         if emit_json:
             print(json.dumps(payload, indent=2, ensure_ascii=False))
         else:
-            print("\n[dry-run] No registry writes or rollback snapshot persisted. Audit row appended.")
+            print(
+                "\n[dry-run] No registry writes or rollback snapshot persisted. Audit row appended."
+            )
         if bool(getattr(args, "stop_reverter_first", False)):
             _run_stop_reverter_step(args, repo, run=run, emit_json=emit_json)
         if bool(getattr(args, "stop_listener_first", False)):
@@ -1841,7 +1888,9 @@ def cmd_proxy_disable(args: argparse.Namespace) -> int:
 
     if decision != "ALLOW":
         blocked_row = _proxy_disable_audit_row(
-            event_kind="blocked_missing_confirmation" if reason == "missing_confirmation" else "blocked_confirmation_or_policy",
+            event_kind="blocked_missing_confirmation"
+            if reason == "missing_confirmation"
+            else "blocked_confirmation_or_policy",
             action_id=action_id,
             decision="BLOCK",
             dry_run=False,
@@ -2046,7 +2095,9 @@ def cmd_proxy_disable(args: argparse.Namespace) -> int:
     if soak_minutes > 0:
         from .proxy_guard.soak import run_remediation_soak
 
-        print(f"\nSoak: monitoring ProxyEnable for {soak_minutes:g} minute(s) (no auto-reset loop)...")
+        print(
+            f"\nSoak: monitoring ProxyEnable for {soak_minutes:g} minute(s) (no auto-reset loop)..."
+        )
         soak_result = run_remediation_soak(
             soak_minutes=soak_minutes,
             poll_seconds=float(getattr(args, "soak_poll_seconds", 5.0) or 5.0),
@@ -2543,7 +2594,8 @@ def cmd_repair_preview(args: argparse.Namespace) -> int:
     preview_json = {
         "cli": "preview",
         "artifact_source": source,
-        "primary_hypothesis": payload.get("primary_hypothesis") or payload.get("selected_root_cause"),
+        "primary_hypothesis": payload.get("primary_hypothesis")
+        or payload.get("selected_root_cause"),
         "explain": explain_block,
         "tiers": tiers,
     }
@@ -2634,7 +2686,9 @@ def cmd_repair_apply(args: argparse.Namespace) -> int:
 
     first = runnable[0]
     if first.get("action_key") == "proxy_disable":
-        print("Use `python -m src proxy disable --dry-run false --confirm DISABLE_WININET_PROXY` for HKCU disables.")
+        print(
+            "Use `python -m src proxy disable --dry-run false --confirm DISABLE_WININET_PROXY` for HKCU disables."
+        )
         return 1
 
     script_rel = Path(str(first["script"]))
@@ -2646,7 +2700,7 @@ def cmd_repair_apply(args: argparse.Namespace) -> int:
         print("Refusing to execute script outside scripts/.")
         return 2
 
-    answer = input('Type RUN to execute the first LOW-risk script listed above: ')
+    answer = input("Type RUN to execute the first LOW-risk script listed above: ")
     if answer.strip().upper() != "RUN":
         print("Cancelled.")
         return 1

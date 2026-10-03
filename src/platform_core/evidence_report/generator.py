@@ -38,10 +38,13 @@ def generate_evidence_report(package: dict[str, Any], *, fmt: ReportFormat = "ma
         "tls_proof": package.get("tls_proof"),
         "website_risk": package.get("website_risk"),
         "proof_results": package.get("proof_results"),
-        "safety_notes": package.get("safety_notes", [
-            "This is an evidence and risk toolkit — not antivirus or phishing protection.",
-            "No silent remediation; preview mode by default.",
-        ]),
+        "safety_notes": package.get(
+            "safety_notes",
+            [
+                "This is an evidence and risk toolkit — not antivirus or phishing protection.",
+                "No silent remediation; preview mode by default.",
+            ],
+        ),
         "disclaimer": (
             "Endpoint Network Evidence & Risk Toolkit provides observability and structured "
             "evidence for IT/security review. It does not replace endpoint protection products."
@@ -52,7 +55,14 @@ def generate_evidence_report(package: dict[str, Any], *, fmt: ReportFormat = "ma
         return json.dumps(sections, indent=2)
 
     if fmt == "jsonl":
-        lines = [json.dumps({"type": "header", **{k: sections[k] for k in ("incident_id", "executive_summary", "disclaimer")}})]
+        lines = [
+            json.dumps(
+                {
+                    "type": "header",
+                    **{k: sections[k] for k in ("incident_id", "executive_summary", "disclaimer")},
+                }
+            )
+        ]
         for entry in sections["timeline"]:
             lines.append(json.dumps({"type": "timeline", **entry}))
         for row in confidence:
@@ -91,21 +101,23 @@ def generate_evidence_report(package: dict[str, Any], *, fmt: ReportFormat = "ma
             f"| {row['phase']} | {row['subject']} | {row['confidence']} | "
             f"{row['limitation'][:60]} | {row['recommended_action'][:60]} |"
         )
-    lines.extend([
-        "",
-        "## Timeline",
-        "```json",
-        json.dumps(sections["timeline"], indent=2),
-        "```",
-        "",
-        "## TLS Proof",
-        json.dumps(sections.get("tls_proof") or {}, indent=2),
-        "",
-        "## Website Risk",
-        json.dumps(sections.get("website_risk") or {}, indent=2),
-        "",
-        "## Safety Notes",
-    ])
+    lines.extend(
+        [
+            "",
+            "## Timeline",
+            "```json",
+            json.dumps(sections["timeline"], indent=2),
+            "```",
+            "",
+            "## TLS Proof",
+            json.dumps(sections.get("tls_proof") or {}, indent=2),
+            "",
+            "## Website Risk",
+            json.dumps(sections.get("website_risk") or {}, indent=2),
+            "",
+            "## Safety Notes",
+        ]
+    )
     for note in sections["safety_notes"]:
         lines.append(f"- {note}")
     return "\n".join(lines)

@@ -252,9 +252,9 @@ def collect_features(
         return run_command(cmd)
 
     ping_ip_ok = _run_logged(["ping", "-n", "1", "-w", "2000", "8.8.8.8"], "ping_ip")[0] == 0
-    ping_domain_ok = _run_logged(["ping", "-n", "1", "-w", "3000", "google.com"], "ping_domain")[
-        0
-    ] == 0
+    ping_domain_ok = (
+        _run_logged(["ping", "-n", "1", "-w", "3000", "google.com"], "ping_domain")[0] == 0
+    )
     nslookup_ok = _run_logged(["nslookup", "google.com"], "nslookup")[0] == 0
 
     executed.append({"label": "tcp_443", "cmd": "Test-NetConnection ... (PowerShell)"})
@@ -264,7 +264,12 @@ def collect_features(
     browser_http_ok, tls_hint = _https_probe()
 
     winhttp_txt = _winhttp_summary()
-    executed.append({"label": "winhttp_proxy", "cmd": subprocess.list2cmdline(["netsh", "winhttp", "show", "proxy"])})
+    executed.append(
+        {
+            "label": "winhttp_proxy",
+            "cmd": subprocess.list2cmdline(["netsh", "winhttp", "show", "proxy"]),
+        }
+    )
     winhttp_on = _winhttp_proxy_enabled(winhttp_txt)
 
     executed.append({"label": "hkcu_proxy", "cmd": "reg query HKCU\\\\...\\\\Internet Settings"})

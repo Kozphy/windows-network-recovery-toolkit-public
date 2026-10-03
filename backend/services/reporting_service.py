@@ -17,20 +17,21 @@ from windows_network_toolkit.reporting import build_executive_report
 
 class ReportingService:
     """Represent reporting service data used by the toolkit.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     def __init__(self, session: Session, ctx: TenantContext) -> None:
         """Initialize the object with caller supplied state.
-        
+
         Args:
             session: Database session used to read or persist records.
             ctx: The ctx value supplied by the caller.
-        
+
         Returns:
             None.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -39,13 +40,13 @@ class ReportingService:
 
     def governance_report(self, *, audit_dir: Path | None = None) -> dict[str, Any]:
         """Governance report.
-        
+
         Args:
             audit_dir: The audit dir value supplied by the caller.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -63,13 +64,13 @@ class ReportingService:
 
     def executive_summary(self, *, fixture: dict[str, Any] | None = None) -> dict[str, Any]:
         """Executive summary.
-        
+
         Args:
             fixture: The fixture value supplied by the caller.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -83,16 +84,16 @@ class ReportingService:
 
     def decision_dashboard(self) -> dict[str, Any]:
         """Decision dashboard.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
-        
+
         Audit Notes:
             Preserves observation, policy, and audit boundaries established by the caller.
         """
@@ -109,9 +110,7 @@ class ReportingService:
                 select(HumanReviewItem).where(HumanReviewItem.status == "PENDING_REVIEW").limit(50)
             ).all()
         )
-        controls = list(
-            self._session.exec(select(ControlTestResult).limit(100)).all()
-        )
+        controls = list(self._session.exec(select(ControlTestResult).limit(100)).all())
         return {
             "tenant_id": self._ctx.tenant_id,
             "decision_count": len(decisions),

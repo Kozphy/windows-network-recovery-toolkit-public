@@ -111,7 +111,10 @@ def _ctrl_classification_accuracy(event: dict[str, Any]) -> ProxyWatchControlRes
             recommendation="Continue monitoring removal transitions for false remote proxy alerts",
         )
 
-    if transition == TransitionClass.REMOTE_OR_NON_LOOPBACK_PROXY_CONFIGURED.value and not server_empty:
+    if (
+        transition == TransitionClass.REMOTE_OR_NON_LOOPBACK_PROXY_CONFIGURED.value
+        and not server_empty
+    ):
         return ProxyWatchControlResult(
             control_id=control_id,
             status=ControlStatus.PASS.value,
@@ -189,7 +192,13 @@ def _ctrl_policy_gate(event: dict[str, Any]) -> ProxyWatchControlResult:
     action = str(event.get("recommended_action") or "").lower()
     evidence = [f"policy_decision={policy}", f"recommended_action={action[:120]}"]
 
-    forbidden = ("auto_disable", "kill_process", "reset_firewall", "disable_adapter", "silent_remediation")
+    forbidden = (
+        "auto_disable",
+        "kill_process",
+        "reset_firewall",
+        "disable_adapter",
+        "silent_remediation",
+    )
     if any(x in action for x in forbidden):
         return ProxyWatchControlResult(
             control_id=control_id,
@@ -214,7 +223,9 @@ def _ctrl_policy_gate(event: dict[str, Any]) -> ProxyWatchControlResult:
     )
 
 
-def _ctrl_coalescing(events: list[dict[str, Any]], *, coalesce_ms: int = 1000) -> ProxyWatchControlResult:
+def _ctrl_coalescing(
+    events: list[dict[str, Any]], *, coalesce_ms: int = 1000
+) -> ProxyWatchControlResult:
     control_id = "CTRL_COALESCING_REDUCES_FALSE_ALERTS"
     raw_events = events
     if not raw_events or "before" not in (raw_events[0] if raw_events else {}):
@@ -276,7 +287,11 @@ def _ctrl_coalescing(events: list[dict[str, Any]], *, coalesce_ms: int = 1000) -
         return ProxyWatchControlResult(
             control_id=control_id,
             status=ControlStatus.PASS.value,
-            evidence=evidence + [f"transition_class={tc}", f"raw_sub_event_count={merged.get('raw_sub_event_count')}"],
+            evidence=evidence
+            + [
+                f"transition_class={tc}",
+                f"raw_sub_event_count={merged.get('raw_sub_event_count')}",
+            ],
             recommendation="Coalescing correctly merged disable + server removal",
         )
 

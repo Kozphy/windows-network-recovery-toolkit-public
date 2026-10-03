@@ -25,20 +25,21 @@ def _confidence_ordinal(score: float) -> str:
 
 class ClassificationService:
     """Represent classification service data used by the toolkit.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     def __init__(self, session: Session, ctx: TenantContext) -> None:
         """Initialize the object with caller supplied state.
-        
+
         Args:
             session: Database session used to read or persist records.
             ctx: The ctx value supplied by the caller.
-        
+
         Returns:
             None.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -59,17 +60,17 @@ class ClassificationService:
         limitations: list[str] | None = None,
     ) -> HypothesisRecord:
         """Propose hypothesis.
-        
+
         Args:
             observation_id: The observation id value supplied by the caller.
             evidence_event_id: The evidence event id value supplied by the caller.
             classification: The classification value supplied by the caller.
             confidence_score: The confidence score value supplied by the caller.
             limitations: The limitations value supplied by the caller.
-        
+
         Returns:
             The HypothesisRecord result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """
@@ -98,19 +99,21 @@ class ClassificationService:
         incident_payload: dict[str, Any],
     ) -> IncidentRecord:
         """Store incident from pipeline.
-        
+
         Args:
             evidence_event_id: The evidence event id value supplied by the caller.
             endpoint_id: The endpoint id value supplied by the caller.
             incident_payload: The incident payload value supplied by the caller.
-        
+
         Returns:
             The IncidentRecord result produced by the operation.
-        
+
         Side effects:
             May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
         """
-        incident_id = str(incident_payload.get("incident_id") or f"INC-{uuid.uuid4().hex[:8].upper()}")
+        incident_id = str(
+            incident_payload.get("incident_id") or f"INC-{uuid.uuid4().hex[:8].upper()}"
+        )
         row = IncidentRecord(
             incident_id=incident_id,
             evidence_event_id=evidence_event_id,
@@ -121,7 +124,11 @@ class ClassificationService:
                 or "UNKNOWN"
             ),
             secondary_signals=list(incident_payload.get("secondary_signals") or []),
-            proof_tier=str(incident_payload.get("proof_tier") or incident_payload.get("evidence_tier") or "T1_STATE_EVIDENCE"),
+            proof_tier=str(
+                incident_payload.get("proof_tier")
+                or incident_payload.get("evidence_tier")
+                or "T1_STATE_EVIDENCE"
+            ),
             confidence=float(incident_payload.get("confidence") or 0.5),
             limitations=list(incident_payload.get("limitations") or []),
             tenant_id=self._ctx.tenant_id,
@@ -132,13 +139,13 @@ class ClassificationService:
 
     def needs_human_review(self, classification: str) -> bool:
         """Needs human review.
-        
+
         Args:
             classification: The classification value supplied by the caller.
-        
+
         Returns:
             The bool result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

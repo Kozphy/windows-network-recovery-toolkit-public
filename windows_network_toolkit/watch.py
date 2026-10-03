@@ -121,9 +121,7 @@ def format_proxy_change_human(change: dict[str, Any]) -> str:
         lines.append(
             f"  Proxy HTTPS probe: {'ok' if health.get('proxy_probe_ok') or health.get('proxy_https_connect_ok') else 'failed'}"
         )
-        lines.append(
-            f"  Direct HTTPS probe: {'ok' if health.get('direct_probe_ok') else 'failed'}"
-        )
+        lines.append(f"  Direct HTTPS probe: {'ok' if health.get('direct_probe_ok') else 'failed'}")
         interp = classification.get("human_interpretation")
         if interp:
             lines.append(f"  Interpretation: {interp}")
@@ -131,7 +129,9 @@ def format_proxy_change_human(change: dict[str, Any]) -> str:
 
     reverter = change.get("reverter_diagnosis") or audit.get("reverter_diagnosis") or {}
     if reverter.get("status") and reverter.get("status") != "NONE":
-        lines.append(f"Reverter diagnosis: {reverter.get('status')} (confidence {reverter.get('confidence', 0):.2f})")
+        lines.append(
+            f"Reverter diagnosis: {reverter.get('status')} (confidence {reverter.get('confidence', 0):.2f})"
+        )
         lines.append("")
 
     lines.append("Evidence:")
@@ -222,7 +222,9 @@ def run_proxy_watch(
         coalesce_meta: dict[str, Any] | None = None,
         raw_sub_events: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
-        winhttp_mismatch = bool(new_state.get("wininet_proxy_enabled") and new_state.get("winhttp_direct_access"))
+        winhttp_mismatch = bool(
+            new_state.get("wininet_proxy_enabled") and new_state.get("winhttp_direct_access")
+        )
         evidence = build_proxy_evidence_event(
             before_raw=old_state,
             after_raw=new_state,
@@ -283,7 +285,8 @@ def run_proxy_watch(
                 wininet_enabled=True,
                 reverter_suspected=reverter_flag,
                 winhttp_mismatch=bool(
-                    new_state.get("wininet_proxy_enabled") and new_state.get("winhttp_direct_access")
+                    new_state.get("wininet_proxy_enabled")
+                    and new_state.get("winhttp_direct_access")
                 ),
             )
             audit = build_proxy_health_audit_payload(

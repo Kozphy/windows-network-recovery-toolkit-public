@@ -1,0 +1,13 @@
+{
+  "description": "Synthetic obfuscation: full-width spaced LINE, zero-width split QR, L1NE, and 二維碼. Original lines must be preserved in observed_raw.",
+  "org_context": {
+    "organization_domains": ["example-corp.test"]
+  },
+  "email": {
+    "from": "\"Manager\" <manager.office.tw@gmail.com>",
+    "to": ["staff@example-corp.test"],
+    "subject": "急",
+    "message_id": "<synthetic-qr-adv-0001@mail.gmail.com>",
+    "body_text": "Please create a Ｌ Ｉ Ｎ Ｅ group and send the Q\u200bR-Code back to me.\n請建立 L1NE 群組，把二維碼傳給我。\n請先掃描 QR碼 驗證身分。"
+  }
+}

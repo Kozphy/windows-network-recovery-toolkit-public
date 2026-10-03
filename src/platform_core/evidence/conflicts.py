@@ -22,6 +22,7 @@ class EvidenceConflict:
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     code: str
     description: str
     severity: str  # low | medium | high

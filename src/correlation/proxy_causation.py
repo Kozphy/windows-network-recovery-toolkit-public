@@ -37,7 +37,7 @@ SafetyClassification = Literal[
 @dataclass
 class ProxyCausationResult:
     """Represent proxy causation result data used by the toolkit.
-    
+
     Attributes:
         causation_level: Field or variant describing causation level evidence or state.
         classification: Field or variant describing classification evidence or state.
@@ -47,10 +47,11 @@ class ProxyCausationResult:
         writer_process_guid: Field or variant describing writer process guid evidence or state.
         writer_pid: Field or variant describing writer pid evidence or state.
         parent_process: Field or variant describing parent process evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     causation_level: CausationLevel
     classification: SafetyClassification
     writer_process: str | None = None
@@ -72,13 +73,13 @@ class ProxyCausationResult:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -291,13 +292,15 @@ def analyze_proxy_causation(
         for ev in events:
             if ev.event_id != 3:
                 continue
-            if ev.destination_port == observed_localhost_port or ev.source_port == observed_localhost_port:
+            if (
+                ev.destination_port == observed_localhost_port
+                or ev.source_port == observed_localhost_port
+            ):
                 network_hits.append(ev.to_dict())
 
     allowlist = _load_allowlist(repo_root)
     is_localhost = bool(
-        observed_localhost_port
-        or str(after_state.get("proxy_server") or "").startswith("127.")
+        observed_localhost_port or str(after_state.get("proxy_server") or "").startswith("127.")
     )
 
     writer_image = best.image if best else None

@@ -10,7 +10,9 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 KNOWLEDGE_SCHEMA_V1 = "knowledge.v1"
 ALLOWED_SCHEMA_VERSIONS: frozenset[str] = frozenset({KNOWLEDGE_SCHEMA_V1})
 ENTRY_ID_PATTERN = re.compile(r"^[a-z][a-z0-9_]*$")
-RESERVED_TOP_LEVEL_KEYS = frozenset({"schema_version", "knowledge_version", "entries", "source_path"})
+RESERVED_TOP_LEVEL_KEYS = frozenset(
+    {"schema_version", "knowledge_version", "entries", "source_path"}
+)
 
 
 class KnowledgeEntry(BaseModel):

@@ -27,6 +27,7 @@ class StakeholderResolutionSource(StrEnum):
     Side effects:
         None.
     """
+
     EXPLICIT_CONFIGURATION = "explicit_configuration"
     ASSET_METADATA = "asset_metadata"
     CONTROL_MAPPING = "control_mapping"
@@ -51,6 +52,7 @@ class StakeholderReasonCode(StrEnum):
     Side effects:
         None.
     """
+
     STAKEHOLDER_RESOLVED = "STAKEHOLDER_RESOLVED"
     OWNER_UNRESOLVED = "OWNER_UNRESOLVED"
     APPROVER_REQUIRED = "APPROVER_REQUIRED"
@@ -86,6 +88,7 @@ class EscalationHop(BaseModel):
     Side effects:
         None.
     """
+
     model_config = ConfigDict(frozen=True)
 
     order: int

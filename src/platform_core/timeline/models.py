@@ -25,6 +25,7 @@ class TimelineEntry(BaseModel):
     Side effects:
         None.
     """
+
     timestamp: str
     event_type: str
     actor: str = "platform"

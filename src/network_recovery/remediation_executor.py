@@ -89,7 +89,11 @@ def select_low_risk_actions(
     ):
         selected.append("restart_chatgpt_app")
 
-    if signals.chatgpt_https_ok is False and signals.browser_https_ok is True and "flush_dns" not in selected:
+    if (
+        signals.chatgpt_https_ok is False
+        and signals.browser_https_ok is True
+        and "flush_dns" not in selected
+    ):
         if signals.dns_ok is not True:
             selected.append("flush_dns")
 
@@ -161,7 +165,8 @@ def _execute_restart_chatgpt_app(
         "stop": stop_result,
         "start": start_result,
         "chatgpt_exe": str(exe) if exe else None,
-        "ok": stop_result.get("returncode") == 0 and (start_result is None or start_result.get("returncode") == 0),
+        "ok": stop_result.get("returncode") == 0
+        and (start_result is None or start_result.get("returncode") == 0),
     }
 
 

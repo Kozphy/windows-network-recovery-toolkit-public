@@ -33,6 +33,7 @@ class ModelOutput(BaseModel):
     Side effects:
         None.
     """
+
     text: str = ""
     json_payload: dict[str, Any] | None = None
     citations: list[str] = Field(default_factory=list)
@@ -56,6 +57,7 @@ class EvalCase(BaseModel):
     Side effects:
         None.
     """
+
     case_id: str
     task_type: str = "support_rag"
     prompt: str
@@ -84,6 +86,7 @@ class FailureSignal(BaseModel):
     Side effects:
         None.
     """
+
     label: FailureLabel
     detail: str = ""
     severity: SeverityLevel = "medium"
@@ -107,6 +110,7 @@ class EvalPolicyDecision(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     gate: EvalPolicyGate
     rationale: str = ""
     requires_human_review: bool = False
@@ -131,6 +135,7 @@ class EvalResult(BaseModel):
     Side effects:
         None.
     """
+
     case_id: str
     task_type: str = "support_rag"
     status: EvalStatus
@@ -160,6 +165,7 @@ class EvalReport(BaseModel):
     Side effects:
         None.
     """
+
     schema_version: str = "ai_evals.v1"
     total_cases: int = 0
     pass_count: int = 0

@@ -22,6 +22,7 @@ class SLOSnapshot:
     Side effects:
         None.
     """
+
     diagnosis_latency_p95_ms: float = 0.0
     policy_evaluation_p99_ms: float = 0.0
     audit_write_success_rate: float = 1.0
@@ -54,6 +55,7 @@ class SLOTimer:
     Side effects:
         None.
     """
+
     def __init__(self) -> None:
         """Initialize the slotimer instance.
 

@@ -1,0 +1,47 @@
+{
+  "target": "example.tw",
+  "dns": {
+    "a": ["18.176.226.71"]
+  },
+  "rdap": {
+    "ldhName": "example.tw",
+    "entities": [
+      {
+        "roles": ["registrant"],
+        "vcardArray": [
+          "vcard",
+          [
+            ["version", {}, "text", "4.0"],
+            ["fn", {}, "text", "Example TW Operator"],
+            ["adr", {}, "text", ["", "", "", "Taipei", "", "", "TW"]]
+          ]
+        ]
+      },
+      {
+        "roles": ["administrative"],
+        "vcardArray": [
+          "vcard",
+          [
+            ["version", {}, "text", "4.0"],
+            ["fn", {}, "text", "Example Admin"],
+            ["adr", {}, "text", ["", "", "", "Taipei", "", "", "Taiwan"]]
+          ]
+        ]
+      }
+    ]
+  },
+  "ip_geo": [
+    {
+      "ip": "18.176.226.71",
+      "country": "US"
+    }
+  ],
+  "asn": {
+    "country": "US",
+    "org": "AMAZON-02"
+  },
+  "notes": [
+    "Synthetic fixture: Taiwan operator signals with global/US hosting.",
+    "Infrastructure country must not override operator country."
+  ]
+}

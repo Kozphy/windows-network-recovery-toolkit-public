@@ -67,7 +67,11 @@ def test_control_health_pass_both_paths() -> None:
         "localhost_port": 62285,
     }
     tests = run_endpoint_control_tests(proxy_state=state, health_audit=audit, owner=owner)
-    assert any(t.control_id == "WININET_LOCALHOST_PROXY_HEALTH" and t.test_result == ControlTestOutcome.PASS.value for t in tests)
+    assert any(
+        t.control_id == "WININET_LOCALHOST_PROXY_HEALTH"
+        and t.test_result == ControlTestOutcome.PASS.value
+        for t in tests
+    )
     owner_ctrl = next(t for t in tests if t.control_id == "WININET_PROXY_OWNER_VERIFICATION")
     assert owner_ctrl.test_result == ControlTestOutcome.PARTIAL.value
 
@@ -75,7 +79,11 @@ def test_control_health_pass_both_paths() -> None:
 def test_control_reverter_fail() -> None:
     tests = run_endpoint_control_tests(
         proxy_state={"wininet_proxy_enabled": True, "wininet_proxy_server": "127.0.0.1:1"},
-        reverter_diagnosis={"status": "REVERTER_SUSPECTED", "evidence": ["cycle"], "limitations": []},
+        reverter_diagnosis={
+            "status": "REVERTER_SUSPECTED",
+            "evidence": ["cycle"],
+            "limitations": [],
+        },
     )
     rev = next(t for t in tests if t.control_id == "PROXY_REVERTER_DETECTION")
     assert rev.test_result == ControlTestOutcome.FAIL.value
@@ -129,7 +137,9 @@ def test_latest_evidence_report_fixture_markdown() -> None:
     from pathlib import Path
 
     fixture = json.loads(
-        (Path(__file__).resolve().parents[1] / "fixtures" / "evidence_report_latest.json").read_text(encoding="utf-8")
+        (
+            Path(__file__).resolve().parents[1] / "fixtures" / "evidence_report_latest.json"
+        ).read_text(encoding="utf-8")
     )
     package = build_latest_evidence_package(
         inject_state=fixture["proxy_state"],

@@ -98,11 +98,15 @@ def check_required_facts(case: EvalCase) -> tuple[bool, dict[str, Any], list[Fai
                 severity="medium",
             )
         )
-    return len(missing) == 0, {
-        "facts_found": found,
-        "facts_required": len(case.expected_facts),
-        "missing_facts": missing,
-    }, signals
+    return (
+        len(missing) == 0,
+        {
+            "facts_found": found,
+            "facts_required": len(case.expected_facts),
+            "missing_facts": missing,
+        },
+        signals,
+    )
 
 
 def check_unsupported_claims(case: EvalCase) -> tuple[bool, dict[str, Any], list[FailureSignal]]:
@@ -169,23 +173,31 @@ def check_format_json(case: EvalCase) -> tuple[bool, dict[str, Any], list[Failur
     text = _output_text(case)
     match = re.search(r"\{[\s\S]*\}", text)
     if not match:
-        return False, {"format_check": "no_json_found"}, [
-            FailureSignal(
-                label=FailureLabel.FORMAT_VIOLATION,
-                detail="Required JSON output not found.",
-                severity="medium",
-            )
-        ]
+        return (
+            False,
+            {"format_check": "no_json_found"},
+            [
+                FailureSignal(
+                    label=FailureLabel.FORMAT_VIOLATION,
+                    detail="Required JSON output not found.",
+                    severity="medium",
+                )
+            ],
+        )
     try:
         json.loads(match.group(0))
     except json.JSONDecodeError as exc:
-        return False, {"format_check": "invalid_json", "error": str(exc)}, [
-            FailureSignal(
-                label=FailureLabel.FORMAT_VIOLATION,
-                detail=f"Invalid JSON: {exc}",
-                severity="medium",
-            )
-        ]
+        return (
+            False,
+            {"format_check": "invalid_json", "error": str(exc)},
+            [
+                FailureSignal(
+                    label=FailureLabel.FORMAT_VIOLATION,
+                    detail=f"Invalid JSON: {exc}",
+                    severity="medium",
+                )
+            ],
+        )
     return True, {"format_check": "parsed_from_text"}, []
 
 
@@ -209,13 +221,17 @@ def check_citations(case: EvalCase) -> tuple[bool, dict[str, Any], list[FailureS
     has_citation = bool(citations) or "[doc:" in text.lower() or "source:" in text.lower()
     if has_citation:
         return True, {"citation_check": "present", "citation_count": len(citations)}, []
-    return False, {"citation_check": "missing"}, [
-        FailureSignal(
-            label=FailureLabel.INSUFFICIENT_EVIDENCE,
-            detail="Required citations or source markers missing.",
-            severity="medium",
-        )
-    ]
+    return (
+        False,
+        {"citation_check": "missing"},
+        [
+            FailureSignal(
+                label=FailureLabel.INSUFFICIENT_EVIDENCE,
+                detail="Required citations or source markers missing.",
+                severity="medium",
+            )
+        ],
+    )
 
 
 def check_refusal(case: EvalCase) -> tuple[bool, dict[str, Any], list[FailureSignal]]:
@@ -235,22 +251,30 @@ def check_refusal(case: EvalCase) -> tuple[bool, dict[str, Any], list[FailureSig
 
     text = _normalize(_output_text(case))
     if not text:
-        return False, {"refusal_check": "empty_output"}, [
-            FailureSignal(
-                label=FailureLabel.REFUSAL_UNEXPECTED,
-                detail="Empty output when answer expected.",
-                severity="medium",
-            )
-        ]
-    for phrase in REFUSAL_PHRASES:
-        if phrase in text:
-            return False, {"refusal_check": "refusal_detected", "phrase": phrase}, [
+        return (
+            False,
+            {"refusal_check": "empty_output"},
+            [
                 FailureSignal(
                     label=FailureLabel.REFUSAL_UNEXPECTED,
-                    detail=f"Unexpected refusal phrase detected: {phrase}",
+                    detail="Empty output when answer expected.",
                     severity="medium",
                 )
-            ]
+            ],
+        )
+    for phrase in REFUSAL_PHRASES:
+        if phrase in text:
+            return (
+                False,
+                {"refusal_check": "refusal_detected", "phrase": phrase},
+                [
+                    FailureSignal(
+                        label=FailureLabel.REFUSAL_UNEXPECTED,
+                        detail=f"Unexpected refusal phrase detected: {phrase}",
+                        severity="medium",
+                    )
+                ],
+            )
     return True, {"refusal_check": "ok"}, []
 
 
@@ -270,13 +294,17 @@ def check_safety_phrases(case: EvalCase) -> tuple[bool, dict[str, Any], list[Fai
     hits = [p for p in UNSAFE_PHRASES if p in text]
     if not hits:
         return True, {"unsafe_phrase_hits": []}, []
-    return False, {"unsafe_phrase_hits": hits}, [
-        FailureSignal(
-            label=FailureLabel.SAFETY_REVIEW_REQUIRED,
-            detail=f"Risky phrasing detected: {hits[0]}",
-            severity="high",
-        )
-    ]
+    return (
+        False,
+        {"unsafe_phrase_hits": hits},
+        [
+            FailureSignal(
+                label=FailureLabel.SAFETY_REVIEW_REQUIRED,
+                detail=f"Risky phrasing detected: {hits[0]}",
+                severity="high",
+            )
+        ],
+    )
 
 
 def check_latency_cost(case: EvalCase) -> tuple[bool, dict[str, Any], list[FailureSignal]]:
@@ -306,13 +334,17 @@ def check_latency_cost(case: EvalCase) -> tuple[bool, dict[str, Any], list[Failu
             breached = True
     if not breached:
         return True, details or {"latency_cost_check": "ok"}, []
-    return False, details, [
-        FailureSignal(
-            label=FailureLabel.LATENCY_OR_COST_REGRESSION,
-            detail="Latency or cost exceeds configured threshold.",
-            severity="low",
-        )
-    ]
+    return (
+        False,
+        details,
+        [
+            FailureSignal(
+                label=FailureLabel.LATENCY_OR_COST_REGRESSION,
+                detail="Latency or cost exceeds configured threshold.",
+                severity="low",
+            )
+        ],
+    )
 
 
 def _confidence_from_checks(passed: int, total: int) -> ConfidenceLevel:
@@ -358,7 +390,9 @@ def evaluate_case(case: EvalCase) -> EvalResult:
 
         skipped = (
             partial_metrics.get("skipped")
-            or partial_metrics.get("exact_match") is None and name == "exact_match" and not case.expected_answer
+            or partial_metrics.get("exact_match") is None
+            and name == "exact_match"
+            and not case.expected_answer
             or partial_metrics.get("format_check") == "skipped"
             or partial_metrics.get("citation_check") == "skipped"
             or partial_metrics.get("refusal_check") == "skipped"
@@ -396,7 +430,9 @@ def evaluate_case(case: EvalCase) -> EvalResult:
 
     limitations = list(BASELINE_LIMITATIONS)
     if any_fail:
-        limitations.append("Classification is not accusation — failure labels indicate eval triage only.")
+        limitations.append(
+            "Classification is not accusation — failure labels indicate eval triage only."
+        )
 
     policy = evaluate_eval_policy(case, failure_labels=failure_labels, failure_signals=all_signals)
 
@@ -460,7 +496,10 @@ def run_eval_suite(cases: list[EvalCase]) -> EvalReport:
             taxonomy[label.value] = taxonomy.get(label.value, 0) + 1
         gate = result.policy_decision.gate.value
         policy_dist[gate] = policy_dist.get(gate, 0) + 1
-        if result.policy_decision.requires_human_review or result.policy_decision.gate == EvalPolicyGate.BLOCK:
+        if (
+            result.policy_decision.requires_human_review
+            or result.policy_decision.gate == EvalPolicyGate.BLOCK
+        ):
             high_risk.append(result.case_id)
 
     pass_count = sum(1 for r in results if r.status == "pass")

@@ -130,8 +130,8 @@ def resolve_listener_process(
         proc = proc.model_copy(update={"process_name": parts[0].strip('"')})
 
     ps = (
-        f"$p=Get-CimInstance Win32_Process -Filter \"ProcessId={pid}\";"
-        f"$pp=Get-CimInstance Win32_Process -Filter \"ProcessId=$($p.ParentProcessId)\" -ErrorAction SilentlyContinue;"
+        f'$p=Get-CimInstance Win32_Process -Filter "ProcessId={pid}";'
+        f'$pp=Get-CimInstance Win32_Process -Filter "ProcessId=$($p.ParentProcessId)" -ErrorAction SilentlyContinue;'
         f"@{{Path=$p.ExecutablePath;Cmd=$p.CommandLine;Start=$p.CreationDate;"
         f"Parent=$p.ParentProcessId;User=$p.GetOwner().User}} | ConvertTo-Json -Compress"
     )
@@ -172,7 +172,9 @@ def collect_attribution(
     run_fn = run or subprocess.run
     proxy = collect_proxy_state(run=run_fn, timeout=timeout)
     listener, detected = resolve_listener_process(proxy.localhost_port, run=run_fn, timeout=timeout)
-    classification, rationale, limitations = classify_listener(proxy, listener, listener_detected=detected)
+    classification, rationale, limitations = classify_listener(
+        proxy, listener, listener_detected=detected
+    )
     return AttributionSnapshot(
         snapshot_id=f"attr-{uuid.uuid4().hex[:12]}",
         timestamp_utc=_now(),
@@ -237,7 +239,9 @@ def attribution_to_evidence_records(
             evidence_type="listener_classification",
             observed_value=snapshot.classification.value,
             confidence_level="medium",
-            evidence_tier="CORRELATED" if snapshot.classification != ListenerClassification.NO_PROXY else "OBSERVED_ONLY",
+            evidence_tier="CORRELATED"
+            if snapshot.classification != ListenerClassification.NO_PROXY
+            else "OBSERVED_ONLY",
             limitations=snapshot.limitations,
             raw_reference=snapshot.classification_rationale,
             event_id=eid,

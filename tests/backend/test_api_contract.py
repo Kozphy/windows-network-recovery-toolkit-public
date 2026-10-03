@@ -26,7 +26,7 @@ def _registered_paths() -> set[str]:
         if isinstance(path, str):
             paths.add(path)
     # OpenAPI is the stable public contract regardless of route-tree shape
-    for path in (app.openapi().get("paths") or {}):
+    for path in app.openapi().get("paths") or {}:
         paths.add(path)
     return paths
 

@@ -29,6 +29,7 @@ class BusinessImpactMapping(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     classification: str
     user_impact: str = ""
     operational_risk: str = ""

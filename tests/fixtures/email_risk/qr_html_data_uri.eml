@@ -1,0 +1,26 @@
+From: "Payroll Team" <payroll-team@hr-portal-update.test>
+To: staff@example-corp.test
+Subject: Payroll account verification
+Message-ID: <synthetic-qr-datauri-0001@hr-portal-update.test>
+Date: Fri, 25 Sep 2026 09:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="==SYNTHETIC-QR-DATA-URI=="
+
+--==SYNTHETIC-QR-DATA-URI==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Please scan the code below to verify your payroll account before Friday.
+View online: https://bit.ly/3SyntheticX
+
+--==SYNTHETIC-QR-DATA-URI==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<html><body>
+<p>Please scan the code below to verify your payroll account before Friday.</p>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2AQAAAADNaUdlAAABkUlEQVR42u1ZQY7EMAhDywP6pHw9T8oDkFiwabWnua6826gzasvFkxiDGcuPK+yNv/E/Hrdeqz55lue2a/vpV17xL/u8fjve+AtnIbcrgT+j8S++18B/rAGfFXME+Dm2tPD3dxPKwpYi/jDmQt+4Fn4QJk+Rx5C/qcV/6g8o9FxK+sPVgAt2bX5uf/RVhP8gP2V/+N8qqrL/YHuRP7oEdBYYVEgHf+9/oS3ytHjyIHT2nzW3YD+54DwLFf1pwTTKJvhf5MdLEfw3eTbB54/j0MCPho2C07B5j6RW0c9bfzYLQUwiq9TfNcqPFjqQCEL7T+VH/znkgR1Qql+oucMfWgCSSkX/KaEBF0ktcqn+hxTq50a+KapK+UvZafxJIy/U/6P/oWdk27B9LqX6C+cLCwYj7Dr1l/3/NDzwL/Y8Cvmva0e3QLP/du3U8r8k/BixpaSfM7CaKRCZo1S/OH8b23IPP4+Jzd84+Un20hlq8zdWLpqvMCX/6NPCrUc/of9i8zcb8zKDUCH/8v6/88b/a/wbo44gBtrNoWQAAAAASUVORK5CYII=" alt="verify"></p>
+<p><a href="https://bit.ly/3SyntheticX">View online</a></p>
+</body></html>
+
+--==SYNTHETIC-QR-DATA-URI==--

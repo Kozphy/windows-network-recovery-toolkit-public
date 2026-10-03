@@ -25,6 +25,7 @@ class EvidenceAgentOutput(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     event_id: str
     endpoint_id: str
     evidence_type: str
@@ -51,6 +52,7 @@ class ClassificationAgentOutput(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     incident_id: str
     primary_classification: str
     proof_tier: str
@@ -70,6 +72,7 @@ class RootCauseAgentOutput(BaseModel):
     Side effects:
         None.
     """
+
     incident_id: str
     hypotheses: list[dict[str, Any]] = Field(default_factory=list)
     limitations: list[str] = Field(default_factory=list)
@@ -92,6 +95,7 @@ class RiskAssessmentAgentOutput(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     incident_id: str
     risk_score: float = Field(ge=0.0, le=100.0)
     risk_level: str
@@ -114,6 +118,7 @@ class ControlValidationAgentOutput(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     incident_id: str
     control_tests: list[dict[str, Any]] = Field(default_factory=list)
     limitations: list[str] = Field(default_factory=list)
@@ -130,6 +135,7 @@ class ReportingAgentOutput(BaseModel):
     Side effects:
         None.
     """
+
     report_type: str = "executive"
     kpis: dict[str, Any] = Field(default_factory=dict)
     limitations: list[str] = Field(default_factory=list)

@@ -54,6 +54,7 @@ class TimingEvaluator:
     Side effects:
         None.
     """
+
     def evaluate(
         self,
         *,
@@ -209,7 +210,10 @@ class TimingEvaluator:
                 pass
 
         if biz is True:
-            if TimingReasonCode.BUSINESS_HOURS not in reasons and TimingReasonCode.AFTER_HOURS not in reasons:
+            if (
+                TimingReasonCode.BUSINESS_HOURS not in reasons
+                and TimingReasonCode.AFTER_HOURS not in reasons
+            ):
                 reasons.append(TimingReasonCode.BUSINESS_HOURS)
         elif biz is False and TimingReasonCode.AFTER_HOURS not in reasons:
             reasons.append(TimingReasonCode.AFTER_HOURS)

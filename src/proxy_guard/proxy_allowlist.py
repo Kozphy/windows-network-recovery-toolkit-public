@@ -16,15 +16,16 @@ except ImportError:  # pragma: no cover - optional at runtime
 @dataclass(frozen=True)
 class ProxyAllowlist:
     """Represent proxy allowlist data used by the toolkit.
-    
+
     Attributes:
         trusted_processes: Field or variant describing trusted processes evidence or state.
         trusted_paths: Field or variant describing trusted paths evidence or state.
         trusted_commandline_keywords: Field or variant describing trusted commandline keywords evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     trusted_processes: frozenset[str]
     trusted_paths: frozenset[str]
     trusted_commandline_keywords: frozenset[str]
@@ -32,13 +33,13 @@ class ProxyAllowlist:
     @classmethod
     def defaults(cls) -> ProxyAllowlist:
         """Defaults.
-        
+
         Args:
             None.
-        
+
         Returns:
             The ProxyAllowlist result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

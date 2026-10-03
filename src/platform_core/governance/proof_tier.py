@@ -60,6 +60,7 @@ class ProofTier(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     T0_OBSERVATION_ONLY = "T0_OBSERVATION_ONLY"
     T1_LOCAL_CONFIG_EVIDENCE = "T1_LOCAL_CONFIG_EVIDENCE"
     T2_RUNTIME_CORROBORATION = "T2_RUNTIME_CORROBORATION"
@@ -105,6 +106,7 @@ class ProofTierResult(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     proof_tier: ProofTier
     proof_tier_label: str
     confidence_cap: str = "ordinal_not_probability"

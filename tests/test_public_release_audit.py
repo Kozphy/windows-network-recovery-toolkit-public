@@ -32,7 +32,9 @@ def test_public_release_audit_allows_synthetic_fixtures(tmp_path: Path) -> None:
     findings = audit.scan_repo(tmp_path, tracked_only=False)
     assert audit.has_high_risk(findings)
     assert findings.get("jsonl_outside_demo") or findings.get("runtime_artifacts")
-    assert not any(p.endswith("tests/fixtures/demo.jsonl") for p in findings.get("jsonl_outside_demo", []))
+    assert not any(
+        p.endswith("tests/fixtures/demo.jsonl") for p in findings.get("jsonl_outside_demo", [])
+    )
 
 
 def test_public_release_audit_allows_committed_sample_reports(tmp_path: Path) -> None:

@@ -1,0 +1,33 @@
+From: "Microsoft 365 Admin" <no-reply@m365-security-notice.test>
+To: staff@example-corp.test
+Subject: Action required: mailbox password expires today
+Message-ID: <synthetic-qr-b-0001@m365-security-notice.test>
+Date: Fri, 25 Sep 2026 09:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="==SYNTHETIC-QR-B=="
+
+--==SYNTHETIC-QR-B==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Your mailbox password expires today.
+Scan the attached QR code with your phone to keep access to your mailbox.
+
+IT Service Desk
+
+--==SYNTHETIC-QR-B==
+Content-Type: image/png; name="mailbox-verify.png"
+Content-Disposition: attachment; filename="mailbox-verify.png"
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOAQAAAABQysQIAAAB60lEQVR42u1ZW44DIQyLlgNwJK7O
+kThApGxiQ9u/kfq1XjEaVdMpH7USPwgWT5fbXXKX3CXPS6yukXeLaDGtRz2sepsP/mOP119aUojy
+b8caeVufnrcN73iDnyQRLWtAVPXqWbexAaJquojwaQkkGy9BNX1E+ZzNligiqWSmjQg8yn4rLH2y
+95oyj6h1aLzPW1jreNUX6DaAzLfAa3YdKjJ8W1JAwzdARUQJpOhDAU+5i1ldh2KFKqIUbYgbSlNf
+o6y2KXcdeJRRYZJNAAh7UvWjQa0GqG1JSA6yWgfWeOWfggBOGV1JtEb00wbu0GdRI0OxRGt0FK9k
+YRBdKPPIwJ26oQnZhGATRU81qZIyiKazNn2wWmY80RTkpMxr99q1U1B2Gvx0st8c+YFU0vUjKJux
+Okx3CBKqWrctte+8eiKQcgpCjY5i47nSwlT2o+HMCQtb8mO4TOCS2XtH7sFNK8IDMp6uHzHU9cmW
+i2VnCCmcghoaj9EuqHgAqOuwYA2qw/3RUQnVWRAnw8BCBrUzspOeBTUOGdB+viVCdn/Es4mOYvXY
+us0gJH028TGK5Mt/MPemOHBibMp72PYOP4MnYpXGuZ/VPz/aoNB73kOdR6/wcE7ETFrraLIcq0K2
+t4br+tE9cb9L7pJvl/wC3OAz3YQp8UgAAAAASUVORK5CYII=
+--==SYNTHETIC-QR-B==--

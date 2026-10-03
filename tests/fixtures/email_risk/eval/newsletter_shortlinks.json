@@ -1,0 +1,12 @@
+{
+  "description": "Synthetic benign marketing newsletter with link-shortener URLs and an account-preferences footer (hard negative for URL and credential heuristics).",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Example Outdoor Weekly\" <news@example-outdoor.test>",
+    "to": ["reader@example-corp.test"],
+    "subject": "This week: autumn trail guide",
+    "message_id": "<synthetic-eval-news-0002@example-outdoor.test>",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=example-outdoor.test; dkim=pass header.d=example-outdoor.test; dmarc=pass header.from=example-outdoor.test",
+    "body_text": "Hi reader,\nOur autumn trail guide is out: https://bit.ly/3SynthTrail\nNew rain jackets are 20% off this week: https://tinyurl.com/synthjackets\nYou can update your account preferences or unsubscribe via the link below.\nhttps://example-outdoor.test/preferences\n\nHappy hiking,\nExample Outdoor"
+  }
+}

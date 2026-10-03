@@ -278,4 +278,8 @@ def verify_simulation_determinism(
     """Return (deterministic, digest_a, digest_b) for replay tests."""
     first = simulate_counterfactuals(evidence, candidates)
     second = simulate_counterfactuals(evidence, candidates)
-    return first.content_digest == second.content_digest, first.content_digest, second.content_digest
+    return (
+        first.content_digest == second.content_digest,
+        first.content_digest,
+        second.content_digest,
+    )

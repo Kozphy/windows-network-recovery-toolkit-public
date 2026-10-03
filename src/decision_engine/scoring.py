@@ -19,8 +19,7 @@ FINAL_RISK_PENALTY = 0.35
 CONFIDENCE_COVERAGE_WEIGHT = 0.5
 
 FINAL_SCORE_FORMULA = (
-    "final_score = clamp(round(benefit * confidence - risk * "
-    f"{FINAL_RISK_PENALTY}), 0, 100)"
+    f"final_score = clamp(round(benefit * confidence - risk * {FINAL_RISK_PENALTY}), 0, 100)"
 )
 CONFIDENCE_FORMULA = (
     "confidence = support_ratio * ("
@@ -137,7 +136,8 @@ def score_candidate(
     support_ratio = supporting_weight / total_weight if total_weight > 0 else 0.0
     evidence_coverage = matched_evidence / len(evidence) if evidence else 0.0
     confidence = _clamp_confidence(
-        support_ratio * (CONFIDENCE_COVERAGE_WEIGHT + CONFIDENCE_COVERAGE_WEIGHT * evidence_coverage)
+        support_ratio
+        * (CONFIDENCE_COVERAGE_WEIGHT + CONFIDENCE_COVERAGE_WEIGHT * evidence_coverage)
     )
 
     confidence_parts = {

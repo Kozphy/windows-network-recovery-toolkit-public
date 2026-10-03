@@ -52,19 +52,23 @@ def _timeline_from_audit_or_fixture(
     timeline: list[dict[str, Any]] = []
     for row in rows:
         if row.get("event") == "proxy_change":
-            timeline.append({
-                "timestamp_utc": row.get("timestamp_utc"),
-                "old_state": row.get("old_state"),
-                "new_state": row.get("new_state"),
-                "health": row.get("health"),
-                "reverter_diagnosis": row.get("reverter_diagnosis"),
-            })
+            timeline.append(
+                {
+                    "timestamp_utc": row.get("timestamp_utc"),
+                    "old_state": row.get("old_state"),
+                    "new_state": row.get("new_state"),
+                    "health": row.get("health"),
+                    "reverter_diagnosis": row.get("reverter_diagnosis"),
+                }
+            )
         elif row.get("event") in ("poll", "initial_poll"):
-            timeline.append({
-                "timestamp_utc": row.get("timestamp_utc"),
-                "event": row.get("event"),
-                "state": row.get("state"),
-            })
+            timeline.append(
+                {
+                    "timestamp_utc": row.get("timestamp_utc"),
+                    "event": row.get("event"),
+                    "state": row.get("state"),
+                }
+            )
     return timeline
 
 
@@ -72,12 +76,14 @@ def _change_records_for_reverter(timeline: list[dict[str, Any]]) -> list[dict[st
     records: list[dict[str, Any]] = []
     for item in timeline:
         if item.get("new_state"):
-            records.append({
-                "before": item.get("old_state"),
-                "after": item.get("new_state"),
-                "owner": item.get("owner"),
-                "health": item.get("health"),
-            })
+            records.append(
+                {
+                    "before": item.get("old_state"),
+                    "after": item.get("new_state"),
+                    "owner": item.get("owner"),
+                    "health": item.get("health"),
+                }
+            )
         elif item.get("event") == "proxy_change":
             records.append(item)
     return records
@@ -143,7 +149,8 @@ def build_latest_evidence_package(
         "timeline": timeline,
         "reverter_diagnosis": reverter,
         "control_tests": control_tests_to_dict(controls),
-        "limitations": list(health_audit.get("limitations") or []) + list(reverter.get("limitations") or []),
+        "limitations": list(health_audit.get("limitations") or [])
+        + list(reverter.get("limitations") or []),
         "recommended_next_proof": [
             "Enable Sysmon Event ID 13 for registry writer proof",
             "Run proxy-watch --format human during reproduction",
@@ -197,26 +204,34 @@ def render_latest_evidence_markdown(package: dict[str, Any]) -> str:
         f"- Direct HTTPS probe: `{'ok' if health.get('direct_probe_ok') else 'failed'}`",
     ]
     if proc:
-        lines.append(f"- Likely listener (correlation only): `{proc.get('name')}` PID `{proc.get('pid')}`")
+        lines.append(
+            f"- Likely listener (correlation only): `{proc.get('name')}` PID `{proc.get('pid')}`"
+        )
     lines.extend(["", "## Direct vs proxy path comparison", ""])
     lines.append(f"- Direct path: **{'OK' if health.get('direct_probe_ok') else 'FAIL'}**")
     lines.append(f"- Proxy path: **{'OK' if health.get('proxy_probe_ok') else 'FAIL'}**")
     rev = package.get("reverter_diagnosis") or {}
     if rev.get("status") and rev.get("status") != "NONE":
-        lines.extend([
-            "",
-            "## Reverter / timeline diagnosis",
-            "",
-            f"- Status: `{rev.get('status')}` (confidence {rev.get('confidence', 0):.2f})",
-            f"- Enable/disable cycles: `{rev.get('enable_disable_cycle_count')}`",
-            f"- Last ports: `{rev.get('last_ports')}`",
-        ])
+        lines.extend(
+            [
+                "",
+                "## Reverter / timeline diagnosis",
+                "",
+                f"- Status: `{rev.get('status')}` (confidence {rev.get('confidence', 0):.2f})",
+                f"- Enable/disable cycles: `{rev.get('enable_disable_cycle_count')}`",
+                f"- Last ports: `{rev.get('last_ports')}`",
+            ]
+        )
         if rev.get("suspected_reverter_process"):
-            lines.append(f"- Suspected process (correlation): `{rev.get('suspected_reverter_process')}`")
+            lines.append(
+                f"- Suspected process (correlation): `{rev.get('suspected_reverter_process')}`"
+            )
     lines.extend(["", "## Timeline", ""])
     timeline = package.get("timeline") or []
     if not timeline:
-        lines.append("_No proxy-watch timeline rows in `.audit/proxy-watch.jsonl` — run proxy-watch to populate._")
+        lines.append(
+            "_No proxy-watch timeline rows in `.audit/proxy-watch.jsonl` — run proxy-watch to populate._"
+        )
     else:
         for i, item in enumerate(timeline[-10:], 1):
             ts = item.get("timestamp_utc", "?")
@@ -243,12 +258,14 @@ def render_latest_evidence_markdown(package: dict[str, Any]) -> str:
     for step in package.get("recommended_next_proof") or []:
         lines.append(f"- {step}")
     preview = package.get("safe_remediation_preview") or {}
-    lines.extend([
-        "",
-        "## Safe remediation preview",
-        "",
-        f"- Action allowed: `{preview.get('action_allowed')}`",
-        f"- Dry run: `{preview.get('dry_run', True)}`",
-        f"- Note: `{preview.get('message') or preview.get('preview_note') or 'Preview only — typed confirmation required for live apply.'}`",
-    ])
+    lines.extend(
+        [
+            "",
+            "## Safe remediation preview",
+            "",
+            f"- Action allowed: `{preview.get('action_allowed')}`",
+            f"- Dry run: `{preview.get('dry_run', True)}`",
+            f"- Note: `{preview.get('message') or preview.get('preview_note') or 'Preview only — typed confirmation required for live apply.'}`",
+        ]
+    )
     return "\n".join(lines)

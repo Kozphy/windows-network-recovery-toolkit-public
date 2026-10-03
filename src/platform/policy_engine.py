@@ -17,18 +17,18 @@ def evaluate_policy(
     confidence: float,
 ) -> PolicyDecision:
     """Evaluate policy.
-    
+
     Args:
         event: Evidence or domain record being processed.
         decision: The decision value supplied by the caller.
         confidence: The confidence value supplied by the caller.
-    
+
     Returns:
         The PolicyDecision result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -89,18 +89,18 @@ def apply_policy(
     confidence: float,
 ) -> list[DecisionOption]:
     """Apply policy.
-    
+
     Args:
         event: Evidence or domain record being processed.
         decisions: The decisions value supplied by the caller.
         confidence: The confidence value supplied by the caller.
-    
+
     Returns:
         The list[DecisionOption] result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """
@@ -129,18 +129,18 @@ def validate_decision_policy(
     confidence: float,
 ) -> tuple[PolicyStatus, str]:
     """Validate decision policy.
-    
+
     Args:
         event: Evidence or domain record being processed.
         decision: The decision value supplied by the caller.
         confidence: The confidence value supplied by the caller.
-    
+
     Returns:
         The tuple[PolicyStatus, str] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
-    
+
     Audit Notes:
         Preserves observation, policy, and audit boundaries established by the caller.
     """

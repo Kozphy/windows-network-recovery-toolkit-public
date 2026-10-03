@@ -40,16 +40,29 @@ def test_make_event_id_deterministic() -> None:
 
 def test_evidence_event_serialization() -> None:
     ev = normalize_proxy_state(
-        {"timestamp_utc": "2026-06-18T10:00:00Z", "wininet_proxy_enabled": True, "wininet_proxy_server": "127.0.0.1:1"},
+        {
+            "timestamp_utc": "2026-06-18T10:00:00Z",
+            "wininet_proxy_enabled": True,
+            "wininet_proxy_server": "127.0.0.1:1",
+        },
     )
     payload = json.dumps(ev.to_dict(), sort_keys=True)
     assert "T1_STATE_EVIDENCE" in payload
 
 
 def test_normalize_listener_and_probe() -> None:
-    listener = normalize_listener_state({"timestamp_utc": "t", "listener_found": True, "process": {"name": "node.exe"}})
+    listener = normalize_listener_state(
+        {"timestamp_utc": "t", "listener_found": True, "process": {"name": "node.exe"}}
+    )
     probe = normalize_probe_result(
-        {"timestamp_utc": "t", "health": {"proxy_status": "DIRECT_ONLY_WORKS", "direct_probe_ok": True, "proxy_probe_ok": False}},
+        {
+            "timestamp_utc": "t",
+            "health": {
+                "proxy_status": "DIRECT_ONLY_WORKS",
+                "direct_probe_ok": True,
+                "proxy_probe_ok": False,
+            },
+        },
     )
     assert listener.evidence_type == "listener_state"
     assert probe.normalized_fields["proxy_status"] == "DIRECT_ONLY_WORKS"
@@ -66,7 +79,9 @@ def test_classify_dead_proxy_config() -> None:
                 "localhost_port": 59081,
             }
         ),
-        normalize_listener_state({"timestamp_utc": "2026-06-18T10:00:01Z", "listener_found": False}),
+        normalize_listener_state(
+            {"timestamp_utc": "2026-06-18T10:00:01Z", "listener_found": False}
+        ),
     ]
     incident = classify_incident_from_events(events)
     assert incident.incident_class == "DEAD_PROXY_CONFIG"
@@ -76,7 +91,11 @@ def test_classify_dead_proxy_config() -> None:
 def test_classify_direct_only_fixture() -> None:
     events = normalize_events_from_fixture(json.loads(FIXTURE.read_text(encoding="utf-8")))
     incident = classify_incident_from_events(events)
-    assert incident.incident_class in ("DIRECT_ONLY_WORKS", "WININET_WINHTTP_MISMATCH", "REVERTER_SUSPECTED")
+    assert incident.incident_class in (
+        "DIRECT_ONLY_WORKS",
+        "WININET_WINHTTP_MISMATCH",
+        "REVERTER_SUSPECTED",
+    )
     controls = map_control_tests_from_incident(incident, events)
     assert len(controls) == 6
 

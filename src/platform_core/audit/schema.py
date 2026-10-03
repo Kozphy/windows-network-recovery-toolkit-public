@@ -30,18 +30,12 @@ AUDIT_ACTIONS: tuple[AuditActionType, ...] = (
 
 
 def audit_json_schema() -> dict[str, Any]:
-    """Return audit json schema.
+    """Build the JSON Schema exposed to exporters and audit tooling.
 
     Returns:
-        The computed `dict[str, Any]` value.
-
-    Side effects:
-        May read or write local platform records depending on inputs.
-
-    Audit Notes:
-        Decision intent is limited to evidence-backed classification or
-        routing for the supplied inputs; callers should preserve source
-        evidence, policy context, and limitations with the result.
+        A new dictionary describing required fields, supported action types,
+        schema version, and hash/signature fields. The returned object may be
+        modified by the caller without changing module state.
     """
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -66,38 +60,26 @@ def audit_json_schema() -> dict[str, Any]:
 
 
 def validate_audit_record(record: dict[str, Any]) -> bool:
-    """Validate audit record.
+    """Perform the reader's minimum structural validation.
 
     Args:
-        record: record supplied by the caller.
+        record: Decoded JSON object from an audit JSONL line.
 
     Returns:
-        The computed `bool` value.
-
-    Side effects:
-        Records data in the configured store or telemetry sink.
-
-    Audit Notes:
-        Decision intent is limited to evidence-backed classification or
-        routing for the supplied inputs; callers should preserve source
-        evidence, policy context, and limitations with the result.
+        ``True`` when the required identity, timestamp, schema, and action
+        fields are present. This is not cryptographic chain verification.
     """
     required = {"audit_id", "schema_version", "timestamp_utc", "action_type"}
     return required.issubset(record.keys())
 
 
 def export_schema_json() -> str:
-    """Return export schema json.
+    """Serialize :func:`audit_json_schema` as indented JSON.
 
     Returns:
-        The computed `str` value.
+        Pretty-printed JSON Schema text for exporters and documentation.
 
     Side effects:
-        May read or write local platform records depending on inputs.
-
-    Audit Notes:
-        Decision intent is limited to evidence-backed classification or
-        routing for the supplied inputs; callers should preserve source
-        evidence, policy context, and limitations with the result.
+        None.
     """
     return json.dumps(audit_json_schema(), indent=2)

@@ -85,7 +85,10 @@ def evaluate_policy(
 
     elif decision.requires_confirmation:
         outcome = PolicyOutcome.ALLOW_WITH_CONFIRMATION
-        if decision.recommended_action in CONFIRMATION_REQUIRED_ACTIONS or decision.requires_confirmation:
+        if (
+            decision.recommended_action in CONFIRMATION_REQUIRED_ACTIONS
+            or decision.requires_confirmation
+        ):
             allowed.append("remediation_preview")
 
     if decision.incident_type in {
@@ -101,7 +104,9 @@ def evaluate_policy(
         if not has_admin:
             outcome = PolicyOutcome.REQUIRE_ADMIN
 
-    if decision.recommended_action.startswith("DISABLE") or decision.recommended_action.startswith("STOP"):
+    if decision.recommended_action.startswith("DISABLE") or decision.recommended_action.startswith(
+        "STOP"
+    ):
         if outcome == PolicyOutcome.ALLOW_PREVIEW:
             outcome = PolicyOutcome.REQUIRE_ROLLBACK_PLAN
 

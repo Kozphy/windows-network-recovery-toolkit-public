@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic legitimate external partner CEO writing from the partner's own corporate domain; a title alone is not impersonation.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Mark Lin, CEO\" <mark.lin@partner-co.test>",
+    "to": ["bizdev@example-corp.test"],
+    "subject": "Proposal follow-up",
+    "authentication_results": "mx.example-corp.test; spf=pass smtp.mailfrom=partner-co.test; dkim=pass header.d=partner-co.test; dmarc=pass header.from=partner-co.test",
+    "body_text": "Thanks for the productive meeting today.\nPlease find our proposal attached.\nHappy to discuss next week.\n\nBest regards,\nMark Lin\nCEO, Partner Co"
+  }
+}

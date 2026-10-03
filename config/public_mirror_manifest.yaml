@@ -87,9 +87,23 @@ rewrite_files:
   AGENTS.md: config/public_mirror/AGENTS.md.template
 
 # Post-export checks (run from export root when --run-checks).
+# The audit runs first and scans every exported file: the export tree has no
+# tracked files of its own, so --tracked-only would scan nothing. Later pytest
+# checks write gitignored artifacts (.audit/, .pytest_tmp/) into the export.
 required_checks:
   - name: public_release_audit
-    command: ["python", "tools/public_release_audit.py", "--tracked-only"]
+    command: ["python", "tools/public_release_audit.py", "--include-untracked"]
+  # Same command as the public repo's CI lint step (.github/workflows/public-mirror-ci.yml).
+  - name: ruff
+    command:
+      - "python"
+      - "-m"
+      - "ruff"
+      - "check"
+      - "windows_network_toolkit"
+      - "backend/public_app.py"
+      - "tools/export_public_mirror.py"
+      - "tools/public_release_audit.py"
   - name: policy_safety
     command: ["python", "-m", "pytest", "-q", "tests/test_policy_safety_contract.py", "tests/test_api_dry_run_default.py"]
   - name: dns_ipv6

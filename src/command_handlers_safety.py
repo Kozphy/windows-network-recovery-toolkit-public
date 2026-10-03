@@ -42,7 +42,13 @@ from .proxy_guard.rollback import (
 )
 from .repair.executor import apply_reg_argv_sequences
 
-_RESTORE_LKG_FIELDS: tuple[str, ...] = ("ProxyEnable", "ProxyServer", "AutoConfigURL", "ProxyOverride", "AutoDetect")
+_RESTORE_LKG_FIELDS: tuple[str, ...] = (
+    "ProxyEnable",
+    "ProxyServer",
+    "AutoConfigURL",
+    "ProxyOverride",
+    "AutoDetect",
+)
 _SAFETY_AUDIT_FILE = "safety_audit.jsonl"
 
 
@@ -102,11 +108,7 @@ def cmd_proxy_restore_lkg(args: argparse.Namespace) -> int:
     confirmation = str(getattr(args, "confirm_phrase", "") or "")
     requested_fields: tuple[str, ...] = _RESTORE_LKG_FIELDS
 
-    record = (
-        get_latest_named_record(repo, name)
-        if name
-        else _latest_lkg_record(repo)
-    )
+    record = get_latest_named_record(repo, name) if name else _latest_lkg_record(repo)
     snapshot = snapshot_from_record(record)
     if record is None or snapshot is None:
         payload = {
@@ -134,7 +136,11 @@ def cmd_proxy_restore_lkg(args: argparse.Namespace) -> int:
             },
         )
         payload["audit_event_id"] = audit_event_id
-        _emit_payload(payload, emit_json=emit_json, summary_lines=["No known-good snapshot found; nothing to restore."])
+        _emit_payload(
+            payload,
+            emit_json=emit_json,
+            summary_lines=["No known-good snapshot found; nothing to restore."],
+        )
         return 1
 
     decision, reason, action_model = validate_action_confirmation(
@@ -155,7 +161,9 @@ def cmd_proxy_restore_lkg(args: argparse.Namespace) -> int:
         "snapshot_captured_at": snapshot_payload.get("captured_at"),
         "before": None,
         "after": None,
-        "action": action_model.to_dict() if action_model else {"action_id": "restore_wininet_proxy_from_lkg"},
+        "action": action_model.to_dict()
+        if action_model
+        else {"action_id": "restore_wininet_proxy_from_lkg"},
         "planned_action": {
             "human": [f"Restore HKCU WinINET fields {list(requested_fields)} from snapshot."],
             "mutation_argv": planned_argv,
@@ -164,10 +172,16 @@ def cmd_proxy_restore_lkg(args: argparse.Namespace) -> int:
     }
 
     if dry_run or decision != "ALLOW":
-        event_kind = "preview_requested" if dry_run else (
-            "blocked_missing_confirmation" if reason == "missing_confirmation" else
-            "blocked_wrong_confirmation" if reason == "confirmation_mismatch" else
-            "blocked_disallowed_action"
+        event_kind = (
+            "preview_requested"
+            if dry_run
+            else (
+                "blocked_missing_confirmation"
+                if reason == "missing_confirmation"
+                else "blocked_wrong_confirmation"
+                if reason == "confirmation_mismatch"
+                else "blocked_disallowed_action"
+            )
         )
         audit_event_id = _append_audit(
             repo,
@@ -211,21 +225,32 @@ def cmd_proxy_restore_lkg(args: argparse.Namespace) -> int:
             },
         )
         base_payload["audit_event_id"] = audit_event_id
-        _emit_payload(base_payload, emit_json=emit_json, summary_lines=["restore-lkg requires Windows for live restore."])
+        _emit_payload(
+            base_payload,
+            emit_json=emit_json,
+            summary_lines=["restore-lkg requires Windows for live restore."],
+        )
         return code
 
     reg_rows = apply_reg_argv_sequences(planned_argv, dry_run=False)
     success = all(int(getattr(r, "returncode", 1)) == 0 for r in reg_rows)
-    base_payload.update({
-        "mutated": success,
-        "decision": "ALLOW" if success else "BLOCK",
-        "reason": "mutation_applied" if success else "mutation_failed",
-        "before": snapshot_payload,
-        "results": [
-            {"argv": list(getattr(r, "argv", [])), "code": int(getattr(r, "returncode", 1)), "stderr": str(getattr(r, "stderr", "") or ""), "stdout": str(getattr(r, "stdout", "") or "")}
-            for r in reg_rows
-        ],
-    })
+    base_payload.update(
+        {
+            "mutated": success,
+            "decision": "ALLOW" if success else "BLOCK",
+            "reason": "mutation_applied" if success else "mutation_failed",
+            "before": snapshot_payload,
+            "results": [
+                {
+                    "argv": list(getattr(r, "argv", [])),
+                    "code": int(getattr(r, "returncode", 1)),
+                    "stderr": str(getattr(r, "stderr", "") or ""),
+                    "stdout": str(getattr(r, "stdout", "") or ""),
+                }
+                for r in reg_rows
+            ],
+        }
+    )
     audit_event_id = _append_audit(
         repo,
         {
@@ -248,7 +273,9 @@ def cmd_proxy_restore_lkg(args: argparse.Namespace) -> int:
         base_payload,
         emit_json=emit_json,
         summary_lines=[
-            "Applied LKG restore (HKCU WinINET only)" if success else "Restore failed; see logs/safety_audit.jsonl",
+            "Applied LKG restore (HKCU WinINET only)"
+            if success
+            else "Restore failed; see logs/safety_audit.jsonl",
         ],
     )
     return 0 if success else 1

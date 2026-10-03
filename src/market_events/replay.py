@@ -10,16 +10,18 @@ from .review import load_reviews
 from .scoring import score_event
 
 
-def replay_all(calendar_path: Path | None = None, reviews_path: Path | None = None) -> dict[str, object]:
+def replay_all(
+    calendar_path: Path | None = None, reviews_path: Path | None = None
+) -> dict[str, object]:
     """Replay all.
-    
+
     Args:
         calendar_path: Filesystem path used by the operation.
         reviews_path: Filesystem path used by the operation.
-    
+
     Returns:
         The dict[str, object] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

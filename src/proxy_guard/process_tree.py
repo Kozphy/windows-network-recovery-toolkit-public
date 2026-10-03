@@ -31,13 +31,13 @@ class ProcessTreeEvidence:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -103,7 +103,9 @@ def correlate_process_tree(
             )
 
     if process_rows and process_id is not None:
-        nodes = build_process_chain_nodes(focus_pid=process_id, process_rows=process_rows, matched_port=None)
+        nodes = build_process_chain_nodes(
+            focus_pid=process_id, process_rows=process_rows, matched_port=None
+        )
         if nodes:
             proc = nodes[-1]
             parent = nodes[-2] if len(nodes) >= 2 else None
@@ -128,12 +130,12 @@ def correlate_process_tree(
     )
 
 
-def _enrich_chain_from_sysmon(chain: list[dict[str, Any]], events: list[SysmonEvent]) -> list[dict[str, Any]]:
+def _enrich_chain_from_sysmon(
+    chain: list[dict[str, Any]], events: list[SysmonEvent]
+) -> list[dict[str, Any]]:
     """Attach user, hashes, and start time from matching Sysmon E1 rows."""
     by_guid = {
-        (ev.process_guid or "").lower(): ev
-        for ev in events
-        if ev.event_id == 1 and ev.process_guid
+        (ev.process_guid or "").lower(): ev for ev in events if ev.event_id == 1 and ev.process_guid
     }
     enriched: list[dict[str, Any]] = []
     for node in chain:

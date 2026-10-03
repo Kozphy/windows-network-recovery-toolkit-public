@@ -53,6 +53,7 @@ class CanonicalPolicyGate(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     ALLOW = "ALLOW"
     PREVIEW = "PREVIEW"
     BLOCK = "BLOCK"

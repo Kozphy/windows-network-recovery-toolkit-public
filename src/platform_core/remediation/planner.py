@@ -43,7 +43,9 @@ def _now() -> str:
     return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _bundle_from_signals(signals: dict[str, Any], *, incident_id: str, tier: str = "OBSERVED_ONLY") -> EvidenceBundle:
+def _bundle_from_signals(
+    signals: dict[str, Any], *, incident_id: str, tier: str = "OBSERVED_ONLY"
+) -> EvidenceBundle:
     items = [
         EvidenceItem(
             evidence_id=f"ev-{i}",
@@ -100,7 +102,9 @@ def plan_proxy_drift_remediation(
             ``windows_network_toolkit.remediation.proxy_disable`` is unavailable.
     """
     signals = signals or {}
-    bundle = _bundle_from_signals(signals, incident_id=incident_id, tier=str(signals.get("evidence_tier", "OBSERVED_ONLY")))
+    bundle = _bundle_from_signals(
+        signals, incident_id=incident_id, tier=str(signals.get("evidence_tier", "OBSERVED_ONLY"))
+    )
     decision = Decision(
         decision_id=f"dec-{uuid.uuid4().hex[:12]}",
         incident_id=incident_id,
@@ -128,11 +132,15 @@ def plan_proxy_drift_remediation(
 
             previews.append(preview_proxy_disable(dry_run=True))
         except ImportError:
-            previews.append({
-                "action_id": recommended_action,
-                "dry_run": True,
-                "mutations": [{"argv": ["reg", "add", "..."], "human": "Set ProxyEnable=0 (preview)"}],
-            })
+            previews.append(
+                {
+                    "action_id": recommended_action,
+                    "dry_run": True,
+                    "mutations": [
+                        {"argv": ["reg", "add", "..."], "human": "Set ProxyEnable=0 (preview)"}
+                    ],
+                }
+            )
 
     pre_snapshot = capture_pre_change_snapshot(
         endpoint_id=str(signals.get("endpoint_id", "local")),
@@ -165,7 +173,9 @@ def plan_proxy_drift_remediation(
         prior_proxy_server=prior_proxy_server or "127.0.0.1:8080",
         dry_run=True,
     )
-    approved = validate_approval_token(confirmation_token, approval_token) if confirmation_token else False
+    approved = (
+        validate_approval_token(confirmation_token, approval_token) if confirmation_token else False
+    )
     can_execute = approved and policy.outcome in {"ALLOW", "REQUIRE_HUMAN_APPROVAL"} and not dry_run
 
     return {

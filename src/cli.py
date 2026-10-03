@@ -184,7 +184,9 @@ def _parse_bool_arg(value: str | bool | None) -> bool:
     raise argparse.ArgumentTypeError("expected true or false")
 
 
-def _add_proxy_stop_listener_arguments(parser: argparse.ArgumentParser, *, include_chained: bool = False) -> None:
+def _add_proxy_stop_listener_arguments(
+    parser: argparse.ArgumentParser, *, include_chained: bool = False
+) -> None:
     """Register shared flags for ``proxy-stop-listener`` and chained ``proxy-disable`` flows."""
 
     parser.add_argument(
@@ -203,8 +205,12 @@ def _add_proxy_stop_listener_arguments(parser: argparse.ArgumentParser, *, inclu
         metavar="PHRASE",
         help="Live apply requires exact phrase STOP_PROXY_LISTENER.",
     )
-    parser.add_argument("--port", type=int, default=None, help="Override port (defaults to parsed ProxyServer).")
-    parser.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
+    parser.add_argument(
+        "--port", type=int, default=None, help="Override port (defaults to parsed ProxyServer)."
+    )
+    parser.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
     parser.add_argument(
         "--stop-parent",
         action="store_true",
@@ -238,7 +244,9 @@ def _add_proxy_stop_listener_arguments(parser: argparse.ArgumentParser, *, inclu
         )
 
 
-def _add_proxy_stop_reverter_arguments(parser: argparse.ArgumentParser, *, include_chained: bool = False) -> None:
+def _add_proxy_stop_reverter_arguments(
+    parser: argparse.ArgumentParser, *, include_chained: bool = False
+) -> None:
     """Register shared flags for ``proxy-stop-reverter`` and chained ``proxy-disable`` flows."""
 
     if include_chained:
@@ -273,8 +281,12 @@ def _add_proxy_stop_reverter_arguments(parser: argparse.ArgumentParser, *, inclu
         metavar="PHRASE",
         help="Live apply requires exact phrase STOP_PROXY_REVERTER.",
     )
-    parser.add_argument("--port", type=int, default=None, help="Override port (defaults to parsed ProxyServer).")
-    parser.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
+    parser.add_argument(
+        "--port", type=int, default=None, help="Override port (defaults to parsed ProxyServer)."
+    )
+    parser.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
 
 
 def _fingerprint() -> dict[str, str]:
@@ -477,6 +489,29 @@ def _audit(repo: Path, payload: dict[str, Any]) -> None:
         "commands_executed": payload["commands_executed"],
     }
     append_jsonl(audit_path, record)
+    # Dual-write into the canonical domain event stream (hash-chained custody).
+    try:
+        from src.platform_core.domain_events.writer import append_domain_event
+
+        append_domain_event(
+            "decision.diagnosis",
+            source="src.cli.diagnose",
+            actor="diagnose",
+            correlation_id=str(payload.get("diagnosis_id") or ""),
+            action_type="decision_created",
+            payload={
+                "subsystem": "decision",
+                "event": "decision.diagnosis",
+                "legacy_log": "logs/decision_audit.jsonl",
+                "diagnosis_id": payload.get("diagnosis_id"),
+                "selected_root_cause": payload.get("selected_root_cause"),
+                "selected_confidence": payload.get("selected_confidence"),
+                "script_version": SCRIPT_VERSION,
+            },
+        )
+    except Exception:
+        # Custody must not block diagnose.
+        pass
 
 
 def cmd_diagnose(args: argparse.Namespace) -> int:
@@ -501,8 +536,15 @@ def cmd_diagnose(args: argparse.Namespace) -> int:
     """
     app_target = (getattr(args, "app", None) or "").strip().lower()
     if app_target:
-        if getattr(args, "live_engine", False) or getattr(args, "proof_engine", False) or getattr(args, "fixture", None):
-            print("diagnose --app is incompatible with --live, --proof, and --fixture.", file=sys.stderr)
+        if (
+            getattr(args, "live_engine", False)
+            or getattr(args, "proof_engine", False)
+            or getattr(args, "fixture", None)
+        ):
+            print(
+                "diagnose --app is incompatible with --live, --proof, and --fixture.",
+                file=sys.stderr,
+            )
             return 2
         return cmd_diagnose_app(args)
 
@@ -516,7 +558,9 @@ def cmd_diagnose(args: argparse.Namespace) -> int:
             )
             return 2
         if getattr(args, "json", False) and getattr(args, "both_formats", False):
-            print("diagnose: use only one of --json or --both with --live/--proof.", file=sys.stderr)
+            print(
+                "diagnose: use only one of --json or --both with --live/--proof.", file=sys.stderr
+            )
             return 2
         live_ns = argparse.Namespace(
             repo_root=args.repo_root,
@@ -816,7 +860,9 @@ def cmd_repair_safe(args: argparse.Namespace) -> int:
         return 0
 
     if not getattr(args, "apply", False):
-        print('\nAppend `--apply` to optionally launch the first LOW-risk *.bat script after confirming "RUN".')
+        print(
+            '\nAppend `--apply` to optionally launch the first LOW-risk *.bat script after confirming "RUN".'
+        )
         return 0
 
     print(
@@ -845,15 +891,10 @@ def cmd_repair_safe(args: argparse.Namespace) -> int:
         return 1
 
     print(f"\nLaunching elevated batch via PowerShell.Start-Process: {target}")
-    ps = (
-        f"Start-Process -FilePath '{target}' "
-        "-Verb RunAs -Wait"
-    )
+    ps = f"Start-Process -FilePath '{target}' -Verb RunAs -Wait"
     subprocess.run(["powershell", "-NoProfile", "-Command", ps], check=False)
 
-    answer_fix = (
-        input("Did that fix your issue? [y/N/unknown]: ").strip().lower() or "unknown"
-    )
+    answer_fix = input("Did that fix your issue? [y/N/unknown]: ").strip().lower() or "unknown"
     if answer_fix in {"y", "yes"}:
         state: FeedbackState = "true"
     elif answer_fix in {"n", "no"}:
@@ -918,7 +959,9 @@ def cmd_proof_localhost_https(args: argparse.Namespace) -> int:
     return 0
 
 
-def _write_live_diagnosis_report(repo: Path, payload: dict[str, Any], args: argparse.Namespace) -> int:
+def _write_live_diagnosis_report(
+    repo: Path, payload: dict[str, Any], args: argparse.Namespace
+) -> int:
     """Write plaintext from ``last_diagnosis_live.json`` (v2 engine)."""
     ranked = payload.get("hypotheses_ranked") or []
     blob = payload.get("recommendations") or {}
@@ -1209,9 +1252,13 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="HINT",
         help="Post-recovery hint for verification, e.g. firewall_reset_helped.",
     )
-    p_diag.set_defaults(func=cmd_diagnose, live_engine=False, proof_engine=False, both_formats=False)
+    p_diag.set_defaults(
+        func=cmd_diagnose, live_engine=False, proof_engine=False, both_formats=False
+    )
 
-    p_exp_sub = sub.add_parser("explain", help="Print rationale for last diagnose or diagnose-live.")
+    p_exp_sub = sub.add_parser(
+        "explain", help="Print rationale for last diagnose or diagnose-live."
+    )
     p_exp_sub.add_argument(
         "--live",
         action="store_true",
@@ -1219,7 +1266,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_exp_sub.set_defaults(func=cmd_explain)
 
-    p_rec_sub = sub.add_parser("recommend", help="Show tiered recommendations from last diagnose run.")
+    p_rec_sub = sub.add_parser(
+        "recommend", help="Show tiered recommendations from last diagnose run."
+    )
     p_rec_sub.add_argument(
         "--live",
         action="store_true",
@@ -1243,7 +1292,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_safe.set_defaults(func=cmd_repair_safe)
 
-    p_fb = sub.add_parser("feedback", help="Persist structured outcome feedback tied to diagnosis_id.")
+    p_fb = sub.add_parser(
+        "feedback", help="Persist structured outcome feedback tied to diagnosis_id."
+    )
     p_fb.add_argument("--diagnosis-id", required=True, dest="diagnosis_id")
     p_fb.add_argument("--recommended-action", required=True, dest="recommended_action")
     p_fb.add_argument("--user-feedback-fixed", required=True, dest="user_feedback_fixed")
@@ -1260,14 +1311,18 @@ def build_parser() -> argparse.ArgumentParser:
     p_exp.set_defaults(func=cmd_export_report)
 
     p_ps = sub.add_parser("proxy-status", help="Show HKCU WinINET proxy keys with parsed mode.")
-    p_ps.add_argument("--json", dest="emit_json", action="store_true", help="Print merged JSON mapping.")
+    p_ps.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Print merged JSON mapping."
+    )
     p_ps.set_defaults(func=cmd_proxy_status)
 
     p_ppath = sub.add_parser(
         "proxy-path-status",
         help="Registry vs operational proxy path (listener + optional HTTPS proxied/bypass contrast).",
     )
-    p_ppath.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
+    p_ppath.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
     p_ppath.add_argument(
         "--no-https-contrast",
         action="store_true",
@@ -1281,9 +1336,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_ppath.set_defaults(func=cmd_proxy_path_status)
 
-    p_po = sub.add_parser("proxy-owner", help="Resolve netstat listener owners for localhost proxy port.")
-    p_po.add_argument("--port", type=int, default=None, help="Override port (defaults to parsed ProxyServer).")
-    p_po.add_argument("--json", dest="emit_json", action="store_true", help="Emit JSON attribution block.")
+    p_po = sub.add_parser(
+        "proxy-owner", help="Resolve netstat listener owners for localhost proxy port."
+    )
+    p_po.add_argument(
+        "--port", type=int, default=None, help="Override port (defaults to parsed ProxyServer)."
+    )
+    p_po.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit JSON attribution block."
+    )
     p_po.set_defaults(func=cmd_proxy_owner)
 
     p_psl = sub.add_parser(
@@ -1291,7 +1352,9 @@ def build_parser() -> argparse.ArgumentParser:
         help="Preview/apply scoped taskkill for attributed localhost proxy listener (typed confirm, Admin).",
     )
     _add_proxy_stop_listener_arguments(p_psl)
-    p_psl.set_defaults(func=cmd_proxy_stop_listener, stop_listener_first=False, stop_reverter_first=False)
+    p_psl.set_defaults(
+        func=cmd_proxy_stop_listener, stop_listener_first=False, stop_reverter_first=False
+    )
 
     p_psr = sub.add_parser(
         "proxy-stop-reverter",
@@ -1301,7 +1364,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_psr.set_defaults(func=cmd_proxy_stop_reverter, stop_reverter_first=False)
 
     p_pm = sub.add_parser("proxy-monitor", help="Poll HKCU proxy registry for changes (read-only).")
-    p_pm.add_argument("--interval", type=float, default=5.0, help="Seconds between polls (default 5).")
+    p_pm.add_argument(
+        "--interval", type=float, default=5.0, help="Seconds between polls (default 5)."
+    )
     p_pm.add_argument("--once", action="store_true", help="Single poll then exit.")
     p_pm.add_argument(
         "--jsonl",
@@ -1315,8 +1380,12 @@ def build_parser() -> argparse.ArgumentParser:
         "proxy-watch",
         help="Poll WinINET HKCU state, diff, attribute processes, append logs/proxy_guard.jsonl (no silent rollback).",
     )
-    p_pxw.add_argument("--interval", type=float, default=5.0, help="Seconds between polls (default 5).")
-    p_pxw.add_argument("--once", action="store_true", help="Poll twice (detect first change if any) then exit.")
+    p_pxw.add_argument(
+        "--interval", type=float, default=5.0, help="Seconds between polls (default 5)."
+    )
+    p_pxw.add_argument(
+        "--once", action="store_true", help="Poll twice (detect first change if any) then exit."
+    )
     p_pxw.add_argument(
         "--soak-minutes",
         type=float,
@@ -1351,7 +1420,12 @@ def build_parser() -> argparse.ArgumentParser:
         "procmon-filter-set",
         help="Print or export Procmon Include filters for WinINET proxy RegSetValue writer capture.",
     )
-    p_pmf.add_argument("--json", dest="emit_json", action="store_true", help="Emit machine-readable filter set JSON.")
+    p_pmf.add_argument(
+        "--json",
+        dest="emit_json",
+        action="store_true",
+        help="Emit machine-readable filter set JSON.",
+    )
     p_pmf.add_argument(
         "--export",
         dest="procmon_filter_export",
@@ -1365,16 +1439,24 @@ def build_parser() -> argparse.ArgumentParser:
         "proxy-watch-report",
         help="Human-readable report for reports/proxy_guard_watch.jsonl (Windows).",
     )
-    p_pxw.add_argument("--tail", type=int, default=10, dest="proxy_watch_tail", help="Last N events (default 10).")
-    p_pxw.add_argument("--json", dest="emit_json", action="store_true", help="Emit raw JSON instead of text.")
+    p_pxw.add_argument(
+        "--tail", type=int, default=10, dest="proxy_watch_tail", help="Last N events (default 10)."
+    )
+    p_pxw.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit raw JSON instead of text."
+    )
     p_pxw.set_defaults(func=cmd_proxy_watch_report)
 
     p_pg = sub.add_parser(
         "proxy-guard",
         help="Policy-aware proxy monitor with optional WinINET/WinHTTP rollback (Windows).",
     )
-    p_pg.add_argument("--interval", type=float, default=5.0, help="Seconds between polls (default 5).")
-    p_pg.add_argument("--once", action="store_true", help="Single poll then exit (initial baseline snapshot).")
+    p_pg.add_argument(
+        "--interval", type=float, default=5.0, help="Seconds between polls (default 5)."
+    )
+    p_pg.add_argument(
+        "--once", action="store_true", help="Single poll then exit (initial baseline snapshot)."
+    )
     p_pg.add_argument(
         "--auto-rollback",
         action="store_true",
@@ -1505,7 +1587,9 @@ def build_parser() -> argparse.ArgumentParser:
         "save",
         help="Capture HKCU WinINET, WinHTTP, Git, npm, and user proxy env into logs/proxy_known_good_snapshots.jsonl.",
     )
-    p_pss_sv.add_argument("--name", required=True, dest="snapshot_name", metavar="NAME", help="Snapshot label.")
+    p_pss_sv.add_argument(
+        "--name", required=True, dest="snapshot_name", metavar="NAME", help="Snapshot label."
+    )
     p_pss_sv.add_argument(
         "--as-default",
         action="store_true",
@@ -1513,14 +1597,18 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_pss_sv.set_defaults(func=cmd_proxy_snapshot_save)
 
-    p_pss_ls = p_pss_sub.add_parser("list", help="List snapshot names from JSONL plus default-config flag.")
+    p_pss_ls = p_pss_sub.add_parser(
+        "list", help="List snapshot names from JSONL plus default-config flag."
+    )
     p_pss_ls.set_defaults(func=cmd_proxy_snapshot_list)
 
     p_pss_sh = p_pss_sub.add_parser("show", help="Print the latest JSONL record for --name.")
     p_pss_sh.add_argument("--name", required=True, dest="snapshot_name", metavar="NAME")
     p_pss_sh.set_defaults(func=cmd_proxy_snapshot_show)
 
-    p_pss_df = p_pss_sub.add_parser("diff", help="Compare current machine state vs saved snapshot (changed fields only).")
+    p_pss_df = p_pss_sub.add_parser(
+        "diff", help="Compare current machine state vs saved snapshot (changed fields only)."
+    )
     p_pss_df.add_argument("--name", required=True, dest="snapshot_name", metavar="NAME")
     p_pss_df.set_defaults(func=cmd_proxy_snapshot_diff)
 
@@ -1529,14 +1617,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="Restore allowlisted proxy settings from snapshot (dry-run unless --confirm RESTORE_KNOWN_GOOD_PROXY).",
     )
     p_pss_rs.add_argument("--name", required=True, dest="snapshot_name", metavar="NAME")
-    p_pss_rs.add_argument("--dry-run", action="store_true", help="Force preview only even if confirm phrase is set.")
+    p_pss_rs.add_argument(
+        "--dry-run", action="store_true", help="Force preview only even if confirm phrase is set."
+    )
     p_pss_rs.add_argument(
         "--confirm",
         type=str,
         default="",
         dest="confirm_phrase",
         metavar="PHRASE",
-        help='Live restore requires exact phrase RESTORE_KNOWN_GOOD_PROXY; omit for dry-run preview only.',
+        help="Live restore requires exact phrase RESTORE_KNOWN_GOOD_PROXY; omit for dry-run preview only.",
     )
     p_pss_rs.set_defaults(func=cmd_proxy_snapshot_restore)
 
@@ -1544,7 +1634,9 @@ def build_parser() -> argparse.ArgumentParser:
         "proxy-linux-snapshot",
         help="Read-only Linux proxy snapshot (env, /etc/environment, gsettings, NM, apt).",
     )
-    p_pxlinux.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
+    p_pxlinux.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
     p_pxlinux.add_argument(
         "--skip-optional-cli",
         dest="skip_optional_cli",
@@ -1557,7 +1649,9 @@ def build_parser() -> argparse.ArgumentParser:
         "proxy-diagnose",
         help="WinINET-focused diagnose with FailureBlocks and optional localhost listener attribution.",
     )
-    p_pxdiag.add_argument("--json", dest="emit_json", action="store_true", help="Emit machine-readable JSON.")
+    p_pxdiag.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit machine-readable JSON."
+    )
     p_pxdiag.add_argument(
         "--skip-listener-probe",
         action="store_true",
@@ -1569,7 +1663,9 @@ def build_parser() -> argparse.ArgumentParser:
         "proxy-investigate",
         help="Read-only unified proxy investigation (OBSERVED/CORRELATED/NOT PROVEN; no mutations).",
     )
-    p_pxin.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
+    p_pxin.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
     p_pxin.add_argument(
         "--since",
         dest="investigate_since",
@@ -1596,13 +1692,17 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Do not write audit rows (default unless --audit).",
     )
-    p_pxin.set_defaults(func=cmd_proxy_investigate, investigate_audit=False, investigate_no_audit=False)
+    p_pxin.set_defaults(
+        func=cmd_proxy_investigate, investigate_audit=False, investigate_no_audit=False
+    )
 
     p_pxfore = sub.add_parser(
         "proxy-forensics",
         help="Sysmon Event ID 13 registry-write causation for proxy-watch transitions (read-only).",
     )
-    p_pxfore.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
+    p_pxfore.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
     p_pxfore.add_argument(
         "--since-minutes",
         type=int,
@@ -1681,7 +1781,9 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="DIR",
         help="Fixture scenario directory (CI/offline; skips live Windows probes).",
     )
-    p_pxcaus.add_argument("--json", dest="emit_json", action="store_true", help="Emit JSON to stdout.")
+    p_pxcaus.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit JSON to stdout."
+    )
     p_pxcaus.set_defaults(func=cmd_proxy_causation)
 
     p_pxcls = sub.add_parser(
@@ -1698,8 +1800,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_pxpol.add_argument("--json", dest="emit_json", action="store_true")
     p_pxpol.add_argument("--latest", action="store_true", default=True, help=argparse.SUPPRESS)
-    p_pxpol.add_argument("--input", dest="policy_input", metavar="JSONL", help="proxy-watch audit JSONL path.")
-    p_pxpol.add_argument("--fixture", dest="policy_fixture", metavar="JSON", help="Incident fixture JSON (portable demo).")
+    p_pxpol.add_argument(
+        "--input", dest="policy_input", metavar="JSONL", help="proxy-watch audit JSONL path."
+    )
+    p_pxpol.add_argument(
+        "--fixture",
+        dest="policy_fixture",
+        metavar="JSON",
+        help="Incident fixture JSON (portable demo).",
+    )
     p_pxpol.add_argument(
         "--format",
         dest="policy_format",
@@ -1766,7 +1875,9 @@ def build_parser() -> argparse.ArgumentParser:
         dest="proxy_report_tail",
         help="Legacy mode: summarize last N rows from logs/proxy_guard.jsonl.",
     )
-    p_pxrep.add_argument("--json", dest="emit_json", action="store_true", help="Emit JSON (both modes).")
+    p_pxrep.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit JSON (both modes)."
+    )
     p_pxrep.add_argument(
         "--fixture",
         dest="report_fixture",
@@ -1802,13 +1913,18 @@ def build_parser() -> argparse.ArgumentParser:
         help="Restore HKCU WinINET from snapshots JSONL (--snapshot-id) or a known-good JSON file (--from-snapshot).",
     )
     g_rb = p_pxrb.add_mutually_exclusive_group(required=True)
-    g_rb.add_argument("--snapshot-id", dest="snapshot_id", metavar="ID", help="UUID from logs/proxy_snapshots.jsonl.")
+    g_rb.add_argument(
+        "--snapshot-id",
+        dest="snapshot_id",
+        metavar="ID",
+        help="UUID from logs/proxy_snapshots.jsonl.",
+    )
     g_rb.add_argument(
         "--from-snapshot",
         type=str,
         dest="rollback_from_snapshot",
         metavar="PATH",
-        help="Path to known-good JSON ({\"snapshot\":{...}} or flat ProxySnapshot dict). Live apply needs --confirm RESTORE_PROXY_SNAPSHOT_FILE.",
+        help='Path to known-good JSON ({"snapshot":{...}} or flat ProxySnapshot dict). Live apply needs --confirm RESTORE_PROXY_SNAPSHOT_FILE.',
     )
     p_pxrb.add_argument(
         "--confirm",
@@ -1821,7 +1937,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_pxrb.add_argument("--dry-run", action="store_true", help="Show argv preview only.")
     p_pxrb.set_defaults(snapshot_id=None, func=cmd_proxy_rollback)
 
-    p_pd = sub.add_parser("proxy-disable", help="Preview/apply safe HKCU WinINET proxy disable (typed confirm).")
+    p_pd = sub.add_parser(
+        "proxy-disable", help="Preview/apply safe HKCU WinINET proxy disable (typed confirm)."
+    )
     p_pd.add_argument(
         "--dry-run",
         nargs="?",
@@ -1838,7 +1956,9 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="PHRASE",
         help="Live apply requires exact phrase DISABLE_WININET_PROXY.",
     )
-    p_pd.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
+    p_pd.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
     p_pd.add_argument(
         "--no-clear-server",
         action="store_false",
@@ -2023,7 +2143,9 @@ def build_parser() -> argparse.ArgumentParser:
         dest="guardian_loop",
         help="Repeat every --interval seconds until interrupted.",
     )
-    p_pgd.add_argument("--interval", type=float, default=60.0, help="Seconds between checks when --loop.")
+    p_pgd.add_argument(
+        "--interval", type=float, default=60.0, help="Seconds between checks when --loop."
+    )
     p_pgd.add_argument(
         "--confirm",
         type=str,
@@ -2286,9 +2408,13 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="PHRASE",
         help="Live apply requires exact phrase DISABLE_WININET_PROXY.",
     )
-    p_proxy_disable.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
+    p_proxy_disable.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
     p_proxy_disable.add_argument("--no-clear-server", action="store_false", dest="clear_server")
-    p_proxy_disable.add_argument("--no-clear-autoconfig", action="store_false", dest="clear_autoconfig")
+    p_proxy_disable.add_argument(
+        "--no-clear-autoconfig", action="store_false", dest="clear_autoconfig"
+    )
     p_proxy_disable.add_argument("--soak-minutes", type=float, default=0.0)
     p_proxy_disable.add_argument("--soak-poll-seconds", type=float, default=5.0)
     p_proxy_disable.add_argument(
@@ -2342,22 +2468,30 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="NAME",
         help="Optional snapshot label; defaults to the youngest stored snapshot.",
     )
-    p_proxy_restore_lkg.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
+    p_proxy_restore_lkg.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
     p_proxy_restore_lkg.set_defaults(func=cmd_proxy_restore_lkg)
 
     p_proxy_cc = p_proxy_sub.add_parser(
         "config-check",
         help="Read-only proxy config audit (WinINET, WinHTTP, Git, npm, env, browser policy).",
     )
-    p_proxy_cc.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
+    p_proxy_cc.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
     p_proxy_cc.set_defaults(func=cmd_proxy_config_check)
 
     p_proxy_rwp = p_proxy_sub.add_parser(
         "registry-writer-proof",
         help="Read-only Sysmon / Security 4657 / Procmon CSV evidence for WinINET proxy registry writes.",
     )
-    p_proxy_rwp.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
-    p_proxy_rwp.add_argument("--since-seconds", type=int, default=120, help="Lookback window in seconds (default 120).")
+    p_proxy_rwp.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
+    p_proxy_rwp.add_argument(
+        "--since-seconds", type=int, default=120, help="Lookback window in seconds (default 120)."
+    )
     p_proxy_rwp.add_argument(
         "--procmon-csv",
         type=str,
@@ -2368,7 +2502,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_proxy_rwp.set_defaults(func=cmd_proxy_registry_writer_proof)
 
-    p_agent = sub.add_parser("agent", help="Bounded local agent surfaces (recommendation only; no mutation).")
+    p_agent = sub.add_parser(
+        "agent", help="Bounded local agent surfaces (recommendation only; no mutation)."
+    )
     p_agent_sub = p_agent.add_subparsers(dest="agent_cmd", required=True)
     p_agent_ns = p_agent_sub.add_parser(
         "next-step",
@@ -2396,10 +2532,14 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="DIAGNOSIS_ID",
         help="Optional diagnosis run id; defaults to the latest stored diagnosis.",
     )
-    p_agent_ns.add_argument("--json", dest="emit_json", action="store_true", help="Emit structured JSON only.")
+    p_agent_ns.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit structured JSON only."
+    )
     p_agent_ns.set_defaults(func=cmd_agent_next_step)
 
-    p_sn = sub.add_parser("snapshot", help="Persist full observability JSON under reports/snapshots/.")
+    p_sn = sub.add_parser(
+        "snapshot", help="Persist full observability JSON under reports/snapshots/."
+    )
     p_sn.set_defaults(func=cmd_snapshot)
 
     p_dl = sub.add_parser(
@@ -2410,7 +2550,9 @@ def build_parser() -> argparse.ArgumentParser:
             "add `--replay RUN_ID` (or Top-level command `replay`) for offline parity checks."
         ),
     )
-    p_dl.add_argument("--json", dest="emit_json", action="store_true", help="Stdout JSON payload only.")
+    p_dl.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Stdout JSON payload only."
+    )
     p_dl.add_argument(
         "--both",
         dest="emit_both",
@@ -2459,7 +2601,9 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="RUN_ID",
         help="Same UUID as positional RUN_ID; ignored when positional is provided.",
     )
-    p_replay_cli.add_argument("--json", dest="emit_json", action="store_true", help="JSON report on stdout only.")
+    p_replay_cli.add_argument(
+        "--json", dest="emit_json", action="store_true", help="JSON report on stdout only."
+    )
     p_replay_cli.add_argument(
         "--both",
         dest="emit_both",
@@ -2489,7 +2633,9 @@ def build_parser() -> argparse.ArgumentParser:
             "(preferred) or legacy `last_diagnosis.json`. Use `--both` when you want human text plus extractable JSON."
         ),
     )
-    p_pv.add_argument("--json", dest="emit_json_preview", action="store_true", help="Structured tiers JSON only.")
+    p_pv.add_argument(
+        "--json", dest="emit_json_preview", action="store_true", help="Structured tiers JSON only."
+    )
     p_pv.add_argument(
         "--both",
         dest="emit_both_preview",
@@ -2552,8 +2698,15 @@ def build_parser() -> argparse.ArgumentParser:
         "repair-preview",
         help="Synonym for `preview` — tiered repairs from latest diagnosis artifact.",
     )
-    p_rp.add_argument("--json", dest="emit_json_preview", action="store_true", help="Structured JSON only.")
-    p_rp.add_argument("--both", dest="emit_both_preview", action="store_true", help="Human tiers + JSON delimiters.")
+    p_rp.add_argument(
+        "--json", dest="emit_json_preview", action="store_true", help="Structured JSON only."
+    )
+    p_rp.add_argument(
+        "--both",
+        dest="emit_both_preview",
+        action="store_true",
+        help="Human tiers + JSON delimiters.",
+    )
     p_rp.set_defaults(func=cmd_repair_preview, emit_json_preview=False, emit_both_preview=False)
 
     p_ra = sub.add_parser(
@@ -2576,7 +2729,9 @@ def build_parser() -> argparse.ArgumentParser:
         "save",
         help="Capture WinINET, WinHTTP, Git, npm, user proxy env → logs/network_state_snapshots.jsonl.",
     )
-    p_nss_sv.add_argument("--name", required=True, dest="snapshot_name", metavar="NAME", help="Profile label.")
+    p_nss_sv.add_argument(
+        "--name", required=True, dest="snapshot_name", metavar="NAME", help="Profile label."
+    )
     p_nss_sv.set_defaults(func=cmd_network_state_snapshot_save)
 
     p_nss_ls = nss_sub.add_parser("list", help="List profile names + default flag.")
@@ -2586,14 +2741,23 @@ def build_parser() -> argparse.ArgumentParser:
     p_nss_sh.add_argument("--name", required=True, dest="snapshot_name", metavar="NAME")
     p_nss_sh.set_defaults(func=cmd_network_state_snapshot_show)
 
-    p_nss_sd = nss_sub.add_parser("set-default", help="Write config/network_state_default.json from latest --name.")
+    p_nss_sd = nss_sub.add_parser(
+        "set-default", help="Write config/network_state_default.json from latest --name."
+    )
     p_nss_sd.add_argument("--name", required=True, dest="snapshot_name", metavar="NAME")
     p_nss_sd.set_defaults(func=cmd_network_state_snapshot_set_default)
 
-    p_nsdiff = ns_sub.add_parser("diff", help="Compare current machine vs saved snapshot or default profile.")
+    p_nsdiff = ns_sub.add_parser(
+        "diff", help="Compare current machine vs saved snapshot or default profile."
+    )
     g_ns = p_nsdiff.add_mutually_exclusive_group(required=True)
     g_ns.add_argument("--name", dest="snapshot_name", metavar="NAME")
-    g_ns.add_argument("--default", dest="use_default", action="store_true", help="Use config/network_state_default.json.")
+    g_ns.add_argument(
+        "--default",
+        dest="use_default",
+        action="store_true",
+        help="Use config/network_state_default.json.",
+    )
     p_nsdiff.add_argument("--json", dest="json_out", action="store_true")
     p_nsdiff.set_defaults(snapshot_name=None, use_default=False, func=cmd_network_state_diff)
 
@@ -2604,7 +2768,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_ns_rs = ns_sub.add_parser(
         "restore",
-        help='Preview or restore named snapshot (live requires --confirm RESTORE_NETWORK_STATE; default is dry-run preview).',
+        help="Preview or restore named snapshot (live requires --confirm RESTORE_NETWORK_STATE; default is dry-run preview).",
     )
     p_ns_rs.add_argument("--name", required=True, dest="snapshot_name", metavar="NAME")
     p_ns_rs.add_argument("--dry-run", action="store_true", help="Force preview only.")
@@ -2614,13 +2778,17 @@ def build_parser() -> argparse.ArgumentParser:
         default="",
         dest="confirm_phrase",
         metavar="PHRASE",
-        help='Typed phrase RESTORE_NETWORK_STATE enables live argv-only restores.',
+        help="Typed phrase RESTORE_NETWORK_STATE enables live argv-only restores.",
     )
     p_ns_rs.set_defaults(func=cmd_network_state_restore)
 
-    p_ns_ev = ns_sub.add_parser("evidence", help="Import optional Procmon-style CSV (no tracers installed).")
+    p_ns_ev = ns_sub.add_parser(
+        "evidence", help="Import optional Procmon-style CSV (no tracers installed)."
+    )
     ev_sub = p_ns_ev.add_subparsers(dest="network_state_evidence_cmd", required=True)
-    p_ns_ev_imp = ev_sub.add_parser("import", help="Append normalized rows to logs/network_state_evidence.jsonl.")
+    p_ns_ev_imp = ev_sub.add_parser(
+        "import", help="Append normalized rows to logs/network_state_evidence.jsonl."
+    )
     p_ns_ev_imp.add_argument("--file", required=True, dest="evidence_file", metavar="PATH")
     p_ns_ev_imp.set_defaults(func=cmd_network_state_evidence_import)
 
@@ -2634,7 +2802,9 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     edge_src = p_edge.add_mutually_exclusive_group(required=True)
-    edge_src.add_argument("--fixture", type=str, default=None, help="Load edge observations JSON fixture.")
+    edge_src.add_argument(
+        "--fixture", type=str, default=None, help="Load edge observations JSON fixture."
+    )
     edge_src.add_argument(
         "--live-simulated",
         dest="live_simulated",
@@ -2661,14 +2831,20 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Treat operator confirmation as present (ALLOW still requires CONFIRMED proof + low risk).",
     )
-    p_edge.add_argument("--json", dest="emit_json", action="store_true", help="Emit full machine-readable contract.")
-    p_edge.set_defaults(func=cmd_edge_diagnose, live_simulated=False, confirm=False, emit_json=False)
+    p_edge.add_argument(
+        "--json", dest="emit_json", action="store_true", help="Emit full machine-readable contract."
+    )
+    p_edge.set_defaults(
+        func=cmd_edge_diagnose, live_simulated=False, confirm=False, emit_json=False
+    )
 
     p_edge_replay = sub.add_parser(
         "edge-replay",
         help="Replay a stored edge run by id from logs/edge_runs.jsonl (read-only, no re-simulation).",
     )
-    p_edge_replay.add_argument("run_id", metavar="RUN_ID", help="Edge run id from a prior edge-diagnose.")
+    p_edge_replay.add_argument(
+        "run_id", metavar="RUN_ID", help="Edge run id from a prior edge-diagnose."
+    )
     p_edge_replay.set_defaults(func=cmd_edge_replay)
 
     p_ir = sub.add_parser(
@@ -2688,7 +2864,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_pv.add_argument("policy_path", metavar="policy.yaml")
     p_pv.set_defaults(func=cmd_policy_validate)
 
-    p_fs = sub.add_parser("fleet-simulate", help="Fixture-based fleet simulation (no live mutation).")
+    p_fs = sub.add_parser(
+        "fleet-simulate", help="Fixture-based fleet simulation (no live mutation)."
+    )
     p_fs.add_argument("--scenario", dest="fleet_scenario", default="proxy-drift")
     p_fs.add_argument("--endpoints", dest="fleet_endpoints", type=int, default=25)
     p_fs.add_argument("--incidents", dest="fleet_incidents", type=int, default=None)

@@ -1,0 +1,14 @@
+{
+  "description": "Scenario D (synthetic): CEO impersonation from free mail + LINE migration + group QR hand-over request. Final attack-chain correlation is deferred to PR3.",
+  "org_context": {
+    "organization_domains": ["example-corp.test"],
+    "executive_names": ["David Lin"]
+  },
+  "email": {
+    "from": "\"David Lin CEO\" <david.lin.office@gmail.com>",
+    "to": ["staff@example-corp.test"],
+    "subject": "Need your help now",
+    "message_id": "<synthetic-qr-d-0001@mail.gmail.com>",
+    "body_text": "This is David, CEO. I am in a board meeting and cannot take calls.\nPlease create a LINE group right away and send me the group QR code.\nKeep this between us for now."
+  }
+}

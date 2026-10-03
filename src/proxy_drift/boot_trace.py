@@ -129,7 +129,12 @@ def run_boot_trace_loop(
     while time.monotonic() < end:
         snap = _snapshot(subprocess_run)
         delta = _deltas(prev, snap)
-        row = {"schema_version": _SCHEMA, "event": "boot_trace_sample", "delta_events": delta, **snap}
+        row = {
+            "schema_version": _SCHEMA,
+            "event": "boot_trace_sample",
+            "delta_events": delta,
+            **snap,
+        }
         samples.append(row)
         append_jsonl(log_path, row)
         prev = snap

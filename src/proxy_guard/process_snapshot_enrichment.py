@@ -137,9 +137,11 @@ def snapshot_record_from_owner(
     parent = by_pid.get(int(ppid)) if isinstance(ppid, int) else None
     return ProcessSnapshotRecord(
         pid=pid,
-        process_name=str(row.get("process_name") or owner.get("process_name") or "").strip() or None,
+        process_name=str(row.get("process_name") or owner.get("process_name") or "").strip()
+        or None,
         executable_path=exe_s,
-        command_line=str(row.get("command_line") or owner.get("command_line") or "").strip() or None,
+        command_line=str(row.get("command_line") or owner.get("command_line") or "").strip()
+        or None,
         parent_pid=int(ppid) if isinstance(ppid, int) else None,
         parent_process_name=str(
             parent.get("process_name") if parent else owner.get("parent_name") or ""

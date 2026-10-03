@@ -14,10 +14,14 @@ from ..core.models import ProxyRegistrySnapshot
 from .parser import ParsedProxy, parse_proxy_server
 from .registry import read_proxy_registry
 
-UIProxyMode = Literal["disabled", "manual_localhost", "manual_remote", "pac", "auto_detect", "unknown"]
+UIProxyMode = Literal[
+    "disabled", "manual_localhost", "manual_remote", "pac", "auto_detect", "unknown"
+]
 
 
-def _classify_ui_mode(reg: ProxyRegistrySnapshot, parsed: ParsedProxy, is_enabled: bool) -> UIProxyMode:
+def _classify_ui_mode(
+    reg: ProxyRegistrySnapshot, parsed: ParsedProxy, is_enabled: bool
+) -> UIProxyMode:
     """Map registry + parsed proxy into coarse operator-facing mode labels."""
     ac = (reg.auto_config_url or "").strip()
     if ac:

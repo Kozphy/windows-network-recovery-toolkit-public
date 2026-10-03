@@ -224,7 +224,11 @@ def attribute_proxy_change(
             continue
         pid = proc.get("pid")
         pid_i = int(pid) if isinstance(pid, int) else 0
-        best_pid = int(best_proc["pid"]) if isinstance(best_proc, dict) and isinstance(best_proc.get("pid"), int) else 1_000_000_000
+        best_pid = (
+            int(best_proc["pid"])
+            if isinstance(best_proc, dict) and isinstance(best_proc.get("pid"), int)
+            else 1_000_000_000
+        )
         if sc > best_score or (sc == best_score and sc > 0 and pid_i < best_pid):
             best_score = sc
             best_reasons = rsn
@@ -324,7 +328,9 @@ def _row_text(proc: dict[str, Any]) -> str:
     return " ".join(parts)
 
 
-def pick_heuristic_rows(process_rows: Sequence[dict[str, Any]], *, max_rows: int = 5) -> list[dict[str, Any]]:
+def pick_heuristic_rows(
+    process_rows: Sequence[dict[str, Any]], *, max_rows: int = 5
+) -> list[dict[str, Any]]:
     """Cheap substring scan against WMI-shaped rows for policy-layer fallback."""
 
     tokens = tuple(sorted(set(_GENERAL_KEYWORDS)))
@@ -346,7 +352,11 @@ def attribution_from_heuristic_rows(rows: Sequence[dict[str, Any]]) -> Attributi
     top = rows[0]
     pid_raw = top.get("ProcessId")
     ppid_raw = top.get("ParentProcessId")
-    pid = int(pid_raw) if isinstance(pid_raw, int) else (int(pid_raw) if isinstance(pid_raw, str) and pid_raw.isdigit() else None)
+    pid = (
+        int(pid_raw)
+        if isinstance(pid_raw, int)
+        else (int(pid_raw) if isinstance(pid_raw, str) and pid_raw.isdigit() else None)
+    )
     ppid: int | None = None
     if ppid_raw is not None:
         if isinstance(ppid_raw, int):

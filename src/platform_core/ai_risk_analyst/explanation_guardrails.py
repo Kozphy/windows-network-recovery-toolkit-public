@@ -43,6 +43,7 @@ class ExplanationValidationResult:
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     is_safe: bool
     violations: list[str]
     recommended_rewrite: str | None = None

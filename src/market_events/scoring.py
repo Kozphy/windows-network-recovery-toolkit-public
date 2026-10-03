@@ -13,7 +13,11 @@ from .models import (
 from .policy import apply_policy_to_score, evaluate_research_policy
 
 _MACRO_ASSETS = frozenset({"BTC", "ETH", "SPX", "DXY", "US10Y"})
-_VOL_BASE = {VolatilityExpectation.LOW: 20, VolatilityExpectation.MEDIUM: 45, VolatilityExpectation.HIGH: 70}
+_VOL_BASE = {
+    VolatilityExpectation.LOW: 20,
+    VolatilityExpectation.MEDIUM: 45,
+    VolatilityExpectation.HIGH: 70,
+}
 _DIR_BASE = {
     DirectionBias.BULLISH: 35,
     DirectionBias.BEARISH: -35,
@@ -28,14 +32,14 @@ def _clamp_int(value: float, lo: int, hi: int) -> int:
 
 def score_event(event: MarketEvent, *, request_execution: bool = False) -> SignalScore:
     """Score event.
-    
+
     Args:
         event: Evidence or domain record being processed.
         request_execution: The request execution value supplied by the caller.
-    
+
     Returns:
         The SignalScore result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """

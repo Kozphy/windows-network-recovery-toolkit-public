@@ -9,7 +9,7 @@ from typing import Any
 
 class ProcessClassificationKind(StrEnum):
     """Represent process classification kind data used by the toolkit.
-    
+
     Attributes:
         KNOWN_CURSOR_PROXY: Field or variant describing k n o w n c u r s o r p r o x y evidence or state.
         KNOWN_VSCODE_EXTENSION: Field or variant describing k n o w n v s c o d e e x t e n s i o n evidence or state.
@@ -19,10 +19,11 @@ class ProcessClassificationKind(StrEnum):
         UNKNOWN_LOCAL_PROXY: Field or variant describing u n k n o w n l o c a l p r o x y evidence or state.
         SUSPICIOUS_PROXY: Field or variant describing s u s p i c i o u s p r o x y evidence or state.
         POSSIBLE_MITM_RISK: Field or variant describing p o s s i b l e m i t m r i s k evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     KNOWN_CURSOR_PROXY = "KNOWN_CURSOR_PROXY"
     KNOWN_VSCODE_EXTENSION = "KNOWN_VSCODE_EXTENSION"
     KNOWN_DEV_PROXY = "KNOWN_DEV_PROXY"
@@ -40,7 +41,7 @@ class ProcessClassificationKind(StrEnum):
 @dataclass
 class ProcessNode:
     """Represent process node data used by the toolkit.
-    
+
     Attributes:
         process_guid: Field or variant describing process guid evidence or state.
         image_path: Field or variant describing image path evidence or state.
@@ -48,10 +49,11 @@ class ProcessNode:
         process_id: Field or variant describing process id evidence or state.
         command_line: Field or variant describing command line evidence or state.
         parent_process_guid: Field or variant describing parent process guid evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     process_guid: str | None = None
     image_path: str | None = None
     process_name: str | None = None
@@ -61,13 +63,13 @@ class ProcessNode:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -84,7 +86,7 @@ class ProcessNode:
 @dataclass
 class ProcessClassificationInput:
     """Represent process classification input data used by the toolkit.
-    
+
     Attributes:
         image_path: Field or variant describing image path evidence or state.
         process_name: Field or variant describing process name evidence or state.
@@ -94,10 +96,11 @@ class ProcessClassificationInput:
         parent_image_path: Field or variant describing parent image path evidence or state.
         parent_process_name: Field or variant describing parent process name evidence or state.
         parent_command_line: Field or variant describing parent command line evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     image_path: str | None = None
     process_name: str | None = None
     process_guid: str | None = None
@@ -130,15 +133,15 @@ class ProcessClassificationInput:
         registry_value_name: str = "",
     ) -> ProcessClassificationInput:
         """From causation dict.
-        
+
         Args:
             causation: The causation value supplied by the caller.
             proxy_server: The proxy server value supplied by the caller.
             registry_value_name: The registry value name value supplied by the caller.
-        
+
         Returns:
             The ProcessClassificationInput result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -166,7 +169,9 @@ class ProcessClassificationInput:
             else None,
             parent_command_line=causation.get("parent_command_line"),
             ancestor_chain=chain,
-            hashes={"raw": causation.get("writer_hashes")} if causation.get("writer_hashes") else None,
+            hashes={"raw": causation.get("writer_hashes")}
+            if causation.get("writer_hashes")
+            else None,
             registry_target=str(causation.get("matched_registry_target") or ""),
             registry_value_name=registry_value_name,
             registry_details=causation.get("matched_registry_details"),
@@ -181,7 +186,7 @@ class ProcessClassificationInput:
 @dataclass
 class ProcessClassificationResult:
     """Represent process classification result data used by the toolkit.
-    
+
     Attributes:
         classification: Field or variant describing classification evidence or state.
         confidence: Field or variant describing confidence evidence or state.
@@ -190,10 +195,11 @@ class ProcessClassificationResult:
         trust_factors: Field or variant describing trust factors evidence or state.
         recommended_review: Field or variant describing recommended review evidence or state.
         summary: Field or variant describing summary evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     classification: ProcessClassificationKind
     confidence: float
     reasons: list[str] = field(default_factory=list)
@@ -205,13 +211,13 @@ class ProcessClassificationResult:
     @property
     def label(self) -> str:
         """Label.
-        
+
         Args:
             None.
-        
+
         Returns:
             The str result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -219,13 +225,13 @@ class ProcessClassificationResult:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

@@ -24,6 +24,7 @@ class BusinessObjective(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     objective_id: str
     name: str
     description: str

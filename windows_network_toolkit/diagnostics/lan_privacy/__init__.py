@@ -14,13 +14,13 @@ Side effects:
     * None at import time beyond submodule loading.
 """
 
+from .collectors import collect_inventory, collect_mdns_summary, collect_ssdp_summary
 from .runner import (
     run_executive_report_pipeline,
     run_lan_privacy_report_pipeline,
     run_lan_risk_score_pipeline,
 )
 from .watch import run_lan_watch
-from .collectors import collect_inventory, collect_mdns_summary, collect_ssdp_summary
 
 __all__ = [
     "collect_inventory",

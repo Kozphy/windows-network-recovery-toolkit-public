@@ -73,6 +73,7 @@ class LocalRuleBasedAnalyst(AnalystProvider):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     name = "local_rule_based"
 
     def analyze(self, bundle: AnalystEvidenceBundle) -> AIRecommendation:

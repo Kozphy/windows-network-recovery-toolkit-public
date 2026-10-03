@@ -84,8 +84,8 @@ def iter_enable_transitions(records: list[dict[str, Any]]) -> list[tuple[datetim
         ts = _parse_ts(rec.get("timestamp") or rec.get("timestamp_utc"))
         if ts is None:
             continue
-        before = (rec.get("before_snapshot") or {})
-        after = (rec.get("after_snapshot") or {})
+        before = rec.get("before_snapshot") or {}
+        after = rec.get("after_snapshot") or {}
         try:
             old_en = int(before.get("proxy_enable"))
             new_en = int(after.get("proxy_enable"))
@@ -108,13 +108,13 @@ class ActiveReverterResult:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

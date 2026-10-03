@@ -10,13 +10,13 @@ from .models import MarketEvent
 
 def default_calendar_path(repo_root: Path | None = None) -> Path:
     """Default calendar path.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
-    
+
     Returns:
         The Path result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -32,13 +32,13 @@ def default_calendar_path(repo_root: Path | None = None) -> Path:
 
 def load_calendar(path: Path | None = None) -> list[MarketEvent]:
     """Load calendar.
-    
+
     Args:
         path: Filesystem path used by the operation.
-    
+
     Returns:
         The list[MarketEvent] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """
@@ -52,14 +52,14 @@ def load_calendar(path: Path | None = None) -> list[MarketEvent]:
 
 def get_event(event_id: str, path: Path | None = None) -> MarketEvent:
     """Get event.
-    
+
     Args:
         event_id: The event id value supplied by the caller.
         path: Filesystem path used by the operation.
-    
+
     Returns:
         The MarketEvent result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

@@ -861,7 +861,10 @@ def write_star_schema_csvs(tables: dict[str, list[dict[str, Any]]], out_dir: Pat
     mapping = {
         "fact_incidents.csv": (FACT_INCIDENTS_COLUMNS, tables["fact_incidents"]),
         "fact_control_tests.csv": (FACT_CONTROL_TESTS_COLUMNS, tables["fact_control_tests"]),
-        "fact_policy_decisions.csv": (FACT_POLICY_DECISIONS_COLUMNS, tables["fact_policy_decisions"]),
+        "fact_policy_decisions.csv": (
+            FACT_POLICY_DECISIONS_COLUMNS,
+            tables["fact_policy_decisions"],
+        ),
         "fact_risks.csv": (FACT_RISKS_COLUMNS, tables["fact_risks"]),
         "fact_recommendations.csv": (FACT_RECOMMENDATIONS_COLUMNS, tables["fact_recommendations"]),
         "fact_costs.csv": (FACT_COSTS_COLUMNS, tables["fact_costs"]),

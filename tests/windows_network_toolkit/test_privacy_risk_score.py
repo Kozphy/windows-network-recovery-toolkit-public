@@ -3,12 +3,16 @@
 from __future__ import annotations
 
 from windows_network_toolkit.diagnostics.lan_privacy.models import LanClassification
-from windows_network_toolkit.diagnostics.lan_privacy.privacy_risk_score import compute_privacy_risk_score
+from windows_network_toolkit.diagnostics.lan_privacy.privacy_risk_score import (
+    compute_privacy_risk_score,
+)
 
 
 def test_score_increases_with_probing():
     low = compute_privacy_risk_score(
-        observations=[{"protocol": "MDNS", "source_ip": "1.1.1.1", "timestamp_utc": "2026-01-01T00:00:00Z"}],
+        observations=[
+            {"protocol": "MDNS", "source_ip": "1.1.1.1", "timestamp_utc": "2026-01-01T00:00:00Z"}
+        ],
         devices=[{"ip": "1.1.1.1", "flags": []}],
         classification=LanClassification.NORMAL_DISCOVERY.value,
     )

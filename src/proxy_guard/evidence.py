@@ -36,6 +36,7 @@ class EvidenceItem:
         notes: Compact tags for query and incident triage.
         raw_excerpt: Bounded raw output snippet for troubleshooting.
     """
+
     source: str
     observed_at: str
     target_key: str
@@ -48,13 +49,13 @@ class EvidenceItem:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -124,7 +125,12 @@ def build_connectivity_evidence(
     checks = (
         ("post_change_tcp443_check", "tcp_443_google", post.tcp_443_google.ok, post.tcp_443_google),
         ("post_change_https_check", "https_google", post.https_google.ok, post.https_google),
-        ("post_change_https_check", "https_microsoft", post.https_microsoft.ok, post.https_microsoft),
+        (
+            "post_change_https_check",
+            "https_microsoft",
+            post.https_microsoft.ok,
+            post.https_microsoft,
+        ),
         ("post_change_dns_check", "dns_google", post.dns_google.ok, post.dns_google),
     )
     for source, name, ok, probe in checks:
@@ -142,4 +148,3 @@ def build_connectivity_evidence(
             ),
         )
     return items
-

@@ -1,0 +1,223 @@
+{
+  "schema": "email_risk_fixture_manifest.v1",
+  "notes": "Synthetic fixtures only. 'config' applies to .eml files (JSON fixtures carry their own org_context). Levels are inclusive bounds. 'requires': ['qr_decoder'] cases are skipped when the optional QR decoder (Pillow + zxing-cpp) is not installed. QR .eml fixtures are regenerated with tools/generate_email_qr_fixtures.py.",
+  "cases": [
+    {
+      "file": "ceo_line_payment_gmail.eml",
+      "label": "positive",
+      "config": {"organization_domains": ["example-corp.test"]},
+      "min_level": "HIGH",
+      "signals_include": [
+        "external_sender",
+        "free_mail_sender",
+        "executive_impersonation",
+        "urgency",
+        "secrecy_request",
+        "external_channel_migration",
+        "payment_intent"
+      ]
+    },
+    {
+      "file": "ceo_line_payment_zh.json",
+      "label": "positive",
+      "min_level": "HIGH",
+      "signals_include": [
+        "external_sender",
+        "free_mail_sender",
+        "executive_impersonation",
+        "urgency",
+        "secrecy_request",
+        "external_channel_migration",
+        "payment_intent"
+      ]
+    },
+    {
+      "file": "auth_fail_reply_to_mismatch.eml",
+      "label": "positive",
+      "config": {"organization_domains": ["example-corp.test"]},
+      "min_level": "HIGH",
+      "signals_include": [
+        "spf_fail",
+        "dmarc_fail",
+        "from_reply_to_mismatch",
+        "suspicious_return_path",
+        "payment_intent",
+        "bank_account_change",
+        "invoice_fraud"
+      ]
+    },
+    {
+      "file": "vendor_bank_change_lookalike.json",
+      "label": "positive",
+      "min_level": "HIGH",
+      "signals_include": [
+        "external_sender",
+        "lookalike_domain",
+        "vendor_impersonation",
+        "bank_account_change",
+        "invoice_fraud",
+        "payment_intent"
+      ]
+    },
+    {
+      "file": "gift_card_request.json",
+      "label": "positive",
+      "min_level": "HIGH",
+      "signals_include": ["executive_impersonation", "gift_card_request", "secrecy_request"]
+    },
+    {
+      "file": "whatsapp_finance_mixed.json",
+      "label": "positive",
+      "min_level": "HIGH",
+      "signals_include": [
+        "finance_team_impersonation",
+        "external_channel_migration",
+        "wire_transfer_request",
+        "urgency"
+      ]
+    },
+    {
+      "file": "auth_pass_semantic_bec.json",
+      "label": "positive",
+      "min_level": "HIGH",
+      "signals_include": [
+        "executive_impersonation",
+        "external_channel_migration",
+        "wire_transfer_request",
+        "secrecy_request"
+      ],
+      "signals_exclude": ["spf_fail", "dkim_fail", "dmarc_fail"]
+    },
+    {
+      "file": "internal_account_takeover_simulation.json",
+      "label": "positive",
+      "min_level": "HIGH",
+      "signals_include": ["external_channel_migration", "gift_card_request", "urgency"],
+      "signals_exclude": ["executive_impersonation", "external_sender"]
+    },
+    {
+      "file": "corporate_internal_normal.eml",
+      "label": "negative",
+      "config": {"organization_domains": ["example-corp.test"]},
+      "max_level": "LOW",
+      "signals_exclude": ["authority_pressure", "secrecy_request", "executive_impersonation"]
+    },
+    {
+      "file": "gmail_friend_conversation.json",
+      "label": "negative",
+      "max_level": "LOW",
+      "signals_exclude": ["executive_impersonation", "urgency", "payment_intent"]
+    },
+    {
+      "file": "marketing_newsletter.eml",
+      "label": "negative",
+      "max_level": "LOW",
+      "signals_exclude": [
+        "external_channel_migration",
+        "payment_intent",
+        "wire_transfer_request",
+        "bank_account_change",
+        "suspicious_return_path"
+      ]
+    },
+    {
+      "file": "internal_line_mention.json",
+      "label": "negative",
+      "max_level": "LOW",
+      "signals_exclude": ["external_channel_migration"]
+    },
+    {
+      "file": "legit_invoice_notification.json",
+      "label": "negative",
+      "max_level": "LOW",
+      "signals_exclude": [
+        "invoice_fraud",
+        "bank_account_change",
+        "vendor_impersonation",
+        "lookalike_domain",
+        "domain_typosquatting"
+      ]
+    },
+    {
+      "file": "partner_ceo_external.json",
+      "label": "negative",
+      "max_level": "LOW",
+      "signals_exclude": ["executive_impersonation", "authority_pressure"]
+    },
+    {
+      "file": "qr_line_group_request.json",
+      "label": "positive",
+      "min_level": "MEDIUM",
+      "signals_include": ["messaging_group_qr_request", "external_channel_migration"],
+      "signals_exclude": ["qr_code_return_request", "qr_code_present"]
+    },
+    {
+      "file": "qr_ceo_line_group.json",
+      "label": "positive",
+      "min_level": "HIGH",
+      "signals_include": [
+        "executive_impersonation",
+        "external_channel_migration",
+        "messaging_group_qr_request",
+        "secrecy_request"
+      ]
+    },
+    {
+      "file": "qr_adversarial_obfuscated.json",
+      "label": "positive",
+      "min_level": "MEDIUM",
+      "signals_include": [
+        "messaging_group_qr_request",
+        "qr_code_scan_request",
+        "external_channel_migration"
+      ]
+    },
+    {
+      "file": "qr_harmless_mention.json",
+      "label": "negative",
+      "max_level": "LOW",
+      "signals_exclude": [
+        "qr_code_scan_request",
+        "qr_code_return_request",
+        "messaging_group_qr_request",
+        "qr_code_present"
+      ]
+    },
+    {
+      "file": "qr_attachment_suspicious_url.eml",
+      "label": "positive",
+      "requires": ["qr_decoder"],
+      "config": {"organization_domains": ["example-corp.test"]},
+      "min_level": "MEDIUM",
+      "signals_include": ["qr_code_present", "qr_code_scan_request", "suspicious_qr_url"],
+      "signals_exclude": ["suspicious_url"]
+    },
+    {
+      "file": "qr_inline_benign_url.eml",
+      "label": "negative",
+      "requires": ["qr_decoder"],
+      "config": {"organization_domains": ["example-corp.test"]},
+      "max_level": "LOW",
+      "signals_include": ["qr_code_present"],
+      "signals_exclude": [
+        "suspicious_qr_url",
+        "suspicious_url",
+        "qr_code_scan_request",
+        "qr_code_return_request"
+      ]
+    },
+    {
+      "file": "qr_html_data_uri.eml",
+      "label": "positive",
+      "requires": ["qr_decoder"],
+      "config": {"organization_domains": ["example-corp.test"]},
+      "min_level": "MEDIUM",
+      "signals_include": [
+        "qr_code_present",
+        "qr_code_scan_request",
+        "suspicious_qr_url",
+        "suspicious_url"
+      ]
+    }
+  ]
+}

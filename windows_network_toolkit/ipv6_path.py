@@ -927,9 +927,7 @@ def run_prefer_ipv4(
 
     if dry_run:
         payload["status"] = "preview"
-        next_step = _prefer_dry_run_next_step(
-            already=already, elevated=elev, diagnosis=diagnosis
-        )
+        next_step = _prefer_dry_run_next_step(already=already, elevated=elev, diagnosis=diagnosis)
         payload["operator_next_step"] = next_step
         payload["message"] = (
             "Dry-run: no registry write. "
@@ -943,7 +941,7 @@ def run_prefer_ipv4(
         payload["status"] = "needs_elevation"
         payload["action_allowed"] = False
         payload["message"] = (
-            "Live apply needs an elevated (Administrator) shell. " f"Re-run: {ELEVATED_APPLY_HINT}"
+            f"Live apply needs an elevated (Administrator) shell. Re-run: {ELEVATED_APPLY_HINT}"
         )
     elif already:
         payload["status"] = "noop"
@@ -976,7 +974,7 @@ def run_prefer_ipv4(
                 payload["status"] = "needs_elevation"
                 payload["action_allowed"] = False
                 payload["message"] = (
-                    "Registry write access denied. " f"Re-run elevated: {ELEVATED_APPLY_HINT}"
+                    f"Registry write access denied. Re-run elevated: {ELEVATED_APPLY_HINT}"
                 )
             else:
                 payload["status"] = "failed"
@@ -1104,9 +1102,7 @@ def run_restore_ipv6_preference(
 
     if dry_run:
         payload["status"] = "preview"
-        next_step = _restore_dry_run_next_step(
-            bit_set=bit_set, elevated=elev, diagnosis=diagnosis
-        )
+        next_step = _restore_dry_run_next_step(bit_set=bit_set, elevated=elev, diagnosis=diagnosis)
         payload["operator_next_step"] = next_step
         payload["message"] = (
             "Dry-run: no registry write. "
@@ -1122,8 +1118,7 @@ def run_restore_ipv6_preference(
         payload["status"] = "needs_elevation"
         payload["action_allowed"] = False
         payload["message"] = (
-            "Live apply needs an elevated (Administrator) shell. "
-            f"Re-run: {ELEVATED_RESTORE_HINT}"
+            f"Live apply needs an elevated (Administrator) shell. Re-run: {ELEVATED_RESTORE_HINT}"
         )
     elif not bit_set:
         payload["status"] = "noop"
@@ -1158,7 +1153,7 @@ def run_restore_ipv6_preference(
                 payload["status"] = "needs_elevation"
                 payload["action_allowed"] = False
                 payload["message"] = (
-                    "Registry write access denied. " f"Re-run elevated: {ELEVATED_RESTORE_HINT}"
+                    f"Registry write access denied. Re-run elevated: {ELEVATED_RESTORE_HINT}"
                 )
             else:
                 payload["status"] = "failed"

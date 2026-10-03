@@ -101,7 +101,9 @@ def _parse_minimal_yaml_mapping(text: str) -> dict[str, Any]:
 def _parse_scalar(value: str) -> Any:
     if not value:
         return ""
-    if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
+    if (value.startswith('"') and value.endswith('"')) or (
+        value.startswith("'") and value.endswith("'")
+    ):
         return value[1:-1]
     low = value.lower()
     if low in {"true", "false"}:
@@ -155,7 +157,8 @@ def parse_knowledge_document(document: dict[str, Any], *, source_path: str = "")
     """Validate and normalize a parsed YAML/JSON document into a :class:`KnowledgeBundle`."""
     schema_version, knowledge_version, entries_blob = _extract_bundle_fields(document)
     entries = {
-        entry_id: KnowledgeEntry.model_validate(payload) for entry_id, payload in sorted(entries_blob.items())
+        entry_id: KnowledgeEntry.model_validate(payload)
+        for entry_id, payload in sorted(entries_blob.items())
     }
     return KnowledgeBundle(
         schema_version=schema_version,  # type: ignore[arg-type]
@@ -218,7 +221,9 @@ def bundle_to_canonical_dict(bundle: KnowledgeBundle) -> dict[str, Any]:
 
 def canonical_bundle_json(bundle: KnowledgeBundle) -> str:
     """Serialize bundle deterministically for replay digests."""
-    return json.dumps(bundle_to_canonical_dict(bundle), sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+    return json.dumps(
+        bundle_to_canonical_dict(bundle), sort_keys=True, ensure_ascii=False, separators=(",", ":")
+    )
 
 
 def bundle_content_digest(bundle: KnowledgeBundle) -> str:

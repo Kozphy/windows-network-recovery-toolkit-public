@@ -1,0 +1,11 @@
+{
+  "description": "Adversarial: zero-width characters inside 'LINE', 'QR' and 'payment' in an executive chain.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"CEO\" <ceo.travel.2026@gmail.com>",
+    "to": ["staff@example-corp.test"],
+    "subject": "Urgent",
+    "message_id": "<synthetic-adv-zw-0206@mail.gmail.com>",
+    "body_text": "Please create a L\u200bI\u200bN\u200bE group immediately and send me the Q\u200bR code.\nI will send pay\u200bment instructions afterward."
+  }
+}

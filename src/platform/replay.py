@@ -26,7 +26,7 @@ from src.platform.serialization import canonical_json, content_hash
 @dataclass
 class PipelineResult:
     """Represent pipeline result data used by the toolkit.
-    
+
     Attributes:
         event: Field or variant describing event evidence or state.
         evidence: Field or variant describing evidence evidence or state.
@@ -36,10 +36,11 @@ class PipelineResult:
         ranked_decisions: Field or variant describing ranked decisions evidence or state.
         top_decision: Field or variant describing top decision evidence or state.
         outcome: Field or variant describing outcome evidence or state.
-    
+
     Limitations:
         Represents recorded observations or configured policy data; it is not a standalone proof of causality.
     """
+
     event: NormalizedEvent
     evidence: list[EvidenceItem]
     hypotheses: list[Hypothesis]
@@ -109,32 +110,34 @@ def run_pipeline(
 
 def replay_all(*, audit_path: Path | None = None) -> list[PipelineResult]:
     """Replay all.
-    
+
     Args:
         audit_path: Filesystem path used by the operation.
-    
+
     Returns:
         The list[PipelineResult] result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
     results: list[PipelineResult] = []
     for adapter in all_adapters():
         for fname in adapter.list_fixtures():
-            results.append(run_pipeline(adapter, fixture_name=fname, audit_path=audit_path, command="replay"))
+            results.append(
+                run_pipeline(adapter, fixture_name=fname, audit_path=audit_path, command="replay")
+            )
     return results
 
 
 def find_event(event_id: str) -> tuple[DomainAdapter, str]:
     """Find event.
-    
+
     Args:
         event_id: The event id value supplied by the caller.
-    
+
     Returns:
         The tuple[DomainAdapter, str] result produced by the operation.
-    
+
     Side effects:
         None beyond deterministic computation and calls to supplied collaborators.
     """

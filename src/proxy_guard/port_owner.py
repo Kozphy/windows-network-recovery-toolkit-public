@@ -60,7 +60,7 @@ def _resolve_via_net_tcp_connection(port: int, run: Callable[..., Any]) -> PortO
         f"$c=Get-NetTCPConnection -LocalPort {port} -State Listen -ErrorAction SilentlyContinue | "
         f"Select-Object -First 1; if($c){{$p=Get-Process -Id $c.OwningProcess -ErrorAction SilentlyContinue; "
         f"[pscustomobject]@{{Pid=$c.OwningProcess;Name=$p.ProcessName;Path=$p.Path;"
-        f"Parent=(Get-CimInstance Win32_Process -Filter \"ProcessId=$($c.OwningProcess)\").ParentProcessId}}}} "
+        f'Parent=(Get-CimInstance Win32_Process -Filter "ProcessId=$($c.OwningProcess)").ParentProcessId}}}} '
         f"| ConvertTo-Json -Compress"
     )
     try:
@@ -118,13 +118,13 @@ class PortOwnerEvidence:
 
     def to_dict(self) -> dict[str, Any]:
         """To dict.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

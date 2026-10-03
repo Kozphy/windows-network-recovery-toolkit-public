@@ -38,6 +38,7 @@ class ControlOutcome(StrEnum):
 
     Side effects:
         None."""
+
     PASS = "PASS"
     FAIL = "FAIL"
     PARTIAL = "PARTIAL"

@@ -1,0 +1,11 @@
+{
+  "description": "Adversarial: polite, non-urgent gift-card request from a claimed executive (no urgency or secrecy cues).",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"Managing Director\" <md.office.letters@gmail.com>",
+    "to": ["assistant@example-corp.test"],
+    "subject": "Client appreciation",
+    "message_id": "<synthetic-adv-polite-0209@mail.gmail.com>",
+    "body_text": "Hope your week is going well.\nWhen you have a moment, no rush at all, could you purchase a few Apple gift cards for our client appreciation event?\nPlease send me the card codes when done and I will reimburse you.\nThank you so much."
+  }
+}

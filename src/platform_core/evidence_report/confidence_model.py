@@ -23,6 +23,7 @@ class EvidencePhase(StrEnum):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     OBSERVATION = "Observation"
     HYPOTHESIS = "Hypothesis"
     PROOF = "Proof"
@@ -46,6 +47,7 @@ class ConfidenceEntry(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     phase: EvidencePhase
     subject: str
     statement: str
@@ -80,7 +82,9 @@ def build_confidence_entries(package: dict[str, Any]) -> list[ConfidenceEntry]:
             ConfidenceEntry(
                 phase=EvidencePhase.OBSERVATION,
                 subject="WinINET proxy state",
-                statement=str(attr.get("registry_state") or attr.get("snapshot", {}).get("proxy_state", "")),
+                statement=str(
+                    attr.get("registry_state") or attr.get("snapshot", {}).get("proxy_state", "")
+                ),
                 confidence=str(attr.get("attribution_confidence") or "medium"),
                 limitation="Registry observation is not writer proof unless Sysmon E13 confirms.",
                 recommended_action="Review proxy settings; do not modify without typed confirmation.",
@@ -113,7 +117,9 @@ def build_confidence_entries(package: dict[str, Any]) -> list[ConfidenceEntry]:
     if tls:
         entries.append(
             ConfidenceEntry(
-                phase=EvidencePhase.PROOF if tls.get("certificate_mismatch") else EvidencePhase.OBSERVATION,
+                phase=EvidencePhase.PROOF
+                if tls.get("certificate_mismatch")
+                else EvidencePhase.OBSERVATION,
                 subject="TLS path contrast",
                 statement=f"MITM risk: {tls.get('mitm_risk_level')}; mismatch={tls.get('certificate_mismatch')}",
                 confidence="medium" if tls.get("certificate_mismatch") else "high",

@@ -44,14 +44,14 @@ def _parse_iso(ts: str) -> datetime | None:
 
 def iter_recent_events(repo_root: Path, since: str) -> list[dict[str, Any]]:
     """Iter recent events.
-    
+
     Args:
         repo_root: Repository root used to resolve fixtures, reports, or local state.
         since: The since value supplied by the caller.
-    
+
     Returns:
         The list[dict[str, Any]] result produced by the operation.
-    
+
     Side effects:
         May read or write files, database/session state, stdout, subprocesses, or audit records as directed by the implementation and supplied collaborators.
     """
@@ -121,7 +121,9 @@ def build_network_state_report(
         except Exception:
             drift_status = "capture_unavailable"
             diff_summary = None
-            recommended_next = "Run drift check on Windows: python -m src network-state diff --default"
+            recommended_next = (
+                "Run drift check on Windows: python -m src network-state diff --default"
+            )
         else:
             diff_summary = drift_bundle(
                 default_snap,
@@ -131,13 +133,17 @@ def build_network_state_report(
             )
             drift_status = "in_sync" if not diff_summary.get("changed_fields") else "drifted"
             if diff_summary.get("suspicious_cases"):
-                recommended_next = "Review drift; run: python -m src network-state diff --default --json"
+                recommended_next = (
+                    "Review drift; run: python -m src network-state diff --default --json"
+                )
             elif drift_status == "drifted":
                 recommended_next = "Compare profiles: python -m src network-state diff --default"
             else:
                 recommended_next = "Continue monitoring or capture another named profile."
 
-    actors_note = "Attach proxy-attribution for candidate actors when investigating (heuristic-only)."
+    actors_note = (
+        "Attach proxy-attribution for candidate actors when investigating (heuristic-only)."
+    )
 
     return {
         "generated_at_utc": datetime.now(UTC).isoformat(),

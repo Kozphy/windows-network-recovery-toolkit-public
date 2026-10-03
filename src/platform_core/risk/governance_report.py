@@ -10,7 +10,11 @@ from pydantic import BaseModel, Field
 
 from src.platform_core.governance.evidence_to_action import attach_governance_envelope
 from src.platform_core.governance.proof_tier import resolve_proof_tier
-from src.platform_core.governance.report_sections import AI_TRANSPARENCY_SECTION, GOVERNANCE_PRINCIPLES, NON_CLAIMS
+from src.platform_core.governance.report_sections import (
+    AI_TRANSPARENCY_SECTION,
+    GOVERNANCE_PRINCIPLES,
+    NON_CLAIMS,
+)
 from src.platform_core.governance.risk_decision_record import build_risk_decision_record
 from src.platform_core.risk.business_impact_mapping import map_business_impact
 from src.platform_core.risk.control_test_mature import run_mature_control_tests
@@ -44,6 +48,7 @@ class GovernanceDecision(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     decision_id: str
     outcome: str
     dry_run: bool = True
@@ -161,7 +166,9 @@ def assess_risk(fixture: dict[str, Any]) -> dict[str, Any]:
     )
 
 
-def build_governance_report(fixture: dict[str, Any], *, format: str = "json") -> str | dict[str, Any]:
+def build_governance_report(
+    fixture: dict[str, Any], *, format: str = "json"
+) -> str | dict[str, Any]:
     """Build governance report.
 
     Args:
@@ -247,7 +254,7 @@ def build_governance_report(fixture: dict[str, Any], *, format: str = "json") ->
         "",
         "## 1. Technical evidence",
         "",
-        f"- Bundle / case references under findings and proof tier sections.",
+        "- Bundle / case references under findings and proof tier sections.",
         "",
         "## 2. Hypothesis and proof status",
         "",
@@ -266,7 +273,9 @@ def build_governance_report(fixture: dict[str, Any], *, format: str = "json") ->
     if sh:
         ao = (sh.get("asset_owner") or {}).get("display_name") or "(unresolved)"
         lines.append(f"- Asset owner role: {ao}")
-        lines.append(f"- Unresolved fields: {', '.join(sh.get('unresolved_fields') or []) or 'none'}")
+        lines.append(
+            f"- Unresolved fields: {', '.join(sh.get('unresolved_fields') or []) or 'none'}"
+        )
     else:
         lines.append("- Decision context not supplied for this fixture.")
     lines.extend(
@@ -274,7 +283,7 @@ def build_governance_report(fixture: dict[str, Any], *, format: str = "json") ->
             "",
             "## 5. Approval and execution authority",
             "",
-            f"- Approver roles: {len((sh.get('approver_roles') or []))}",
+            f"- Approver roles: {len(sh.get('approver_roles') or [])}",
             f"- Execution authority present: {bool(sh.get('execution_authority'))}",
             f"- Coordination status: {dc.get('coordination_status', 'n/a')}",
             "",

@@ -75,7 +75,19 @@ def _cmdline_has_proxy_terms(cmdline: Any) -> bool:
     if not isinstance(cmdline, str) or not cmdline.strip():
         return False
     low = cmdline.lower()
-    return any(t in low for t in ("proxy", "tunnel", "socks", "http-proxy", "mitm", "mcp", "dev-server", "dev server"))
+    return any(
+        t in low
+        for t in (
+            "proxy",
+            "tunnel",
+            "socks",
+            "http-proxy",
+            "mitm",
+            "mcp",
+            "dev-server",
+            "dev server",
+        )
+    )
 
 
 def build_correlation_result(
@@ -221,7 +233,9 @@ def _build_evidence(
     elif parsed_dict.get("is_localhost_proxy"):
         missing.append("Listener on configured localhost port (no matching LISTEN row).")
 
-    proof_status: str = "CORRELATED" if owner and owner.get("listener_on_proxy_port") else "OBSERVED_ONLY"
+    proof_status: str = (
+        "CORRELATED" if owner and owner.get("listener_on_proxy_port") else "OBSERVED_ONLY"
+    )
     if attribution is not None:
         level = getattr(attribution, "level", None)
         if level is not None and getattr(level, "value", "") == "PROVEN_REGISTRY_WRITER":
@@ -253,7 +267,10 @@ def _build_evidence(
             "proxy_terms_in_cmdline": bool(
                 owner
                 and isinstance(owner.get("command_line"), str)
-                and any(t in owner["command_line"].lower() for t in ("proxy", "tunnel", "socks", "mitm", "mcp"))
+                and any(
+                    t in owner["command_line"].lower()
+                    for t in ("proxy", "tunnel", "socks", "mitm", "mcp")
+                )
             ),
         },
         parent_process_evidence={
@@ -306,13 +323,13 @@ class ProxyInvestigationBundle:
 
     def to_jsonable(self) -> dict[str, Any]:
         """To jsonable.
-        
+
         Args:
             None.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -572,9 +589,13 @@ def format_investigation_human(bundle: ProxyInvestigationBundle) -> str:
             diff = row.get("diff") or {}
             lines.append(f"- {row.get('timestamp')}: {summarize_transition_row(row)}")
             if diff.get("risk_level"):
-                lines.append(f"  risk={diff.get('risk_level')} reason={diff.get('reason') or 'n/a'}")
+                lines.append(
+                    f"  risk={diff.get('risk_level')} reason={diff.get('reason') or 'n/a'}"
+                )
     else:
-        lines.append("- No proxy-watch transitions in look-back window (run proxy-watch to populate).")
+        lines.append(
+            "- No proxy-watch transitions in look-back window (run proxy-watch to populate)."
+        )
 
     lines.extend(["", "=== Candidate processes ==="])
     owner = bundle.port_owner

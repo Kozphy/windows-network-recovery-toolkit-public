@@ -133,9 +133,7 @@ def _attribution_from_payload(data: dict[str, Any]) -> Attribution | None:
         registry_writer_confirmed=bool(writer.get("registry_writer_confirmed")),
         telemetry_sources=list(writer.get("telemetry_sources") or []),
         classification=str(
-            writer.get("classification")
-            or classification.get("primary_classification")
-            or ""
+            writer.get("classification") or classification.get("primary_classification") or ""
         ),
         confidence_score=float(
             writer.get("confidence_score") or classification.get("confidence") or 0.0
@@ -168,13 +166,13 @@ def _policy_from_payload(data: dict[str, Any]) -> PolicyDecision | None:
         policy_raw = data.get("policy_decision") or {}
     return PolicyDecision(
         action=str(policy_raw.get("action") or "DISABLE_WININET_PROXY"),
-        outcome=str(policy_raw.get("outcome") or ("ALLOW" if policy_raw.get("allowed") else "PREVIEW_ONLY")),
+        outcome=str(
+            policy_raw.get("outcome") or ("ALLOW" if policy_raw.get("allowed") else "PREVIEW_ONLY")
+        ),
         allowed=bool(policy_raw.get("allowed")),
         requires_confirmation=bool(policy_raw.get("requires_confirmation", True)),
         confirmation_token=str(policy_raw.get("confirmation_token") or "DISABLE_WININET_PROXY"),
-        dry_run=bool(
-            policy_raw.get("dry_run", data.get("dry_run", True))
-        ),
+        dry_run=bool(policy_raw.get("dry_run", data.get("dry_run", True))),
         rollback_plan_present=bool(
             data.get("rollback_plan_present")
             or remediation.get("rollback_plan")
@@ -249,7 +247,11 @@ def validate_principles(
     risk: RiskDecision | None = ctx["risk"]
     policy: PolicyDecision | None = ctx["policy"]
     narrative: str = ctx["narrative_text"]
-    rem = remediation_requested if remediation_requested is not None else bool(ctx["remediation_requested"])
+    rem = (
+        remediation_requested
+        if remediation_requested is not None
+        else bool(ctx["remediation_requested"])
+    )
 
     checks = [
         check_observation_not_proof(
@@ -289,8 +291,12 @@ def validate_principles(
         compliant=compliant,
         checks=checks,
         blocked_overclaims=blocked,
-        confidence_display=format_confidence_display(score) if score else "ordinal n/a (heuristic score, not probability)",
-        summary="All epistemic principles satisfied." if compliant else "One or more principle violations detected.",
+        confidence_display=format_confidence_display(score)
+        if score
+        else "ordinal n/a (heuristic score, not probability)",
+        summary="All epistemic principles satisfied."
+        if compliant
+        else "One or more principle violations detected.",
     )
 
 
@@ -325,4 +331,6 @@ def validate_fixture_path(path: str | Path) -> PrincipleComplianceResult:
                 fixture_path = candidate
                 break
     data = json.loads(fixture_path.read_text(encoding="utf-8"))
-    return validate_principles(data, remediation_requested=bool(data.get("remediation_requested", False)))
+    return validate_principles(
+        data, remediation_requested=bool(data.get("remediation_requested", False))
+    )

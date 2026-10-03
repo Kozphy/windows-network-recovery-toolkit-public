@@ -45,18 +45,27 @@ def _parse_openssl_text(text: str, *, path: str, error: str) -> TlsCertificateSn
     )
 
 
-def _fetch_cert_openssl(host: str, port: int, *, proxy: str | None = None) -> TlsCertificateSnapshot:
+def _fetch_cert_openssl(
+    host: str, port: int, *, proxy: str | None = None
+) -> TlsCertificateSnapshot:
     path = "proxied" if proxy else "direct"
     try:
         if proxy:
             argv = [
-                "curl", "-sS", "--proxy", proxy, "-v",
+                "curl",
+                "-sS",
+                "--proxy",
+                proxy,
+                "-v",
                 f"https://{host}:{port}/",
-                "--max-time", "15",
+                "--max-time",
+                "15",
             ]
             proc = subprocess.run(argv, capture_output=True, text=True, timeout=20.0)
             stderr = proc.stderr or ""
-            return _parse_openssl_text(stderr, path=path, error="" if proc.returncode == 0 else stderr[:200])
+            return _parse_openssl_text(
+                stderr, path=path, error="" if proc.returncode == 0 else stderr[:200]
+            )
 
         ctx = ssl.create_default_context()
         with socket.create_connection((host, port), timeout=15) as sock:
@@ -84,7 +93,9 @@ def _fetch_cert_openssl(host: str, port: int, *, proxy: str | None = None) -> Tl
         return TlsCertificateSnapshot(path=path, raw_error=str(exc))
 
 
-def _compare_certs(direct: TlsCertificateSnapshot, proxied: TlsCertificateSnapshot) -> tuple[bool, list[str]]:
+def _compare_certs(
+    direct: TlsCertificateSnapshot, proxied: TlsCertificateSnapshot
+) -> tuple[bool, list[str]]:
     mismatches: list[str] = []
     if direct.fingerprint_sha256 and proxied.fingerprint_sha256:
         if direct.fingerprint_sha256 != proxied.fingerprint_sha256:
@@ -93,7 +104,11 @@ def _compare_certs(direct: TlsCertificateSnapshot, proxied: TlsCertificateSnapsh
         mismatches.append("issuer")
     if direct.subject and proxied.subject and direct.subject != proxied.subject:
         mismatches.append("subject")
-    if direct.serial_number and proxied.serial_number and direct.serial_number != proxied.serial_number:
+    if (
+        direct.serial_number
+        and proxied.serial_number
+        and direct.serial_number != proxied.serial_number
+    ):
         mismatches.append("serial_number")
     return bool(mismatches), mismatches
 
@@ -131,7 +146,9 @@ def run_tls_proof(
     port = parsed.port or 443
 
     proxy_state = collect_proxy_state(run=run_fn, timeout=timeout)
-    proxy_server = proxy_state.wininet_proxy_server if proxy_state.wininet_proxy_enable == 1 else None
+    proxy_server = (
+        proxy_state.wininet_proxy_server if proxy_state.wininet_proxy_enable == 1 else None
+    )
 
     direct = _fetch_cert_openssl(host, port)
     proxied: TlsCertificateSnapshot | None = None

@@ -53,7 +53,7 @@ def build_startup_hook_lines(*, duration: int = 180, interval: int = 2) -> list[
         f'cd /d "{repo_root}"',
         f"set PYTHONPATH={repo_root}",
         (
-            'start /min powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden '
+            "start /min powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden "
             f'-Command "Start-Sleep -Seconds 30; & \\"{py}\\" -m src proxy-boot-trace '
             f'--duration {duration} --interval {interval}"'
         ),
@@ -140,7 +140,9 @@ def install_boot_trace_task(
     stderr_l = (proc.stderr or "").lower()
     stdout_l = (proc.stdout or "").lower()
     if "access is denied" in stderr_l or "access is denied" in stdout_l:
-        hook = write_startup_hook(name=TASK_NAME, lines=build_startup_hook_lines(duration=duration, interval=interval))
+        hook = write_startup_hook(
+            name=TASK_NAME, lines=build_startup_hook_lines(duration=duration, interval=interval)
+        )
         preview["actual_method"] = "startup_hook"
         preview["fallback_used"] = True
         preview["startup_hook_path"] = str(hook.resolve())
@@ -187,7 +189,11 @@ def uninstall_boot_trace_task(
     payload["stdout"] = (proc.stdout or "").strip()
     payload["stderr"] = (proc.stderr or "").strip()
     payload["startup_hook_removed"] = hook_removed
-    if proc.returncode == 0 or hook_removed or "cannot find the file specified" in (proc.stderr or "").lower():
+    if (
+        proc.returncode == 0
+        or hook_removed
+        or "cannot find the file specified" in (proc.stderr or "").lower()
+    ):
         payload["action_taken"] = "uninstalled"
         payload["reason"] = "Startup observability artifacts removed."
     else:

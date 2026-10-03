@@ -11,7 +11,7 @@ System placement:
 
 Key invariants:
     * ``proxy-disable`` / ``ipv6-prefer-ipv4`` / ``dns-edge-fix`` default to ``--dry-run true``.
-    * Read-only: ``proxy-status``, ``proxy-health``, ``ipv6-path-status``, ``dns-edge-status``.
+    * Read-only: ``proxy-status``, ``proxy-health``, ``ipv6-path-status``, ``dns-edge-status``, ``why-broken``, ``edge-triage``, ``domain-provenance``, ``browser-blank-screen``, ``email-risk``.
     * Fixture resolution searches ``tests/fixtures/`` and ``windows_network_toolkit/examples/``.
 
 Side effects:
@@ -80,6 +80,13 @@ def _resolve_fixture(path_str: str) -> Path:
         repo / "tests" / "fixtures" / "cloud_governance" / f"{path_str}.json",
         repo / "tests" / "fixtures" / "finops" / path_str,
         repo / "tests" / "fixtures" / "finops" / f"{path_str}.json",
+        repo / "tests" / "fixtures" / "domain_provenance" / path_str,
+        repo / "tests" / "fixtures" / "domain_provenance" / f"{path_str}.json",
+        repo / "tests" / "fixtures" / "browser_blank_screen" / path_str,
+        repo / "tests" / "fixtures" / "browser_blank_screen" / f"{path_str}.json",
+        repo / "examples" / "domain_provenance" / path_str,
+        repo / "examples" / "domain_provenance" / f"{path_str}.json",
+        repo / "tests" / "fixtures" / "email_risk" / path_str,
     ):
         if candidate.is_file():
             return candidate
@@ -804,11 +811,15 @@ def cmd_dns_edge_status(args: argparse.Namespace) -> int:
     """Read-only DNS + Edge policy diagnosis for ERR_NAME_NOT_RESOLVED.
 
     Side effects:
-        DNS lookups and registry/adapter reads only.
+        DNS lookups and registry/adapter reads only. ``--url`` adds direct
+        queries to the target domain's own nameservers (read-only).
     """
     from windows_network_toolkit.dns_edge import diagnose_dns_edge
 
-    payload = diagnose_dns_edge(interface_alias=args.interface or "Wi-Fi")
+    payload = diagnose_dns_edge(
+        interface_alias=args.interface or "Wi-Fi",
+        url=args.url or None,
+    )
     _emit_json(payload)
     if payload.get("unsupported_platform"):
         return 2
@@ -837,6 +848,145 @@ def cmd_dns_edge_fix(args: argparse.Namespace) -> int:
         return 2
     if not dry_run and not payload.get("action_allowed"):
         return 1
+    return 0
+
+
+def cmd_why_broken(args: argparse.Namespace) -> int:
+    """Read-only multi-signal investigate: why browser/connectivity looks broken.
+
+    Side effects:
+        Composes proxy / DNS-edge / IPv6 probes (and optional URL curl -4/-6).
+        Never applies remediation.
+    """
+    from windows_network_toolkit.why_broken import investigate_why_broken
+
+    payload = investigate_why_broken(url=args.url or None)
+    _emit_json(payload)
+    if payload.get("unsupported_platform"):
+        return 2
+    return 0
+
+
+def cmd_edge_triage(args: argparse.Namespace) -> int:
+    """Read-only one-shot Edge loading triage with token-annotated fix ladder.
+
+    Side effects:
+        Composes why-broken probes, Edge User Data reads, a short msedge.exe CPU sample,
+        a policy registry read, and audit-log reads. Never applies remediation.
+    """
+    from windows_network_toolkit.edge_triage import triage_edge_loading
+
+    payload = triage_edge_loading(
+        url=args.url or None,
+        inprivate=args.inprivate,
+        sample_seconds=args.sample_seconds,
+    )
+    _emit_json(payload)
+    if payload.get("unsupported_platform"):
+        return 2
+    return 0
+
+
+def cmd_browser_blank_screen(args: argparse.Namespace) -> int:
+    """Read-only Edge blank/black-screen diagnose (e.g. LinkedIn UI)."""
+    from windows_network_toolkit.browser_blank_screen import diagnose_browser_blank_screen
+
+    inject = None
+    if getattr(args, "fixture", ""):
+        inject = _load_fixture_data(args.fixture)
+    payload = diagnose_browser_blank_screen(
+        url=args.url or "https://www.linkedin.com/",
+        inject=inject,
+        with_fix_preview=bool(getattr(args, "with_fix_preview", False)),
+    )
+    _emit_json(payload)
+    if payload.get("unsupported_platform"):
+        return 2
+    return 0
+
+
+def cmd_browser_blank_screen_fix(args: argparse.Namespace) -> int:
+    """Preview/apply Edge GPU/cache cleanup for blank-screen (dry-run default)."""
+    from windows_network_toolkit.browser_blank_screen import remediate_browser_blank_screen
+
+    dry = str(getattr(args, "dry_run", "true")).lower() in ("1", "true", "yes")
+    payload = remediate_browser_blank_screen(
+        dry_run=dry,
+        confirm=getattr(args, "confirm", "") or "",
+        stop_edge=not getattr(args, "no_stop_edge", False),
+        clear_caches=not getattr(args, "no_clear_caches", False),
+        disable_hw_accel=not getattr(args, "keep_hw_accel", False),
+    )
+    _emit_json(payload)
+    if not dry and not payload.get("action_allowed"):
+        return 1
+    return 0
+
+
+def cmd_edge_extensions_disable(args: argparse.Namespace) -> int:
+    """Preview/apply HKCU Edge ExtensionSettings block for listed IDs (dry-run default)."""
+    from windows_network_toolkit.edge_extension_policy import preview_or_apply_disable
+
+    dry = str(getattr(args, "dry_run", "true")).lower() in ("1", "true", "yes")
+    raw_ids = getattr(args, "ids", "") or ""
+    id_list = [p for p in raw_ids.replace(";", ",").split(",") if p.strip()]
+    payload = preview_or_apply_disable(
+        ids=id_list,
+        preset=getattr(args, "preset", None) or None,
+        dry_run=dry,
+        confirm=getattr(args, "confirm", "") or "",
+        elevate=bool(getattr(args, "elevate", False)),
+    )
+    _emit_json(payload)
+    if payload.get("errors"):
+        return 1
+    if not dry and not payload.get("mutated"):
+        return 1
+    return 0
+
+
+def cmd_edge_extensions_restore(args: argparse.Namespace) -> int:
+    """Preview/remove HKCU Edge ExtensionSettings policy (dry-run default)."""
+    from windows_network_toolkit.edge_extension_policy import preview_or_apply_restore
+
+    dry = str(getattr(args, "dry_run", "true")).lower() in ("1", "true", "yes")
+    payload = preview_or_apply_restore(
+        dry_run=dry,
+        confirm=getattr(args, "confirm", "") or "",
+        elevate=bool(getattr(args, "elevate", False)),
+    )
+    _emit_json(payload)
+    if not dry and not payload.get("mutated"):
+        return 1
+    return 0
+
+
+def cmd_domain_provenance(args: argparse.Namespace) -> int:
+    """Read-only domain/network provenance (operator vs infrastructure geography).
+
+    Side effects:
+        Optional soft-append to ``.audit/domain-provenance.jsonl`` unless ``--no-audit``.
+        Online RDAP.org / country.is only when ``--online`` and no ``--fixture``.
+        Never applies remediation or attribution enforcement.
+    """
+    from windows_network_toolkit.provenance import run_domain_provenance
+
+    if not (args.target or "").strip():
+        print("domain-provenance requires --target", file=sys.stderr)
+        return 1
+
+    fixture = None
+    if args.fixture:
+        fixture = _load_fixture_data(args.fixture)
+
+    payload = run_domain_provenance(
+        args.target,
+        fixture=fixture,
+        online=bool(args.online),
+        redact_ips=not bool(args.show_ips),
+        append_audit=not bool(args.no_audit),
+    )
+    _emit_json(payload)
     return 0
 
 
@@ -1120,6 +1270,142 @@ def cmd_website_risk(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_email_risk(args: argparse.Namespace) -> int:
+    """Run the read-only ``email-risk`` command on an ``.eml`` / RFC 822 / JSON file.
+
+    Returns:
+        0 on completed analysis (any risk level); 1 when the file cannot be read
+        or the config is invalid.
+
+    Side effects:
+        Reads the email file (and ``--config``). Optional soft-append of a
+        redacted summary to ``.audit/email-risk.jsonl`` unless ``--no-audit``.
+        Never opens URLs, executes attachments, or touches any mailbox.
+    """
+    from pydantic import ValidationError
+
+    from src.platform_core.email_risk import (
+        EmailParseError,
+        EmailRiskConfig,
+        analyze_email_file,
+        build_audit_record,
+        email_risk_payload,
+        render_email_risk_text,
+    )
+    from windows_network_toolkit.audit_store import append_audit_dict
+
+    overlay: dict = {}
+    if args.config:
+        try:
+            overlay = json.loads(Path(args.config).read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            print(f"email-risk: cannot read --config: {exc}", file=sys.stderr)
+            return 1
+    if getattr(args, "policy", ""):
+        try:
+            policy_doc = json.loads(Path(args.policy).read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            print(f"email-risk: cannot read --policy: {exc}", file=sys.stderr)
+            return 1
+        rules = policy_doc.get("policy_rules") if isinstance(policy_doc, dict) else policy_doc
+        if not isinstance(rules, list):
+            print("email-risk: --policy must be a list or {'policy_rules': [...]}", file=sys.stderr)
+            return 1
+        overlay["policy_rules"] = rules
+    overlay.setdefault("organization_domains", [])
+    overlay["organization_domains"] = [*overlay["organization_domains"], *(args.org_domain or [])]
+    overlay.setdefault("executive_names", [])
+    overlay["executive_names"] = [*overlay["executive_names"], *(args.executive_name or [])]
+    if getattr(args, "no_qr_decode", False):
+        overlay["qr_decode"] = False
+    try:
+        config = EmailRiskConfig().merged(overlay)
+    except ValidationError as exc:
+        print(f"email-risk: invalid config: {exc}", file=sys.stderr)
+        return 1
+
+    try:
+        result = analyze_email_file(
+            _resolve_fixture(args.path),
+            config=config,
+            show_identifiers=bool(args.show_identifiers),
+        )
+    except EmailParseError as exc:
+        print(f"email-risk: {exc}", file=sys.stderr)
+        return 1
+    except ValueError as exc:
+        print(f"email-risk: invalid ruleset/policy config: {exc}", file=sys.stderr)
+        return 1
+
+    payload = email_risk_payload(result)
+    if not args.no_audit:
+        ok, err = append_audit_dict(build_audit_record(result), log_name="email-risk.jsonl")
+        payload["audit_appended"] = ok
+        payload["audit_error"] = err
+    else:
+        payload["audit_appended"] = False
+        payload["audit_error"] = None
+
+    if args.json:
+        _emit_json(payload)
+    else:
+        _print_encoding_safe(
+            render_email_risk_text(result, ascii_only=bool(getattr(args, "ascii", False)))
+        )
+    return 0
+
+
+def _print_encoding_safe(text: str) -> None:
+    """Print ``text``; fall back to replacement characters on legacy code pages."""
+    try:
+        print(text)
+    except UnicodeEncodeError:
+        encoding = getattr(sys.stdout, "encoding", None) or "ascii"
+        print(text.encode(encoding, errors="replace").decode(encoding, errors="replace"))
+
+
+def cmd_email_risk_eval(args: argparse.Namespace) -> int:
+    """Run the offline email-risk evaluation benchmark over labeled synthetic fixtures.
+
+    Returns:
+        0 when the benchmark ran (metrics are reported, not gated); 1 when the
+        dataset cannot be loaded.
+
+    Side effects:
+        Reads fixtures under ``tests/fixtures/email_risk``. Optionally writes
+        ``--out`` (JSON) / ``--markdown-out``. No network, no mailbox access.
+    """
+    from src.platform_core.evaluation.email_risk_benchmark import (
+        DatasetError,
+        render_email_risk_benchmark_markdown,
+        run_email_risk_benchmark,
+    )
+
+    try:
+        report = run_email_risk_benchmark(
+            dataset_path=Path(args.dataset) if args.dataset else None,
+            include_ablations=not args.no_ablations,
+        )
+    except DatasetError as exc:
+        print(f"email-risk-eval: {exc}", file=sys.stderr)
+        return 1
+    payload = report.model_dump(mode="json")
+    markdown = render_email_risk_benchmark_markdown(report)
+    if args.out:
+        Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.out).write_text(
+            json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+    if args.markdown_out:
+        Path(args.markdown_out).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.markdown_out).write_text(markdown, encoding="utf-8")
+    if args.json:
+        _emit_json(payload)
+    else:
+        _print_encoding_safe(markdown)
+    return 0
+
+
 def cmd_evidence_report(args: argparse.Namespace) -> int:
     """Generate evidence report (latest proxy package, analytics, or URL assessment).
 
@@ -1299,48 +1585,45 @@ def cmd_proxy_timeline(args: argparse.Namespace) -> int:
 
 
 def cmd_audit_verify(args: argparse.Namespace) -> int:
-    """Verify hash chain integrity of an audit JSONL file.
+    """Verify domain event / audit JSONL integrity (hash chain + optional tip).
 
     Args:
         args: ``audit_file`` path to JSONL records; optional tip check flags.
 
     Returns:
-        0 when chain verifies (and tip when requested); 1 when file missing or invalid.
+        0 when stream verifies (and tip when requested); 1 when file missing or invalid.
 
     Side effects:
         Read-only file read.
 
     Audit Notes:
+        This is the single verification path for the domain event kernel
+        (``wnrt.domain_event.v1`` and legacy ``erp.audit.v1``).
         Chain integrity proves append-only consistency — not truth of observations.
         Tip match proves consistency with a previously written tip file — not WORM.
     """
-    from src.platform_core.audit.tip_anchor import verify_audit_with_tip
-    from src.platform_core.governance.chain_of_custody import verify_chain
+    from src.platform_core.domain_events.verify import verify_domain_stream
 
     path = Path(args.audit_file)
     if not path.is_file():
         print(f"Audit file not found: {path}", file=sys.stderr)
         return 1
 
+    tip = Path(args.tip_path) if getattr(args, "tip_path", "") else None
     check_tip = bool(getattr(args, "check_tip", False) or getattr(args, "require_tip", False))
-    if check_tip:
-        tip = Path(args.tip_path) if getattr(args, "tip_path", "") else None
-        result = verify_audit_with_tip(
-            path,
-            tip_path=tip,
-            require_tip=bool(getattr(args, "require_tip", False)),
-        )
-        print(json.dumps(result, indent=2))
-        return 0 if result.get("verified") else 1
-
-    records: list[dict] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if line:
-            records.append(json.loads(line))
-    ok, msg = verify_chain(records)
-    print(json.dumps({"verified": ok, "message": msg, "records": len(records)}, indent=2))
-    return 0 if ok else 1
+    result = verify_domain_stream(
+        path,
+        tip_path=tip,
+        require_tip=bool(getattr(args, "require_tip", False)),
+    )
+    # When tip flags are off, ignore tip mismatch for exit code (chain+schema only).
+    if not check_tip:
+        schema_ok = not result.get("envelope_errors") and not result.get("unsupported_schema")
+        malformed_ok = not result.get("malformed_records")
+        verified = bool(result.get("chain_verified")) and schema_ok and malformed_ok
+        result = {**result, "verified": verified, "tip_check": "skipped"}
+    print(json.dumps(result, indent=2))
+    return 0 if result.get("verified") else 1
 
 
 def cmd_risk_assess(args: argparse.Namespace) -> int:
@@ -1962,7 +2245,10 @@ def cmd_browser_profile(args: argparse.Namespace) -> int:
         _emit_json(run_repair_preview(args.domain, browser=args.browser))
         return 0
     if sub == "repair-apply":
-        _emit_json(run_repair_apply(args.preview_id, confirm=args.confirm or ""))
+        payload = run_repair_apply(args.preview_id, confirm=args.confirm or "")
+        _emit_json(payload)
+        if payload.get("decision") == "BLOCK":
+            return 1
         return 0
     print("Unknown browser-profile subcommand", file=sys.stderr)
     return 2
@@ -2653,6 +2939,15 @@ def main(argv: list[str] | None = None, *, prog: str = "toolkit") -> int:
         default="Wi-Fi",
         help="Net adapter alias for DNS read (default: Wi-Fi)",
     )
+    dns_edge_s.add_argument(
+        "--url",
+        default="",
+        help=(
+            "Failing site (URL or hostname): also ask the domain's own nameservers "
+            "directly to tell a site-side DNS break (lame delegation, unregistered "
+            "domain) from a local problem"
+        ),
+    )
     dns_edge_s.set_defaults(func=cmd_dns_edge_status)
 
     dns_edge_f = sub.add_parser(
@@ -2682,6 +2977,173 @@ def main(argv: list[str] | None = None, *, prog: str = "toolkit") -> int:
         help="On live apply: stop msedge.exe so Edge reloads DNS/policy",
     )
     dns_edge_f.set_defaults(func=cmd_dns_edge_fix)
+
+    why = sub.add_parser(
+        "why-broken",
+        help="Read-only: rank proxy vs DNS/Edge vs IPv6 hypotheses for browser breakage",
+    )
+    why.add_argument(
+        "--url",
+        default="",
+        help="Optional page URL to probe with curl -4/-6 (e.g. the hanging Edge tab)",
+    )
+    why.set_defaults(func=cmd_why_broken)
+
+    etri = sub.add_parser(
+        "edge-triage",
+        help="Read-only: one-shot Edge won't-load/slow/blank triage with token fix ladder",
+    )
+    etri.add_argument("--url", default="", help="Failing page URL (enables site-scoped rung)")
+    etri.add_argument(
+        "--inprivate",
+        choices=["unknown", "works", "fails"],
+        default="unknown",
+        help="Does the site load in an Edge InPrivate window? (operator-reported)",
+    )
+    etri.add_argument(
+        "--sample-seconds",
+        type=float,
+        default=3.0,
+        help="CPU sampling window for frozen-tab detection (default 3)",
+    )
+    etri.set_defaults(func=cmd_edge_triage)
+
+    bbs = sub.add_parser(
+        "browser-blank-screen",
+        help="Read-only: Edge blank/black UI diagnose (LinkedIn-style GPU/cache)",
+    )
+    bbs.add_argument(
+        "--url",
+        default="https://www.linkedin.com/",
+        help="Page that appears blank (default: LinkedIn)",
+    )
+    bbs.add_argument("--fixture", default="", help="Optional inject fixture JSON")
+    bbs.add_argument(
+        "--with-fix-preview",
+        action="store_true",
+        help="Also attach dry-run fix preview (still never applies without confirm token)",
+    )
+    bbs.set_defaults(func=cmd_browser_blank_screen)
+
+    bbsf = sub.add_parser(
+        "browser-blank-screen-fix",
+        help="Preview/apply Edge GPU/cache cleanup for blank screen (dry-run default)",
+    )
+    bbsf.add_argument(
+        "--dry-run",
+        nargs="?",
+        const="true",
+        default="true",
+        help="Preview only (default true). Live apply: --dry-run false",
+    )
+    bbsf.add_argument(
+        "--confirm",
+        default="",
+        help="Typed token CLEAR_EDGE_BLANK_SCREEN_CACHES for live apply",
+    )
+    bbsf.add_argument(
+        "--no-stop-edge",
+        action="store_true",
+        help="Do not stop msedge before clearing caches",
+    )
+    bbsf.add_argument(
+        "--no-clear-caches",
+        action="store_true",
+        help="Skip deleting GPU/Code/Service Worker cache dirs",
+    )
+    bbsf.add_argument(
+        "--keep-hw-accel",
+        action="store_true",
+        help="Do not disable Edge hardware acceleration in Preferences",
+    )
+    bbsf.set_defaults(func=cmd_browser_blank_screen_fix)
+
+    eed = sub.add_parser(
+        "edge-extensions-disable",
+        help="Preview/apply Edge ExtensionSettings block for listed IDs (dry-run default)",
+    )
+    eed.add_argument(
+        "--ids",
+        default="",
+        help="Comma-separated Chromium extension IDs (32 chars a-p)",
+    )
+    eed.add_argument(
+        "--preset",
+        default="",
+        help="Named preset (e.g. cloudflare-risk = AdGuard + User-Agent Switcher)",
+    )
+    eed.add_argument(
+        "--dry-run",
+        nargs="?",
+        const="true",
+        default="true",
+        help="Preview only (default true). Live apply: --dry-run false",
+    )
+    eed.add_argument(
+        "--confirm",
+        default="",
+        help="Typed token DISABLE_EDGE_EXTENSIONS_VIA_POLICY for live apply",
+    )
+    eed.add_argument(
+        "--elevate",
+        action="store_true",
+        help="UAC-elevate when HKCU Policies\\Microsoft\\Edge is ACL-locked",
+    )
+    eed.set_defaults(func=cmd_edge_extensions_disable)
+
+    eer = sub.add_parser(
+        "edge-extensions-restore",
+        help="Preview/remove Edge ExtensionSettings policy value (dry-run default)",
+    )
+    eer.add_argument(
+        "--dry-run",
+        nargs="?",
+        const="true",
+        default="true",
+        help="Preview only (default true). Live apply: --dry-run false",
+    )
+    eer.add_argument(
+        "--confirm",
+        default="",
+        help="Typed token RESTORE_EDGE_EXTENSIONS_POLICY for live apply",
+    )
+    eer.add_argument(
+        "--elevate",
+        action="store_true",
+        help="UAC-elevate when Policies key is ACL-locked",
+    )
+    eer.set_defaults(func=cmd_edge_extensions_restore)
+
+    dprov = sub.add_parser(
+        "domain-provenance",
+        help="Read-only: operator vs infrastructure geography for a domain (fixture-first)",
+    )
+    dprov.add_argument(
+        "--target",
+        required=True,
+        help="Domain or URL (e.g. example.tw or https://example.tw/path)",
+    )
+    dprov.add_argument(
+        "--fixture",
+        default="",
+        help="Deterministic fixture JSON (skips live RDAP/GeoIP)",
+    )
+    dprov.add_argument(
+        "--online",
+        action="store_true",
+        help="Allow RDAP.org and country.is adapters (ignored when --fixture is set)",
+    )
+    dprov.add_argument(
+        "--show-ips",
+        action="store_true",
+        help="Do not redact IP addresses in console/audit output (default: redact)",
+    )
+    dprov.add_argument(
+        "--no-audit",
+        action="store_true",
+        help="Skip appending .audit/domain-provenance.jsonl",
+    )
+    dprov.set_defaults(func=cmd_domain_provenance)
 
     pg = sub.add_parser(
         "proxy-guardian",
@@ -2865,6 +3327,64 @@ def main(argv: list[str] | None = None, *, prog: str = "toolkit") -> int:
     wr.add_argument("--url", required=True, help="Target URL")
     wr.add_argument("--fixture", default="", help="Optional fixture JSON for replay")
     wr.set_defaults(func=cmd_website_risk)
+
+    emr = sub.add_parser(
+        "email-risk",
+        help="Read-only email / BEC risk assessment of an .eml, RFC 822, or JSON file",
+    )
+    emr.add_argument("path", help="Path to .eml / raw RFC 822 text / JSON fixture")
+    emr.add_argument("--json", action="store_true", help="Emit governance-enveloped JSON")
+    emr.add_argument(
+        "--org-domain",
+        action="append",
+        default=[],
+        help="Organization email domain (repeatable); enables internal/external checks",
+    )
+    emr.add_argument(
+        "--executive-name",
+        action="append",
+        default=[],
+        help="Executive display name to protect (repeatable)",
+    )
+    emr.add_argument(
+        "--config", default="", help="JSON EmailRiskConfig overlay (org context, vendors)"
+    )
+    emr.add_argument(
+        "--show-identifiers",
+        action="store_true",
+        help="Do not mask email local parts / Message-ID in output (default: mask)",
+    )
+    emr.add_argument(
+        "--no-audit",
+        action="store_true",
+        help="Skip appending a redacted summary to .audit/email-risk.jsonl",
+    )
+    emr.add_argument(
+        "--no-qr-decode",
+        action="store_true",
+        help="Do not decode QR codes from image parts (decoding is local-only and never opens URLs)",
+    )
+    emr.add_argument(
+        "--policy",
+        default="",
+        help="JSON policy rules (list or {'policy_rules': [...]}) replacing the default "
+        "advisory policy set",
+    )
+    emr.add_argument(
+        "--ascii", action="store_true", help="ASCII-only text output (legacy consoles)"
+    )
+    emr.set_defaults(func=cmd_email_risk)
+
+    emre = sub.add_parser(
+        "email-risk-eval",
+        help="Offline email-risk benchmark on labeled synthetic fixtures (metrics, ablations)",
+    )
+    emre.add_argument("--dataset", default="", help="Dataset manifest (default: built-in eval set)")
+    emre.add_argument("--json", action="store_true", help="Emit the full report as JSON")
+    emre.add_argument("--no-ablations", action="store_true", help="Skip ablation runs")
+    emre.add_argument("--out", default="", help="Write JSON report to this path")
+    emre.add_argument("--markdown-out", default="", help="Write Markdown report to this path")
+    emre.set_defaults(func=cmd_email_risk_eval)
 
     er = sub.add_parser(
         "evidence-report",
@@ -3185,7 +3705,8 @@ def main(argv: list[str] | None = None, *, prog: str = "toolkit") -> int:
     bp_rp.add_argument("--browser", default="auto", choices=["edge", "chrome", "auto"])
     bp_rp.set_defaults(func=cmd_browser_profile)
     bp_ra = bp_sub.add_parser(
-        "repair-apply", help="Gated apply (requires --confirm; may be unimplemented)"
+        "repair-apply",
+        help="Gated site-scoped apply (requires --confirm BROWSER_SITE_REPAIR_APPLY)",
     )
     bp_ra.add_argument("preview_id", help="Preview id from repair-preview")
     bp_ra.add_argument("--confirm", default="", help="BROWSER_SITE_REPAIR_APPLY")

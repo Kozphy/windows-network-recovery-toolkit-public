@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import inspect
 from pathlib import Path
 from typing import Any
 
@@ -51,28 +50,32 @@ def _call_append_audit(
     payload: dict[str, Any],
     path: Path,
     write_tip: bool,
+    event: str,
+    subsystem: str,
 ) -> Any:
-    """Call hash-chained writer; tolerate older ``append_audit`` without ``write_tip``."""
-    # Import at call time so tests / reloads always see the current writer.
-    from src.platform_core.audit.writer import append_audit
+    """Append via domain event kernel (preferred) with AuditRecord-shaped return."""
+    from src.platform_core.domain_events.writer import append_domain_event
 
-    kwargs: dict[str, Any] = {
-        "actor": actor,
-        "payload": payload,
-        "path": path,
-    }
-    try:
-        params = inspect.signature(append_audit).parameters
-    except (TypeError, ValueError):
-        params = {}
-    if "write_tip" in params:
-        kwargs["write_tip"] = write_tip
-    try:
-        return append_audit(action, **kwargs)
-    except TypeError:
-        # Fallback if a stub/mock rejects write_tip despite signature inspection.
-        kwargs.pop("write_tip", None)
-        return append_audit(action, **kwargs)
+    envelope = append_domain_event(
+        event,
+        source=subsystem or actor or "operator",
+        payload=payload,
+        actor=actor,
+        action_type=action,
+        path=path,
+        write_tip=write_tip,
+    )
+
+    # Lightweight namespace matching AuditRecord attribute access used by callers.
+    class _Record:
+        pass
+
+    rec = _Record()
+    rec.audit_id = envelope.get("event_id")
+    rec.action_type = action
+    rec.current_hash = envelope.get("current_hash")
+    rec.schema_version = envelope.get("schema_version")
+    return rec
 
 
 def append_custody_event(
@@ -130,6 +133,8 @@ def append_custody_event(
             payload=payload,
             path=target,
             write_tip=write_tip,
+            event=event,
+            subsystem=subsystem,
         )
         return {
             "ok": True,

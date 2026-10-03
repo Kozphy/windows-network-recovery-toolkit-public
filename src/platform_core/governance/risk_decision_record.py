@@ -91,6 +91,7 @@ class RiskDecisionRecord(BaseModel):
         Use this structure as evidence-backed metadata; it does not prove
         causality or authorize action by itself.
     """
+
     schema_version: str = "risk_decision_record.v2"
     incident_id: str
     evidence_id: str = ""

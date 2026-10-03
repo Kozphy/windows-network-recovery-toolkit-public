@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic redirect phishing: link on a legitimate-looking tracker host whose query parameter forwards to a credential page; document-share lure.",
+  "org_context": {"organization_domains": ["example-corp.test"]},
+  "email": {
+    "from": "\"DocShare\" <notify@docshare-files.test>",
+    "to": ["staff@example-corp.test"],
+    "subject": "A document was shared with you",
+    "message_id": "<synthetic-eval-redirect-0008@docshare-files.test>",
+    "body_text": "A secure document has been shared with you and expires in 48 hours.\nPlease sign in with your email account to view it before access expires: https://click.newsletter-tracker.test/r?url=https%3A%2F%2Fdoc-view-login.test%2Fauth\n\nDocShare"
+  }
+}

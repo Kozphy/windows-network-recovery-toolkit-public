@@ -20,13 +20,13 @@ class DomainAdapter(ABC):
     @property
     def fixture_dir(self) -> Path:
         """Fixture dir.
-        
+
         Args:
             None.
-        
+
         Returns:
             The Path result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -34,13 +34,13 @@ class DomainAdapter(ABC):
 
     def list_fixtures(self) -> list[str]:
         """List fixtures.
-        
+
         Args:
             None.
-        
+
         Returns:
             The list[str] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -50,13 +50,13 @@ class DomainAdapter(ABC):
 
     def load_fixture_blob(self, name: str | None = None) -> dict[str, Any]:
         """Load fixture blob.
-        
+
         Args:
             name: The name value supplied by the caller.
-        
+
         Returns:
             The dict[str, Any] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -68,13 +68,13 @@ class DomainAdapter(ABC):
 
     def collect_events(self, fixture_name: str | None = None) -> list[NormalizedEvent]:
         """Collect events.
-        
+
         Args:
             fixture_name: The fixture name value supplied by the caller.
-        
+
         Returns:
             The list[NormalizedEvent] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """
@@ -90,13 +90,13 @@ class DomainAdapter(ABC):
     @abstractmethod
     def build_evidence(self, event: NormalizedEvent) -> list[EvidenceItem]:
         """Build evidence.
-        
+
         Args:
             event: Evidence or domain record being processed.
-        
+
         Returns:
             The list[EvidenceItem] result produced by the operation.
-        
+
         Side effects:
             None beyond deterministic computation and calls to supplied collaborators.
         """

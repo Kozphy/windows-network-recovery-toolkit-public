@@ -56,7 +56,11 @@ def test_router_import_writes_jsonl(tmp_path: Path):
 
 def test_correlate_host_router():
     host_obs = [
-        {"source_ip": "192.168.1.30", "protocol": "MDNS", "evidence_source": "HOST_LEVEL_OBSERVATION"},
+        {
+            "source_ip": "192.168.1.30",
+            "protocol": "MDNS",
+            "evidence_source": "HOST_LEVEL_OBSERVATION",
+        },
     ]
     router = import_dns_log(ROUTER / "dns_queries.csv")
     devices = [{"ip": "192.168.1.30", "mac": "CC:B1:1A:AA:BB:30", "vendor": "Samsung"}]
